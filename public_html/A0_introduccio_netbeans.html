@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A0 — Introducció i NetBeans · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+
+    /* ── Hero ── */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+
+    /* ── Main ── */
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+
+    /* ── Block header ── */
+    .block-title {
+      font-family:'Playfair Display',Georgia,serif;
+      font-size:1.3rem; font-weight:700; color:var(--text);
+      margin:2.5rem 0 1rem;
+      padding-bottom:.5rem;
+      border-bottom:2px solid var(--border);
+    }
+    .block-title:first-child { margin-top:0; }
+
+    /* ── Cards grid ── */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1rem; margin-bottom:.5rem; }
+
+    /* ── Material card (amb enllaç) ── */
+    .card {
+      background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+      padding:1.25rem 1.25rem 1rem; display:flex; flex-direction:column; gap:.35rem;
+      text-decoration:none; color:inherit;
+      box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s,border-color .18s;
+    }
+    .card:hover { box-shadow:var(--shadow-h); transform:translateY(-2px); border-color:var(--accent); }
+
+    .card-num {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:30px; height:30px; background:var(--accent-bg); color:var(--accent);
+      border-radius:7px; font-size:.75rem; font-weight:700; margin-bottom:.2rem;
+    }
+    .card-title { font-size:.95rem; font-weight:700; color:var(--text); line-height:1.3; }
+    .card-desc  { font-size:.82rem; color:var(--text-soft); line-height:1.5; flex:1; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:.5rem; padding-top:.5rem; border-top:1px solid var(--border); }
+    .card-type { font-size:.72rem; color:var(--text-soft); text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
+    .card-link { font-size:.8rem; font-weight:600; color:var(--accent); }
+
+    /* ── Teoria card (sense hover, fons lleuger) ── */
+    .card.teoria { cursor:default; }
+    .card.teoria:hover { transform:none; box-shadow:var(--shadow); border-color:var(--border); }
+
+    /* ── Code block ── */
+    .code-block {
+      background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius);
+      padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace;
+      font-size:.84rem; line-height:1.65; overflow-x:auto;
+      margin:1rem 0 1.5rem;
+    }
+    .code-block .kw  { color:#cba6f7; } /* paraula clau */
+    .code-block .cls { color:#89dceb; } /* classe */
+    .code-block .str { color:#a6e3a1; } /* string */
+    .code-block .cmt { color:#6c7086; font-style:italic; } /* comentari */
+    .code-block .fn  { color:#89b4fa; } /* mètode */
+
+    /* ── Info box ── */
+    .info-box {
+      background:#eef6ff; border-left:4px solid #3b82f6;
+      border-radius:0 var(--radius) var(--radius) 0;
+      padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f;
+      margin:1rem 0 1.5rem; line-height:1.6;
+    }
+    .info-box strong { color:#1e3a5f; }
+
+    /* ── Tip box ── */
+    .tip-box {
+      background:#fefce8; border-left:4px solid #f59e0b;
+      border-radius:0 var(--radius) var(--radius) 0;
+      padding:.9rem 1.1rem; font-size:.87rem; color:#78350f;
+      margin:1rem 0 1.5rem; line-height:1.6;
+    }
+
+    /* ── Table ── */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+
+    /* ── Footer ── */
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+
+    @media(max-width:640px){
+      .hero { padding:2.5rem 1.5rem 2rem; }
+      main  { padding:2rem 1rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .cards { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · Fonaments de la programació</p>
+  <h1>A0 — Introducció i NetBeans</h1>
+  <p>Entendre per què Java, instal·lar el JDK, configurar NetBeans i executar el primer programa. La base sobre la qual construirem tot el curs.</p>
+  <div class="hero-pills">
+    <span class="pill">RA1</span>
+    <span class="pill">CA 1.2 · 1.3</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb">
+  <a href="../index.html">M0485</a>
+  <span>›</span>
+  <a href="../aea1.html">AEA1</a>
+  <span>›</span>
+  A0 — Introducció i NetBeans
+</nav>
+
+<main>
+
+  <!-- ──────────────────────────────────────────
+       BLOC 1: Què és Java?
+  ─────────────────────────────────────────── -->
+  <h2 class="block-title">1. Què és Java?</h2>
+
+  <p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">
+    Java és un llenguatge de programació d'alt nivell, compilat i d'ús general creat el 1995 per James Gosling. El seu lema és <strong>"Escriu una vegada, executa a qualsevol lloc"</strong> (WORA): el codi compilat s'executa a qualsevol sistema que tingui una JVM instal·lada.
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Característica</th><th>Descripció</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Portabilitat</strong></td><td>El bytecode s'executa a Windows, macOS i Linux sense canvis.</td></tr>
+        <tr><td><strong>Orientat a objectes</strong></td><td>Tot s'organitza en classes i objectes.</td></tr>
+        <tr><td><strong>Seguretat</strong></td><td>Dissenyat per evitar vulnerabilitats comunes. Gestió automàtica de memòria (Garbage Collection).</td></tr>
+        <tr><td><strong>Àmplia comunitat</strong></td><td>Un dels llenguatges més demandats al mercat laboral. Frameworks com Spring, ecosistema Maven/Gradle.</td></tr>
+        <tr><td><strong>Versió del curs</strong></td><td><strong>JDK 21 (LTS)</strong> — versió de suport a llarg termini, estable i recomanada.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ──────────────────────────────────────────
+       BLOC 2: JDK, JRE i JVM
+  ─────────────────────────────────────────── -->
+  <h2 class="block-title">2. JDK, JRE i JVM</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Component</th><th>Nom complet</th><th>Per a què serveix</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>JDK</code></td>
+          <td>Java Development Kit</td>
+          <td>Conjunt complet d'eines per <strong>desenvolupar</strong> en Java. Inclou el compilador (<code>javac</code>), el JRE i les eines de depuració.</td>
+        </tr>
+        <tr>
+          <td><code>JRE</code></td>
+          <td>Java Runtime Environment</td>
+          <td>Entorn per <strong>executar</strong> programes Java (sense poder-los compilar). Inclou la JVM i les biblioteques estàndard.</td>
+        </tr>
+        <tr>
+          <td><code>JVM</code></td>
+          <td>Java Virtual Machine</td>
+          <td>Màquina virtual que <strong>interpreta el bytecode</strong> i el tradueix a instruccions del sistema operatiu.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="info-box">
+    <strong>Procés de compilació i execució:</strong><br>
+    Codi font (<code>.java</code>) → <strong>javac</strong> → Bytecode (<code>.class</code>) → <strong>JVM</strong> → Execució al sistema operatiu
+  </div>
+
+  <div class="tip-box">
+    💡 <strong>Quin JDK instal·lar?</strong> Sempre el <strong>JDK 21 (LTS)</strong>. Les versions LTS (Long-Term Support) reben actualitzacions de seguretat durant anys i són les recomanades per a projectes seriosos i entorns educatius.
+  </div>
+
+  <!-- ──────────────────────────────────────────
+       BLOC 3: Instal·lació
+  ─────────────────────────────────────────── -->
+  <h2 class="block-title">3. Instal·lació del JDK i NetBeans</h2>
+
+  <div class="cards">
+    <div class="card teoria">
+      <span class="card-num">1</span>
+      <span class="card-title">Descarregar el JDK 21</span>
+      <span class="card-desc">Ves a <strong>oracle.com/java/technologies/downloads/#java21</strong> i descarrega l'instal·lador per al teu sistema operatiu (Windows .exe, macOS .dmg, Linux .tar.gz).</span>
+      <div class="card-footer">
+        <span class="card-type">Pas 1</span>
+      </div>
+    </div>
+    <div class="card teoria">
+      <span class="card-num">2</span>
+      <span class="card-title">Instal·lar el JDK</span>
+      <span class="card-desc">Executa l'instal·lador i segueix l'assistent. Deixa la ruta per defecte. Verifica: obre una terminal i executa <code>java -version</code>.</span>
+      <div class="card-footer">
+        <span class="card-type">Pas 2</span>
+      </div>
+    </div>
+    <div class="card teoria">
+      <span class="card-num">3</span>
+      <span class="card-title">Descarregar Apache NetBeans</span>
+      <span class="card-desc">Ves a <strong>netbeans.apache.org</strong>, descarrega la versió més recent i instal·la-la. NetBeans detectarà automàticament el JDK instal·lat.</span>
+      <div class="card-footer">
+        <span class="card-type">Pas 3</span>
+      </div>
+    </div>
+    <div class="card teoria">
+      <span class="card-num">4</span>
+      <span class="card-title">Configuració opcional: tema fosc</span>
+      <span class="card-desc">Tools → Options → Appearance → Look and Feel → <strong>FlatLaf Dark</strong>. Millora la visibilitat i redueix la fatiga visual en sessions llargues.</span>
+      <div class="card-footer">
+        <span class="card-type">Pas 4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────────────────────────────────────
+       BLOC 4: Primer projecte i Hola Món
+  ─────────────────────────────────────────── -->
+  <h2 class="block-title">4. Primer projecte: Hola Món</h2>
+
+  <p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">
+    Segueix aquests passos a NetBeans per crear el primer projecte Java i executar el programa <strong>Hola Món</strong>.
+  </p>
+
+  <div class="cards">
+    <div class="card teoria">
+      <span class="card-num">1</span>
+      <span class="card-title">Crear el projecte</span>
+      <span class="card-desc">File → New Project → <strong>Java with Ant</strong> → Java Application. Nom: <code>IntroduccioJava</code>. Desmarca "Create Main Class".</span>
+      <div class="card-footer"><span class="card-type">NetBeans</span></div>
+    </div>
+    <div class="card teoria">
+      <span class="card-num">2</span>
+      <span class="card-title">Crear la classe</span>
+      <span class="card-desc">A Source Packages → clic dret → New → Java Class. Nom: <code>HolaMundo</code>. NetBeans crea el fitxer <code>HolaMundo.java</code>.</span>
+      <div class="card-footer"><span class="card-type">NetBeans</span></div>
+    </div>
+    <div class="card teoria">
+      <span class="card-num">3</span>
+      <span class="card-title">Escriure el codi</span>
+      <span class="card-desc">Escriu el codi de l'exemple de sota. Observa l'estructura: classe, mètode <code>main</code> i instruccions dins el cos.</span>
+      <div class="card-footer"><span class="card-type">Java</span></div>
+    </div>
+    <div class="card teoria">
+      <span class="card-num">4</span>
+      <span class="card-title">Executar</span>
+      <span class="card-desc">Clic dret sobre <code>HolaMundo.java</code> → <strong>Run File</strong>. A la consola de sortida veuràs: <em>Hola Món amb Java</em>.</span>
+      <div class="card-footer"><span class="card-type">NetBeans</span></div>
+    </div>
+  </div>
+
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">HolaMundo</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Mostra un missatge per pantalla</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola Món amb Java"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguts al curs!"</span>);
+
+    }
+
+}</div>
+
+  <div class="info-box">
+    <strong>Estructura bàsica d'un programa Java:</strong><br>
+    • <code>public class HolaMundo</code> → defineix la classe. El nom del fitxer ha de coincidir exactament (<code>HolaMundo.java</code>).<br>
+    • <code>public static void main(String[] args)</code> → punt d'entrada del programa. Java sempre comença l'execució per aquí.<br>
+    • <code>System.out.println(...)</code> → mostra text per pantalla i fa un salt de línia.<br>
+    • Cada instrucció acaba en punt i coma <code>;</code>.
+  </div>
+
+  <!-- ──────────────────────────────────────────
+       BLOC 5: Conceptes IDE
+  ─────────────────────────────────────────── -->
+  <h2 class="block-title">5. Conceptes clau de l'entorn de desenvolupament</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Concepte</th><th>Descripció</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>IDE</strong></td><td>Entorn de Desenvolupament Integrat. Combina editor de codi, compilador, depurador i gestió de projectes en una sola aplicació.</td></tr>
+        <tr><td><strong>Editor de codi</strong></td><td>Ressaltat de sintaxi, autocompletat i detecció d'errors en temps real.</td></tr>
+        <tr><td><strong>Compilador integrat</strong></td><td>NetBeans compila automàticament en guardar (<em>Compile on Save</em>). Errors de compilació apareixen subratllats en vermell.</td></tr>
+        <tr><td><strong>Depurador</strong></td><td>Permet executar el programa pas a pas, establir punts d'interrupció i inspeccionar el valor de les variables.</td></tr>
+        <tr><td><strong>Consola de sortida</strong></td><td>Finestra inferior on es mostra el resultat de <code>System.out.println()</code> i els errors d'execució.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="tip-box">
+    💡 <strong>Bones pràctiques des del primer dia:</strong> activa <em>Compile on Save</em> (clic dret al projecte → Properties → Build → Compile) i augmenta la mida de la font a 15 (Tools → Options → Fonts & Colors) per llegir millor el codi.
+  </div>
+
+</main>
+
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+
+</body>
+</html>

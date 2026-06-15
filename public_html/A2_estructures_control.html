@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Estructures de control · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:#fff; color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+
+    .hero { background:var(--hero-bg); padding:3.5rem 3rem 3rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:1rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:var(--text-hero); line-height:1.15; margin-bottom:1rem; }
+    .hero p { color:var(--text-hero-sub); font-size:1rem; max-width:560px; line-height:1.65; }
+    .hero-meta { display:flex; gap:1.5rem; margin-top:1.5rem; flex-wrap:wrap; }
+    .hero-pill { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.3rem .9rem; font-size:.78rem; color:var(--text-hero); font-weight:500; }
+
+    .breadcrumb { background:#fafafa; border-bottom:1px solid var(--border); padding:.65rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .4rem; color:#ccc; }
+
+    main { flex:1; max-width:860px; width:100%; margin:0 auto; padding:3.5rem 2rem; }
+
+    .coming-banner { background:var(--accent-bg); border:1px solid #f5c6c2; border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:2.5rem; font-size:.88rem; color:#a0332a; }
+
+    .content-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.1rem; }
+
+    .content-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; box-shadow:var(--shadow); }
+    .content-card h3 { font-size:.95rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
+    .content-card p  { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.65rem 1rem;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 &middot; Fonaments de la programació</p>
+  <h1>A2 &mdash; Estructures de control</h1>
+  <p>Selecció (if/else, switch), repetició (while, for), salt (break, continue), esquemes de recorregut i cerca, excepcions i assercions.</p>
+  <div class="hero-meta">
+    <span class="hero-pill">RA3</span>
+    <span class="hero-pill">CA 3.1 · 3.2 · 3.3 · 3.4 · 3.5 · 3.6 · 3.7 · 3.8 · 3.9</span>
+    <span class="hero-pill">24 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485</a>
+  <span>&rsaquo;</span>
+  <a href="../aea1.html">AEA1</a>
+  <span>&rsaquo;</span>
+  A2 &mdash; Estructures de control
+</nav>
+
+<main>
+
+  <div class="coming-banner">
+    &#9997;&nbsp; Contingut en construcci&oacute; &mdash; el material es publicar&agrave; progressivament al llarg del curs.
+  </div>
+
+  <div class="content-grid">
+    <div class="content-card">
+      <h3>3.1 Estructures de selecció</h3>
+      <p>if / if-else / if-else if-else. switch clàssic i switch expression. Operador ternari. Operadors lògics i prioritats.</p>
+    </div>
+    <div class="content-card">
+      <h3>3.2 Estructures de repetició</h3>
+      <p>Bucle while: esquema de recorregut i cerca. Generació de valors aleatoris. Bucle for i do-while.</p>
+    </div>
+    <div class="content-card">
+      <h3>3.3 Estructures de salt</h3>
+      <p>break i continue dins bucles. Labeled break per a bucles niuats.</p>
+    </div>
+    <div class="content-card">
+      <h3>3.4 Control d'excepcions</h3>
+      <p>try-catch-finally. Múltiples catch. throw i throws. Excepcions pròpies.</p>
+    </div>
+    <div class="content-card">
+      <h3>3.5 Assercions</h3>
+      <p>Sintaxi assert. Activació amb -ea. Diferència amb if i excepcions. Ús en fase de desenvolupament.</p>
+    </div>
+    <div class="content-card">
+      <h3>3.6 Prova i depuració</h3>
+      <p>Depuració amb l'IDE, breakpoints, inspecció de variables. Documentació del codi.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M0485 Programaci&oacute;
+</footer>
+
+</body>
+</html>

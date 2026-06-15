@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M0485 Programació · Institut La Mercè</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --hero-bg:   #1a1114;
+      --hero-line: #c0392b;
+      --accent:    #e74c3c;
+      --accent-bg: #fdecea;
+      --text:      #1a1a1a;
+      --text-soft: #666;
+      --text-hero: #f0ece8;
+      --text-hero-sub: #a89f9a;
+      --border:    #e8e8e8;
+      --bg:        #ffffff;
+      --card-bg:   #ffffff;
+      --radius:    14px;
+      --shadow:    0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:  0 4px 8px rgba(0,0,0,.08), 0 8px 28px rgba(0,0,0,.10);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--hero-bg);
+      padding: 3.5rem 3rem 3rem;
+      border-bottom: 3px solid var(--hero-line);
+    }
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text-hero-sub);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text-hero);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -.01em;
+    }
+    .hero p {
+      color: var(--text-hero-sub);
+      font-size: 1rem;
+      max-width: 540px;
+      line-height: 1.65;
+    }
+
+    /* ── Main ── */
+    main {
+      flex: 1;
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+    }
+
+    /* ── AEA section ── */
+    .aea-section { margin-bottom: 3.5rem; }
+
+    .aea-section h2 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: .5rem;
+    }
+
+    .aea-section > p {
+      font-size: .92rem;
+      color: var(--text-soft);
+      margin-bottom: 1.5rem;
+      max-width: 680px;
+    }
+
+    /* ── Cards grid ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.4rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow);
+      transition: box-shadow .18s, transform .18s;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-h);
+      transform: translateY(-3px);
+    }
+    .card.disabled {
+      opacity: .5;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      border-radius: 8px;
+      font-size: .78rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+      letter-spacing: .02em;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: .84rem;
+      color: var(--text-soft);
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: .6rem;
+      padding-top: .6rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-ra {
+      font-size: .74rem;
+      color: var(--text-soft);
+    }
+
+    .card-link {
+      font-size: .84rem;
+      font-weight: 600;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: .2rem;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--hero-bg);
+      color: var(--text-hero-sub);
+      text-align: center;
+      padding: 1.4rem;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 2.5rem 1.5rem 2rem; }
+      main  { padding: 2rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW · Desenvolupament d'Aplicacions Web</p>
+  <h1>M0485 — Programació</h1>
+  <p>Materials interactius per aprendre a programar en Java des dels fonaments fins a la persistència de dades, pas a pas.</p>
+</header>
+
+<main>
+
+  <!-- AEA1 -->
+  <section class="aea-section">
+    <h2>AEA1 — Fonaments de la programació</h2>
+    <p>De l'estructura d'un programa als primers algorismes: variables, operadors, estructures de control i tractament d'excepcions.</p>
+    <div class="cards">
+      <a class="card" href="aea1.html">
+        <span class="card-badge">AEA1</span>
+        <span class="card-title">Fonaments de la programació</span>
+        <span class="card-desc">Variables, tipus de dades, operadors, estructures de control, esquemes de recorregut i cerca, excepcions i assercions.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA1 · RA3</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AEA2 -->
+  <section class="aea-section">
+    <h2>AEA2 — POO. Fonaments</h2>
+    <p>Introducció a la programació orientada a objectes: classes, objectes, constructors, mètodes i herència bàsica.</p>
+    <div class="cards">
+      <a class="card disabled" href="aea2.html">
+        <span class="card-badge">AEA2</span>
+        <span class="card-title">POO. Fonaments</span>
+        <span class="card-desc">Classes, objectes, constructors, mètodes, visibilitat, herència i interfícies.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA2 · RA4</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AEA3 -->
+  <section class="aea-section">
+    <h2>AEA3 — POO. Avançada</h2>
+    <p>Herència avançada, polimorfisme, classes abstractes, finals i interfícies. Disseny de jerarquies de classes.</p>
+    <div class="cards">
+      <a class="card disabled" href="aea3.html">
+        <span class="card-badge">AEA3</span>
+        <span class="card-title">POO. Avançada</span>
+        <span class="card-desc">Herència avançada, polimorfisme, classes abstractes, finals i interfícies.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA7</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AEA4 -->
+  <section class="aea-section">
+    <h2>AEA4 — Tipus avançats de dades</h2>
+    <p>Arrays, col·leccions, genèrics, expressions regulars i manipulació de documents JSON.</p>
+    <div class="cards">
+      <a class="card disabled" href="aea4.html">
+        <span class="card-badge">AEA4</span>
+        <span class="card-title">Tipus avançats de dades</span>
+        <span class="card-desc">Arrays, col·leccions, iteradors, genèrics, expressions regulars i JSON.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA6</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AEA5 -->
+  <section class="aea-section">
+    <h2>AEA5 — Entrada/Sortida i GUI</h2>
+    <p>Gestió de fitxers, fluxos de dades i creació d'interfícies gràfiques amb gestió d'esdeveniments.</p>
+    <div class="cards">
+      <a class="card disabled" href="aea5.html">
+        <span class="card-badge">AEA5</span>
+        <span class="card-title">Entrada/Sortida i GUI</span>
+        <span class="card-desc">Fitxers de text i byte, interfícies gràfiques i gestió d'esdeveniments.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA5</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AEA6 -->
+  <section class="aea-section">
+    <h2>AEA6 — Gestió de bases de dades relacionals</h2>
+    <p>Connexió a bases de dades relacionals des de Java, execució de consultes i operacions CRUD amb JDBC.</p>
+    <div class="cards">
+      <a class="card disabled" href="aea6.html">
+        <span class="card-badge">AEA6</span>
+        <span class="card-title">Gestió de BD relacionals</span>
+        <span class="card-desc">Connexions JDBC, sentències SQL des de Java i operacions CRUD.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA9</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- AEA7 -->
+  <section class="aea-section">
+    <h2>AEA7 — Persistència dels objectes</h2>
+    <p>Bases de dades orientades a objectes: instal·lació, creació d'estructures, consultes i CRUD d'objectes.</p>
+    <div class="cards">
+      <a class="card disabled" href="aea7.html">
+        <span class="card-badge">AEA7</span>
+        <span class="card-title">Persistència dels objectes</span>
+        <span class="card-desc">Bases de dades orientades a objectes, creació, consultes i CRUD.</span>
+        <div class="card-footer">
+          <span class="card-ra">RA8</span>
+          <span class="card-link">Obrir →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+
+</body>
+</html>

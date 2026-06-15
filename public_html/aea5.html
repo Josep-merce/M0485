@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AEA5 &mdash; Entrada/Sortida i GUI &middot; M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:#fff; color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3.5rem 3rem 3rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:1rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(2rem,4.5vw,3rem); font-weight:700; color:var(--text-hero); line-height:1.15; margin-bottom:1rem; }
+    .hero p { color:var(--text-hero-sub); font-size:1rem; max-width:560px; line-height:1.65; }
+    .breadcrumb { background:#fafafa; border-bottom:1px solid var(--border); padding:.65rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .4rem; color:#ccc; }
+    main { flex:1; max-width:760px; width:100%; margin:0 auto; padding:4rem 2rem; text-align:center; }
+    .coming h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.5rem; color:var(--text); margin-bottom:.75rem; }
+    .coming p { color:var(--text-soft); font-size:.95rem; }
+    .back { display:inline-block; margin-top:2rem; color:var(--accent); font-weight:600; text-decoration:none; font-size:.95rem; }
+    .back:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
+  <h1>AEA5 &mdash; Entrada/Sortida i GUI</h1>
+  <p>Gestió de fitxers, fluxos de dades i creació d'interfícies gràfiques amb gestió d'esdeveniments.</p>
+</header>
+<nav class="breadcrumb">
+  <a href="index.html">M0485 Programaci&oacute;</a>
+  <span>&rsaquo;</span>
+  AEA5 &mdash; Entrada/Sortida i GUI
+</nav>
+<main>
+  <div class="coming">
+    <h2>Contingut en construcci&oacute;</h2>
+    <p>Les activitats d&rsquo;aquesta AEA s&rsquo;aniran publicant al llarg del curs.</p>
+    <a class="back" href="index.html">&larr; Tornar a M0485</a>
+  </div>
+</main>
+<footer>Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M&ograve;dul M0485 Programaci&oacute;</footer>
+</body>
+</html>
