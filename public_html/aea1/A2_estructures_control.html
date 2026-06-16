@@ -868,47 +868,46 @@
   </tbody>
 </table>
 
-<div class="exemple-block">
+<div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Codi ben documentat: bucle de cerca amb excepció i asserció</span></div>
-  <div class="exemple-body">
-<pre><code class="language-java">public class CercaDocumentada {
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">CercaDocumentada</span> {
 
-    public static void main(String[] args) {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        // Seqüència de notes (finalitza amb el sentinella -1)
-        double[] notes = {6.5, 8.0, 4.5, 9.0, -1};
+        <span class="cmt">// Seqüència de notes (finalitza amb el sentinella -1)</span>
+        <span class="kw">double</span>[] notes = {<span class="num">6.5</span>, <span class="num">8.0</span>, <span class="num">4.5</span>, <span class="num">9.0</span>, <span class="num">-1</span>};
 
-        // Recorrem totes les notes fins al sentinella buscant la primera suspesa
-        int idx = 0;
-        boolean trobat = false;
+        <span class="cmt">// Recorrem totes les notes fins al sentinella buscant la primera suspesa</span>
+        <span class="kw">int</span> idx = <span class="num">0</span>;
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
 
-        while (notes[idx] != -1 && !trobat) {
+        <span class="kw">while</span> (notes[idx] != <span class="num">-1</span> &amp;&amp; !trobat) {
 
-            // Una nota és suspesa si és estrictament menor que 5
-            if (notes[idx] &lt; 5.0) {
-                trobat = true;
+            <span class="cmt">// Una nota és suspesa si és estrictament menor que 5</span>
+            <span class="kw">if</span> (notes[idx] &lt; <span class="num">5.0</span>) {
+                trobat = <span class="kw">true</span>;
             }
             idx++;
         }
 
-        // Postcondició: idx és vàlid (no ha sobrepassat els límits de l'array)
-        assert idx &lt;= notes.length : "idx fora de rang: " + idx;
+        <span class="cmt">// Postcondició: idx és vàlid (no ha sobrepassat els límits de l'array)</span>
+        <span class="kw">assert</span> idx &lt;= notes.length : <span class="str">"idx fora de rang: "</span> + idx;
 
-        System.out.println("Hi ha alguna nota suspesa: " + trobat);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi ha alguna nota suspesa: "</span> + trobat);
 
-        // Conversió segura: si el text no és numèric, informem sense aturar el programa
-        String entrada = "7.5";
-        try {
-            double nota = Double.parseDouble(entrada);
-            System.out.println("Nota llegida: " + nota);
-        } catch (NumberFormatException e) {
-            // L'entrada no és un número vàlid → mostrem l'error i continuem
-            System.out.println("Error: '" + entrada + "' no és una nota vàlida.");
+        <span class="cmt">// Conversió segura: si el text no és numèric, informem sense aturar el programa</span>
+        <span class="cls">String</span> entrada = <span class="str">"7.5"</span>;
+        <span class="kw">try</span> {
+            <span class="kw">double</span> nota = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(entrada);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota llegida: "</span> + nota);
+        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            <span class="cmt">// L'entrada no és un número vàlid → mostrem l'error i continuem</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: '"</span> + entrada + <span class="str">"' no és una nota vàlida."</span>);
         }
+
     }
 
-}</code></pre>
-  </div>
+}</div>
 </div>
 
 <div class="tip-box">💡 <strong>Regla pràctica:</strong> un bon comentari respon a <em>"per què s'ha pres aquesta decisió?"</em>, no a <em>"què fa aquesta línia?"</em>. Si el codi és prou clar, no cal comentar-lo; si la lògica no és òbvia (condicions complexes, bucles amb sentinella, try-catch específics), un comentari curt val molt.</div>
