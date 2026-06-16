@@ -12,99 +12,1406 @@
     :root {
       --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
       --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
-      --border:#e8e8e8; --radius:14px;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
       --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
       --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
     }
     html { scroll-behavior:smooth; }
-    body { font-family:'Inter',system-ui,sans-serif; background:#fff; color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
-
-    .hero { background:var(--hero-bg); padding:3.5rem 3rem 3rem; border-bottom:3px solid var(--hero-line); }
-    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:1rem; }
-    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:var(--text-hero); line-height:1.15; margin-bottom:1rem; }
-    .hero p { color:var(--text-hero-sub); font-size:1rem; max-width:560px; line-height:1.65; }
-    .hero-meta { display:flex; gap:1.5rem; margin-top:1.5rem; flex-wrap:wrap; }
-    .hero-pill { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.3rem .9rem; font-size:.78rem; color:var(--text-hero); font-weight:500; }
-
-    .breadcrumb { background:#fafafa; border-bottom:1px solid var(--border); padding:.65rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
     .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
     .breadcrumb a:hover { text-decoration:underline; }
-    .breadcrumb span { margin:0 .4rem; color:#ccc; }
-
-    main { flex:1; max-width:860px; width:100%; margin:0 auto; padding:3.5rem 2rem; }
-
-    .coming-banner { background:var(--accent-bg); border:1px solid #f5c6c2; border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:2.5rem; font-size:.88rem; color:#a0332a; }
-
-    .content-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:1.1rem; }
-
-    .content-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; box-shadow:var(--shadow); }
-    .content-card h3 { font-size:.95rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
-    .content-card p  { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
-
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block {
+      background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius);
+      padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace;
+      font-size:.84rem; line-height:1.75; overflow-x:auto;
+      margin:1rem 0 1.5rem; white-space:pre;
+    }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; }
+    .exemple-header span { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    /* Exercicis */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    /* Solució toggle */
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--hero-bg); color:var(--text-hero);
+      border:none; border-radius:8px; padding:.5rem 1rem;
+      font-size:.82rem; font-weight:600; cursor:pointer;
+      transition:background .15s, transform .1s;
+      font-family:'Inter',system-ui,sans-serif;
+    }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; display:flex; align-items:center; gap:.4rem; }
+    .solucio-header .code-block { margin:0; border-radius:0; }
+    /* CA grid */
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    /* Fonts recursos */
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
     footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
-
-    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.65rem 1rem;} }
+    @media(max-width:640px){
+      .hero { padding:2.5rem 1.5rem 2rem; }
+      main  { padding:2rem 1rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .ca-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
-
 <header class="hero">
-  <p class="hero-eyebrow">AEA1 &middot; Fonaments de la programació</p>
-  <h1>A2 &mdash; Estructures de control</h1>
-  <p>Selecció (if/else, switch), repetició (while, for), salt (break, continue), esquemes de recorregut i cerca, excepcions i assercions.</p>
-  <div class="hero-meta">
-    <span class="hero-pill">RA3</span>
-    <span class="hero-pill">CA 3.1 · 3.2 · 3.3 · 3.4 · 3.5 · 3.6 · 3.7 · 3.8 · 3.9</span>
-    <span class="hero-pill">24 hores</span>
+  <p class="hero-eyebrow">AEA1 · Fonaments de la programació</p>
+  <h1>A2 — Estructures de control</h1>
+  <p>Aprendre a dirigir el flux d'execució d'un programa: prendre decisions amb selecció, repetir blocs de codi amb iteració, gestionar errors amb excepcions i validar amb assercions.</p>
+  <div class="hero-pills">
+    <span class="pill">RA3</span>
+    <span class="pill">CA 3.1 · 3.2 · 3.3 · 3.4 · 3.5 · 3.6 · 3.7 · 3.8 · 3.9</span>
+    <span class="pill">24 hores</span>
   </div>
 </header>
-
 <nav class="breadcrumb">
-  <a href="../index.html">M0485</a>
-  <span>&rsaquo;</span>
-  <a href="../aea1.html">AEA1</a>
-  <span>&rsaquo;</span>
-  A2 &mdash; Estructures de control
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  A2 — Estructures de control
 </nav>
-
 <main>
 
-  <div class="coming-banner">
-    &#9997;&nbsp; Contingut en construcci&oacute; &mdash; el material es publicar&agrave; progressivament al llarg del curs.
-  </div>
+<div class="ra5-box">
+  📌 <strong>Nota sobre Scanner:</strong> en alguns exemples i exercicis d'aquesta activitat veuràs la classe <code>Scanner</code> per llegir dades del teclat. L'entrada i sortida de dades s'estudiarà en profunditat a l'<strong>RA5</strong>. Per ara n'hi ha prou amb saber que <code>Scanner sc = new Scanner(System.in);</code> permet llegir dades del teclat, i que cal afegir <code>import java.util.Scanner;</code> al principi del fitxer.
+</div>
 
-  <div class="content-grid">
-    <div class="content-card">
-      <h3>3.1 Estructures de selecció</h3>
-      <p>if / if-else / if-else if-else. switch clàssic i switch expression. Operador ternari. Operadors lògics i prioritats.</p>
-    </div>
-    <div class="content-card">
-      <h3>3.2 Estructures de repetició</h3>
-      <p>Bucle while: esquema de recorregut i cerca. Generació de valors aleatoris. Bucle for i do-while.</p>
-    </div>
-    <div class="content-card">
-      <h3>3.3 Estructures de salt</h3>
-      <p>break i continue dins bucles. Labeled break per a bucles niuats.</p>
-    </div>
-    <div class="content-card">
-      <h3>3.4 Control d'excepcions</h3>
-      <p>try-catch-finally. Múltiples catch. throw i throws. Excepcions pròpies.</p>
-    </div>
-    <div class="content-card">
-      <h3>3.5 Assercions</h3>
-      <p>Sintaxi assert. Activació amb -ea. Diferència amb if i excepcions. Ús en fase de desenvolupament.</p>
-    </div>
-    <div class="content-card">
-      <h3>3.6 Prova i depuració</h3>
-      <p>Depuració amb l'IDE, breakpoints, inspecció de variables. Documentació del codi.</p>
+<!-- ══════════════════════════════════════════════════
+     BLOC 1 — IF / ELSE
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">1. Estructures de selecció: if / else</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Les estructures de selecció permeten prendre decisions sobre quin conjunt d'instruccions cal executar en un punt del programa. Es basen sempre en l'avaluació d'una <strong>expressió booleana</strong> que retorna <code>true</code> o <code>false</code>.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Estructura</th><th>Quan usar-la</th><th>Camins d'execució</th></tr></thead>
+    <tbody>
+      <tr><td><code>if</code></td><td>Executar un bloc <strong>només si</strong> es compleix una condició</td><td>1 camí opcional</td></tr>
+      <tr><td><code>if / else</code></td><td>Dos escenaris <strong>excloents</strong>: o un o l'altre</td><td>2 camins obligatoris</td></tr>
+      <tr><td><code>if / else if / else</code></td><td>Múltiples rangs o casos (nota, temperatura...)</td><td>N camins, s'executa el primer que compleix</td></tr>
+      <tr><td><code>if</code> niats</td><td>Condicions que depenen d'altres condicions prèvies</td><td>Jeràrquic</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">1.1 Selecció simple: if</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Aplicar un descompte si la compra supera un mínim</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Descompte</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final double</span> COMPRA_MIN = <span class="num">100.0</span>;
+        <span class="kw">final double</span> DESCOMPTE  = <span class="num">0.08</span>;
+
+        <span class="kw">double</span> preu = <span class="num">120.0</span>;
+
+        <span class="kw">if</span> (preu >= COMPRA_MIN) {
+            preu = preu - (preu * DESCOMPTE);
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu final: "</span> + preu + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">1.2 Selecció doble: if / else</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Accés a una zona per edat</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ControlAcces</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">16</span>;
+
+        <span class="kw">if</span> (edat >= <span class="num">18</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Accés permès."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Accés denegat. Cal ser major d'edat."</span>);
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">1.3 Selecció múltiple: if / else if / else</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Sistema de qualificació de notes</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">SistemaQualificacions</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> nota = <span class="num">7.4</span>;
+        <span class="cls">String</span> qualificacio;
+
+        <span class="kw">if</span> (nota >= <span class="num">9</span> && nota <= <span class="num">10</span>) {
+            qualificacio = <span class="str">"Excel·lent (A)"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">7</span> && nota < <span class="num">9</span>) {
+            qualificacio = <span class="str">"Notable (B)"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">5</span> && nota < <span class="num">7</span>) {
+            qualificacio = <span class="str">"Aprovat (C)"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">0</span>) {
+            qualificacio = <span class="str">"Suspès (F)"</span>;
+        } <span class="kw">else</span> {
+            qualificacio = <span class="str">"Nota incorrecta"</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota "</span> + nota + <span class="str">" → "</span> + qualificacio);
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">1.4 Valor positiu o negatiu (exemple del món real)</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Comprovar si un valor és positiu, negatiu o zero</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ValorPositiu</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> valor = <span class="num">-5</span>;
+
+        <span class="kw">if</span> (valor > <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(valor + <span class="str">" és un número POSITIU"</span>);
+        } <span class="kw">else if</span> (valor < <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(valor + <span class="str">" és un número NEGATIU"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El valor és ZERO"</span>);
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">1.5 Selecció niada: condicions encadenades</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Sistema de reserves d'hotel amb tarifes i validació</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ReservaHotel</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final double</span> TARIFA_SENSE_MAR = <span class="num">150.50</span>;
+        <span class="kw">final double</span> TARIFA_AMB_MAR   = <span class="num">190.50</span>;
+
+        <span class="cls">String</span>  client      = <span class="str">"Anna García"</span>;
+        <span class="kw">int</span>     dies        = <span class="num">5</span>;
+        <span class="kw">boolean</span> vistesAlMar = <span class="kw">true</span>;
+
+        <span class="kw">if</span> (dies <= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: els dies han de ser positius."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="kw">double</span> costTotal;
+
+            <span class="kw">if</span> (vistesAlMar) {
+                costTotal = dies * TARIFA_AMB_MAR;
+            } <span class="kw">else</span> {
+                costTotal = dies * TARIFA_SENSE_MAR;
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Client: "</span>      + client);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dies: "</span>        + dies);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vistes al mar: "</span> + vistesAlMar);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cost total: "</span>  + costTotal + <span class="str">" €"</span>);
+
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="warn-box">⚠️ <strong>Errors típics amb if:</strong> posar <code>;</code> just després de <code>if (condicio);</code> fa que el bloc mai s'executi condicionalment. Oblidar les claus <code>{ }</code> quan el bloc té més d'una instrucció fa que només la primera sigui condicional. Sempre usa claus.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 2 — SWITCH
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">2. Estructures de selecció: switch</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">La sentència <code>switch</code> avalua una expressió de tipus enter, caràcter o text i executa el bloc del <code>case</code> que coincideixi. És més llegible que una cadena llarga de <code>if / else if</code> quan es compara sempre la mateixa variable amb valors concrets.</p>
+
+<div class="sub-title">2.1 Switch tradicional (totes les versions de Java)</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Nom del dia de la setmana</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">DiaSemana</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> dia = <span class="num">3</span>;
+
+        <span class="kw">switch</span> (dia) {
+            <span class="kw">case</span> <span class="num">1</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dilluns"</span>);    <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="num">2</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dimarts"</span>);    <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="num">3</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dimecres"</span>);   <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="num">4</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dijous"</span>);     <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="num">5</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Divendres"</span>);  <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="num">6</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dissabte"</span>);   <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="num">7</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Diumenge"</span>);   <span class="kw">break</span>;
+            <span class="kw">default</span>: <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dia invàlid"</span>);
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Calculadora simple amb switch (char)</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Calculadora</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> a  = <span class="num">10.0</span>;
+        <span class="kw">double</span> b  = <span class="num">3.0</span>;
+        <span class="kw">char</span>   op = <span class="str">'/'</span>;
+
+        <span class="kw">switch</span> (op) {
+            <span class="kw">case</span> <span class="str">'+'</span>:
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + (a + b));
+                <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="str">'-'</span>:
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resta: "</span> + (a - b));
+                <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="str">'*'</span>:
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte: "</span> + (a * b));
+                <span class="kw">break</span>;
+            <span class="kw">case</span> <span class="str">'/'</span>:
+                <span class="kw">if</span> (b != <span class="num">0</span>) {
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Divisió: "</span> + (a / b));
+                } <span class="kw">else</span> {
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: divisió per zero"</span>);
+                }
+                <span class="kw">break</span>;
+            <span class="kw">default</span>:
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Operador desconegut: "</span> + op);
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="warn-box">⚠️ <strong>Fall-through:</strong> si oblides el <code>break</code> en un <code>case</code>, Java continua executant el codi del <code>case</code> següent sense comprovar la condició. Sempre posa <code>break</code> al final de cada cas.</div>
+
+<div class="sub-title">2.2 Switch expression (Java 14+) — sintaxi moderna amb <code>-&gt;</code></div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Estació de l'any amb switch expression</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">EstacioAny</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> mes = <span class="num">7</span>;
+
+        <span class="cls">String</span> estacio = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">12</span>, <span class="num">1</span>, <span class="num">2</span>   -> <span class="str">"Hivern"</span>;
+            <span class="kw">case</span>  <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>   -> <span class="str">"Primavera"</span>;
+            <span class="kw">case</span>  <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>   -> <span class="str">"Estiu"</span>;
+            <span class="kw">case</span>  <span class="num">9</span>, <span class="num">10</span>, <span class="num">11</span> -> <span class="str">"Tardor"</span>;
+            <span class="kw">default</span>          -> <span class="str">"Mes invàlid"</span>;
+        };
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mes "</span> + mes + <span class="str">": "</span> + estacio);
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 3 — WHILE i DO-WHILE
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">3. Estructures de repetició: while i do-while</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Els bucles permeten repetir un bloc de codi mentre es compleixi una condició. El <code>while</code> comprova la condició <strong>abans</strong> de cada iteració. El <code>do-while</code> la comprova <strong>després</strong>: el cos s'executa almenys una vegada.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Parts del while</th><th>Descripció</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1. Inicialització</strong></td><td>Establir les variables de control <em>abans</em> del bucle</td></tr>
+      <tr><td><strong>2. Condició</strong></td><td>Expressió booleana avaluada <em>abans</em> de cada iteració</td></tr>
+      <tr><td><strong>3. Cos del bucle</strong></td><td>Instruccions que s'executen quan la condició és <code>true</code></td></tr>
+      <tr><td><strong>4. Actualització</strong></td><td>Modificar la variable de control per evitar un bucle infinit</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">3.1 Esquema de recorregut: processar tots els elements</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Compte enrere fins a zero</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">CompteEnrere</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> comptador = <span class="num">5</span>; <span class="cmt">// 1. Inicialització</span>
+
+        <span class="kw">while</span> (comptador > <span class="num">0</span>) { <span class="cmt">// 2. Condició</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Compte enrere: "</span> + comptador); <span class="cmt">// 3. Cos</span>
+            comptador--; <span class="cmt">// 4. Actualització</span>
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Enlairament!"</span>);
+
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Acumular la suma amb while — 3 variants (for, while, do-while)</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">SumaAcumulativa</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Variant for: quan sabem exactament quantes iteracions</span>
+        <span class="kw">int</span> sumaFor = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">5</span>; i++) {
+            sumaFor += i;
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma amb for: "</span> + sumaFor); <span class="cmt">// 15</span>
+
+        <span class="cmt">// Variant while: quan la condició és externa</span>
+        <span class="kw">int</span> sumaWhile = <span class="num">0</span>;
+        <span class="kw">int</span> i = <span class="num">1</span>;
+        <span class="kw">while</span> (i <= <span class="num">5</span>) {
+            sumaWhile += i;
+            i++;
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma amb while: "</span> + sumaWhile); <span class="cmt">// 15</span>
+
+        <span class="cmt">// Variant do-while: el cos s'executa almenys una vegada</span>
+        <span class="kw">int</span> sumaDoWhile = <span class="num">0</span>;
+        <span class="kw">int</span> j = <span class="num">1</span>;
+        <span class="kw">do</span> {
+            sumaDoWhile += j;
+            j++;
+        } <span class="kw">while</span> (j <= <span class="num">5</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma amb do-while: "</span> + sumaDoWhile); <span class="cmt">// 15</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">3.2 Esquema de cerca: buscar i aturar quan es troba</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Buscar el primer número negatiu d'una seqüència</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">CercaNegatiu</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span>[] notes = {<span class="num">6.5</span>, <span class="num">8.0</span>, <span class="num">4.5</span>, <span class="num">9.0</span>, <span class="num">-1</span>}; <span class="cmt">// -1 = sentinella</span>
+        <span class="kw">int</span>     idx    = <span class="num">0</span>;
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
+
+        <span class="kw">while</span> (notes[idx] != <span class="num">-1</span> && !trobat) {
+
+            <span class="kw">if</span> (notes[idx] < <span class="num">5.0</span>) {
+                trobat = <span class="kw">true</span>; <span class="cmt">// trobem suspès → parem</span>
+            }
+            idx++;
+
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi ha alguna nota suspesa: "</span> + trobat);
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">3.3 do-while: el cos s'executa sempre almenys una vegada</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Validació de PIN amb 3 intents màxims</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ValidacioPin</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final int</span> PIN_CORRECTE = <span class="num">1234</span>;
+        <span class="kw">final int</span> MAX_INTENTS  = <span class="num">3</span>;
+
+        <span class="kw">int</span>     intents = <span class="num">0</span>;
+        <span class="kw">boolean</span> accedit = <span class="kw">false</span>;
+
+        <span class="kw">do</span> {
+            <span class="kw">int</span> pin = <span class="num">1234</span>; <span class="cmt">// simulem entrada (RA5 llegirà del teclat)</span>
+            intents++;
+
+            <span class="kw">if</span> (pin == PIN_CORRECTE) {
+                accedit = <span class="kw">true</span>;
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"PIN incorrecte. Intents: "</span> + intents);
+            }
+
+        } <span class="kw">while</span> (!accedit && intents < MAX_INTENTS);
+
+        <span class="kw">if</span> (accedit) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Accés concedit."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Compte bloquejat."</span>);
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="info-box"><strong>while vs do-while:</strong> usa <code>while</code> quan és possible que no calgui executar el cos ni una vegada. Usa <code>do-while</code> quan el cos <em>sempre</em> s'ha d'executar almenys una vegada (ex: validar una dada fins que sigui correcta).</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 4 — FOR
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">4. Estructures de repetició: for</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">El <code>for</code> s'usa quan sabem <strong>exactament quantes iteracions</strong> cal fer. Integra en una sola línia la inicialització del comptador, la condició i l'actualització.</p>
+
+<div class="info-box"><strong>Sintaxi:</strong><br><code>for (inicialització ; condició ; actualització) { cos }</code><br><br>La inicialització s'executa una sola vegada al principi. La condició es comprova <em>abans</em> de cada iteració. L'actualització s'executa automàticament al <em>final</em> de cada iteració.</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Imprimir números parells i senars del 1 al 20</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ParellsSenars</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Números parells del 1 al 20 (pas de 2 en 2)</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Parells: "</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i <= <span class="num">20</span>; i += <span class="num">2</span>) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        <span class="cmt">// Números senars del 1 al 20</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Senars: "</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">20</span>; i += <span class="num">2</span>) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Taula de multiplicar del 7</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">TaulaMultiplicar</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> taula = <span class="num">7</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">10</span>; i++) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(taula + <span class="str">" x "</span> + i + <span class="str">" = "</span> + (taula * i));
+        }
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 5 — BUCLES IMBRICATS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">5. Bucles imbricats</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">La imbricació consisteix a incloure un bucle dins d'un altre. El bucle intern s'executa <strong>completament</strong> per a cada iteració del bucle extern.</p>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Triangle d'asteriscos (bucles dependents)</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">TriangleAsteriscos</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> n = <span class="num">5</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= n; i++) {
+
+            <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j <= i; j++) {
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"* "</span>);
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        }
+        <span class="cmt">// Sortida:  *
+        //           * *
+        //           * * *
+        //           * * * *
+        //           * * * * *</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Rectangle ple i buit d'asteriscos</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Rectangle</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> base   = <span class="num">10</span>;
+        <span class="kw">int</span> altura = <span class="num">5</span>;
+
+        <span class="cmt">// Rectangle ple</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < altura; i++) {
+            <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j < base; j++) {
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"* "</span>);
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>();
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        <span class="cmt">// Rectangle buit (només el contorn)</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < altura; i++) {
+            <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j < base; j++) {
+                <span class="kw">if</span> (i == <span class="num">0</span> || i == altura - <span class="num">1</span> || j == <span class="num">0</span> || j == base - <span class="num">1</span>) {
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"* "</span>);
+                } <span class="kw">else</span> {
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"  "</span>);
+                }
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>();
+        }
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 6 — BREAK I CONTINUE
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">6. Sentències de salt: break i continue</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;"><code>break</code> atura el bucle completament. <code>continue</code> salta a la iteració següent sense executar la resta del cos.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Sentència</th><th>Efecte</th><th>Quan usar-la</th></tr></thead>
+    <tbody>
+      <tr><td><code>break</code></td><td>Surt immediatament del bucle (o del <code>switch</code>)</td><td>Quan has trobat el que buscaves</td></tr>
+      <tr><td><code>continue</code></td><td>Salta el reste del cos i passa a la iteració següent</td><td>Quan vols saltar un element concret</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>break i continue — comparació directa</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">BreakContinue</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// break: surt del bucle quan i == 5</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">10</span>; i++) {
+            <span class="kw">if</span> (i == <span class="num">5</span>) <span class="kw">break</span>;
+            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>); <span class="cmt">// 1 2 3 4</span>
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"← break"</span>);
+
+        <span class="cmt">// continue: salta els parells</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">10</span>; i++) {
+            <span class="kw">if</span> (i % <span class="num">2</span> == <span class="num">0</span>) <span class="kw">continue</span>;
+            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>); <span class="cmt">// 1 3 5 7 9</span>
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"← continue"</span>);
+
+        <span class="cmt">// for(;;) — bucle infinit controlat per break</span>
+        <span class="kw">int</span> n = <span class="num">0</span>;
+        <span class="kw">for</span> (;;) {
+            <span class="kw">if</span> (n == <span class="num">5</span>) <span class="kw">break</span>;
+            <span class="cls">System</span>.out.<span class="fn">print</span>(n + <span class="str">" "</span>); <span class="cmt">// 0 1 2 3 4</span>
+            n++;
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"← for(;;)"</span>);
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 7 — VALORS ALEATORIS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">7. Generació de valors aleatoris</h2>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th></th><th>Math.random()</th><th>Classe Random</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Retorna</strong></td><td><code>double</code> entre 0.0 i 1.0 (exclòs)</td><td><code>int</code>, <code>double</code>, <code>boolean</code>...</td></tr>
+      <tr><td><strong>Import</strong></td><td>No cal</td><td><code>import java.util.Random;</code></td></tr>
+      <tr><td><strong>Rang [min, max]</strong></td><td><code>(int)(Math.random()*(max-min+1))+min</code></td><td><code>r.nextInt(max-min+1)+min</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Tirar un dau amb Math.random() i amb Random</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
+
+<span class="kw">public class</span> <span class="cls">TirarDau</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Amb Math.random(): [0.0, 1.0) → [0,5] → [1,6]</span>
+        <span class="kw">int</span> dau1 = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * <span class="num">6</span>) + <span class="num">1</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dau Math.random(): "</span> + dau1);
+
+        <span class="cmt">// Amb Random: nextInt(6) → [0,5] → +1 → [1,6]</span>
+        <span class="cls">Random</span> aleatori = <span class="kw">new</span> <span class="cls">Random</span>();
+        <span class="kw">int</span>    dau2     = aleatori.<span class="fn">nextInt</span>(<span class="num">6</span>) + <span class="num">1</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dau Random: "</span> + dau2);
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 8 — EXCEPCIONS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">8. Control d'excepcions</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Una <strong>excepció</strong> és un error en temps d'execució: divisió per zero, conversió de text invàlid, accés a una posició inexistent... Sense gestió, el programa s'atura. Java permet capturar-les amb <code>try-catch-finally</code>.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Bloc</th><th>Quan s'executa</th></tr></thead>
+    <tbody>
+      <tr><td><code>try { }</code></td><td>Sempre. Conté el codi que podria llançar una excepció</td></tr>
+      <tr><td><code>catch (Tipus e) { }</code></td><td>Només si s'ha produït l'excepció del tipus indicat</td></tr>
+      <tr><td><code>finally { }</code></td><td>Sempre, tant si hi ha excepció com si no (opcional)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Capturar una conversió de text invàlida</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ParseSegur</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> text = <span class="str">"vint-i-dos"</span>;
+
+        <span class="kw">try</span> {
+            <span class="kw">int</span> edat = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(text);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat);
+        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: '"</span> + text + <span class="str">"' no és un número."</span>);
+        } <span class="kw">finally</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[finally] Sempre s'executa."</span>);
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El programa continua..."</span>);
+
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Múltiples catch i creació d'excepció pròpia</span></div>
+  <div class="code-block"><span class="kw">class</span> <span class="cls">NotaInvalidaException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+
+    <span class="kw">public</span> <span class="cls">NotaInvalidaException</span>(<span class="cls">String</span> msg) {
+        <span class="kw">super</span>(msg);
+    }
+
+}
+
+<span class="kw">public class</span> <span class="cls">ValidadorNota</span> {
+
+    <span class="kw">public static void</span> <span class="fn">validar</span>(<span class="kw">double</span> nota) <span class="kw">throws</span> <span class="cls">NotaInvalidaException</span> {
+        <span class="kw">if</span> (nota < <span class="num">0</span> || nota > <span class="num">10</span>) {
+            <span class="kw">throw new</span> <span class="cls">NotaInvalidaException</span>(<span class="str">"Nota fora de rang: "</span> + nota);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota vàlida: "</span> + nota);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">try</span> {
+            <span class="fn">validar</span>(<span class="num">8.5</span>);
+            <span class="fn">validar</span>(<span class="num">11.0</span>); <span class="cmt">// llança NotaInvalidaException</span>
+        } <span class="kw">catch</span> (<span class="cls">NotaInvalidaException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Excepció: "</span> + e.<span class="fn">getMessage</span>());
+        }
+
+    }
+
+}</div>
+</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Excepció freqüent</th><th>Causa habitual</th></tr></thead>
+    <tbody>
+      <tr><td><code>ArithmeticException</code></td><td>Divisió per zero</td></tr>
+      <tr><td><code>NumberFormatException</code></td><td><code>Integer.parseInt("abc")</code></td></tr>
+      <tr><td><code>ArrayIndexOutOfBoundsException</code></td><td>Accés a índex inexistent</td></tr>
+      <tr><td><code>NullPointerException</code></td><td>Usar un objecte que val <code>null</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 9 — ASSERCIONS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">9. Assercions</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Una <strong>asserció</strong> verifica que una condició que hauria de ser sempre certa realment ho és durant el desenvolupament. Si és <code>false</code>, el programa llança un <code>AssertionError</code>.</p>
+
+<div class="warn-box">⚠️ <strong>Les assercions estan desactivades per defecte.</strong> Cal activar-les: <code>java -ea NomClasse</code> o a NetBeans: <em>Project Properties → Run → VM Options → <code>-ea</code></em>.</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Assercions com a precondicions i postcondicions</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">AssercioMitjana</span> {
+
+    <span class="kw">public static double</span> <span class="fn">calcularMitjana</span>(<span class="kw">double</span> suma, <span class="kw">int</span> count) {
+
+        <span class="cmt">// Precondició: no podem dividir per zero</span>
+        <span class="kw">assert</span> count > <span class="num">0</span> : <span class="str">"count ha de ser > 0, però val: "</span> + count;
+
+        <span class="kw">double</span> mitjana = suma / count;
+
+        <span class="cmt">// Postcondició: la mitjana ha de ser un valor vàlid de nota</span>
+        <span class="kw">assert</span> mitjana >= <span class="num">0</span> && mitjana <= <span class="num">10</span> : <span class="str">"Mitjana fora de rang: "</span> + mitjana;
+
+        <span class="kw">return</span> mitjana;
+
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> resultat = <span class="fn">calcularMitjana</span>(<span class="num">46.5</span>, <span class="num">6</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + resultat);
+
+    }
+
+}</div>
+</div>
+
+<div class="tip-box">💡 <strong>Assercions vs excepcions:</strong> les assercions són per a errors de <em>programació</em> (condicions que mai haurien de passar si el codi és correcte). Les excepcions són per a errors en temps d'execució causats per l'usuari o l'entorn. Mai uses assercions per validar l'entrada de l'usuari.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 10 — EXERCICIS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">10. Exercicis pràctics</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:.5rem;max-width:720px;">Exercicis individuals ordenats de menor a major dificultat. Llegeix l'enunciat, dissenya l'algorisme en paper abans de codificar, i comprova el resultat amb diversos valors de prova. Prem el botó per veure la solució quan hagis acabat.</p>
+<div class="ra5-box" style="margin-bottom:1.5rem;">📌 En els exercicis que usen <code>Scanner</code> per llegir del teclat, pots substituir-lo per ara amb valors declarats directament al codi. Quan arribi l'RA5 podràs connectar-los a la lectura real del teclat.</div>
+
+
+<!-- ─── MACRO per generar cada exercici amb solució ─── -->
+<!-- Ex 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Parell o senar amb operació</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Llegim un número enter. Si és parell el multiplica per 2 i li suma 3. Si és senar el multiplica per 3 i li resta 4. Informa de l'operació feta i el resultat.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int numero = 7;</code> (prova també amb un parell).</li>
+      <li>Usa <code>if / else</code> i l'operador mòdul <code>%</code> per determinar parell o senar.</li>
+      <li>Mostra quina operació s'ha fet i el resultat final.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">ParellSenar</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">7</span>;
+
+        <span class="kw">if</span> (numero % <span class="num">2</span> == <span class="num">0</span>) {
+            <span class="kw">int</span> resultat = numero * <span class="num">2</span> + <span class="num">3</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Parell → "</span> + numero + <span class="str">" * 2 + 3 = "</span> + resultat);
+        } <span class="kw">else</span> {
+            <span class="kw">int</span> resultat = numero * <span class="num">3</span> - <span class="num">4</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Senar → "</span> + numero + <span class="str">" * 3 - 4 = "</span> + resultat);
+        }
+
+    }
+
+}</div>
     </div>
   </div>
+</div>
+
+<!-- Ex 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Taula de multiplicar amb for</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Genera les taules de multiplicar del 2 al 9 usant bucles imbricats.</p>
+    <ul class="exercici-tasques">
+      <li>Bucle extern: recorre les taules del 2 al 9.</li>
+      <li>Bucle intern: recorre els multiplicadors de l'1 al 10.</li>
+      <li>Format de sortida: <code>7 x 3 = 21</code></li>
+      <li>Separa cada taula amb una línia en blanc.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.2 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">TaulesMultiplicar</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">for</span> (<span class="kw">int</span> taula = <span class="num">2</span>; taula <= <span class="num">9</span>; taula++) {
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"── Taula del "</span> + taula + <span class="str">" ──"</span>);
+
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">10</span>; i++) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(taula + <span class="str">" x "</span> + i + <span class="str">" = "</span> + (taula * i));
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        }
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Sistema de qualificació de notes</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donada una nota entre 0 i 10, mostra la qualificació equivalent: A (9–10), B (8–8.9), C (7–7.9), D (6–6.9), F (0–5.9). Si la nota és fora de rang, mostra un missatge d'error.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>double nota = 8.5;</code></li>
+      <li>Usa <code>if / else if / else</code> per classificar.</li>
+      <li>Prova amb valors com 10, 5, -1 i 11.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">SistemaQualificacions</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> nota = <span class="num">8.5</span>;
+        <span class="cls">String</span> qualificacio;
+
+        <span class="kw">if</span> (nota >= <span class="num">9</span> && nota <= <span class="num">10</span>) {
+            qualificacio = <span class="str">"A - Excel·lent"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">8</span> && nota < <span class="num">9</span>) {
+            qualificacio = <span class="str">"B - Notable alt"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">7</span> && nota < <span class="num">8</span>) {
+            qualificacio = <span class="str">"C - Notable"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">6</span> && nota < <span class="num">7</span>) {
+            qualificacio = <span class="str">"D - Aprovat"</span>;
+        } <span class="kw">else if</span> (nota >= <span class="num">0</span> && nota < <span class="num">6</span>) {
+            qualificacio = <span class="str">"F - Suspès"</span>;
+        } <span class="kw">else</span> {
+            qualificacio = <span class="str">"Nota incorrecta (fora de rang)"</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nota + <span class="str">" → "</span> + qualificacio);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Estació de l'any amb switch expression</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un número de mes (1–12), mostra l'estació de l'any corresponent usant la nova sintaxi <code>switch</code> amb <code>-&gt;</code>.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int mes = 7;</code></li>
+      <li>Usa <code>switch expression</code> amb múltiples valors per <code>case</code>.</li>
+      <li>Inclou un <code>default</code> per valors fora de rang.</li>
+      <li>Ampliació: afegeix una variable booleana <code>esEstiu</code> que sigui <code>true</code> si el mes és juny, juliol o agost.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">EstacioAny</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> mes = <span class="num">7</span>;
+
+        <span class="cls">String</span> estacio = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">12</span>, <span class="num">1</span>, <span class="num">2</span>   -> <span class="str">"Hivern"</span>;
+            <span class="kw">case</span>  <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>   -> <span class="str">"Primavera"</span>;
+            <span class="kw">case</span>  <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span>   -> <span class="str">"Estiu"</span>;
+            <span class="kw">case</span>  <span class="num">9</span>, <span class="num">10</span>, <span class="num">11</span> -> <span class="str">"Tardor"</span>;
+            <span class="kw">default</span>          -> <span class="str">"Mes invàlid"</span>;
+        };
+
+        <span class="kw">boolean</span> esEstiu = (mes >= <span class="num">6</span> && mes <= <span class="num">8</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mes "</span> + mes + <span class="str">": "</span> + estacio);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És estiu: "</span> + esEstiu);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 5 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Recorregut i cerca: màxim, mínim i primer múltiple de 5</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donada una seqüència de números enters positius acabada en <code>-1</code>, fes dos programes separats:</p>
+    <ul class="exercici-tasques">
+      <li><strong>Recorregut:</strong> llegeix tots els valors i mostra el màxim i el mínim. Usa <code>Integer.MIN_VALUE</code> i <code>Integer.MAX_VALUE</code> per inicialitzar.</li>
+      <li><strong>Cerca:</strong> para quan trobis el primer múltiple de 5. Usa una variable booleana <code>trobat</code>. Si no n'hi ha cap, informa-ho.</li>
+      <li>Seqüència de prova: <code>{12, 4, 37, 8, 25, 3, 50, -1}</code></li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.2 · 3.3 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">RecorregutCerca</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[] nums = {<span class="num">12</span>, <span class="num">4</span>, <span class="num">37</span>, <span class="num">8</span>, <span class="num">25</span>, <span class="num">3</span>, <span class="num">50</span>, <span class="num">-1</span>};
+
+        <span class="cmt">// ── RECORREGUT: màxim i mínim ──</span>
+        <span class="kw">int</span> max = <span class="cls">Integer</span>.MIN_VALUE;
+        <span class="kw">int</span> min = <span class="cls">Integer</span>.MAX_VALUE;
+        <span class="kw">int</span> i   = <span class="num">0</span>;
+
+        <span class="kw">while</span> (nums[i] != <span class="num">-1</span>) {
+            <span class="kw">if</span> (nums[i] > max) max = nums[i];
+            <span class="kw">if</span> (nums[i] < min) min = nums[i];
+            i++;
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Màxim: "</span> + max + <span class="str">" · Mínim: "</span> + min);
+
+        <span class="cmt">// ── CERCA: primer múltiple de 5 ──</span>
+        <span class="kw">int</span>     j      = <span class="num">0</span>;
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
+
+        <span class="kw">while</span> (nums[j] != <span class="num">-1</span> && !trobat) {
+            <span class="kw">if</span> (nums[j] % <span class="num">5</span> == <span class="num">0</span>) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Primer múltiple de 5: "</span> + nums[j]);
+                trobat = <span class="kw">true</span>;
+            }
+            j++;
+        }
+
+        <span class="kw">if</span> (!trobat) <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha cap múltiple de 5."</span>);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 6 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 6</span>
+    <span class="exercici-title">Reserva d'hotel — if/else niats i constants</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un hotel té dues tarifes: sense vistes al mar (150,50 €/nit) i amb vistes al mar (190,50 €/nit). Calcula el cost total d'una reserva validant que els dies siguin positius.</p>
+    <ul class="exercici-tasques">
+      <li>Declara les tarifes com a constants <code>final</code>.</li>
+      <li>Valida que <code>dies &gt; 0</code>; si no, mostra un missatge d'error.</li>
+      <li>Usa <code>if / else</code> per aplicar la tarifa correcta.</li>
+      <li>Mostra el resum complet: client, dies, vistes al mar, cost total.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">ReservaHotel</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final double</span> TARIFA_SENSE_MAR = <span class="num">150.50</span>;
+        <span class="kw">final double</span> TARIFA_AMB_MAR   = <span class="num">190.50</span>;
+
+        <span class="cls">String</span>  client      = <span class="str">"Anna García"</span>;
+        <span class="kw">int</span>     dies        = <span class="num">5</span>;
+        <span class="kw">boolean</span> vistesAlMar = <span class="kw">true</span>;
+
+        <span class="kw">if</span> (dies <= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: els dies han de ser positius."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="kw">double</span> costTotal;
+            <span class="kw">if</span> (vistesAlMar) {
+                costTotal = dies * TARIFA_AMB_MAR;
+            } <span class="kw">else</span> {
+                costTotal = dies * TARIFA_SENSE_MAR;
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Client: "</span>        + client);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dies: "</span>          + dies);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vistes al mar: "</span> + vistesAlMar);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cost total: "</span>    + costTotal + <span class="str">" €"</span>);
+
+        }
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 7 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 7</span>
+    <span class="exercici-title">Conversió segura de text a número (try-catch)</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>ParseSegur.java</code> que intenti convertir dos Strings a número: un vàlid (<code>"42"</code>) i un invàlid (<code>"quaranta-dos"</code>). El programa ha de continuar executant-se en tots dos casos.</p>
+    <ul class="exercici-tasques">
+      <li>Usa <code>try-catch</code> per capturar la <code>NumberFormatException</code>.</li>
+      <li>Al bloc <code>finally</code> imprimeix un missatge que confirmi que sempre s'executa.</li>
+      <li>Comprova que el programa imprimeix "Programa acabat." al final en tots dos casos.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.4 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">ParseSegur</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> textValid   = <span class="str">"42"</span>;
+        <span class="cls">String</span> textInvalid = <span class="str">"quaranta-dos"</span>;
+
+        <span class="kw">try</span> {
+            <span class="kw">int</span> num = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textValid);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Conversió OK: "</span> + num);
+        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">finally</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[finally] Primer try acabat."</span>);
+        }
+
+        <span class="kw">try</span> {
+            <span class="kw">int</span> num = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textInvalid);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Conversió OK: "</span> + num);
+        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: '"</span> + textInvalid + <span class="str">"' no és un número."</span>);
+        } <span class="kw">finally</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[finally] Segon try acabat."</span>);
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Programa acabat."</span>);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 8 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 8</span>
+    <span class="exercici-title">Joc d'endevinar un número (bucle + aleatoris)</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>El programa genera un número secret entre 1 i 50. El jugador té 5 intents per endevinar-lo. Després de cada intent, el programa indica si el número secret és major o menor.</p>
+    <ul class="exercici-tasques">
+      <li>Genera el número secret amb <code>Random.nextInt(50) + 1</code>.</li>
+      <li>Simula els intents amb un array de valors: <code>int[] intents = {25, 40, 35, 38, 37};</code></li>
+      <li>Usa un <code>while</code> que s'aturi quan l'alumne encerta o esgota els intents.</li>
+      <li>Mostra el resultat final: si ha encertat en quants intents, o el número secret si ha perdut.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.2 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
+
+<span class="kw">public class</span> <span class="cls">JocEndevinar</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Random</span>  random        = <span class="kw">new</span> <span class="cls">Random</span>();
+        <span class="kw">int</span>     secret        = random.<span class="fn">nextInt</span>(<span class="num">50</span>) + <span class="num">1</span>;
+        <span class="kw">final int</span> MAX_INTENTS = <span class="num">5</span>;
+
+        <span class="kw">int</span>[]   proves   = {<span class="num">25</span>, <span class="num">40</span>, <span class="num">35</span>, <span class="num">38</span>, <span class="num">37</span>}; <span class="cmt">// simulem intents</span>
+        <span class="kw">int</span>     intents  = <span class="num">0</span>;
+        <span class="kw">boolean</span> encertat = <span class="kw">false</span>;
+
+        <span class="kw">while</span> (intents < MAX_INTENTS && !encertat) {
+
+            <span class="kw">int</span> intent = proves[intents];
+            intents++;
+
+            <span class="kw">if</span> (intent == secret) {
+                encertat = <span class="kw">true</span>;
+            } <span class="kw">else if</span> (intent < secret) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(intent + <span class="str">" → massa baix"</span>);
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(intent + <span class="str">" → massa alt"</span>);
+            }
+
+        }
+
+        <span class="kw">if</span> (encertat) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Encertat en "</span> + intents + <span class="str">" intents!"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has esgotat els intents. Era: "</span> + secret);
+        }
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 9 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 9</span>
+    <span class="exercici-title">Número primer</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Determina si un número enter és primer. Un número és primer si és divisible únicament per 1 i per ell mateix.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int n = 17;</code></li>
+      <li>Usa un <code>for</code> des de 2 fins a <code>n-1</code>. Si trobes un divisor, para immediatament.</li>
+      <li>Gestiona els casos especials: números ≤ 1 no són primers.</li>
+      <li>Ampliació: mostra tots els primers entre 1 i 100.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.2 · 3.3 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">NumeroPrimer</span> {
+
+    <span class="kw">static boolean</span> <span class="fn">esPrimer</span>(<span class="kw">int</span> n) {
+        <span class="kw">if</span> (n <= <span class="num">1</span>) <span class="kw">return false</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i < n; i++) {
+            <span class="kw">if</span> (n % i == <span class="num">0</span>) <span class="kw">return false</span>;
+        }
+        <span class="kw">return true</span>;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> n = <span class="num">17</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(n + (esPrimer(n) ? <span class="str">" és primer."</span> : <span class="str">" NO és primer."</span>));
+
+        <span class="cmt">// Tots els primers entre 1 i 100</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Primers fins a 100: "</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i <= <span class="num">100</span>; i++) {
+            <span class="kw">if</span> (esPrimer(i)) <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>);
+        }
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 11 — CRITERIS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">11. Resum: criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 3.1</span><span class="ca-text">Escriu i prova codi que faci ús d'estructures de selecció.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.2</span><span class="ca-text">Utilitza estructures de repetició (while, do-while, for).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.3</span><span class="ca-text">Reconeix les possibilitats de les sentències de salt (break, continue).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.4</span><span class="ca-text">Escriu codi fent servir control d'excepcions (try-catch-finally).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.5</span><span class="ca-text">Crea programes executables fent servir diferents estructures de control.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.6</span><span class="ca-text">Prova i depura els programes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.7</span><span class="ca-text">Comenta i documenta el codi.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.8</span><span class="ca-text">Crea excepcions pròpies (throw, throws, extends Exception).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.9</span><span class="ca-text">Utilitza assercions per detectar errors durant el desenvolupament.</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 12 — FONTS I RECURSOS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title" style="margin-top:3rem;">12. Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> Estructura alternativa, Switch expressions, El bucle while, La sentència for, Bucles imbricats, Generació de valors aleatoris, exercicis d'estructures de selecció i iteració.</li>
+    <li><strong>Universidad Java — Ubaldo Acosta:</strong> Ciclos en Java (while, do-while, for), break i continue, exemples de sistemes reals (Qualificacions, Reserva Hotel, Cajero, Joc d'adivinances).</li>
+    <li><strong>aulaenlanube — Edu Torregrosa (MIT licence):</strong> Exemples de condicionals, bucles i figures amb bucles imbricats. Repositori a <a href="https://github.com/aulaenlanube" style="color:var(--accent)">github.com/aulaenlanube</a>.</li>
+  </ul>
+</div>
 
 </main>
 
 <footer>
-  Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M0485 Programaci&oacute;
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
 </body>
 </html>
