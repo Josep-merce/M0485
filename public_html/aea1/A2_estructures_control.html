@@ -850,9 +850,73 @@
 <div class="tip-box">💡 <strong>Assercions vs excepcions:</strong> les assercions són per a errors de <em>programació</em> (condicions que mai haurien de passar si el codi és correcte). Les excepcions són per a errors en temps d'execució causats per l'usuari o l'entorn. Mai uses assercions per validar l'entrada de l'usuari.</div>
 
 <!-- ══════════════════════════════════════════════════
-     BLOC 10 — EXERCICIS
+     BLOC 10 — DOCUMENTACIÓ DEL CODI (CA 3.7)
 ═══════════════════════════════════════════════════ -->
-<h2 class="block-title">10. Exercicis pràctics</h2>
+<h2 class="block-title">10. Documentació del codi</h2>
+
+<p style="max-width:720px;">Comentar i documentar el codi és una part essencial del desenvolupament professional. No es tracta d'explicar <em>el que fa</em> cada línia (el codi ja ho mostra), sinó el <strong>per què</strong> de les decisions preses: per a que serveix un bucle, quina precondició té un bloc try-catch, o quin comportament es valida amb una asserció.</p>
+
+<h3 style="margin-top:1.5rem;">Bones pràctiques de documentació en estructures de control</h3>
+
+<table>
+  <thead><tr><th>Estructura</th><th>Què cal documentar</th><th>Exemple de bon comentari</th></tr></thead>
+  <tbody>
+    <tr><td><code>if / else</code></td><td>La condició de negoci que representa</td><td><code>// Apliquem el descompte soci si ha comprat més de 100 €</code></td></tr>
+    <tr><td><code>while / for</code></td><td>Invariant del bucle i condició de sortida</td><td><code>// Recorrem fins trobar el primer suspès o arribar al sentinella -1</code></td></tr>
+    <tr><td><code>try-catch</code></td><td>Quina operació pot fallar i per quin motiu</td><td><code>// L'usuari pot introduir text no numèric → capturem NumberFormatException</code></td></tr>
+    <tr><td><code>assert</code></td><td>Quina precondició o postcondició es verifica</td><td><code>// Precondició: count > 0 per evitar divisió per zero</code></td></tr>
+  </tbody>
+</table>
+
+<div class="exemple-block">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Codi ben documentat: bucle de cerca amb excepció i asserció</span></div>
+  <div class="exemple-body">
+<pre><code class="language-java">public class CercaDocumentada {
+
+    public static void main(String[] args) {
+
+        // Seqüència de notes (finalitza amb el sentinella -1)
+        double[] notes = {6.5, 8.0, 4.5, 9.0, -1};
+
+        // Recorrem totes les notes fins al sentinella buscant la primera suspesa
+        int idx = 0;
+        boolean trobat = false;
+
+        while (notes[idx] != -1 && !trobat) {
+
+            // Una nota és suspesa si és estrictament menor que 5
+            if (notes[idx] &lt; 5.0) {
+                trobat = true;
+            }
+            idx++;
+        }
+
+        // Postcondició: idx és vàlid (no ha sobrepassat els límits de l'array)
+        assert idx &lt;= notes.length : "idx fora de rang: " + idx;
+
+        System.out.println("Hi ha alguna nota suspesa: " + trobat);
+
+        // Conversió segura: si el text no és numèric, informem sense aturar el programa
+        String entrada = "7.5";
+        try {
+            double nota = Double.parseDouble(entrada);
+            System.out.println("Nota llegida: " + nota);
+        } catch (NumberFormatException e) {
+            // L'entrada no és un número vàlid → mostrem l'error i continuem
+            System.out.println("Error: '" + entrada + "' no és una nota vàlida.");
+        }
+    }
+
+}</code></pre>
+  </div>
+</div>
+
+<div class="tip-box">💡 <strong>Regla pràctica:</strong> un bon comentari respon a <em>"per què s'ha pres aquesta decisió?"</em>, no a <em>"què fa aquesta línia?"</em>. Si el codi és prou clar, no cal comentar-lo; si la lògica no és òbvia (condicions complexes, bucles amb sentinella, try-catch específics), un comentari curt val molt.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 11 — EXERCICIS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">11. Exercicis pràctics</h2>
 
 <p style="font-size:.93rem;color:var(--text-soft);margin-bottom:.5rem;max-width:720px;">Exercicis individuals ordenats de menor a major dificultat. Llegeix l'enunciat, dissenya l'algorisme en paper abans de codificar, i comprova el resultat amb diversos valors de prova. Prem el botó per veure la solució quan hagis acabat.</p>
 <div class="ra5-box" style="margin-bottom:1.5rem;">📌 En els exercicis que usen <code>Scanner</code> per llegir del teclat, pots substituir-lo per ara amb valors declarats directament al codi. Quan arribi l'RA5 podràs connectar-los a la lectura real del teclat.</div>
@@ -1369,9 +1433,9 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     BLOC 11 — CRITERIS
+     BLOC 12 — CRITERIS
 ═══════════════════════════════════════════════════ -->
-<h2 class="block-title">11. Resum: criteris d'avaluació treballats</h2>
+<h2 class="block-title">12. Resum: criteris d'avaluació treballats</h2>
 <div class="ca-grid">
   <div class="ca-item"><span class="ca-badge">CA 3.1</span><span class="ca-text">Escriu i prova codi que faci ús d'estructures de selecció.</span></div>
   <div class="ca-item"><span class="ca-badge">CA 3.2</span><span class="ca-text">Utilitza estructures de repetició (while, do-while, for).</span></div>
@@ -1385,9 +1449,9 @@
 </div>
 
 <!-- ══════════════════════════════════════════════════
-     BLOC 12 — FONTS I RECURSOS
+     BLOC 13 — FONTS I RECURSOS
 ═══════════════════════════════════════════════════ -->
-<h2 class="block-title" style="margin-top:3rem;">12. Fonts i recursos complementaris</h2>
+<h2 class="block-title" style="margin-top:3rem;">13. Fonts i recursos complementaris</h2>
 <div class="fonts-box">
   <h3>📚 Material de referència usat en aquesta activitat</h3>
   <ul>
