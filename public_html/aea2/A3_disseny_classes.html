@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — Disseny de classes: encapsulament i visibilitat · AEA2 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; }
+    .exemple-header span { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA2 · POO. Fonaments</p>
+  <h1>A3 — Disseny de classes: encapsulament i visibilitat</h1>
+  <p>Aprendre a dissenyar classes ben estructurades: atributs privats, getters i setters, control de visibilitat i interacció entre objectes.</p>
+  <div class="hero-pills">
+    <span class="pill">RA4</span>
+    <span class="pill">CA 4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea2.html">AEA2</a><span>›</span>
+  A3 — Disseny de classes: encapsulament i visibilitat
+</nav>
+
+<main>
+
+<!-- ══ BLOC 1 — ESTRUCTURA D'UNA CLASSE ══ -->
+<h2 class="block-title">1. Estructura i components d'una classe Java</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Una classe ben dissenyada té una estructura clara i previsible. En Java, la convenció és organitzar els membres en aquest ordre: constants, atributs, constructors, getters/setters i mètodes de negoci. Aquesta organització fa el codi molt més fàcil de llegir i mantenir.</p>
+
+<div class="code-block"><span class="kw">public class</span> <span class="cls">NomClasse</span> {
+
+    <span class="cmt">// 1. Constants (public static final)</span>
+    <span class="kw">public static final double</span> IVA = <span class="num">0.21</span>;
+
+    <span class="cmt">// 2. Atributs (private — principi d'encapsulament)</span>
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private double</span> preu;
+
+    <span class="cmt">// 3. Constructors</span>
+    <span class="kw">public</span> <span class="cls">NomClasse</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>.nom  = nom;
+        <span class="kw">this</span>.preu = preu;
+    }
+
+    <span class="cmt">// 4. Getters i setters</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()              { <span class="kw">return</span> nom; }
+    <span class="kw">public void</span>   <span class="fn">setNom</span>(<span class="cls">String</span> nom)  { <span class="kw">this</span>.nom = nom; }
+    <span class="kw">public double</span> <span class="fn">getPreu</span>()             { <span class="kw">return</span> preu; }
+    <span class="kw">public void</span>   <span class="fn">setPreu</span>(<span class="kw">double</span> preu) { <span class="kw">this</span>.preu = preu; }
+
+    <span class="cmt">// 5. Mètodes de negoci</span>
+    <span class="kw">public double</span> <span class="fn">preuAmbIva</span>() { <span class="kw">return</span> preu * (<span class="num">1</span> + IVA); }
+
+    <span class="cmt">// 6. toString (per mostrar l'objecte com a text)</span>
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"NomClasse{nom='"</span> + nom + <span class="str">"', preu="</span> + preu + <span class="str">"}}"</span>;
+    }
+
+}</div>
+
+<!-- ══ BLOC 2 — ENCAPSULAMENT ══ -->
+<h2 class="block-title">2. Encapsulament: protegir les dades</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">L'<strong>encapsulament</strong> consisteix a amagar els atributs d'una classe fent-los <code>private</code> i controlar l'accés des de fora mitjançant mètodes públics (<em>getters</em> i <em>setters</em>). Això permet validar les dades abans d'acceptar-les i canviar la implementació interna sense afectar qui usa la classe.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Sense encapsulament ❌</th><th>Amb encapsulament ✅</th></tr></thead>
+    <tbody>
+      <tr><td><code>producte.preu = -5;</code> (accepta valors absurds)</td><td><code>producte.setPreu(-5);</code> → el setter valida i rebutja</td></tr>
+      <tr><td>Qualsevol classe pot modificar qualsevol atribut directament</td><td>Únicament els mètodes autoritzats poden modificar l'estat intern</td></tr>
+      <tr><td>Si canvies el nom de l'atribut, cal canviar-ho a tot el codi</td><td>El canvi intern no afecta qui crida el getter/setter</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">2.1 Classe sense encapsulament vs. amb encapsulament</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Persona sense encapsulament — atributs accessibles des de fora</span></div>
+  <div class="code-block"><span class="cmt">// ❌ SENSE encapsulament: qualsevol pot modificar els atributs directament</span>
+<span class="kw">public class</span> <span class="cls">PersonaMal</span> {
+
+    <span class="cls">String</span> nom;   <span class="cmt">// visible des de fora</span>
+    <span class="kw">int</span>    edat;   <span class="cmt">// visible des de fora</span>
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">PersonaMal</span> p = <span class="kw">new</span> <span class="cls">PersonaMal</span>();
+        p.nom  = <span class="str">"Laia"</span>;
+        p.edat = <span class="num">-50</span>;   <span class="cmt">// Java ho accepta! No hi ha cap validació</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p.edat);  <span class="cmt">// -50</span>
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Persona amb encapsulament — atributs privats, accés controlat</span></div>
+  <div class="code-block"><span class="cmt">// ✅ AMB encapsulament: els atributs són privats, els setters validen</span>
+<span class="kw">public class</span> <span class="cls">Persona</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span>    edat;
+
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat) {
+        <span class="kw">this</span>.nom = nom;
+        <span class="fn">setEdat</span>(edat);  <span class="cmt">// reutilitzem el setter per validar des del constructor</span>
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom; }
+    <span class="kw">public void</span>   <span class="fn">setNom</span>(<span class="cls">String</span> nom)  { <span class="kw">this</span>.nom = nom; }
+
+    <span class="kw">public int</span>  <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
+    <span class="kw">public void</span> <span class="fn">setEdat</span>(<span class="kw">int</span> edat) {
+        <span class="kw">if</span> (edat < <span class="num">0</span> || edat > <span class="num">150</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: edat no vàlida ("</span> + edat + <span class="str">")"</span>);
+            <span class="kw">return</span>;
+        }
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> nom + <span class="str">" ("</span> + edat + <span class="str">" anys)"</span>;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Persona</span> p = <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Laia"</span>, <span class="num">20</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p);           <span class="cmt">// Laia (20 anys)</span>
+        p.<span class="fn">setEdat</span>(<span class="num">-50</span>);                   <span class="cmt">// Error: edat no vàlida (-50)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">getEdat</span>()); <span class="cmt">// 20  (no ha canviat)</span>
+    }
+
+}</div>
+</div>
+
+<div class="tip-box">✅ <strong>Bones pràctiques amb getters i setters:</strong> crida el setter des del constructor (com a l'exemple) per no duplicar la lògica de validació. Si un atribut mai ha de canviar un cop creat l'objecte, posa-li getter però no setter — o fes-lo <code>final</code>.</div>
+
+<!-- ══ BLOC 3 — VISIBILITAT ══ -->
+<h2 class="block-title">3. Modificadors de visibilitat</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Java ofereix quatre nivells de visibilitat per controlar qui pot accedir a un atribut o mètode. Triar el nivell correcte és fonamental per al bon disseny d'una classe.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Modificador</th><th>Mateixa classe</th><th>Mateix paquet</th><th>Subclasse</th><th>Qualsevol</th><th>Quan usar-lo</th></tr></thead>
+    <tbody>
+      <tr><td><code>private</code></td><td>✅</td><td>❌</td><td>❌</td><td>❌</td><td>Atributs d'instància (encapsulament)</td></tr>
+      <tr><td>(sense modificador)</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td><td>Rarament; accés per paquet</td></tr>
+      <tr><td><code>protected</code></td><td>✅</td><td>✅</td><td>✅</td><td>❌</td><td>Atributs que han d'heretar les subclasses</td></tr>
+      <tr><td><code>public</code></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td><td>Constructors, getters/setters i mètodes de la API pública</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="info-box">💡 <strong>Regla d'or:</strong> fes els atributs <code>private</code> i els mètodes que han de ser accessibles des de fora, <code>public</code>. Si en el futur necessites que una subclasse accedeixi a un atribut directament, pots canviar a <code>protected</code>. Mai facis els atributs <code>public</code>.</div>
+
+<!-- ══ BLOC 4 — CLASSE COMPLETA ══ -->
+<h2 class="block-title">4. Exemple complet: classe Producte ben dissenyada</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Veiem com queda una classe completa seguint totes les bones pràctiques: atributs privats, constructors, getters i setters amb validació, mètodes de negoci i <code>toString()</code>.</p>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Producte.java — classe completa amb encapsulament i validació</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Producte</span> {
+
+    <span class="cmt">// Constant de classe</span>
+    <span class="kw">public static final double</span> IVA_GENERAL = <span class="num">0.21</span>;
+
+    <span class="cmt">// Atributs privats</span>
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private double</span> preu;
+    <span class="kw">private int</span>    estoc;
+
+    <span class="cmt">// Constructors</span>
+    <span class="kw">public</span> <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc) {
+        <span class="kw">this</span>.nom = nom;
+        <span class="fn">setPreu</span>(preu);
+        <span class="fn">setEstoc</span>(estoc);
+    }
+
+    <span class="kw">public</span> <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>(nom, preu, <span class="num">0</span>);
+    }
+
+    <span class="cmt">// Getters i setters</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom; }
+    <span class="kw">public void</span>   <span class="fn">setNom</span>(<span class="cls">String</span> nom)  { <span class="kw">this</span>.nom = nom; }
+
+    <span class="kw">public double</span> <span class="fn">getPreu</span>() { <span class="kw">return</span> preu; }
+    <span class="kw">public void</span>   <span class="fn">setPreu</span>(<span class="kw">double</span> preu) {
+        <span class="kw">if</span> (preu < <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: preu negatiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">this</span>.preu = preu;
+    }
+
+    <span class="kw">public int</span>  <span class="fn">getEstoc</span>() { <span class="kw">return</span> estoc; }
+    <span class="kw">public void</span> <span class="fn">setEstoc</span>(<span class="kw">int</span> estoc) {
+        <span class="kw">if</span> (estoc < <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: estoc negatiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">this</span>.estoc = estoc;
+    }
+
+    <span class="cmt">// Mètodes de negoci</span>
+    <span class="kw">public double</span> <span class="fn">preuAmbIva</span>() { <span class="kw">return</span> preu * (<span class="num">1</span> + IVA_GENERAL); }
+
+    <span class="kw">public boolean</span> <span class="fn">teEstoc</span>() { <span class="kw">return</span> estoc > <span class="num">0</span>; }
+
+    <span class="kw">public void</span> <span class="fn">vendre</span>(<span class="kw">int</span> unitats) {
+        <span class="kw">if</span> (unitats > estoc) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: no hi ha prou estoc"</span>);
+            <span class="kw">return</span>;
+        }
+        estoc -= unitats;
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Venut %d × %s. Estoc restant: %d%n"</span>, unitats, nom, estoc);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Producte{nom='%s', preu=%.2f €, estoc=%d}"</span>, nom, preu, estoc);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Producte</span> p = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Cafè mòlt"</span>, <span class="num">3.50</span>, <span class="num">10</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Preu amb IVA: %.2f €%n"</span>, p.<span class="fn">preuAmbIva</span>());
+        p.<span class="fn">vendre</span>(<span class="num">3</span>);
+        p.<span class="fn">vendre</span>(<span class="num">20</span>);  <span class="cmt">// error: no hi ha prou estoc</span>
+        p.<span class="fn">setPreu</span>(<span class="num">-1</span>);  <span class="cmt">// error: preu negatiu</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p);
+
+    }
+
+}</div>
+</div>
+
+<!-- ══ BLOC 5 — toString ══ -->
+<h2 class="block-title">5. El mètode toString()</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;"><code>toString()</code> és un mètode especial heretat de la classe <code>Object</code> (la superclasse de totes les classes Java). Quan imprimeixes un objecte amb <code>System.out.println(obj)</code>, Java crida automàticament <code>obj.toString()</code>. Si no el sobreescrius, imprimeix quelcom com <code>Producte@1a2b3c4d</code> — que no és útil per a ningú.</p>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Amb i sense toString() — la diferència</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Punt</span> {
+
+    <span class="kw">private double</span> x, y;
+
+    <span class="kw">public</span> <span class="cls">Punt</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">this</span>.x = x; <span class="kw">this</span>.y = y; }
+
+    <span class="kw">public double</span> <span class="fn">getX</span>() { <span class="kw">return</span> x; }
+    <span class="kw">public double</span> <span class="fn">getY</span>() { <span class="kw">return</span> y; }
+
+    <span class="cmt">// Sense aquest mètode, println imprimiria: Punt@6d06d69c</span>
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"("</span> + x + <span class="str">", "</span> + y + <span class="str">")"</span>;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Punt</span> p1 = <span class="kw">new</span> <span class="cls">Punt</span>(<span class="num">3</span>, <span class="num">4</span>);
+        <span class="cls">Punt</span> p2 = <span class="kw">new</span> <span class="cls">Punt</span>(<span class="num">0</span>, <span class="num">0</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p1);  <span class="cmt">// (3.0, 4.0)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p2);  <span class="cmt">// (0.0, 0.0)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punt creat: "</span> + p1);  <span class="cmt">// concatenació també crida toString()</span>
+    }
+
+}</div>
+</div>
+
+<!-- ══ BLOC 6 — INTERACCIÓ ENTRE OBJECTES ══ -->
+<h2 class="block-title">6. Interacció entre objectes</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Els objectes no viuen aïllats: es relacionen entre ells. Un objecte pot tenir un altre objecte com a atribut (<strong>composició</strong>), o rebre'n un com a paràmetre. Aquesta és la base per construir sistemes complexos a partir de classes senzilles.</p>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Adreça i Persona — un objecte dins d'un altre</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Adreca</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> carrer;
+    <span class="kw">private</span> <span class="cls">String</span> ciutat;
+    <span class="kw">private</span> <span class="cls">String</span> codiPostal;
+
+    <span class="kw">public</span> <span class="cls">Adreca</span>(<span class="cls">String</span> carrer, <span class="cls">String</span> ciutat, <span class="cls">String</span> codiPostal) {
+        <span class="kw">this</span>.carrer     = carrer;
+        <span class="kw">this</span>.ciutat     = ciutat;
+        <span class="kw">this</span>.codiPostal = codiPostal;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getCarrer</span>()     { <span class="kw">return</span> carrer; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getCiutat</span>()     { <span class="kw">return</span> ciutat; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getCodiPostal</span>() { <span class="kw">return</span> codiPostal; }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> carrer + <span class="str">", "</span> + codiPostal + <span class="str">" "</span> + ciutat;
+    }
+
+}
+
+<span class="kw">public class</span> <span class="cls">Persona</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span>    edat;
+    <span class="kw">private</span> <span class="cls">Adreca</span> adreca;  <span class="cmt">// un objecte com a atribut</span>
+
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">Adreca</span> adreca) {
+        <span class="kw">this</span>.nom    = nom;
+        <span class="kw">this</span>.edat   = edat;
+        <span class="kw">this</span>.adreca = adreca;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()    { <span class="kw">return</span> nom; }
+    <span class="kw">public int</span>    <span class="fn">getEdat</span>()   { <span class="kw">return</span> edat; }
+    <span class="kw">public</span> <span class="cls">Adreca</span> <span class="fn">getAdreca</span>() { <span class="kw">return</span> adreca; }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> nom + <span class="str">" ("</span> + edat + <span class="str">" anys) — "</span> + adreca;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Adreca</span>  a1 = <span class="kw">new</span> <span class="cls">Adreca</span>(<span class="str">"C/ Balmes 42"</span>, <span class="str">"Barcelona"</span>, <span class="str">"08007"</span>);
+        <span class="cls">Persona</span> p1 = <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Laia"</span>, <span class="num">20</span>, a1);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p1);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Viu a: "</span> + p1.<span class="fn">getAdreca</span>().<span class="fn">getCiutat</span>());
+
+    }
+
+}</div>
+</div>
+
+<div class="ra5-box">📌 En tots els exercicis, els valors estan declarats al codi. Quan arribi l'RA5 podràs llegir-los del teclat amb <code>Scanner</code>.</div>
+
+<!-- ══ BLOC 7 — EXERCICIS ══ -->
+<h2 class="block-title">7. Exercicis pràctics</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.5rem;max-width:720px;">Exercicis individuals progressius. Dissenya primer el diagrama UML en paper (nom, atributs privats, mètodes públics) i comprova que els setters validen correctament.</p>
+
+<!-- Ex 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Classe Alumne encapsulada</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Redissenya la classe <code>Alumne</code> de l'A1 seguint ara les bones pràctiques d'encapsulament: atributs privats, getters, setters amb validació i <code>toString()</code>.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs <code>private</code>: <code>nom</code> (String), <code>edat</code> (int), <code>notaMitjana</code> (double).</li>
+      <li>Constructor complet que usi els setters per validar.</li>
+      <li><code>setEdat</code>: rebutja valors fora de [0, 120].</li>
+      <li><code>setNotaMitjana</code>: rebutja valors fora de [0.0, 10.0].</li>
+      <li><code>toString()</code> que retorni: <code>Alumne{nom='Laia', edat=19, nota=7.80}</code></li>
+      <li>Prova: crea alumnes vàlids i intenta posar una edat de -5 i una nota d'11.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1 · 4.2 · 4.3 · 4.4</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Alumne</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span>    edat;
+    <span class="kw">private double</span> notaMitjana;
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="kw">double</span> notaMitjana) {
+        <span class="kw">this</span>.nom = nom;
+        <span class="fn">setEdat</span>(edat);
+        <span class="fn">setNotaMitjana</span>(notaMitjana);
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom; }
+    <span class="kw">public void</span>   <span class="fn">setNom</span>(<span class="cls">String</span> nom) { <span class="kw">this</span>.nom = nom; }
+
+    <span class="kw">public int</span>  <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
+    <span class="kw">public void</span> <span class="fn">setEdat</span>(<span class="kw">int</span> edat) {
+        <span class="kw">if</span> (edat < <span class="num">0</span> || edat > <span class="num">120</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: edat no vàlida ("</span> + edat + <span class="str">")"</span>);
+            <span class="kw">return</span>;
+        }
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    <span class="kw">public double</span> <span class="fn">getNotaMitjana</span>() { <span class="kw">return</span> notaMitjana; }
+    <span class="kw">public void</span>   <span class="fn">setNotaMitjana</span>(<span class="kw">double</span> nota) {
+        <span class="kw">if</span> (nota < <span class="num">0.0</span> || nota > <span class="num">10.0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: nota no vàlida ("</span> + nota + <span class="str">")"</span>);
+            <span class="kw">return</span>;
+        }
+        <span class="kw">this</span>.notaMitjana = nota;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Alumne{nom='%s', edat=%d, nota=%.2f}"</span>,
+                             nom, edat, notaMitjana);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Alumne</span> a1 = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Laia"</span>, <span class="num">19</span>, <span class="num">7.8</span>);
+        <span class="cls">Alumne</span> a2 = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Marc"</span>, <span class="num">-5</span>, <span class="num">11.0</span>);  <span class="cmt">// edat i nota invàlides</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a1);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a2);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Classe Compte bancari encapsulada</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Redissenya la classe <code>Compte</code> de l'A1 seguint encapsulament complet. Ara el saldo <strong>no ha de tenir setter públic</strong>: s'ha de modificar únicament a través dels mètodes <code>ingressar</code> i <code>retirar</code>.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs <code>private</code>: <code>titular</code> (String), <code>numeroCom</code> (String), <code>saldo</code> (double).</li>
+      <li>Constructor complet. El saldo inicial ha de ser ≥ 0.</li>
+      <li>Getters per als tres atributs. Cap setter per a <code>saldo</code> — és de lectura.</li>
+      <li>Mètode <code>ingressar(double impo)</code>: valida que l'import sigui positiu.</li>
+      <li>Mètode <code>retirar(double impo)</code>: valida que l'import sigui positiu i que hi hagi saldo.</li>
+      <li><code>toString()</code>: <code>Compte{titular='Laia', número='ES12-0049', saldo=350.00 €}</code></li>
+      <li>Prova: saldo inicial 500 €, ingressa 200 €, retira 350 €, intenta retirar 500 €.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Compte</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> titular;
+    <span class="kw">private</span> <span class="cls">String</span> numeroCom;
+    <span class="kw">private double</span> saldo;
+
+    <span class="kw">public</span> <span class="cls">Compte</span>(<span class="cls">String</span> titular, <span class="cls">String</span> numeroCom, <span class="kw">double</span> saldoInicial) {
+        <span class="kw">this</span>.titular   = titular;
+        <span class="kw">this</span>.numeroCom = numeroCom;
+        <span class="kw">this</span>.saldo     = (saldoInicial >= <span class="num">0</span>) ? saldoInicial : <span class="num">0</span>;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getTitular</span>()   { <span class="kw">return</span> titular; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNumeroCom</span>() { <span class="kw">return</span> numeroCom; }
+    <span class="kw">public double</span> <span class="fn">getSaldo</span>()     { <span class="kw">return</span> saldo; }
+    <span class="cmt">// No hi ha setSaldo() — el saldo és de lectura des de fora</span>
+
+    <span class="kw">public void</span> <span class="fn">ingressar</span>(<span class="kw">double</span> impo) {
+        <span class="kw">if</span> (impo <= <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: import ha de ser positiu"</span>); <span class="kw">return</span>; }
+        saldo += impo;
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Ingrés %.2f €. Saldo: %.2f €%n"</span>, impo, saldo);
+    }
+
+    <span class="kw">public void</span> <span class="fn">retirar</span>(<span class="kw">double</span> impo) {
+        <span class="kw">if</span> (impo <= <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: import ha de ser positiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">if</span> (impo > saldo) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: saldo insuficient"</span>); <span class="kw">return</span>; }
+        saldo -= impo;
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Retirada %.2f €. Saldo: %.2f €%n"</span>, impo, saldo);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Compte{titular='%s', número='%s', saldo=%.2f €}"</span>,
+                             titular, numeroCom, saldo);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Compte</span> c = <span class="kw">new</span> <span class="cls">Compte</span>(<span class="str">"Laia Puig"</span>, <span class="str">"ES12-0049"</span>, <span class="num">500.0</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(c);
+        c.<span class="fn">ingressar</span>(<span class="num">200</span>);
+        c.<span class="fn">retirar</span>(<span class="num">350</span>);
+        c.<span class="fn">retirar</span>(<span class="num">500</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(c);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Sistema de reserva d'hotel</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea dues classes relacionades: <code>Habitacio</code> i <code>Reserva</code>. Una reserva conté una habitació i un client.</p>
+    <ul class="exercici-tasques">
+      <li><code>Habitacio</code>: atributs <code>numero</code> (int), <code>tipusHabitacio</code> (String: "individual"/"doble"/"suite"), <code>preuPerNit</code> (double), <code>disponible</code> (boolean). Getters/setters. <code>toString()</code>.</li>
+      <li><code>Reserva</code>: atributs <code>client</code> (String), <code>habitacio</code> (Habitacio), <code>nitsEstada</code> (int). Constructor. Getter per tots. Mètode <code>calcularTotal()</code> que retorni <code>habitacio.getPreuPerNit() * nitsEstada</code>. <code>toString()</code> complet.</li>
+      <li>Al <code>main</code>: crea dues habitacions, fes dues reserves i mostra'n el total a pagar.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Habitacio</span> {
+
+    <span class="kw">private int</span>     numero;
+    <span class="kw">private</span> <span class="cls">String</span>  tipusHabitacio;
+    <span class="kw">private double</span>  preuPerNit;
+    <span class="kw">private boolean</span> disponible;
+
+    <span class="kw">public</span> <span class="cls">Habitacio</span>(<span class="kw">int</span> numero, <span class="cls">String</span> tipus, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>.numero         = numero;
+        <span class="kw">this</span>.tipusHabitacio = tipus;
+        <span class="kw">this</span>.preuPerNit     = preu;
+        <span class="kw">this</span>.disponible     = <span class="kw">true</span>;
+    }
+
+    <span class="kw">public int</span>     <span class="fn">getNumero</span>()         { <span class="kw">return</span> numero; }
+    <span class="kw">public</span> <span class="cls">String</span>  <span class="fn">getTipusHabitacio</span>() { <span class="kw">return</span> tipusHabitacio; }
+    <span class="kw">public double</span>  <span class="fn">getPreuPerNit</span>()     { <span class="kw">return</span> preuPerNit; }
+    <span class="kw">public boolean</span> <span class="fn">isDisponible</span>()      { <span class="kw">return</span> disponible; }
+    <span class="kw">public void</span>    <span class="fn">setDisponible</span>(<span class="kw">boolean</span> d) { <span class="kw">this</span>.disponible = d; }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Hab.%d (%s) — %.2f €/nit — %s"</span>,
+            numero, tipusHabitacio, preuPerNit,
+            disponible ? <span class="str">"disponible"</span> : <span class="str">"ocupada"</span>);
+    }
+
+}
+
+<span class="kw">public class</span> <span class="cls">Reserva</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span>    client;
+    <span class="kw">private</span> <span class="cls">Habitacio</span> habitacio;
+    <span class="kw">private int</span>       nitsEstada;
+
+    <span class="kw">public</span> <span class="cls">Reserva</span>(<span class="cls">String</span> client, <span class="cls">Habitacio</span> habitacio, <span class="kw">int</span> nits) {
+        <span class="kw">this</span>.client     = client;
+        <span class="kw">this</span>.habitacio  = habitacio;
+        <span class="kw">this</span>.nitsEstada = nits;
+        habitacio.<span class="fn">setDisponible</span>(<span class="kw">false</span>);
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span>    <span class="fn">getClient</span>()     { <span class="kw">return</span> client; }
+    <span class="kw">public</span> <span class="cls">Habitacio</span> <span class="fn">getHabitacio</span>()  { <span class="kw">return</span> habitacio; }
+    <span class="kw">public int</span>       <span class="fn">getNitsEstada</span>() { <span class="kw">return</span> nitsEstada; }
+
+    <span class="kw">public double</span> <span class="fn">calcularTotal</span>() {
+        <span class="kw">return</span> habitacio.<span class="fn">getPreuPerNit</span>() * nitsEstada;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Reserva[%s, %s, %d nits → %.2f €]"</span>,
+            client, habitacio.<span class="fn">getTipusHabitacio</span>(), nitsEstada, <span class="fn">calcularTotal</span>());
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Habitacio</span> h1 = <span class="kw">new</span> <span class="cls">Habitacio</span>(<span class="num">101</span>, <span class="str">"doble"</span>,  <span class="num">95.0</span>);
+        <span class="cls">Habitacio</span> h2 = <span class="kw">new</span> <span class="cls">Habitacio</span>(<span class="num">201</span>, <span class="str">"suite"</span>,  <span class="num">180.0</span>);
+
+        <span class="cls">Reserva</span> r1 = <span class="kw">new</span> <span class="cls">Reserva</span>(<span class="str">"Laia Puig"</span>, h1, <span class="num">3</span>);
+        <span class="cls">Reserva</span> r2 = <span class="kw">new</span> <span class="cls">Reserva</span>(<span class="str">"Marc Vila"</span>, h2, <span class="num">2</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(r1);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(r2);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(h1);  <span class="cmt">// ara apareix com a "ocupada"</span>
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Gestió de la biblioteca (adaptat)</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa la classe <code>Llibre</code> amb encapsulament complet. Practica la gestió d'estat intern amb lògica de negoci (préstec) i validació de la valoració.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs <code>private</code>: <code>titol</code>, <code>autor</code> (String); <code>anyPublicacio</code> (int); <code>enPrestec</code> (boolean, per defecte <code>false</code>); <code>valoracioMitjana</code> (double); <code>nombreValoracions</code> (int).</li>
+      <li>Constructor: titol, autor, any. La resta d'atributs s'inicialitzen als valors lògics.</li>
+      <li>Getters per a tots. Setters only per a titol i autor.</li>
+      <li>Mètode <code>prestar()</code>: si no està en préstec, el marca com a prestat. Si ja ho està, informa.</li>
+      <li>Mètode <code>retornar()</code>: marca el llibre com a disponible.</li>
+      <li>Mètode <code>afegirValoracio(int nova)</code>: valida [1,5], actualitza la mitjana (<code>(valoracioMitjana * nombreValoracions + nova) / (nombreValoracions + 1)</code>).</li>
+      <li><code>toString()</code> complet. Crea tres llibres, presta'ls i valora'ls.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1–4.6 · Font: Exercici Biblioteca.pdf (Canela)</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Llibre</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span>  titol;
+    <span class="kw">private</span> <span class="cls">String</span>  autor;
+    <span class="kw">private int</span>     anyPublicacio;
+    <span class="kw">private boolean</span> enPrestec;
+    <span class="kw">private double</span>  valoracioMitjana;
+    <span class="kw">private int</span>     nombreValoracions;
+
+    <span class="kw">public</span> <span class="cls">Llibre</span>(<span class="cls">String</span> titol, <span class="cls">String</span> autor, <span class="kw">int</span> any) {
+        <span class="kw">this</span>.titol             = titol;
+        <span class="kw">this</span>.autor             = autor;
+        <span class="kw">this</span>.anyPublicacio     = any;
+        <span class="kw">this</span>.enPrestec         = <span class="kw">false</span>;
+        <span class="kw">this</span>.valoracioMitjana  = <span class="num">0.0</span>;
+        <span class="kw">this</span>.nombreValoracions = <span class="num">0</span>;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span>  <span class="fn">getTitol</span>()             { <span class="kw">return</span> titol; }
+    <span class="kw">public void</span>    <span class="fn">setTitol</span>(<span class="cls">String</span> titol) { <span class="kw">this</span>.titol = titol; }
+    <span class="kw">public</span> <span class="cls">String</span>  <span class="fn">getAutor</span>()             { <span class="kw">return</span> autor; }
+    <span class="kw">public void</span>    <span class="fn">setAutor</span>(<span class="cls">String</span> autor) { <span class="kw">this</span>.autor = autor; }
+    <span class="kw">public int</span>     <span class="fn">getAnyPublicacio</span>()     { <span class="kw">return</span> anyPublicacio; }
+    <span class="kw">public boolean</span> <span class="fn">isEnPrestec</span>()          { <span class="kw">return</span> enPrestec; }
+    <span class="kw">public double</span>  <span class="fn">getValoracioMitjana</span>()  { <span class="kw">return</span> valoracioMitjana; }
+    <span class="kw">public int</span>     <span class="fn">getNombreValoracions</span>() { <span class="kw">return</span> nombreValoracions; }
+
+    <span class="kw">public void</span> <span class="fn">prestar</span>() {
+        <span class="kw">if</span> (enPrestec) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"'"</span> + titol + <span class="str">"' ja està prestat"</span>); <span class="kw">return</span>; }
+        enPrestec = <span class="kw">true</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"'"</span> + titol + <span class="str">"' prestat correctament"</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">retornar</span>() {
+        enPrestec = <span class="kw">false</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"'"</span> + titol + <span class="str">"' retornat. Ja disponible."</span>);
+    }
+
+    <span class="kw">public void</span> <span class="fn">afegirValoracio</span>(<span class="kw">int</span> nova) {
+        <span class="kw">if</span> (nova < <span class="num">1</span> || nova > <span class="num">5</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: valoració ha d'estar entre 1 i 5"</span>);
+            <span class="kw">return</span>;
+        }
+        valoracioMitjana  = (valoracioMitjana * nombreValoracions + nova)
+                            / (nombreValoracions + <span class="num">1</span>);
+        nombreValoracions++;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"'%s' (%s, %d) — ★%.1f (%d val.) — %s"</span>,
+            titol, autor, anyPublicacio, valoracioMitjana, nombreValoracions,
+            enPrestec ? <span class="str">"prestat"</span> : <span class="str">"disponible"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Llibre</span> l1 = <span class="kw">new</span> <span class="cls">Llibre</span>(<span class="str">"La metamorfosi"</span>, <span class="str">"Kafka"</span>, <span class="num">1915</span>);
+        <span class="cls">Llibre</span> l2 = <span class="kw">new</span> <span class="cls">Llibre</span>(<span class="str">"Solitud"</span>, <span class="str">"Víctor Català"</span>, <span class="num">1905</span>);
+
+        l1.<span class="fn">prestar</span>();
+        l1.<span class="fn">prestar</span>();  <span class="cmt">// ja prestat</span>
+        l1.<span class="fn">afegirValoracio</span>(<span class="num">5</span>);
+        l1.<span class="fn">afegirValoracio</span>(<span class="num">4</span>);
+        l2.<span class="fn">afegirValoracio</span>(<span class="num">6</span>);  <span class="cmt">// error: fora de rang</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(l1);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(l2);
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BLOC 8 — CA ══ -->
+<h2 class="block-title">8. Resum: criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 4.1</span><span class="ca-text">Reconeix la sintaxi, l'estructura i els components típics d'una classe.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 4.2</span><span class="ca-text">Defineix classes amb els seus atributs i modificadors de visibilitat.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 4.3</span><span class="ca-text">Defineix propietats (atributs privats + getters/setters amb validació).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 4.4</span><span class="ca-text">Defineix mètodes de negoci i <code>toString()</code>.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 4.5</span><span class="ca-text">Crea constructors que usen els setters per validar l'estat inicial.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 4.6</span><span class="ca-text">Desenvolupa programes que instancien i fan interaccionar objectes.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem;">9. Fonts i recursos</h2>
+<div class="fonts-box">
+  <h3>📚 Material usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Drive Canela:</strong> POO. Classes i objectes. Conceptes bàsics.pdf — Seccions 7 (encapsulació) i 10 (paquets).</li>
+    <li><strong>Drive Canela:</strong> Exercici Biblioteca.pdf — Base per a l'exercici 4 (Classe Llibre).</li>
+    <li><strong>Drive UJB:</strong> 10-05-00-JavaBeans-UJB.java — Patró JavaBeans amb getters/setters i <code>toString()</code>.</li>
+    <li><strong>Drive UJB:</strong> 09-10-00-EjemploEncapsulamiento.zip — Exemple d'encapsulament complet.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

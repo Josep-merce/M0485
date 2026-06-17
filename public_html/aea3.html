@@ -25,11 +25,19 @@
     .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
     .breadcrumb a:hover { text-decoration:underline; }
     .breadcrumb span { margin:0 .4rem; color:#ccc; }
-    main { flex:1; max-width:760px; width:100%; margin:0 auto; padding:4rem 2rem; text-align:center; }
-    .coming h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.5rem; color:var(--text); margin-bottom:.75rem; }
-    .coming p { color:var(--text-soft); font-size:.95rem; }
-    .back { display:inline-block; margin-top:2rem; color:var(--accent); font-weight:600; text-decoration:none; font-size:.95rem; }
-    .back:hover { text-decoration:underline; }
+    main { flex:1; max-width:1000px; width:100%; margin:0 auto; padding:3.5rem 2rem; }
+    .section-intro { margin-bottom:1.5rem; }
+    .section-intro h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.6rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
+    .section-intro p { font-size:.92rem; color:var(--text-soft); max-width:680px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
+    .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
+    .card:hover { box-shadow:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10); transform:translateY(-3px); }
+    .card-badge { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--accent-bg); color:var(--accent); border-radius:8px; font-size:.78rem; font-weight:700; margin-bottom:.3rem; }
+    .card-title { font-size:1rem; font-weight:700; color:var(--text); line-height:1.3; }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; flex:1; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:.6rem; padding-top:.6rem; border-top:1px solid var(--border); }
+    .card-criteri { font-size:.74rem; color:var(--text-soft); }
+    .card-link { font-size:.84rem; font-weight:600; color:var(--accent); }
     footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
     @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} }
   </style>
@@ -38,20 +46,48 @@
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
   <h1>AEA3 &mdash; POO. Avançada</h1>
-  <p>Herència avançada, polimorfisme, classes abstractes, finals i interfícies. Disseny de jerarquies de classes.</p>
+  <p>Herència avançada, polimorfisme, classes abstractes, interfícies i composició. Disseny de jerarquies de classes.</p>
 </header>
 <nav class="breadcrumb">
-  <a href="index.html">M0485 Programaci&oacute;</a>
+  <a href="index.html">M0485 Programació</a>
   <span>&rsaquo;</span>
   AEA3 &mdash; POO. Avançada
 </nav>
 <main>
-  <div class="coming">
-    <h2>Contingut en construcci&oacute;</h2>
-    <p>Les activitats d&rsquo;aquesta AEA s&rsquo;aniran publicant al llarg del curs.</p>
-    <a class="back" href="index.html">&larr; Tornar a M0485</a>
+  <div class="section-intro">
+    <h2>AEA3 — POO. Avançada</h2>
+    <p>Tres blocs progressius: de l'herència i el polimorfisme fins a la pràctica guiada integradora, passant per les classes abstractes, les interfícies i la composició.</p>
+  </div>
+  <div class="cards">
+    <a class="card" href="aea3/A1_herencia_polimorfisme.html">
+      <span class="card-badge">A1</span>
+      <span class="card-title">Herència, sobreescriptura i polimorfisme</span>
+      <span class="card-desc">Jerarquies de classes amb <code>extends</code> i <code>super()</code>, sobreescriptura amb <code>@Override</code>, polimorfisme dinàmic, <code>instanceof</code> i documentació Javadoc.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 7.1 · 7.2 · 7.3 · 7.4 · 7.5 · 7.6 · 7.7 · 7.8</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+    <a class="card" href="aea3/A2_abstractes_interficies_composicio.html">
+      <span class="card-badge">A2</span>
+      <span class="card-title">Classes abstractes, interfícies i composició</span>
+      <span class="card-desc">Classes i mètodes abstractes, definició i implementació d'interfícies, mètodes <code>default</code> i composició com a alternativa a l'herència.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 7.2 · 7.4 · 7.5 · 7.7 · 7.9 · 7.10</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+    <a class="card" href="aea3/A3_practica_guiada.html">
+      <span class="card-badge">A3</span>
+      <span class="card-title">Pràctica guiada: sistema bancari pas a pas</span>
+      <span class="card-desc">Construïm junts un sistema de comptes bancaris en 5 passos progressius, aplicant tots els conceptes de l'AEA3. Activitat de consolidació, no avaluable.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 7.1 &mdash; 7.10</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
   </div>
 </main>
-<footer>Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M&ograve;dul M0485 Programaci&oacute;</footer>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
 </body>
 </html>

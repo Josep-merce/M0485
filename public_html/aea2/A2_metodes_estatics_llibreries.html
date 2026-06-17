@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Mètodes estàtics, paràmetres i llibreries · AEA2 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block {
+      background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius);
+      padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace;
+      font-size:.84rem; line-height:1.75; overflow-x:auto;
+      margin:1rem 0 1.5rem; white-space:pre;
+    }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; }
+    .exemple-header span { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--hero-bg); color:var(--text-hero);
+      border:none; border-radius:8px; padding:.5rem 1rem;
+      font-size:.82rem; font-weight:600; cursor:pointer;
+      transition:background .15s, transform .1s;
+      font-family:'Inter',system-ui,sans-serif;
+    }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; display:flex; align-items:center; gap:.4rem; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.5rem 1.5rem 2rem; }
+      main  { padding:2rem 1rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .ca-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA2 · POO. Fonaments</p>
+  <h1>A2 — Mètodes estàtics, paràmetres i llibreries</h1>
+  <p>Aprendre a organitzar el codi en mètodes reutilitzables: mètodes estàtics, pas de paràmetres, sobrecàrrega de constructors i ús de les principals llibreries predefinides de Java.</p>
+  <div class="hero-pills">
+    <span class="pill">RA2</span>
+    <span class="pill">CA 2.5 · 2.6 · 2.7 · 2.8</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea2.html">AEA2</a><span>›</span>
+  A2 — Mètodes estàtics, paràmetres i llibreries
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 1 — MÈTODES ESTÀTICS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">1. Mètodes estàtics: crides sense crear un objecte</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Un <strong>mètode estàtic</strong> pertany a la classe, no a un objecte concret. Pots cridar-lo directament amb el nom de la classe, sense haver de fer cap <code>new</code>. S'indica amb la paraula clau <code>static</code> a la signatura.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Mètode d'instància</th><th>Mètode estàtic</th></tr></thead>
+    <tbody>
+      <tr><td>Pertany a un objecte concret</td><td>Pertany a la classe</td></tr>
+      <tr><td>Cal crear l'objecte primer: <code>new Classe()</code></td><td>Es crida directament: <code>Classe.metode()</code></td></tr>
+      <tr><td>Pot accedir als atributs de l'objecte</td><td>No pot accedir als atributs d'instància</td></tr>
+      <tr><td>Exemple: <code>p1.mostrarInfo()</code></td><td>Exemple: <code>Math.sqrt(25)</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">1.1 Primer mètode estàtic propi</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Mètodes estàtics d'utilitat a la classe Calculadora</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Calculadora</span> {
+
+    <span class="cmt">// Mètode estàtic: no necessita objecte, pertany a la classe</span>
+    <span class="kw">public static double</span> <span class="fn">sumar</span>(<span class="kw">double</span> a, <span class="kw">double</span> b) {
+        <span class="kw">return</span> a + b;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">restar</span>(<span class="kw">double</span> a, <span class="kw">double</span> b) {
+        <span class="kw">return</span> a - b;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">multiplicar</span>(<span class="kw">double</span> a, <span class="kw">double</span> b) {
+        <span class="kw">return</span> a * b;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">dividir</span>(<span class="kw">double</span> a, <span class="kw">double</span> b) {
+        <span class="kw">if</span> (b == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: divisió per zero"</span>);
+            <span class="kw">return</span> <span class="num">0</span>;
+        }
+        <span class="kw">return</span> a / b;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Es criden amb el nom de la classe, sense new</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Calculadora</span>.<span class="fn">sumar</span>(<span class="num">10</span>, <span class="num">4</span>));       <span class="cmt">// 14.0</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Calculadora</span>.<span class="fn">restar</span>(<span class="num">10</span>, <span class="num">4</span>));      <span class="cmt">// 6.0</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Calculadora</span>.<span class="fn">multiplicar</span>(<span class="num">3</span>, <span class="num">7</span>));  <span class="cmt">// 21.0</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Calculadora</span>.<span class="fn">dividir</span>(<span class="num">15</span>, <span class="num">4</span>));     <span class="cmt">// 3.75</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="info-box">💡 <strong>Quan usar static?</strong> Quan el mètode no depèn de cap atribut d'un objecte concret: càlculs matemàtics, utilitats de text, conversions, validacions. Si el mètode necessita accedir a <code>this</code> o als atributs de la classe, no pot ser estàtic.</div>
+
+<div class="sub-title">1.2 Mètodes estàtics cridant-se entre ells</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Classe Utils — mètodes que es composen entre ells</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Utils</span> {
+
+    <span class="kw">public static boolean</span> <span class="fn">esParell</span>(<span class="kw">int</span> n) {
+        <span class="kw">return</span> n % <span class="num">2</span> == <span class="num">0</span>;
+    }
+
+    <span class="kw">public static boolean</span> <span class="fn">esPrimer</span>(<span class="kw">int</span> n) {
+        <span class="kw">if</span> (n <= <span class="num">1</span>) <span class="kw">return false</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i < n; i++) {
+            <span class="kw">if</span> (n % i == <span class="num">0</span>) <span class="kw">return false</span>;
+        }
+        <span class="kw">return true</span>;
+    }
+
+    <span class="kw">public static int</span> <span class="fn">sumaDigits</span>(<span class="kw">int</span> n) {
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        n = <span class="cls">Math</span>.<span class="fn">abs</span>(n);  <span class="cmt">// treballem amb valor absolut</span>
+        <span class="kw">while</span> (n > <span class="num">0</span>) {
+            suma += n % <span class="num">10</span>;
+            n /= <span class="num">10</span>;
+        }
+        <span class="kw">return</span> suma;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">esParell</span>(<span class="num">8</span>));      <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">esPrimer</span>(<span class="num">17</span>));     <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">esPrimer</span>(<span class="num">12</span>));     <span class="cmt">// false</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">sumaDigits</span>(<span class="num">347</span>));  <span class="cmt">// 14  (3+4+7)</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="tip-box">✅ <strong>Dins del main (o d'un altre mètode estàtic de la mateixa classe)</strong>, pots cridar els mètodes estàtics propis sense el nom de la classe davant: <code>esPrimer(17)</code> en comptes de <code>Utils.esPrimer(17)</code>. Des d'una altra classe, cal escriure el nom complet: <code>Utils.esPrimer(17)</code>.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 2 — PAS DE PARÀMETRES
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">2. Pas de paràmetres</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Els <strong>paràmetres</strong> permeten passar dades a un mètode perquè treballi amb elles. Es declaren entre parèntesis a la signatura del mètode i actuen com a variables locals dins del cos. Java passa els tipus primitius <strong>per valor</strong>: el mètode treballa amb una còpia, i la variable original no canvia.</p>
+
+<div class="sub-title">2.1 Paràmetres de tipus primitiu: pas per valor</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El mètode rep una còpia — la variable original no canvia</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">PassPerValor</span> {
+
+    <span class="kw">public static void</span> <span class="fn">duplicar</span>(<span class="kw">int</span> n) {
+        n = n * <span class="num">2</span>;  <span class="cmt">// modifiquem la còpia local, no l'original</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dins del mètode: "</span> + n);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> valor = <span class="num">5</span>;
+        <span class="fn">duplicar</span>(valor);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fora del mètode: "</span> + valor);  <span class="cmt">// continua sent 5</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="warn-box">⚠️ <strong>Pas per valor:</strong> quan passes un <code>int</code>, <code>double</code>, <code>boolean</code> o qualsevol altre tipus primitiu, el mètode rep una còpia. Modificar-la dins del mètode no afecta la variable original. Per retornar un resultat cal usar <code>return</code>.</div>
+
+<div class="sub-title">2.2 Múltiples paràmetres i crida en cadena</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Classe Geometria — mètodes estàtics amb múltiples paràmetres</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Geometria</span> {
+
+    <span class="kw">public static double</span> <span class="fn">areaRectangle</span>(<span class="kw">double</span> base, <span class="kw">double</span> alcada) {
+        <span class="kw">return</span> base * alcada;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">areaCircle</span>(<span class="kw">double</span> radi) {
+        <span class="kw">return</span> <span class="cls">Math</span>.PI * radi * radi;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">hipotenusa</span>(<span class="kw">double</span> a, <span class="kw">double</span> b) {
+        <span class="kw">return</span> <span class="cls">Math</span>.<span class="fn">sqrt</span>(a * a + b * b);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">mostrarResum</span>(<span class="kw">double</span> base, <span class="kw">double</span> alcada, <span class="kw">double</span> radi) {
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Àrea rectangle (%.1f x %.1f): %.2f%n"</span>, base, alcada, <span class="fn">areaRectangle</span>(base, alcada));
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Àrea cercle (r=%.1f):         %.2f%n"</span>, radi, <span class="fn">areaCircle</span>(radi));
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Hipotenusa (%.1f, %.1f):      %.2f%n"</span>, base, alcada, <span class="fn">hipotenusa</span>(base, alcada));
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="fn">mostrarResum</span>(<span class="num">5.0</span>, <span class="num">3.0</span>, <span class="num">4.0</span>);
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 3 — SOBRECÀRREGA
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">3. Sobrecàrrega de mètodes i constructors</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">La <strong>sobrecàrrega</strong> (<em>overloading</em>) permet definir diversos mètodes (o constructors) amb el <strong>mateix nom</strong> però diferent número o tipus de paràmetres. Java tria automàticament quin usar en funció dels arguments de la crida. Això fa el codi més intuïtiu: no cal inventar noms com <code>sumar2</code> o <code>sumarDouble</code>.</p>
+
+<div class="sub-title">3.1 Sobrecàrrega de mètodes</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Mètode imprimir sobrecarregat per a diversos tipus</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Impressor</span> {
+
+    <span class="kw">public static void</span> <span class="fn">imprimir</span>(<span class="kw">int</span> n) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Enter: "</span> + n);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">imprimir</span>(<span class="kw">double</span> d) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Decimal: "</span> + d);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">imprimir</span>(<span class="cls">String</span> s) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Text: "</span> + s);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">imprimir</span>(<span class="kw">int</span> n, <span class="cls">String</span> etiqueta) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(etiqueta + <span class="str">": "</span> + n);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="fn">imprimir</span>(<span class="num">42</span>);               <span class="cmt">// Enter: 42</span>
+        <span class="fn">imprimir</span>(<span class="num">3.14</span>);             <span class="cmt">// Decimal: 3.14</span>
+        <span class="fn">imprimir</span>(<span class="str">"Hola"</span>);           <span class="cmt">// Text: Hola</span>
+        <span class="fn">imprimir</span>(<span class="num">100</span>, <span class="str">"Puntuació"</span>); <span class="cmt">// Puntuació: 100</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">3.2 Sobrecàrrega de constructors</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Classe Producte — tres constructors per a tres casos d'ús</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Producte</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">double</span> preu;
+    <span class="kw">int</span>    estoc;
+
+    <span class="cmt">// Constructor 1: nom i preu (estoc per defecte 0)</span>
+    <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>.nom   = nom;
+        <span class="kw">this</span>.preu  = preu;
+        <span class="kw">this</span>.estoc = <span class="num">0</span>;
+    }
+
+    <span class="cmt">// Constructor 2: nom, preu i estoc</span>
+    <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc) {
+        <span class="kw">this</span>.nom   = nom;
+        <span class="kw">this</span>.preu  = preu;
+        <span class="kw">this</span>.estoc = estoc;
+    }
+
+    <span class="cmt">// Constructor 3: crida l'anterior amb this() per evitar duplicació</span>
+    <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc, <span class="kw">double</span> descompte) {
+        <span class="kw">this</span>(nom, preu * (<span class="num">1</span> - descompte), estoc);  <span class="cmt">// reutilitza el constructor 2</span>
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" | "</span> + preu + <span class="str">" € | estoc: "</span> + estoc);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Producte</span> p1 = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Arròs"</span>, <span class="num">1.80</span>);               <span class="cmt">// estoc = 0</span>
+        <span class="cls">Producte</span> p2 = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Oli"</span>,   <span class="num">4.50</span>, <span class="num">30</span>);          <span class="cmt">// estoc = 30</span>
+        <span class="cls">Producte</span> p3 = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Sucre"</span>, <span class="num">2.00</span>, <span class="num">50</span>, <span class="num">0.10</span>);   <span class="cmt">// 10% descompte</span>
+
+        p1.<span class="fn">mostrar</span>();  <span class="cmt">// Arròs | 1.8 € | estoc: 0</span>
+        p2.<span class="fn">mostrar</span>();  <span class="cmt">// Oli | 4.5 € | estoc: 30</span>
+        p3.<span class="fn">mostrar</span>();  <span class="cmt">// Sucre | 1.8 € | estoc: 50</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="info-box">💡 <strong><code>this()</code> dins d'un constructor:</strong> un constructor pot cridar un altre constructor de la mateixa classe amb <code>this(...)</code>. Evita duplicar codi d'inicialització. Ha de ser <em>sempre la primera instrucció</em> del constructor.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 4 — LLIBRERIES PREDEFINIDES
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">4. Llibreries predefinides: Math, Arrays i String</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Java inclou milers de classes predefinides agrupades en <strong>paquets</strong>. Les que veurem aquí estan al paquet <code>java.lang</code> (disponible sempre sense <code>import</code>) o a <code>java.util</code> (cal importar). Totes ofereixen mètodes estàtics molt útils per no reinventar la roda.</p>
+
+<div class="sub-title">4.1 La classe Math</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Principals mètodes de Math</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ExempleMath</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Potència i arrel</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">pow</span>(<span class="num">2</span>, <span class="num">10</span>));       <span class="cmt">// 1024.0  (2^10)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">sqrt</span>(<span class="num">144</span>));       <span class="cmt">// 12.0</span>
+
+        <span class="cmt">// Arrodoniment</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">round</span>(<span class="num">4.6</span>));      <span class="cmt">// 5</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">floor</span>(<span class="num">4.9</span>));      <span class="cmt">// 4.0  (cap avall)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">ceil</span>(<span class="num">4.1</span>));       <span class="cmt">// 5.0  (cap amunt)</span>
+
+        <span class="cmt">// Valor absolut i max/min</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">abs</span>(<span class="num">-15</span>));         <span class="cmt">// 15</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">max</span>(<span class="num">8</span>, <span class="num">13</span>));       <span class="cmt">// 13</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">min</span>(<span class="num">8</span>, <span class="num">13</span>));       <span class="cmt">// 8</span>
+
+        <span class="cmt">// Aleatori entre 0.0 i 1.0 (exclòs)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">random</span>());
+
+        <span class="cmt">// Rang personalitzat [min, max]: (int)(Math.random() * (max-min+1)) + min</span>
+        <span class="kw">int</span> dau = (<span class="kw">int</span>)(<span class="cls">Math</span>.<span class="fn">random</span>() * <span class="num">6</span>) + <span class="num">1</span>;   <span class="cmt">// [1, 6]</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dau: "</span> + dau);
+
+        <span class="cmt">// Constants</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.PI);              <span class="cmt">// 3.141592653589793</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.E);               <span class="cmt">// 2.718281828459045</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="sub-title">4.2 La classe Arrays</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Operacions habituals sobre arrays amb java.util.Arrays</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Arrays</span>;
+
+<span class="kw">public class</span> <span class="cls">ExempleArrays</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[] notes = {<span class="num">7</span>, <span class="num">3</span>, <span class="num">9</span>, <span class="num">5</span>, <span class="num">1</span>, <span class="num">8</span>};
+
+        <span class="cmt">// Ordenar l'array (modifica l'original)</span>
+        <span class="cls">Arrays</span>.<span class="fn">sort</span>(notes);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Arrays</span>.<span class="fn">toString</span>(notes));  <span class="cmt">// [1, 3, 5, 7, 8, 9]</span>
+
+        <span class="cmt">// Buscar un element (l'array ha d'estar ordenat)</span>
+        <span class="kw">int</span> pos = <span class="cls">Arrays</span>.<span class="fn">binarySearch</span>(notes, <span class="num">7</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Posició del 7: "</span> + pos);      <span class="cmt">// 3</span>
+
+        <span class="cmt">// Copiar un array (còpia independent)</span>
+        <span class="kw">int</span>[] copia = <span class="cls">Arrays</span>.<span class="fn">copyOf</span>(notes, notes.length);
+        copia[<span class="num">0</span>] = <span class="num">99</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Arrays</span>.<span class="fn">toString</span>(notes));   <span class="cmt">// l'original no canvia</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Arrays</span>.<span class="fn">toString</span>(copia));   <span class="cmt">// [99, 3, 5, 7, 8, 9]</span>
+
+        <span class="cmt">// Omplir amb un valor</span>
+        <span class="kw">int</span>[] zeros = <span class="kw">new int</span>[<span class="num">5</span>];
+        <span class="cls">Arrays</span>.<span class="fn">fill</span>(zeros, <span class="num">-1</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Arrays</span>.<span class="fn">toString</span>(zeros));   <span class="cmt">// [-1, -1, -1, -1, -1]</span>
+
+        <span class="cmt">// Comparar dos arrays</span>
+        <span class="kw">int</span>[] a = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
+        <span class="kw">int</span>[] b = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>};
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Arrays</span>.<span class="fn">equals</span>(a, b));     <span class="cmt">// true (== donaria false!)</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="warn-box">⚠️ <strong>Mai comparar arrays amb ==:</strong> <code>a == b</code> compara si apunten al mateix lloc de memòria, no si el contingut és igual. Usa sempre <code>Arrays.equals(a, b)</code> per comparar el contingut. El mateix passa amb els Strings: usa <code>.equals()</code>.</div>
+
+<div class="sub-title">4.3 Mètodes estàtics útils de String</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Conversions entre String i tipus primitius</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ConversionsString</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// De String a número (mètodes estàtics de les classes embolcall)</span>
+        <span class="kw">int</span>    edat  = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(<span class="str">"25"</span>);
+        <span class="kw">double</span> preu  = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(<span class="str">"4.99"</span>);
+        <span class="kw">boolean</span> actiu = <span class="cls">Boolean</span>.<span class="fn">parseBoolean</span>(<span class="str">"true"</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(edat + <span class="num">1</span>);      <span class="cmt">// 26  (ja és enter, no text)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(preu * <span class="num">2</span>);     <span class="cmt">// 9.98</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(actiu);         <span class="cmt">// true</span>
+
+        <span class="cmt">// De número a String</span>
+        <span class="cls">String</span> s1 = <span class="cls">String</span>.<span class="fn">valueOf</span>(<span class="num">42</span>);        <span class="cmt">// "42"</span>
+        <span class="cls">String</span> s2 = <span class="cls">String</span>.<span class="fn">valueOf</span>(<span class="num">3.14</span>);      <span class="cmt">// "3.14"</span>
+        <span class="cls">String</span> s3 = <span class="cls">Integer</span>.<span class="fn">toString</span>(<span class="num">255</span>, <span class="num">16</span>); <span class="cmt">// "ff"  (base 16)</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s1 + s2);  <span class="cmt">// "423.14"  (concatenació, no suma!)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s3);       <span class="cmt">// ff</span>
+
+        <span class="cmt">// Format amb printf / String.format</span>
+        <span class="cls">String</span> resultat = <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Preu: %.2f €, Quantitat: %d"</span>, preu, (<span class="kw">int</span>)edat);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat);  <span class="cmt">// Preu: 4.99 €, Quantitat: 25</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="info-box">💡 <strong>Classes embolcall (Wrapper classes):</strong> cada tipus primitiu té una classe corresponent: <code>int</code> → <code>Integer</code>, <code>double</code> → <code>Double</code>, <code>boolean</code> → <code>Boolean</code>, etc. Aquestes classes ofereixen mètodes estàtics molt útils com <code>parseInt</code>, <code>MAX_VALUE</code>, <code>MIN_VALUE</code> o <code>toBinaryString</code>.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 5 — EXERCICIS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">5. Exercicis pràctics</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:.5rem;max-width:720px;">Exercicis individuals ordenats de menor a major dificultat. Pensa primer quins paràmetres necessita cada mètode i quin tipus ha de retornar. Prem el botó per veure la solució quan hagis acabat.</p>
+<div class="ra5-box" style="margin-bottom:1.5rem;">📌 Tots els valors estan declarats al codi. Quan arribi l'RA5 podràs llegir-los del teclat amb <code>Scanner</code>.</div>
+
+
+<!-- Ex 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Classe Conversor d'unitats</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Conversor</code> amb quatre mètodes estàtics per convertir entre unitats habituals.</p>
+    <ul class="exercici-tasques">
+      <li><code>kmAMilles(double km)</code> → retorna km × 0.621371</li>
+      <li><code>celsiusAFahrenheit(double c)</code> → retorna c × 9/5 + 32</li>
+      <li><code>eurosADolars(double euros, double canvi)</code> → retorna euros × canvi</li>
+      <li><code>kgALliures(double kg)</code> → retorna kg × 2.20462</li>
+      <li>Prova: 100 km, 37 °C, 50 € (canvi 1.08), 70 kg.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.5 · 2.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Conversor</span> {
+
+    <span class="kw">public static double</span> <span class="fn">kmAMilles</span>(<span class="kw">double</span> km) {
+        <span class="kw">return</span> km * <span class="num">0.621371</span>;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">celsiusAFahrenheit</span>(<span class="kw">double</span> c) {
+        <span class="kw">return</span> c * <span class="num">9.0</span> / <span class="num">5.0</span> + <span class="num">32</span>;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">eurosADolars</span>(<span class="kw">double</span> euros, <span class="kw">double</span> canvi) {
+        <span class="kw">return</span> euros * canvi;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">kgALliures</span>(<span class="kw">double</span> kg) {
+        <span class="kw">return</span> kg * <span class="num">2.20462</span>;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"100 km = %.2f milles%n"</span>,    <span class="fn">kmAMilles</span>(<span class="num">100</span>));
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"37 °C  = %.2f °F%n"</span>,       <span class="fn">celsiusAFahrenheit</span>(<span class="num">37</span>));
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"50 €   = %.2f $%n"</span>,        <span class="fn">eurosADolars</span>(<span class="num">50</span>, <span class="num">1.08</span>));
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"70 kg  = %.2f lliures%n"</span>, <span class="fn">kgALliures</span>(<span class="num">70</span>));
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Classe Producte amb tres constructors</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Producte</code> amb sobrecàrrega de constructors per adaptar-se a diferents situacions: quan tens totes les dades, quan no saps l'estoc, i quan el producte és nou i no té preu encara.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs: <code>nom</code> (String), <code>preu</code> (double), <code>estoc</code> (int).</li>
+      <li>Constructor 1: nom, preu, estoc (tots els valors).</li>
+      <li>Constructor 2: nom, preu (estoc = 0 per defecte).</li>
+      <li>Constructor 3: nom sol (preu = 0.0, estoc = 0).</li>
+      <li>Mètode <code>mostrar()</code> que imprimeixi les tres dades.</li>
+      <li>Crea un objecte de cada constructor i mostra'n la informació.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Producte</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">double</span> preu;
+    <span class="kw">int</span>    estoc;
+
+    <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc) {
+        <span class="kw">this</span>.nom   = nom;
+        <span class="kw">this</span>.preu  = preu;
+        <span class="kw">this</span>.estoc = estoc;
+    }
+
+    <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>(nom, preu, <span class="num">0</span>);  <span class="cmt">// reutilitza el constructor complet</span>
+    }
+
+    <span class="cls">Producte</span>(<span class="cls">String</span> nom) {
+        <span class="kw">this</span>(nom, <span class="num">0.0</span>, <span class="num">0</span>);
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-20s | %6.2f € | estoc: %d%n"</span>, nom, preu, estoc);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Producte</span> p1 = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Cafè mòlt"</span>, <span class="num">3.50</span>, <span class="num">25</span>);
+        <span class="cls">Producte</span> p2 = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Llet sencera"</span>, <span class="num">0.85</span>);
+        <span class="cls">Producte</span> p3 = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Nou producte"</span>);
+
+        p1.<span class="fn">mostrar</span>();
+        p2.<span class="fn">mostrar</span>();
+        p3.<span class="fn">mostrar</span>();
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Classe Estadística amb Math</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Estadistica</code> amb mètodes estàtics que calculin estadístiques bàsiques sobre un array de notes. Usa <code>Math</code> per als càlculs.</p>
+    <ul class="exercici-tasques">
+      <li><code>maxim(double[] v)</code>: retorna el valor màxim de l'array.</li>
+      <li><code>minim(double[] v)</code>: retorna el valor mínim.</li>
+      <li><code>mitjana(double[] v)</code>: retorna la mitjana aritmètica.</li>
+      <li><code>arrodonir(double v, int decimals)</code>: retorna el valor arrodonit al nombre de decimals indicat. Pista: <code>Math.round(v * 10^d) / 10^d</code>.</li>
+      <li>Prova amb: <code>{6.5, 8.0, 4.75, 9.0, 7.25, 5.5}</code>. Mostra màxim, mínim i mitjana arrodonida a 2 decimals.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.5 · 2.6 · 2.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Estadistica</span> {
+
+    <span class="kw">public static double</span> <span class="fn">maxim</span>(<span class="kw">double</span>[] v) {
+        <span class="kw">double</span> max = v[<span class="num">0</span>];
+        <span class="kw">for</span> (<span class="kw">double</span> x : v) {
+            max = <span class="cls">Math</span>.<span class="fn">max</span>(max, x);
+        }
+        <span class="kw">return</span> max;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">minim</span>(<span class="kw">double</span>[] v) {
+        <span class="kw">double</span> min = v[<span class="num">0</span>];
+        <span class="kw">for</span> (<span class="kw">double</span> x : v) {
+            min = <span class="cls">Math</span>.<span class="fn">min</span>(min, x);
+        }
+        <span class="kw">return</span> min;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">mitjana</span>(<span class="kw">double</span>[] v) {
+        <span class="kw">double</span> suma = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="kw">double</span> x : v) suma += x;
+        <span class="kw">return</span> suma / v.length;
+    }
+
+    <span class="kw">public static double</span> <span class="fn">arrodonir</span>(<span class="kw">double</span> v, <span class="kw">int</span> decimals) {
+        <span class="kw">double</span> factor = <span class="cls">Math</span>.<span class="fn">pow</span>(<span class="num">10</span>, decimals);
+        <span class="kw">return</span> <span class="cls">Math</span>.<span class="fn">round</span>(v * factor) / factor;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span>[] notes = {<span class="num">6.5</span>, <span class="num">8.0</span>, <span class="num">4.75</span>, <span class="num">9.0</span>, <span class="num">7.25</span>, <span class="num">5.5</span>};
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Màxim:   "</span> + <span class="fn">maxim</span>(notes));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mínim:   "</span> + <span class="fn">minim</span>(notes));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + <span class="fn">arrodonir</span>(<span class="fn">mitjana</span>(notes), <span class="num">2</span>));
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Caixa registradora</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Dissenya una classe <code>CaixaRegistradora</code> que gestioni les vendes d'una botiga. Ha de tenir un constructor sobrecarregat i mètodes estàtics de càlcul.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs: <code>nomBotiga</code> (String), <code>tipusIva</code> (double), <code>totalVendes</code> (double, inicialitzat a 0).</li>
+      <li>Constructor 1: nom i IVA (p.ex. 0.21 per 21%).</li>
+      <li>Constructor 2: nom sol (IVA = 0.21 per defecte).</li>
+      <li>Mètode d'instància <code>vendre(double preu)</code>: afegeix el preu a <code>totalVendes</code> i imprimeix el tiquet (preu base, IVA i total amb IVA).</li>
+      <li>Mètode estàtic <code>calcularIva(double base, double tipus)</code>: retorna l'import de l'IVA.</li>
+      <li>Mètode d'instància <code>tancament()</code>: mostra el resum del dia: nom botiga, total sense IVA, total IVA i total amb IVA.</li>
+      <li>Prova: crea una caixa, fes 3 vendes (15.00 €, 8.50 €, 32.00 €) i tanca.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.5 · 2.6 · 2.7 · 2.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">CaixaRegistradora</span> {
+
+    <span class="cls">String</span> nomBotiga;
+    <span class="kw">double</span> tipusIva;
+    <span class="kw">double</span> totalVendes;
+
+    <span class="cls">CaixaRegistradora</span>(<span class="cls">String</span> nomBotiga, <span class="kw">double</span> tipusIva) {
+        <span class="kw">this</span>.nomBotiga   = nomBotiga;
+        <span class="kw">this</span>.tipusIva    = tipusIva;
+        <span class="kw">this</span>.totalVendes = <span class="num">0</span>;
+    }
+
+    <span class="cls">CaixaRegistradora</span>(<span class="cls">String</span> nomBotiga) {
+        <span class="kw">this</span>(nomBotiga, <span class="num">0.21</span>);  <span class="cmt">// IVA general per defecte</span>
+    }
+
+    <span class="kw">public static double</span> <span class="fn">calcularIva</span>(<span class="kw">double</span> base, <span class="kw">double</span> tipus) {
+        <span class="kw">return</span> base * tipus;
+    }
+
+    <span class="kw">void</span> <span class="fn">vendre</span>(<span class="kw">double</span> preu) {
+        totalVendes += preu;
+        <span class="kw">double</span> iva   = <span class="fn">calcularIva</span>(preu, tipusIva);
+        <span class="kw">double</span> total = preu + iva;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"--- Tiquet ---"</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"  Base:  %6.2f €%n"</span>, preu);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"  IVA:   %6.2f €%n"</span>, iva);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"  TOTAL: %6.2f €%n"</span>, total);
+    }
+
+    <span class="kw">void</span> <span class="fn">tancament</span>() {
+        <span class="kw">double</span> ivaTotal   = <span class="fn">calcularIva</span>(totalVendes, tipusIva);
+        <span class="kw">double</span> totalAmbIva = totalVendes + ivaTotal;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n====== Tancament de caixa ======"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Botiga: "</span> + nomBotiga);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Total sense IVA: %8.2f €%n"</span>, totalVendes);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Total IVA (%.0f%%): %7.2f €%n"</span>, tipusIva * <span class="num">100</span>, ivaTotal);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"TOTAL AMB IVA:   %8.2f €%n"</span>, totalAmbIva);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">CaixaRegistradora</span> caixa = <span class="kw">new</span> <span class="cls">CaixaRegistradora</span>(<span class="str">"Mercat La Mercè"</span>);
+
+        caixa.<span class="fn">vendre</span>(<span class="num">15.00</span>);
+        caixa.<span class="fn">vendre</span>(<span class="num">8.50</span>);
+        caixa.<span class="fn">vendre</span>(<span class="num">32.00</span>);
+        caixa.<span class="fn">tancament</span>();
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 6 — CRITERIS D'AVALUACIÓ
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">6. Resum: criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 2.5</span><span class="ca-text">Escriu crides a mètodes estàtics de classes pròpies i predefinides.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.6</span><span class="ca-text">Utilitza paràmetres a la crida a mètodes: pas per valor.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.7</span><span class="ca-text">Incorpora i utilitza llibreries d'objectes predefinides (Math, Arrays, Integer).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.8</span><span class="ca-text">Utilitza constructors sobrecàrregats i la crida <code>this()</code> per reutilitzar-los.</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 7 — FONTS I RECURSOS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title" style="margin-top:3rem;">7. Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> TeoriaMetodes.pdf (Albert Canela) — Estructura d'un mètode, tipus de mètodes, pas de paràmetres, crida de mètodes dins d'altres mètodes.</li>
+    <li><strong>Material del professor (Drive):</strong> Exercicis de mètodes.pdf (Albert Canela) — Exercicis esPrimer, esParell, calculadora, sumaDigits.</li>
+    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> Cuenta.java — classe amb constructors, mètodes de negoci i sobrecàrrega. Repositori a <a href="https://github.com/aulaenlanube" style="color:var(--accent)">github.com/aulaenlanube</a>.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

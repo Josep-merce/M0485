@@ -25,11 +25,20 @@
     .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
     .breadcrumb a:hover { text-decoration:underline; }
     .breadcrumb span { margin:0 .4rem; color:#ccc; }
-    main { flex:1; max-width:760px; width:100%; margin:0 auto; padding:4rem 2rem; text-align:center; }
-    .coming h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.5rem; color:var(--text); margin-bottom:.75rem; }
-    .coming p { color:var(--text-soft); font-size:.95rem; }
-    .back { display:inline-block; margin-top:2rem; color:var(--accent); font-weight:600; text-decoration:none; font-size:.95rem; }
-    .back:hover { text-decoration:underline; }
+    main { flex:1; max-width:1000px; width:100%; margin:0 auto; padding:3.5rem 2rem; }
+    .section-intro { margin-bottom:1.5rem; }
+    .section-intro h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.6rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
+    .section-intro p  { font-size:.92rem; color:var(--text-soft); max-width:680px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
+    .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
+    .card:hover { box-shadow:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10); transform:translateY(-3px); }
+    .card.disabled { opacity:.5; pointer-events:none; cursor:default; }
+    .card-badge { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--accent-bg); color:var(--accent); border-radius:8px; font-size:.78rem; font-weight:700; margin-bottom:.3rem; }
+    .card-title { font-size:1rem; font-weight:700; color:var(--text); line-height:1.3; }
+    .card-desc  { font-size:.84rem; color:var(--text-soft); line-height:1.55; flex:1; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:.6rem; padding-top:.6rem; border-top:1px solid var(--border); }
+    .card-criteri { font-size:.74rem; color:var(--text-soft); }
+    .card-link { font-size:.84rem; font-weight:600; color:var(--accent); }
     footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
     @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} }
   </style>
@@ -38,7 +47,7 @@
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
   <h1>AEA2 &mdash; POO. Fonaments</h1>
-  <p>Introducció a la programació orientada a objectes: classes, objectes, constructors, mètodes i herència bàsica.</p>
+  <p>Introducció a la programació orientada a objectes: classes, objectes, constructors, mètodes, encapsulament i visibilitat.</p>
 </header>
 <nav class="breadcrumb">
   <a href="index.html">M0485 Programaci&oacute;</a>
@@ -46,11 +55,45 @@
   AEA2 &mdash; POO. Fonaments
 </nav>
 <main>
-  <div class="coming">
-    <h2>Contingut en construcci&oacute;</h2>
-    <p>Les activitats d&rsquo;aquesta AEA s&rsquo;aniran publicant al llarg del curs.</p>
-    <a class="back" href="index.html">&larr; Tornar a M0485</a>
+
+  <div class="section-intro">
+    <h2>AEA2 — POO. Fonaments</h2>
+    <p>Quatre blocs progressius, de la introducció a la POO fins a l’herència, paquets i la prova escrita.</p>
   </div>
+
+  <div class="cards">
+
+    <a class="card" href="aea2/A1_introduccio_poo.html">
+      <span class="card-badge">A1</span>
+      <span class="card-title">Introducció a la POO i primers objectes</span>
+      <span class="card-desc">Principis de la POO, diferència entre classe i objecte, constructors, mètodes i ús de classes predefinides (String, Random).</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 2.1 · 2.2 · 2.3 · 2.4 · 2.9</span>
+        <span class="card-link">Obrir →</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea2/A2_metodes_estatics_llibreries.html">
+      <span class="card-badge">A2</span>
+      <span class="card-title">Mètodes estàtics, paràmetres i llibreries</span>
+      <span class="card-desc">Crides a mètodes estàtics, pas de paràmetres, constructors sobrecàrregats i ús de llibreries predefinides (Math, Arrays).</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 2.5 · 2.6 · 2.7 · 2.8</span>
+        <span class="card-link">Obrir →</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea2/A3_disseny_classes.html">
+      <span class="card-badge">A3</span>
+      <span class="card-title">Disseny de classes: encapsulament i visibilitat</span>
+      <span class="card-desc">Atributs privats, getters i setters, validació, control de visibilitat, interacció entre objectes i mètode toString().</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6 · 6 h</span>
+        <span class="card-link">Obrir →</span>
+      </div>
+    </a>
+  </div>
+
 </main>
 <footer>Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M&ograve;dul M0485 Programaci&oacute;</footer>
 </body>

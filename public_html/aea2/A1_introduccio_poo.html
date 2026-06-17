@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Introducció a la POO · AEA2 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block {
+      background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius);
+      padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace;
+      font-size:.84rem; line-height:1.75; overflow-x:auto;
+      margin:1rem 0 1.5rem; white-space:pre;
+    }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; }
+    .exemple-header span { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    /* Exercicis */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    /* Solució toggle */
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--hero-bg); color:var(--text-hero);
+      border:none; border-radius:8px; padding:.5rem 1rem;
+      font-size:.82rem; font-weight:600; cursor:pointer;
+      transition:background .15s, transform .1s;
+      font-family:'Inter',system-ui,sans-serif;
+    }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; display:flex; align-items:center; gap:.4rem; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    /* CA grid */
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.5rem 1.5rem 2rem; }
+      main  { padding:2rem 1rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .ca-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA2 · POO. Fonaments</p>
+  <h1>A1 — Introducció a la POO i primers objectes</h1>
+  <p>Descobrir els principis de la Programació Orientada a Objectes, entendre la diferència entre classe i objecte, instanciar objectes i aprendre a usar mètodes i propietats.</p>
+  <div class="hero-pills">
+    <span class="pill">RA2</span>
+    <span class="pill">CA 2.1 · 2.2 · 2.3 · 2.4 · 2.9</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea2.html">AEA2</a><span>›</span>
+  A1 — Introducció a la POO i primers objectes
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 1 — QUÈ ÉS LA POO?
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">1. Què és la Programació Orientada a Objectes?</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">La <strong>Programació Orientada a Objectes (POO)</strong> és una manera d'organitzar el codi on tot gira al voltant d'<strong>objectes</strong>: entitats que combinen dades (el que saben) i comportament (el que poden fer). Va néixer per resoldre un problema real: els programes creixien tant que eren impossibles de mantenir.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Principi</th><th>Què significa</th><th>Exemple del dia a dia</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Encapsulament</strong></td><td>Agrupar dades i mètodes en una sola unitat, ocultant els detalls interns</td><td>Condueixes un cotxe girant el volant, sense saber com funciona el motor per dins</td></tr>
+      <tr><td><strong>Herència</strong></td><td>Una classe pot aprofitar els atributs i mètodes d'una altra</td><td>Un GatDomèstic és un Gat, que és un Animal: comparteixen característiques</td></tr>
+      <tr><td><strong>Polimorfisme</strong></td><td>El mateix mètode pot comportar-se diferent segons l'objecte que el crida</td><td>El mètode <code>ferSo()</code> sona diferent si l'executa un gat o un gos</td></tr>
+      <tr><td><strong>Abstracció</strong></td><td>Modelar només les característiques rellevants per al problema</td><td>Un compte bancari: importa el saldo i les operacions, no el servidor on s'emmagatzema</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="info-box">💡 <strong>Java és orientat a objectes per disseny:</strong> gairebé tot el codi s'escriu dins de classes. Fins i tot el <code>main()</code> que has estat usant fins ara és un mètode dins d'una classe. A partir d'ara entendràs per què.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 2 — CLASSE vs OBJECTE
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">2. Classe i objecte: el motlle i les peces</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Una <strong>classe</strong> és el motlle o plantilla: defineix com seran els objectes d'aquell tipus. Un <strong>objecte</strong> és una instància concreta d'aquella classe, amb els seus propis valors. Pots crear tants objectes com vulguis a partir d'una sola classe, igual que amb un motlle de galetes en pots fer centenars, totes amb la mateixa forma però cadascuna independent.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th></th><th>Classe (el motlle)</th><th>Objecte (la peça)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Qué és</strong></td><td>Plantilla abstracta que existeix al codi font</td><td>Entitat concreta que existeix en memòria durant l'execució</td></tr>
+      <tr><td><strong>Exemple</strong></td><td><code>Producte</code></td><td><code>p1</code> → Pa de motlle, 1,20 €</td></tr>
+      <tr><td><strong>Quantitat</strong></td><td>Una sola definició</td><td>Tantes instàncies com calgui</td></tr>
+      <tr><td><strong>Paraula clau Java</strong></td><td><code>class Producte { ... }</code></td><td><code>new Producte(...)</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">2.1 Primera classe Java</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Classe Producte amb atributs i un mètode</span></div>
+  <div class="code-block"><span class="cmt">// Fitxer: Producte.java</span>
+<span class="kw">public class</span> <span class="cls">Producte</span> {
+
+    <span class="cmt">// Atributs: les dades que "sap" cada objecte</span>
+    <span class="cls">String</span> nom;
+    <span class="kw">double</span> preu;
+    <span class="kw">int</span>    estoc;
+
+    <span class="cmt">// Mètode: una acció que pot fer l'objecte</span>
+    <span class="kw">void</span> <span class="fn">mostrarInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte: "</span> + nom);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu:     "</span> + preu + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Estoc:    "</span> + estoc + <span class="str">" unitats"</span>);
+    }
+
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Crear i usar objectes de la classe Producte</span></div>
+  <div class="code-block"><span class="cmt">// Fitxer: AppBotiga.java</span>
+<span class="kw">public class</span> <span class="cls">AppBotiga</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// new Producte() crea un objecte nou a memòria</span>
+        <span class="cls">Producte</span> p1 = <span class="kw">new</span> <span class="cls">Producte</span>();
+        p1.nom   = <span class="str">"Pa de motlle"</span>;
+        p1.preu  = <span class="num">1.20</span>;
+        p1.estoc = <span class="num">50</span>;
+
+        <span class="cls">Producte</span> p2 = <span class="kw">new</span> <span class="cls">Producte</span>();
+        p2.nom   = <span class="str">"Llet sencera"</span>;
+        p2.preu  = <span class="num">0.85</span>;
+        p2.estoc = <span class="num">120</span>;
+
+        <span class="cmt">// Cada objecte crida el seu propi mètode</span>
+        p1.<span class="fn">mostrarInfo</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"---"</span>);
+        p2.<span class="fn">mostrarInfo</span>();
+
+    }
+
+}</div>
+</div>
+
+<div class="tip-box">✅ <strong>Convenció de noms a Java:</strong> les classes comencen amb <strong>majúscula</strong> (<code>Producte</code>, <code>AppBotiga</code>). Els objectes i variables amb <strong>minúscula</strong> (<code>p1</code>, <code>estoc</code>). Els mètodes també amb minúscula en forma verbal (<code>mostrarInfo()</code>). Seguir les convencions fa el codi molt més llegible per a tothom.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 3 — MÈTODES
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">3. Mètodes: el comportament dels objectes</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Un <strong>mètode</strong> és un bloc de codi amb nom que defineix una acció que pot fer un objecte. Evita repetir codi, organitza el programa i permet modificar o consultar l'estat de l'objecte des de fora.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipus de mètode</th><th>Retorna alguna cosa?</th><th>Rep paràmetres?</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td>Sense retorn ni paràmetres</td><td>No (<code>void</code>)</td><td>No</td><td><code>void mostrarInfo()</code></td></tr>
+      <tr><td>Amb paràmetres, sense retorn</td><td>No (<code>void</code>)</td><td>Sí</td><td><code>void aplicarDescompte(double pct)</code></td></tr>
+      <tr><td>Sense paràmetres, amb retorn</td><td>Sí</td><td>No</td><td><code>double getPreu()</code></td></tr>
+      <tr><td>Amb paràmetres i retorn</td><td>Sí</td><td>Sí</td><td><code>double calcularTotal(int quantitat)</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">3.1 Mètodes que retornen un valor</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Classe Producte amb mètodes que calculen i retornen dades</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Producte</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">double</span> preu;
+    <span class="kw">int</span>    estoc;
+
+    <span class="cmt">// Retorna el preu amb IVA del 21%</span>
+    <span class="kw">double</span> <span class="fn">preuAmbIva</span>() {
+        <span class="kw">return</span> preu * <span class="num">1.21</span>;
+    }
+
+    <span class="cmt">// Retorna true si queden unitats disponibles</span>
+    <span class="kw">boolean</span> <span class="fn">teEstoc</span>() {
+        <span class="kw">return</span> estoc > <span class="num">0</span>;
+    }
+
+    <span class="cmt">// Calcula el cost total per a una quantitat donada</span>
+    <span class="kw">double</span> <span class="fn">calcularTotal</span>(<span class="kw">int</span> quantitat) {
+        <span class="kw">return</span> preu * quantitat;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Producte</span> cafe = <span class="kw">new</span> <span class="cls">Producte</span>();
+        cafe.nom   = <span class="str">"Cafè mòlt"</span>;
+        cafe.preu  = <span class="num">3.50</span>;
+        cafe.estoc = <span class="num">25</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu amb IVA: "</span>    + cafe.<span class="fn">preuAmbIva</span>() + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi ha estoc?  "</span>    + cafe.<span class="fn">teEstoc</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total 4 unitats: "</span> + cafe.<span class="fn">calcularTotal</span>(<span class="num">4</span>) + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+</div>
+
+<div class="warn-box">⚠️ <strong>Errors habituals amb mètodes:</strong> oblidar el <code>return</code> en un mètode que no és <code>void</code> genera un error de compilació. Cridar <code>mostrarInfo()</code> sol (sense l'objecte davant) no funciona tret que sigui un mètode estàtic — sempre cal escriure <code>p1.mostrarInfo()</code>.</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 4 — CONSTRUCTORS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">4. Constructors: inicialitzar objectes des del primer moment</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Un <strong>constructor</strong> és un mètode especial que s'executa automàticament quan creem un objecte amb <code>new</code>. El seu objectiu és inicialitzar els atributs a valors correctes des del primer instant, evitant objectes en un estat incoherent (per exemple, un producte sense preu).</p>
+
+<p style="font-size:.88rem;color:var(--text-soft);margin-bottom:.75rem;">Característiques clau:</p>
+<ul style="font-size:.87rem;color:var(--text-soft);padding-left:1.5rem;margin-bottom:1.25rem;">
+  <li>Té el <strong>mateix nom que la classe</strong> (amb majúscula).</li>
+  <li><strong>No té tipus de retorn</strong> (ni tan sols <code>void</code>).</li>
+  <li>S'executa una sola vegada, en el moment de fer <code>new</code>.</li>
+  <li>Si no en defineixes cap, Java n'afegeix un de buit automàticament.</li>
+</ul>
+
+<div class="sub-title">4.1 Constructor per defecte i constructor parametritzat</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Classe Alumne — dos constructors per a dos casos d'ús</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Alumne</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">int</span>    edat;
+    <span class="kw">double</span> notaMitjana;
+
+    <span class="cmt">// Constructor per defecte: inicialitza amb valors "buits"</span>
+    <span class="cls">Alumne</span>() {
+        nom         = <span class="str">"Desconegut"</span>;
+        edat        = <span class="num">0</span>;
+        notaMitjana = <span class="num">0.0</span>;
+    }
+
+    <span class="cmt">// Constructor parametritzat: rep els valors des de fora</span>
+    <span class="cls">Alumne</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="kw">double</span> notaMitjana) {
+        <span class="cmt">// "this" distingeix l'atribut de la classe del paràmetre</span>
+        <span class="kw">this</span>.nom         = nom;
+        <span class="kw">this</span>.edat        = edat;
+        <span class="kw">this</span>.notaMitjana = notaMitjana;
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" ("</span> + edat + <span class="str">" anys) — Nota: "</span> + notaMitjana);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Alumne</span> a1 = <span class="kw">new</span> <span class="cls">Alumne</span>();                        <span class="cmt">// constructor per defecte</span>
+        <span class="cls">Alumne</span> a2 = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Laia"</span>, <span class="num">19</span>, <span class="num">7.8</span>);         <span class="cmt">// constructor parametritzat</span>
+        <span class="cls">Alumne</span> a3 = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Marc"</span>, <span class="num">20</span>, <span class="num">6.2</span>);
+
+        a1.<span class="fn">mostrar</span>();  <span class="cmt">// Desconegut (0 anys) — Nota: 0.0</span>
+        a2.<span class="fn">mostrar</span>();  <span class="cmt">// Laia (19 anys) — Nota: 7.8</span>
+        a3.<span class="fn">mostrar</span>();  <span class="cmt">// Marc (20 anys) — Nota: 6.2</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="info-box">💡 <strong>La paraula clau <code>this</code>:</strong> quan el nom d'un paràmetre coincideix amb el d'un atribut (tots dos es diuen <code>nom</code>), Java no sap a quin et refereixes. <code>this.nom</code> és l'atribut de l'objecte actual; <code>nom</code> sol és el paràmetre. Sense <code>this</code>, l'atribut mai s'actualitzaria i l'objecte quedaria amb el valor inicial per defecte.</div>
+
+<div class="sub-title">4.2 Exemple complet: classe Temperatura</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Constructor + mètodes de conversió d'unitats</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">Temperatura</span> {
+
+    <span class="kw">double</span> grausCelsius;
+
+    <span class="cls">Temperatura</span>(<span class="kw">double</span> grausCelsius) {
+        <span class="kw">this</span>.grausCelsius = grausCelsius;
+    }
+
+    <span class="kw">double</span> <span class="fn">aFahrenheit</span>() {
+        <span class="kw">return</span> grausCelsius * <span class="num">9.0</span> / <span class="num">5.0</span> + <span class="num">32</span>;
+    }
+
+    <span class="kw">double</span> <span class="fn">aKelvin</span>() {
+        <span class="kw">return</span> grausCelsius + <span class="num">273.15</span>;
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(grausCelsius + <span class="str">" °C  =  "</span>
+            + <span class="fn">aFahrenheit</span>() + <span class="str">" °F  =  "</span> + <span class="fn">aKelvin</span>() + <span class="str">" K"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Temperatura</span> t1 = <span class="kw">new</span> <span class="cls">Temperatura</span>(<span class="num">0</span>);
+        <span class="cls">Temperatura</span> t2 = <span class="kw">new</span> <span class="cls">Temperatura</span>(<span class="num">100</span>);
+        <span class="cls">Temperatura</span> t3 = <span class="kw">new</span> <span class="cls">Temperatura</span>(<span class="num">37</span>);  <span class="cmt">// temperatura corporal</span>
+
+        t1.<span class="fn">mostrar</span>();  <span class="cmt">// 0.0 °C  =  32.0 °F  =  273.15 K</span>
+        t2.<span class="fn">mostrar</span>();  <span class="cmt">// 100.0 °C  =  212.0 °F  =  373.15 K</span>
+        t3.<span class="fn">mostrar</span>();  <span class="cmt">// 37.0 °C  =  98.6 °F  =  310.15 K</span>
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 5 — CLASSES PREDEFINIDES
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">5. Instanciar objectes de classes predefinides de Java</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Java inclou centenars de classes llestes per usar. Treballar-hi és exactament igual que amb les nostres pròpies: creem un objecte amb <code>new</code> i cridem els seus mètodes amb el punt (<code>.</code>). Les més habituals al principi són <code>String</code> i <code>Random</code>.</p>
+
+<div class="sub-title">5.1 La classe String i els seus mètodes</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Principals mètodes de String que usaràs sovint</span></div>
+  <div class="code-block"><span class="kw">public class</span> <span class="cls">ExempleString</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> nom = <span class="str">"Institut La Mercè"</span>;
+
+        <span class="cmt">// Longitud i accés a caràcters</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">length</span>());            <span class="cmt">// 17</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">charAt</span>(<span class="num">0</span>));            <span class="cmt">// I</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">toUpperCase</span>());        <span class="cmt">// INSTITUT LA MERCÈ</span>
+
+        <span class="cmt">// Cerca i comprovació</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">contains</span>(<span class="str">"Mercè"</span>));   <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">startsWith</span>(<span class="str">"Ins"</span>));   <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">indexOf</span>(<span class="str">"La"</span>));        <span class="cmt">// 9</span>
+
+        <span class="cmt">// Transformació</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">replace</span>(<span class="str">"Mercè"</span>, <span class="str">"Merce"</span>)); <span class="cmt">// Institut La Merce</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom.<span class="fn">substring</span>(<span class="num">0</span>, <span class="num">8</span>));     <span class="cmt">// Institut</span>
+
+        <span class="cmt">// Comparació — sempre amb equals(), MAI amb ==</span>
+        <span class="cls">String</span> a = <span class="str">"hola"</span>;
+        <span class="cls">String</span> b = <span class="str">"hola"</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a.<span class="fn">equals</span>(b));              <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a.<span class="fn">equalsIgnoreCase</span>(<span class="str">"HOLA"</span>)); <span class="cmt">// true</span>
+
+    }
+
+}</div>
+</div>
+
+<div class="warn-box">⚠️ <strong>Comparar Strings amb == no funciona:</strong> <code>==</code> compara si les dues variables apunten al mateix lloc a memòria, no si el text és igual. Per comparar el contingut, usa sempre <code>.equals()</code>. Oblidar-ho és un dels errors més habituals en Java i pot generar resultats inesperats.</div>
+
+<div class="sub-title">5.2 La classe Random</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Generar valors aleatoris amb Random</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
+
+<span class="kw">public class</span> <span class="cls">ExempleRandom</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Random</span> aleatori = <span class="kw">new</span> <span class="cls">Random</span>();  <span class="cmt">// instanciem com qualsevol objecte</span>
+
+        <span class="kw">int</span>     dau  = aleatori.<span class="fn">nextInt</span>(<span class="num">6</span>) + <span class="num">1</span>;   <span class="cmt">// [1, 6]</span>
+        <span class="kw">int</span>     nota = aleatori.<span class="fn">nextInt</span>(<span class="num">11</span>);       <span class="cmt">// [0, 10]</span>
+        <span class="kw">double</span>  prob = aleatori.<span class="fn">nextDouble</span>();       <span class="cmt">// [0.0, 1.0)</span>
+        <span class="kw">boolean</span> cara = aleatori.<span class="fn">nextBoolean</span>();     <span class="cmt">// true o false</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dau:          "</span> + dau);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota:         "</span> + nota);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Probabilitat: "</span> + prob);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cara o creu:  "</span> + (cara ? <span class="str">"Cara"</span> : <span class="str">"Creu"</span>));
+
+    }
+
+}</div>
+</div>
+
+<div class="ra5-box">📌 <strong>Nota sobre Scanner:</strong> la classe <code>Scanner</code> per llegir dades del teclat s'estudiarà en profunditat a l'<strong>RA5</strong>. Per ara usem valors declarats directament al codi. Quan arribi l'RA5 podràs connectar tots els exercicis a la lectura real de l'usuari.</div>
+
+<div class="sub-title">5.3 Exemple integrador: classe Persona amb Random</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Classe Persona amb constructor, mètodes i generació aleatòria</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
+
+<span class="kw">public class</span> <span class="cls">Persona</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">int</span>    edat;
+    <span class="cls">String</span> ciutat;
+
+    <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> ciutat) {
+        <span class="kw">this</span>.nom    = nom;
+        <span class="kw">this</span>.edat   = edat;
+        <span class="kw">this</span>.ciutat = ciutat;
+    }
+
+    <span class="cls">String</span> <span class="fn">salutacio</span>() {
+        <span class="kw">return</span> <span class="str">"Hola! Soc "</span> + nom + <span class="str">", tinc "</span> + edat
+               + <span class="str">" anys i visc a "</span> + ciutat + <span class="str">"."</span>;
+    }
+
+    <span class="kw">boolean</span> <span class="fn">esMajorEdat</span>() {
+        <span class="kw">return</span> edat >= <span class="num">18</span>;
+    }
+
+    <span class="cmt">// Mètode estàtic: no necessita un objecte existent per cridar-lo</span>
+    <span class="kw">static</span> <span class="cls">Persona</span> <span class="fn">generarAleatoria</span>() {
+        <span class="cls">Random</span>   r      = <span class="kw">new</span> <span class="cls">Random</span>();
+        <span class="cls">String</span>[] noms   = {<span class="str">"Laia"</span>, <span class="str">"Marc"</span>, <span class="str">"Júlia"</span>, <span class="str">"Pol"</span>, <span class="str">"Neus"</span>};
+        <span class="cls">String</span>[] citats = {<span class="str">"Barcelona"</span>, <span class="str">"Girona"</span>, <span class="str">"Lleida"</span>, <span class="str">"Tarragona"</span>};
+        <span class="cls">String</span> nom    = noms[r.<span class="fn">nextInt</span>(noms.length)];
+        <span class="kw">int</span>    edat   = r.<span class="fn">nextInt</span>(<span class="num">30</span>) + <span class="num">16</span>;  <span class="cmt">// [16, 45]</span>
+        <span class="cls">String</span> ciutat = citats[r.<span class="fn">nextInt</span>(citats.length)];
+        <span class="kw">return new</span> <span class="cls">Persona</span>(nom, edat, ciutat);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Persona</span> p1 = <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Laia"</span>, <span class="num">20</span>, <span class="str">"Barcelona"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p1.<span class="fn">salutacio</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Major d'edat: "</span> + p1.<span class="fn">esMajorEdat</span>());
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n--- Persones aleatòries ---"</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+            <span class="cls">Persona</span> p = <span class="cls">Persona</span>.<span class="fn">generarAleatoria</span>();  <span class="cmt">// cridem mètode estàtic</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">salutacio</span>());
+        }
+
+    }
+
+}</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 6 — EXERCICIS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">6. Exercicis pràctics</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:.5rem;max-width:720px;">Exercicis individuals ordenats de menor a major dificultat. Abans de codificar, escriu en paper quins atributs tindrà la classe i quins mètodes necessites. Prem el botó per veure la solució quan hagis acabat.</p>
+<div class="ra5-box" style="margin-bottom:1.5rem;">📌 En tots els exercicis, els valors estan declarats directament al codi. Quan arribi l'RA5 podràs llegir-los del teclat amb <code>Scanner</code>.</div>
+
+
+<!-- Ex 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Classe Cotxe</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Cotxe</code> que representi un vehicle. Cada cotxe ha de guardar la marca, el model i l'any de fabricació. Afegeix un constructor parametritzat i un mètode per mostrar la informació per pantalla.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs: <code>marca</code> (String), <code>model</code> (String), <code>any</code> (int).</li>
+      <li>Constructor parametritzat que inicialitzi els tres atributs amb <code>this</code>.</li>
+      <li>Mètode <code>mostrarInfo()</code> que imprimeixi: <code>Cotxe: Seat Ibiza (2019)</code></li>
+      <li>Al <code>main</code>, crea tres cotxes: Seat Ibiza 2019, Toyota Yaris 2022, Volkswagen Golf 2020, i mostra'n la informació.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.1 · 2.2 · 2.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Cotxe</span> {
+
+    <span class="cls">String</span> marca;
+    <span class="cls">String</span> model;
+    <span class="kw">int</span>    any;
+
+    <span class="cls">Cotxe</span>(<span class="cls">String</span> marca, <span class="cls">String</span> model, <span class="kw">int</span> any) {
+        <span class="kw">this</span>.marca = marca;
+        <span class="kw">this</span>.model = model;
+        <span class="kw">this</span>.any   = any;
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrarInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cotxe: "</span> + marca + <span class="str">" "</span> + model + <span class="str">" ("</span> + any + <span class="str">")"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Cotxe</span> c1 = <span class="kw">new</span> <span class="cls">Cotxe</span>(<span class="str">"Seat"</span>,       <span class="str">"Ibiza"</span>, <span class="num">2019</span>);
+        <span class="cls">Cotxe</span> c2 = <span class="kw">new</span> <span class="cls">Cotxe</span>(<span class="str">"Toyota"</span>,     <span class="str">"Yaris"</span>, <span class="num">2022</span>);
+        <span class="cls">Cotxe</span> c3 = <span class="kw">new</span> <span class="cls">Cotxe</span>(<span class="str">"Volkswagen"</span>, <span class="str">"Golf"</span>,  <span class="num">2020</span>);
+
+        c1.<span class="fn">mostrarInfo</span>();
+        c2.<span class="fn">mostrarInfo</span>();
+        c3.<span class="fn">mostrarInfo</span>();
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Classe Rectangle — àrea i perímetre</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Rectangle</code> que guardi les mides d'un rectangle i sàpiga calcular la seva àrea i el seu perímetre. Practica mètodes amb retorn.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs: <code>base</code> (double), <code>alcada</code> (double).</li>
+      <li>Constructor parametritzat.</li>
+      <li>Mètode <code>area()</code> que retorni <code>base * alcada</code>.</li>
+      <li>Mètode <code>perimetre()</code> que retorni <code>2 * (base + alcada)</code>.</li>
+      <li>Mètode <code>mostrar()</code> que imprimeixi base, alçada, àrea i perímetre.</li>
+      <li>Prova amb tres rectangles: 5×3, 10×4 i 7×7 (quadrat).</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.2 · 2.3 · 2.4</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Rectangle</span> {
+
+    <span class="kw">double</span> base;
+    <span class="kw">double</span> alcada;
+
+    <span class="cls">Rectangle</span>(<span class="kw">double</span> base, <span class="kw">double</span> alcada) {
+        <span class="kw">this</span>.base   = base;
+        <span class="kw">this</span>.alcada = alcada;
+    }
+
+    <span class="kw">double</span> <span class="fn">area</span>() {
+        <span class="kw">return</span> base * alcada;
+    }
+
+    <span class="kw">double</span> <span class="fn">perimetre</span>() {
+        <span class="kw">return</span> <span class="num">2</span> * (base + alcada);
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base: "</span> + base + <span class="str">"  Alçada: "</span> + alcada
+            + <span class="str">"  Àrea: "</span> + <span class="fn">area</span>() + <span class="str">"  Perímetre: "</span> + <span class="fn">perimetre</span>());
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Rectangle</span> r1 = <span class="kw">new</span> <span class="cls">Rectangle</span>(<span class="num">5</span>,  <span class="num">3</span>);
+        <span class="cls">Rectangle</span> r2 = <span class="kw">new</span> <span class="cls">Rectangle</span>(<span class="num">10</span>, <span class="num">4</span>);
+        <span class="cls">Rectangle</span> r3 = <span class="kw">new</span> <span class="cls">Rectangle</span>(<span class="num">7</span>,  <span class="num">7</span>);
+
+        r1.<span class="fn">mostrar</span>();
+        r2.<span class="fn">mostrar</span>();
+        r3.<span class="fn">mostrar</span>();
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Compte bancari</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Compte</code> que simuli les operacions bàsiques d'un compte bancari. El compte ha de permetre ingressar i retirar diners, controlant que les operacions siguin vàlides.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs: <code>titular</code> (String), <code>numeroCom</code> (String), <code>saldo</code> (double).</li>
+      <li>Constructor que rep titular, número de compte i saldo inicial.</li>
+      <li>Mètode <code>ingressar(double impo)</code>: suma l'import al saldo. Rebutja imports negatius o zero.</li>
+      <li>Mètode <code>retirar(double impo)</code>: resta l'import. Si no hi ha saldo suficient, imprimeix un missatge d'error sense modificar res.</li>
+      <li>Mètode <code>mostrarEstat()</code>: mostra titular, número de compte i saldo.</li>
+      <li>Prova: saldo inicial 500 €, ingressa 200 €, retira 350 €, intenta retirar 500 € (ha de mostrar error).</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.2 · 2.3 · 2.4 · 2.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Compte</span> {
+
+    <span class="cls">String</span> titular;
+    <span class="cls">String</span> numeroCom;
+    <span class="kw">double</span> saldo;
+
+    <span class="cls">Compte</span>(<span class="cls">String</span> titular, <span class="cls">String</span> numeroCom, <span class="kw">double</span> saldo) {
+        <span class="kw">this</span>.titular   = titular;
+        <span class="kw">this</span>.numeroCom = numeroCom;
+        <span class="kw">this</span>.saldo     = saldo;
+    }
+
+    <span class="kw">void</span> <span class="fn">ingressar</span>(<span class="kw">double</span> impo) {
+        <span class="kw">if</span> (impo <= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: l'import ha de ser positiu."</span>);
+            <span class="kw">return</span>;
+        }
+        saldo += impo;
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Ingrés de %.2f €. Nou saldo: %.2f €%n"</span>, impo, saldo);
+    }
+
+    <span class="kw">void</span> <span class="fn">retirar</span>(<span class="kw">double</span> impo) {
+        <span class="kw">if</span> (impo <= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: l'import ha de ser positiu."</span>);
+            <span class="kw">return</span>;
+        }
+        <span class="kw">if</span> (impo > saldo) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: saldo insuficient. Saldo actual: "</span> + saldo + <span class="str">" €"</span>);
+            <span class="kw">return</span>;
+        }
+        saldo -= impo;
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Retirada de %.2f €. Nou saldo: %.2f €%n"</span>, impo, saldo);
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrarEstat</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"--- Estat del compte ---"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Titular: "</span> + titular);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número:  "</span> + numeroCom);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Saldo:   %.2f €%n"</span>, saldo);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Compte</span> c = <span class="kw">new</span> <span class="cls">Compte</span>(<span class="str">"Laia Puig"</span>, <span class="str">"ES12-0049-1234"</span>, <span class="num">500.0</span>);
+        c.<span class="fn">mostrarEstat</span>();
+        c.<span class="fn">ingressar</span>(<span class="num">200.0</span>);
+        c.<span class="fn">retirar</span>(<span class="num">350.0</span>);
+        c.<span class="fn">retirar</span>(<span class="num">500.0</span>);   <span class="cmt">// saldo insuficient</span>
+        c.<span class="fn">mostrarEstat</span>();
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Joc de daus: dos jugadors</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Dissenya una classe <code>Jugador</code> per a un joc de daus on dos jugadors competeixen tirant un dau 5 vegades cadascun. Guanya qui acumuli més punts al final.</p>
+    <ul class="exercici-tasques">
+      <li>Atributs: <code>nom</code> (String), <code>punts</code> (int inicialitzat a 0), <code>rnd</code> (Random declarat a la classe).</li>
+      <li>Constructor que rep el <code>nom</code>.</li>
+      <li>Mètode <code>tirarDau()</code>: genera un valor entre 1 i 6 amb <code>Random</code>, l'afegeix als punts i el <strong>retorna</strong>.</li>
+      <li>Mètode <code>mostrarPunts()</code>: imprimeix nom i punts totals.</li>
+      <li>Al <code>main</code>: crea dos jugadors, fes 5 rondes mostrant cada tirada, i al final declara el guanyador. En cas d'empat, informa-ho.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.1 · 2.2 · 2.3 · 2.4 · 2.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
+
+<span class="kw">public class</span> <span class="cls">Jugador</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">int</span>    punts;
+    <span class="cls">Random</span> rnd = <span class="kw">new</span> <span class="cls">Random</span>();
+
+    <span class="cls">Jugador</span>(<span class="cls">String</span> nom) {
+        <span class="kw">this</span>.nom   = nom;
+        <span class="kw">this</span>.punts = <span class="num">0</span>;
+    }
+
+    <span class="kw">int</span> <span class="fn">tirarDau</span>() {
+        <span class="kw">int</span> valor = rnd.<span class="fn">nextInt</span>(<span class="num">6</span>) + <span class="num">1</span>;
+        punts += valor;
+        <span class="kw">return</span> valor;
+    }
+
+    <span class="kw">void</span> <span class="fn">mostrarPunts</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">": "</span> + punts + <span class="str">" punts"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Jugador</span> j1 = <span class="kw">new</span> <span class="cls">Jugador</span>(<span class="str">"Laia"</span>);
+        <span class="cls">Jugador</span> j2 = <span class="kw">new</span> <span class="cls">Jugador</span>(<span class="str">"Marc"</span>);
+
+        <span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">1</span>; r <= <span class="num">5</span>; r++) {
+            <span class="kw">int</span> v1 = j1.<span class="fn">tirarDau</span>();
+            <span class="kw">int</span> v2 = j2.<span class="fn">tirarDau</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ronda "</span> + r + <span class="str">": "</span>
+                + j1.nom + <span class="str">" treu "</span> + v1
+                + <span class="str">"  |  "</span> + j2.nom + <span class="str">" treu "</span> + v2);
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n--- Resultat final ---"</span>);
+        j1.<span class="fn">mostrarPunts</span>();
+        j2.<span class="fn">mostrarPunts</span>();
+
+        <span class="kw">if</span> (j1.punts > j2.punts) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Guanyador: "</span> + j1.nom + <span class="str">" 🎉"</span>);
+        } <span class="kw">else if</span> (j2.punts > j1.punts) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Guanyador: "</span> + j2.nom + <span class="str">" 🎉"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Empat!"</span>);
+        }
+
+    }
+
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 7 — CRITERIS D'AVALUACIÓ
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title">7. Resum: criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 2.1</span><span class="ca-text">Identifica els fonaments de la programació orientada a objectes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.2</span><span class="ca-text">Escriu programes simples organitzats en classes i objectes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.3</span><span class="ca-text">Instancia objectes a partir de classes predefinides (String, Random).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.4</span><span class="ca-text">Utilitza mètodes i propietats dels objectes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 2.9</span><span class="ca-text">Utilitza l'entorn integrat de desenvolupament per crear i compilar programes simples.</span></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     BLOC 8 — FONTS I RECURSOS
+═══════════════════════════════════════════════════ -->
+<h2 class="block-title" style="margin-top:3rem;">8. Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> POO. Classes i objectes. Conceptes bàsics (Albert Canela) — Estructura de classe, mètodes, constructors, encapsulació, this, paquets.</li>
+    <li><strong>Material del professor (Drive):</strong> TeoriaMetodes.pdf (Albert Canela) — Tipus de mètodes, retorn, paràmetres, crida dins d'altres mètodes.</li>
+    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> POO en JAVA.pdf — Introducció a la POO, UML, classes/objectes, constructors, static, ArrayList. Repositori a <a href="https://github.com/aulaenlanube" style="color:var(--accent)">github.com/aulaenlanube</a>.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

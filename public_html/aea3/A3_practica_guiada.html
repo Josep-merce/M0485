@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — Pràctica guiada: sistema bancari · AEA3 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    /* Pas a pas */
+    .pas { border:1px solid var(--border); border-radius:var(--radius); margin-bottom:1.75rem; overflow:hidden; box-shadow:var(--shadow); }
+    .pas-header { display:flex; align-items:center; gap:1rem; padding:.9rem 1.25rem; background:var(--hero-bg); color:var(--text-hero); }
+    .pas-num { background:var(--accent); color:#fff; border-radius:8px; padding:.2rem .7rem; font-size:.82rem; font-weight:700; flex-shrink:0; }
+    .pas-title { font-weight:700; font-size:1rem; }
+    .pas-body { padding:1.4rem 1.5rem; background:var(--surface); }
+    .pas-body p { font-size:.9rem; color:var(--text-soft); margin-bottom:.65rem; }
+    .pas-body ul { font-size:.88rem; color:var(--text); padding-left:1.3rem; margin-bottom:.75rem; }
+    .pas-body li { margin-bottom:.35rem; }
+    .pas-nota  { background:#fefce8; border-left:3px solid #f59e0b; padding:.65rem 1rem; font-size:.85rem; color:#78350f; border-radius:0 8px 8px 0; margin:.5rem 0 .85rem; line-height:1.55; }
+    .pas-error { background:#fff7ed; border-left:3px solid #ef4444; padding:.65rem 1rem; font-size:.85rem; color:#7f1d1d; border-radius:0 8px 8px 0; margin:.5rem 0 .85rem; line-height:1.55; }
+    .pas-prova { background:#f0fdf4; border-left:3px solid #22c55e; padding:.65rem 1rem; font-size:.85rem; color:#14532d; border-radius:0 8px 8px 0; margin:.5rem 0 .85rem; line-height:1.55; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA3 &middot; POO. Avançada &middot; Pràctica guiada</p>
+  <h1>A3 — Sistema bancari pas a pas</h1>
+  <p>Construirem junts, pas a pas, un sistema de comptes bancaris que aplica tots els conceptes de l'AEA3. Cada pas afegeix una capa nova de complexitat i explica el perquè de cada decisió de disseny.</p>
+  <div class="hero-pills">
+    <span class="pill">3 hores</span>
+    <span class="pill">RA7 — CA 7.1 a 7.10</span>
+    <span class="pill">No avaluable</span>
+    <span class="pill">Consolidació</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea3.html">AEA3 — POO. Avançada</a>
+  <span>&rsaquo;</span>
+  A3 — Pràctica guiada: sistema bancari
+</nav>
+
+<main>
+
+<h2 class="block-title">Què construirem</h2>
+<p>Un sistema que gestiona tres tipus de comptes bancaris: <strong>corrents</strong>, <strong>d'estalvis</strong> i <strong>de crèdit</strong>. Al final tindrem una jerarquia completa que usa classes abstractes, herència, polimorfisme i modificadors <code>final</code>.</p>
+<div class="info-box"><strong>Com funciona aquesta pràctica:</strong> Segueix els passos en ordre. Cada pas inclou el codi complet que has d'escriure, una explicació del perquè de cada decisió i un bloc de prova per verificar que funciona. No avancis al pas següent fins que el codi del pas actual compili i doni la sortida esperada.</div>
+
+<!-- PAS 1 -->
+<div class="pas">
+  <div class="pas-header">
+    <span class="pas-num">Pas 1</span>
+    <span class="pas-title">Crear la classe base <code>CompteBancari</code></span>
+  </div>
+  <div class="pas-body">
+    <p>Comencem creant la classe base. De moment és una classe normal (encara no abstracta). Té el número de compte, el saldo i una quantitat mínima per obrir el compte.</p>
+    <div class="pas-nota">💡 <strong>Per què <code>static</code> a <code>qttInicial</code>?</strong> Perquè pertany a la classe, no a cada objecte. Tots els comptes comparteixen la mateixa quantitat mínima. Si canvies el valor, canvia per a tots els comptes alhora.</div>
+    <div class="code-block"><span class="kw">public class</span> <span class="cls">CompteBancari</span> {
+
+    <span class="kw">protected</span> <span class="cls">String</span> numeroCom;
+    <span class="kw">protected double</span> saldo;
+    <span class="kw">private static double</span> qttInicial = <span class="num">100.0</span>;   <span class="cmt">// atribut de classe</span>
+
+    <span class="cmt">// Constructor 1: saldo = quantitat mínima</span>
+    <span class="kw">public</span> <span class="cls">CompteBancari</span>(<span class="cls">String</span> num) {
+        <span class="kw">this</span>.numeroCom = num;
+        <span class="kw">this</span>.saldo     = qttInicial;
+    }
+
+    <span class="cmt">// Constructor 2: saldo escollit per l'usuari (mínim: qttInicial)</span>
+    <span class="kw">public</span> <span class="cls">CompteBancari</span>(<span class="cls">String</span> num, <span class="kw">double</span> saldoInicial) {
+        <span class="kw">this</span>.numeroCom = num;
+        <span class="kw">this</span>.saldo = (saldoInicial >= qttInicial) ? saldoInicial : qttInicial;
+    }
+
+    <span class="kw">public void</span>    <span class="fn">imposicio</span>(<span class="kw">double</span> q) { saldo += q; }
+
+    <span class="kw">public boolean</span> <span class="fn">reintegre</span>(<span class="kw">double</span> q) {
+        <span class="kw">if</span> (q <= <span class="fn">getFondosDisponibles</span>()) { saldo -= q; <span class="kw">return true</span>; }
+        <span class="kw">return false</span>;
+    }
+
+    <span class="kw">public double</span> <span class="fn">getFondosDisponibles</span>() { <span class="kw">return</span> saldo; }
+    <span class="kw">public double</span> <span class="fn">getSaldo</span>()             { <span class="kw">return</span> saldo; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNumeroCom</span>()         { <span class="kw">return</span> numeroCom; }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"CompteBancari ["</span> + numeroCom + <span class="str">"] saldo: "</span> + saldo + <span class="str">"€"</span>;
+    }
+}</div>
+    <div class="pas-prova">✅ <strong>Prova-ho:</strong> Crea un <code>Main</code> temporal i verifica la sortida esperada:</div>
+    <div class="code-block"><span class="cls">CompteBancari</span> c1 = <span class="kw">new</span> <span class="cls">CompteBancari</span>(<span class="str">"001"</span>);
+<span class="cls">CompteBancari</span> c2 = <span class="kw">new</span> <span class="cls">CompteBancari</span>(<span class="str">"002"</span>, <span class="num">500.0</span>);
+c1.<span class="fn">imposicio</span>(<span class="num">200</span>);
+<span class="cls">System</span>.out.<span class="fn">println</span>(c1);   <span class="cmt">// CompteBancari [001] saldo: 300.0€</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(c2);   <span class="cmt">// CompteBancari [002] saldo: 500.0€</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(c1.<span class="fn">reintegre</span>(<span class="num">400</span>));  <span class="cmt">// false: no té prou saldo</span></div>
+  </div>
+</div>
+
+<!-- PAS 2 -->
+<div class="pas">
+  <div class="pas-header">
+    <span class="pas-num">Pas 2</span>
+    <span class="pas-title">Crear <code>CompteCorrent</code> i <code>CompteEstalvis</code></span>
+  </div>
+  <div class="pas-body">
+    <p>Ara creem les primeres subclasses. El compte corrent afegeix si s'han emès xecs. El compte d'estalvis afegeix un tipus d'interès compartit per tots els comptes d'estalvis.</p>
+    <div class="pas-nota">💡 <strong>Per què <code>final</code> als getters/setters de <code>xecsEmesos</code> i <code>tipusInteres</code>?</strong> Perquè no volem que cap subclasse canviï la lògica d'accés a aquests atributs. Els marquem com a <code>final</code> per garantir consistència: ningú els podrà sobreescriure.</div>
+    <div class="code-block"><span class="kw">public class</span> <span class="cls">CompteCorrent</span> <span class="kw">extends</span> <span class="cls">CompteBancari</span> {
+
+    <span class="kw">private boolean</span> xecsEmesos;
+
+    <span class="kw">public</span> <span class="cls">CompteCorrent</span>(<span class="cls">String</span> num)              { <span class="kw">super</span>(num); }
+    <span class="kw">public</span> <span class="cls">CompteCorrent</span>(<span class="cls">String</span> num, <span class="kw">double</span> saldo) { <span class="kw">super</span>(num, saldo); }
+
+    <span class="cmt">// final: cap subclasse podrà sobreescriure aquests accessors</span>
+    <span class="kw">public final boolean</span> <span class="fn">isXecsEmesos</span>()           { <span class="kw">return</span> xecsEmesos; }
+    <span class="kw">public final void</span>    <span class="fn">setXecsEmesos</span>(<span class="kw">boolean</span> x) { xecsEmesos = x; }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"CompteCorrent ["</span> + numeroCom + <span class="str">"] saldo: "</span> + saldo
+            + <span class="str">"€ | xecs: "</span> + (xecsEmesos ? <span class="str">"Sí"</span> : <span class="str">"No"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">CompteEstalvis</span> <span class="kw">extends</span> <span class="cls">CompteBancari</span> {
+
+    <span class="cmt">// tipusInteres és de classe: tots els comptes d'estalvis el comparteixen</span>
+    <span class="kw">private static double</span> tipusInteres = <span class="num">0.02</span>;
+
+    <span class="kw">public</span> <span class="cls">CompteEstalvis</span>(<span class="cls">String</span> num)              { <span class="kw">super</span>(num); }
+    <span class="kw">public</span> <span class="cls">CompteEstalvis</span>(<span class="cls">String</span> num, <span class="kw">double</span> saldo) { <span class="kw">super</span>(num, saldo); }
+
+    <span class="kw">public static final double</span> <span class="fn">getTipusInteres</span>()          { <span class="kw">return</span> tipusInteres; }
+    <span class="kw">public static final void</span>   <span class="fn">setTipusInteres</span>(<span class="kw">double</span> t)  { tipusInteres = t; }
+
+    <span class="cmt">// calcularInteres és final: la fórmula no es pot canviar</span>
+    <span class="kw">public final double</span> <span class="fn">calcularInteres</span>() { <span class="kw">return</span> saldo * tipusInteres; }
+    <span class="kw">public void</span>         <span class="fn">acumularInteres</span>() { saldo += <span class="fn">calcularInteres</span>(); }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"CompteEstalvis ["</span> + numeroCom + <span class="str">"] saldo: "</span> + saldo + <span class="str">"€"</span>;
+    }
+}</div>
+    <div class="pas-prova">✅ <strong>Prova-ho:</strong></div>
+    <div class="code-block"><span class="cls">CompteCorrent</span>  cc = <span class="kw">new</span> <span class="cls">CompteCorrent</span>(<span class="str">"CC-001"</span>, <span class="num">1000</span>);
+<span class="cls">CompteEstalvis</span> ce = <span class="kw">new</span> <span class="cls">CompteEstalvis</span>(<span class="str">"CE-001"</span>, <span class="num">5000</span>);
+cc.<span class="fn">setXecsEmesos</span>(<span class="kw">true</span>);
+<span class="cls">System</span>.out.<span class="fn">println</span>(cc);   <span class="cmt">// CompteCorrent [CC-001] saldo: 1000.0€ | xecs: Sí</span>
+ce.<span class="fn">acumularInteres</span>();
+<span class="cls">System</span>.out.<span class="fn">println</span>(ce);   <span class="cmt">// CompteEstalvis [CE-001] saldo: 5100.0€</span></div>
+  </div>
+</div>
+
+<!-- PAS 3 -->
+<div class="pas">
+  <div class="pas-header">
+    <span class="pas-num">Pas 3</span>
+    <span class="pas-title">Crear <code>CompteCredit</code> amb <code>getFondosDisponibles()</code></span>
+  </div>
+  <div class="pas-body">
+    <p>El compte de crèdit permet fer reintegres que superin el saldo, fins al límit de crèdit. En lloc de sobreescriure directament <code>reintegre()</code>, sobreescrivim <code>getFondosDisponibles()</code> a la subclasse: el mètode <code>reintegre()</code> ja el crida automàticament (el vam dissenyar a Pas 1 pensant en això).</p>
+    <div class="pas-nota">💡 <strong>Per què no sobreescrivim directament <code>reintegre()</code>?</strong> Si algun dia canviem la lògica de <code>reintegre()</code>, ho fem en un sol lloc. Amb <code>getFondosDisponibles()</code> cada subclasse indica quins fons té disponibles, i <code>reintegre()</code> sempre usa aquest mètode.</div>
+    <div class="code-block"><span class="kw">public class</span> <span class="cls">CompteCredit</span> <span class="kw">extends</span> <span class="cls">CompteCorrent</span> {
+
+    <span class="kw">private double</span> credit;
+
+    <span class="kw">public</span> <span class="cls">CompteCredit</span>(<span class="cls">String</span> num, <span class="kw">double</span> saldo, <span class="kw">double</span> credit) {
+        <span class="kw">super</span>(num, saldo);
+        <span class="kw">this</span>.credit = credit;
+    }
+
+    <span class="kw">public final double</span> <span class="fn">getCredit</span>()           { <span class="kw">return</span> credit; }
+    <span class="kw">public final void</span>   <span class="fn">setCredit</span>(<span class="kw">double</span> c)   { <span class="kw">this</span>.credit = c; }
+
+    <span class="cmt">// Sobreescriu getFondosDisponibles: saldo + crèdit disponible</span>
+    @Override
+    <span class="kw">public double</span> <span class="fn">getFondosDisponibles</span>() { <span class="kw">return</span> saldo + credit; }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"CompteCredit ["</span> + numeroCom + <span class="str">"] saldo: "</span> + saldo
+            + <span class="str">"€ | crèdit: "</span> + credit + <span class="str">"€"</span>;
+    }
+}</div>
+    <div class="pas-prova">✅ <strong>Prova-ho:</strong></div>
+    <div class="code-block"><span class="cls">CompteCredit</span> cr = <span class="kw">new</span> <span class="cls">CompteCredit</span>(<span class="str">"CR-001"</span>, <span class="num">200</span>, <span class="num">1000</span>);
+<span class="cls">System</span>.out.<span class="fn">println</span>(cr);
+<span class="cmt">// saldo 200€ + crèdit 1000€ → podem treure fins 1200€</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(cr.<span class="fn">reintegre</span>(<span class="num">800</span>));   <span class="cmt">// true</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(cr);                   <span class="cmt">// saldo: -600.0€</span></div>
+    <div class="pas-error">⚠️ <strong>Error típic:</strong> Intentar sobreescriure <code>setXecsEmesos()</code> o <code>getCredit()</code> des d'una altra subclasse. Com que estan marcats com a <code>final</code>, el compilador ho impedirà. Això és exactament el que volem.</div>
+  </div>
+</div>
+
+<!-- PAS 4 -->
+<div class="pas">
+  <div class="pas-header">
+    <span class="pas-num">Pas 4</span>
+    <span class="pas-title">Convertir <code>CompteBancari</code> en classe abstracta</span>
+  </div>
+  <div class="pas-body">
+    <p>Ara que tenim les subclasses, convertim <code>CompteBancari</code> en abstracta. Cap usuari hauria de crear un "compte bancari genèric"; sempre crearà un compte corrent, d'estalvis o de crèdit.</p>
+    <div class="pas-nota">💡 <strong>Com?</strong> Només cal afegir la paraula <code>abstract</code> a la declaració de la classe. No cal canviar res més del codi existent. Aprofitem també per fer que <code>toString()</code> usi <code>getClass().getSimpleName()</code> i pugui ser reutilitzat per les subclasses.</div>
+    <div class="code-block"><span class="cmt">// Únic canvi: afegir 'abstract' a la declaració</span>
+<span class="kw">public abstract class</span> <span class="cls">CompteBancari</span> {   <span class="cmt">// ← 'abstract' afegit</span>
+
+    <span class="cmt">// ... la resta del codi queda exactament igual ...</span>
+
+    <span class="cmt">// toString() millorat: usa getClass() per mostrar el tipus real</span>
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="fn">getClass</span>().<span class="fn">getSimpleName</span>()
+            + <span class="str">" ["</span> + numeroCom + <span class="str">"] saldo: "</span> + saldo + <span class="str">"€"</span>;
+    }
+}</div>
+    <div class="pas-error">⚠️ <strong>Comprova que ara això dóna error de compilació:</strong>
+    <code>CompteBancari c = new CompteBancari("001");</code>
+    Hauries de veure: <em>"CompteBancari is abstract; cannot be instantiated"</em>. Perfecte: significa que la restricció funciona.</div>
+  </div>
+</div>
+
+<!-- PAS 5 -->
+<div class="pas">
+  <div class="pas-header">
+    <span class="pas-num">Pas 5</span>
+    <span class="pas-title">Programa principal: polimorfisme en acció</span>
+  </div>
+  <div class="pas-body">
+    <p>Ara creem el programa principal. Usarem un <code>ArrayList&lt;CompteBancari&gt;</code> (la classe abstracta!) per guardar tots els comptes i veure el polimorfisme en acció.</p>
+    <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Usem la classe abstracta com a tipus de la llista → polimorfisme</span>
+        <span class="cls">ArrayList</span>&lt;<span class="cls">CompteBancari</span>&gt; comptes = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        comptes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">CompteCorrent</span>(<span class="str">"CC-001"</span>, <span class="num">1500</span>));
+        comptes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">CompteEstalvis</span>(<span class="str">"CE-001"</span>, <span class="num">3000</span>));
+        comptes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">CompteCredit</span>(<span class="str">"CR-001"</span>, <span class="num">500</span>, <span class="num">2000</span>));
+        comptes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">CompteCorrent</span>(<span class="str">"CC-002"</span>, <span class="num">800</span>));
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"=== TOTS ELS COMPTES ==="</span>);
+        <span class="kw">double</span> totalSaldo = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="cls">CompteBancari</span> c : comptes) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(c);      <span class="cmt">// cada toString() és el de la seva subclasse</span>
+            totalSaldo += c.<span class="fn">getSaldo</span>();
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total dipositat: "</span> + totalSaldo + <span class="str">"€\n"</span>);
+
+        <span class="cmt">// Accedir a operacions específiques amb instanceof + càsting</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"=== APLICAR INTERESSOS ==="</span>);
+        <span class="kw">for</span> (<span class="cls">CompteBancari</span> c : comptes) {
+            <span class="kw">if</span> (c <span class="kw">instanceof</span> <span class="cls">CompteEstalvis</span>) {
+                <span class="cls">CompteEstalvis</span> ce = (<span class="cls">CompteEstalvis</span>) c;
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Interès generat: "</span> + ce.<span class="fn">calcularInteres</span>() + <span class="str">"€"</span>);
+                ce.<span class="fn">acumularInteres</span>();
+                <span class="cls">System</span>.out.<span class="fn">println</span>(ce);
+            }
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== OPERACIONS ==="</span>);
+        comptes.<span class="fn">get</span>(<span class="num">0</span>).<span class="fn">imposicio</span>(<span class="num">500</span>);
+        <span class="kw">boolean</span> ok = comptes.<span class="fn">get</span>(<span class="num">2</span>).<span class="fn">reintegre</span>(<span class="num">2000</span>);  <span class="cmt">// CompteCredit: usa crèdit</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Reintegre 2000€ del compte crèdit: "</span> + ok);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== ESTAT FINAL ==="</span>);
+        <span class="kw">for</span> (<span class="cls">CompteBancari</span> c : comptes) <span class="cls">System</span>.out.<span class="fn">println</span>(c);
+    }
+}</div>
+    <div class="pas-nota">💡 <strong>Observa el polimorfisme:</strong> Al bucle <code>for (CompteBancari c : comptes)</code>, quan crides <code>c.toString()</code>, Java executa automàticament el <code>toString()</code> de la subclasse correcta — sense cap <code>if/instanceof</code>. Cada objecte sap quin tipus és. Això és el polimorfisme dinàmic en acció.</div>
+  </div>
+</div>
+
+<h2 class="block-title">Jerarquia final de classes</h2>
+<div class="info-box">
+  <strong>CompteBancari</strong> (abstracta) — classe base, no instanciable<br>
+  &nbsp;&nbsp;&nbsp;├── <strong>CompteCorrent</strong> — afegeix <code>xecsEmesos</code>, accessors <code>final</code><br>
+  &nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <strong>CompteCredit</strong> — sobreescriu <code>getFondosDisponibles()</code><br>
+  &nbsp;&nbsp;&nbsp;└── <strong>CompteEstalvis</strong> — <code>tipusInteres</code> estàtic, <code>calcularInteres()</code> <code>final</code>
+</div>
+
+<h2 class="block-title" style="margin-top:2.5rem">Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 7.1</span><span class="ca-text">Identifica els conceptes d'herència, superclasse i subclasse.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.2</span><span class="ca-text">Utilitza <code>final</code> i <code>abstract</code> per bloquejar o forçar l'herència.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.3</span><span class="ca-text">Reconeix la incidència dels constructors a l'herència (<code>super()</code>).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.4</span><span class="ca-text">Crea classes heretades que sobreescriuen mètodes de la superclasse.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.5</span><span class="ca-text">Dissenya i aplica jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.6</span><span class="ca-text">Prova i depura les jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.7</span><span class="ca-text">Realitza programes que implementin i utilitzin jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.8</span><span class="ca-text">Comenta i documenta el codi amb Javadoc.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.9</span><span class="ca-text">Identifica i avalua els escenaris d'ús d'interfícies.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.10</span><span class="ca-text">Identifica i avalua els escenaris d'herència i composició.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:2.5rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> Exercici CompteBancari — Albert Canela. Font principal d'aquesta pràctica guiada.</li>
+    <li><strong>Material del professor (Drive):</strong> Herència (Resum) — Albert Canela.</li>
+    <li><strong>Material del professor (Drive):</strong> POO. Classes abstractes i interfícies — Albert Canela.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
+</body>
+</html>

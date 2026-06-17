@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Classes abstractes, interfícies i composició · AEA3 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra7-box   { background:#f5f3ff; border-left:4px solid #7c3aed; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#4c1d95; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA3 &middot; POO. Avançada</p>
+  <h1>A2 — Classes abstractes, interfícies i composició</h1>
+  <p>Entendre quan una classe no s'ha d'instanciar directament, com definir contractes de comportament amb interfícies, i quan és millor "tenir" una cosa que "ser-la".</p>
+  <div class="hero-pills">
+    <span class="pill">6 hores</span>
+    <span class="pill">RA7 — CA 7.2 · 7.4 · 7.5 · 7.7 · 7.9 · 7.10</span>
+    <span class="pill">Java</span>
+    <span class="pill">Mitjà · Avançat</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea3.html">AEA3 — POO. Avançada</a>
+  <span>&rsaquo;</span>
+  A2 — Classes abstractes, interfícies i composició
+</nav>
+
+<main>
+
+<h2 class="block-title">1. Classes abstractes</h2>
+<p>Una <strong>classe abstracta</strong> és una classe que no es pot instanciar directament. Serveix de plantilla: defineix mètodes comuns (concrets) i declara mètodes abstractes que cada subclasse ha d'implementar obligatòriament.</p>
+<div class="info-box"><strong>Quan usar una classe abstracta?</strong> Quan diverses subclasses comparteixen atributs i codi base, però cadascuna té una implementació diferent d'algun mètode. Exemple: tots els pagaments <em>tenen un import</em>, però cada tipus de pagament <em>es processa</em> de forma diferent.</div>
+<div class="code-block"><span class="kw">public abstract class</span> <span class="cls">Pagament</span> {
+
+    <span class="kw">protected double</span> import_;
+    <span class="kw">protected</span> <span class="cls">String</span> data;
+
+    <span class="cls">Pagament</span>(<span class="kw">double</span> import_, <span class="cls">String</span> data) {
+        <span class="kw">this</span>.import_ = import_;
+        <span class="kw">this</span>.data    = data;
+    }
+
+    <span class="cmt">// Mètode abstracte: cada subclasse OBLIGATÒRIAMENT l'ha d'implementar</span>
+    <span class="kw">public abstract void</span> <span class="fn">processar</span>();
+
+    <span class="cmt">// Mètode concret: compartit per totes les subclasses</span>
+    <span class="kw">public void</span> <span class="fn">mostrarImport</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data: "</span> + data + <span class="str">" | Import: "</span> + import_ + <span class="str">"€"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Targeta</span> <span class="kw">extends</span> <span class="cls">Pagament</span> {
+    <span class="cls">String</span> numTargeta;
+    <span class="cls">Targeta</span>(<span class="kw">double</span> imp, <span class="cls">String</span> data, <span class="cls">String</span> num) {
+        <span class="kw">super</span>(imp, data); <span class="kw">this</span>.numTargeta = num;
+    }
+    @Override
+    <span class="kw">public void</span> <span class="fn">processar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Càrrec de "</span> + import_ + <span class="str">"€ a targeta "</span> + numTargeta);
+    }
+}
+
+<span class="cmt">// Això donaria ERROR de compilació:</span>
+<span class="cmt">// Pagament p = new Pagament(50, "avui");  ← no es pot instanciar</span></div>
+
+<h2 class="block-title">2. Interfícies</h2>
+<p>Una <strong>interfície</strong> és un contracte: defineix quins mètodes ha d'implementar una classe, sense dir com. La gran avantatge és que una classe pot implementar <strong>múltiples interfícies</strong>, cosa que no és possible amb l'herència de classes.</p>
+<div class="code-block"><span class="kw">public interface</span> <span class="cls">Volador</span> {
+    <span class="kw">void</span> <span class="fn">volar</span>();                   <span class="cmt">// abstracte per defecte</span>
+    <span class="kw">default void</span> <span class="fn">aterrar</span>() {       <span class="cmt">// mètode per defecte (Java 8+)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Aterrant..."</span>);
+    }
+}
+
+<span class="kw">public interface</span> <span class="cls">Nedador</span> {
+    <span class="kw">void</span> <span class="fn">nedar</span>();
+}
+
+<span class="cmt">// Una classe pot implementar múltiples interfícies alhora</span>
+<span class="kw">public class</span> <span class="cls">Anec</span> <span class="kw">extends</span> <span class="cls">Animal</span> <span class="kw">implements</span> <span class="cls">Volador</span>, <span class="cls">Nedador</span> {
+    <span class="cls">Anec</span>(<span class="cls">String</span> nom) { <span class="kw">super</span>(nom, <span class="num">1</span>); }
+    @Override <span class="kw">public void</span> <span class="fn">volar</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" vola!"</span>); }
+    @Override <span class="kw">public void</span> <span class="fn">nedar</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" neda!"</span>); }
+    @Override <span class="kw">void</span> <span class="fn">ferSoroll</span>()   { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">": Quac!"</span>); }
+}</div>
+
+<h2 class="block-title">3. Diferències: classe abstracta vs interfície</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Característica</th><th>Classe abstracta</th><th>Interfície</th></tr></thead>
+    <tbody>
+      <tr><td>Instanciació</td><td>No</td><td>No</td></tr>
+      <tr><td>Herència / implementació</td><td>Només una (<code>extends</code>)</td><td>Múltiples (<code>implements</code>)</td></tr>
+      <tr><td>Atributs d'instància</td><td>Sí</td><td>No (només constants)</td></tr>
+      <tr><td>Constructors</td><td>Sí</td><td>No</td></tr>
+      <tr><td>Mètodes concrets</td><td>Sí</td><td>Sí, des de Java 8 (<code>default</code>)</td></tr>
+      <tr><td>Ús principal</td><td>Jerarquia "és un" amb codi compartit</td><td>Contracte de comportament transversal</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="ra7-box"><strong>Quan usar cada un?</strong> Usa <strong>classe abstracta</strong> quan les subclasses comparteixen atributs i codi base (Animals, Pagaments). Usa <strong>interfície</strong> quan vols definir un comportament que classes no relacionades poden compartir (Volador, Comparable, Serializable).</div>
+
+<h2 class="block-title">4. Composició: "té un" vs "és un"</h2>
+<p>L'herència modela la relació <strong>"és un"</strong>. La composició modela <strong>"té un"</strong>: una classe conté una instància d'una altra classe com a atribut i delega part del comportament.</p>
+<div class="code-block"><span class="cmt">// ❌ Herència mal aplicada: Motor NO és un Cotxe</span>
+<span class="kw">public class</span> <span class="cls">CotxeMalament</span> <span class="kw">extends</span> <span class="cls">Motor</span> { ... }
+
+<span class="cmt">// ✅ Composició: un Cotxe TÉ UN Motor</span>
+<span class="kw">public class</span> <span class="cls">Motor</span> {
+    <span class="kw">int</span>  cilindrada;
+    <span class="kw">void</span> <span class="fn">arrancar</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Motor arrancant..."</span>); }
+}
+
+<span class="kw">public class</span> <span class="cls">Cotxe</span> <span class="kw">extends</span> <span class="cls">Vehicle</span> {     <span class="cmt">// herència OK: Cotxe és un Vehicle</span>
+
+    <span class="kw">private</span> <span class="cls">Motor</span> motor;                 <span class="cmt">// composició: Cotxe té un Motor</span>
+
+    <span class="cls">Cotxe</span>(<span class="cls">String</span> marca, <span class="kw">int</span> any, <span class="kw">int</span> cil) {
+        <span class="kw">super</span>(marca, any);
+        <span class="kw">this</span>.motor = <span class="kw">new</span> <span class="cls">Motor</span>(cil);
+    }
+
+    <span class="kw">void</span> <span class="fn">engegar</span>() {
+        motor.<span class="fn">arrancar</span>();               <span class="cmt">// delega al Motor</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(marca + <span class="str">" llest per circular"</span>);
+    }
+}</div>
+<div class="tip-box"><strong>Principi de disseny:</strong> "Prefereix composició sobre herència" quan no hi hagi una relació jeràrquica clara. La composició és menys acoblada i més fàcil de canviar.</div>
+
+<h2 class="block-title">5. Exercicis</h2>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex 1</span>
+    <span class="exercici-title">Sistema de pagaments</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa un sistema de pagaments usant una classe abstracta.</p>
+    <ul class="exercici-tasques">
+      <li>Classe abstracta <code>Pagament</code>: <code>import_</code> (double) i <code>data</code> (String). Mètode abstracte <code>processar()</code>. Mètode concret <code>mostrarImport()</code>.</li>
+      <li>Subclasses <code>Efectiu</code>, <code>Targeta</code> (amb <code>numTargeta</code>) i <code>Transferencia</code> (amb <code>iban</code>). Cadascuna implementa <code>processar()</code>.</li>
+      <li>Al <code>main</code>: crea un array de <code>Pagament</code> amb els tres tipus, crida <code>processar()</code> per a cada un i suma l'import total.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA: 7.2 · 7.4 · 7.5 · 7.7 · 7.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public abstract class</span> <span class="cls">Pagament</span> {
+    <span class="kw">protected double</span> import_; <span class="kw">protected</span> <span class="cls">String</span> data;
+    <span class="cls">Pagament</span>(<span class="kw">double</span> imp, <span class="cls">String</span> data) { <span class="kw">this</span>.import_ = imp; <span class="kw">this</span>.data = data; }
+    <span class="kw">public abstract void</span> <span class="fn">processar</span>();
+    <span class="kw">public void</span> <span class="fn">mostrarImport</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data: "</span> + data + <span class="str">" | "</span> + import_ + <span class="str">"€"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Efectiu</span> <span class="kw">extends</span> <span class="cls">Pagament</span> {
+    <span class="cls">Efectiu</span>(<span class="kw">double</span> imp, <span class="cls">String</span> data) { <span class="kw">super</span>(imp, data); }
+    @Override <span class="kw">public void</span> <span class="fn">processar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[EFECTIU] "</span> + import_ + <span class="str">"€ el "</span> + data);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Targeta</span> <span class="kw">extends</span> <span class="cls">Pagament</span> {
+    <span class="cls">String</span> numTargeta;
+    <span class="cls">Targeta</span>(<span class="kw">double</span> imp, <span class="cls">String</span> data, <span class="cls">String</span> num) {
+        <span class="kw">super</span>(imp, data); <span class="kw">this</span>.numTargeta = num;
+    }
+    @Override <span class="kw">public void</span> <span class="fn">processar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[TARGETA] "</span> + import_ + <span class="str">"€ → "</span> + numTargeta);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Transferencia</span> <span class="kw">extends</span> <span class="cls">Pagament</span> {
+    <span class="cls">String</span> iban;
+    <span class="cls">Transferencia</span>(<span class="kw">double</span> imp, <span class="cls">String</span> data, <span class="cls">String</span> iban) {
+        <span class="kw">super</span>(imp, data); <span class="kw">this</span>.iban = iban;
+    }
+    @Override <span class="kw">public void</span> <span class="fn">processar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[TRANSF.] "</span> + import_ + <span class="str">"€ → IBAN: "</span> + iban);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Pagament</span>[] pagaments = {
+            <span class="kw">new</span> <span class="cls">Efectiu</span>(<span class="num">50.0</span>, <span class="str">"10/01/2025"</span>),
+            <span class="kw">new</span> <span class="cls">Targeta</span>(<span class="num">120.0</span>, <span class="str">"11/01/2025"</span>, <span class="str">"**** 4321"</span>),
+            <span class="kw">new</span> <span class="cls">Transferencia</span>(<span class="num">800.0</span>, <span class="str">"12/01/2025"</span>, <span class="str">"ES12 3456 7890"</span>)
+        };
+        <span class="kw">double</span> total = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="cls">Pagament</span> p : pagaments) { p.<span class="fn">processar</span>(); total += p.import_; }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nTotal: "</span> + total + <span class="str">"€"</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex 2</span>
+    <span class="exercici-title">Joc d'armes (interfícies + classes abstractes + composició)</span>
+  </div>
+  <div class="exercici-body">
+    <p>Exercici integrador que combina tots els conceptes de l'AEA3: herència, classes abstractes, interfícies i composició.</p>
+    <ul class="exercici-tasques">
+      <li>Interfície <code>Armable</code>: mètode <code>equiparPersonatge(Personatge p)</code>.</li>
+      <li>Classe <code>Personatge</code> (composició): té <code>puntsVida</code>, <code>puntsAtac</code> (double) i 4 booleans de protecció/atac. Conté un <code>ArrayList&lt;Armable&gt;</code>. Mètodes <code>afegirArma()</code>, <code>equipar()</code> i <code>mostrarEstat()</code>.</li>
+      <li>Classe abstracta <code>ArmaDefensa implements Armable</code>: té <code>percentatgeVida</code>. Implementa <code>equiparPersonatge()</code> incrementant <code>puntsVida</code> i cridant el mètode abstracte <code>activarProteccio()</code>.</li>
+      <li>Classe abstracta <code>ArmaAtac implements Armable</code>: té <code>percentatgeAtac</code>. Implementa <code>equiparPersonatge()</code> incrementant <code>puntsAtac</code> i cridant el mètode abstracte <code>activarAtac()</code>.</li>
+      <li>Subclasses: <code>Escut</code> i <code>Armadura</code> d'<code>ArmaDefensa</code>; <code>Espasa</code> i <code>Arc</code> d'<code>ArmaAtac</code>.</li>
+      <li>Al <code>main</code>: crea un personatge, afegeix les 4 armes, equipa'l i mostra l'estat abans i després.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA: 7.2 · 7.4 · 7.5 · 7.7 · 7.9 · 7.10</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="kw">public interface</span> <span class="cls">Armable</span> {
+    <span class="kw">void</span> <span class="fn">equiparPersonatge</span>(<span class="cls">Personatge</span> p);
+}
+
+<span class="kw">public class</span> <span class="cls">Personatge</span> {
+    <span class="kw">double</span>  puntsVida = <span class="num">100</span>, puntsAtac = <span class="num">10</span>;
+    <span class="kw">boolean</span> proteccioArquer, proteccioCosACos, atacArquer, atacCosACos;
+    <span class="cls">ArrayList</span>&lt;<span class="cls">Armable</span>&gt; armes = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">void</span> <span class="fn">afegirArma</span>(<span class="cls">Armable</span> a) { armes.<span class="fn">add</span>(a); }
+    <span class="kw">void</span> <span class="fn">equipar</span>() { <span class="kw">for</span> (<span class="cls">Armable</span> a : armes) a.<span class="fn">equiparPersonatge</span>(<span class="kw">this</span>); }
+    <span class="kw">void</span> <span class="fn">mostrarEstat</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vida: "</span> + puntsVida + <span class="str">" | Atac: "</span> + puntsAtac);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Prot. arquer: "</span> + proteccioArquer + <span class="str">" | cos a cos: "</span> + proteccioCosACos);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Atac arquer: "</span>  + atacArquer      + <span class="str">" | cos a cos: "</span> + atacCosACos);
+    }
+}
+
+<span class="kw">public abstract class</span> <span class="cls">ArmaDefensa</span> <span class="kw">implements</span> <span class="cls">Armable</span> {
+    <span class="kw">protected double</span> percentatgeVida;
+    <span class="cls">ArmaDefensa</span>(<span class="kw">double</span> pct) { <span class="kw">this</span>.percentatgeVida = pct; }
+    <span class="kw">public abstract void</span> <span class="fn">activarProteccio</span>(<span class="cls">Personatge</span> p);
+    @Override <span class="kw">public void</span> <span class="fn">equiparPersonatge</span>(<span class="cls">Personatge</span> p) {
+        p.puntsVida *= (<span class="num">1</span> + percentatgeVida); <span class="fn">activarProteccio</span>(p);
+    }
+}
+
+<span class="kw">public abstract class</span> <span class="cls">ArmaAtac</span> <span class="kw">implements</span> <span class="cls">Armable</span> {
+    <span class="kw">protected double</span> percentatgeAtac;
+    <span class="cls">ArmaAtac</span>(<span class="kw">double</span> pct) { <span class="kw">this</span>.percentatgeAtac = pct; }
+    <span class="kw">public abstract void</span> <span class="fn">activarAtac</span>(<span class="cls">Personatge</span> p);
+    @Override <span class="kw">public void</span> <span class="fn">equiparPersonatge</span>(<span class="cls">Personatge</span> p) {
+        p.puntsAtac *= (<span class="num">1</span> + percentatgeAtac); <span class="fn">activarAtac</span>(p);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Escut</span>    <span class="kw">extends</span> <span class="cls">ArmaDefensa</span> {
+    <span class="cls">Escut</span>()    { <span class="kw">super</span>(<span class="num">0.10</span>); }
+    @Override <span class="kw">public void</span> <span class="fn">activarProteccio</span>(<span class="cls">Personatge</span> p) { p.proteccioArquer  = <span class="kw">true</span>; }
+}
+<span class="kw">public class</span> <span class="cls">Armadura</span> <span class="kw">extends</span> <span class="cls">ArmaDefensa</span> {
+    <span class="cls">Armadura</span>() { <span class="kw">super</span>(<span class="num">0.50</span>); }
+    @Override <span class="kw">public void</span> <span class="fn">activarProteccio</span>(<span class="cls">Personatge</span> p) { p.proteccioCosACos = <span class="kw">true</span>; }
+}
+<span class="kw">public class</span> <span class="cls">Espasa</span>   <span class="kw">extends</span> <span class="cls">ArmaAtac</span> {
+    <span class="cls">Espasa</span>()   { <span class="kw">super</span>(<span class="num">0.40</span>); }
+    @Override <span class="kw">public void</span> <span class="fn">activarAtac</span>(<span class="cls">Personatge</span> p) { p.atacCosACos = <span class="kw">true</span>; }
+}
+<span class="kw">public class</span> <span class="cls">Arc</span>      <span class="kw">extends</span> <span class="cls">ArmaAtac</span> {
+    <span class="cls">Arc</span>()      { <span class="kw">super</span>(<span class="num">0.15</span>); }
+    @Override <span class="kw">public void</span> <span class="fn">activarAtac</span>(<span class="cls">Personatge</span> p) { p.atacArquer  = <span class="kw">true</span>; }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Personatge</span> heroi = <span class="kw">new</span> <span class="cls">Personatge</span>();
+        heroi.<span class="fn">afegirArma</span>(<span class="kw">new</span> <span class="cls">Escut</span>());   heroi.<span class="fn">afegirArma</span>(<span class="kw">new</span> <span class="cls">Armadura</span>());
+        heroi.<span class="fn">afegirArma</span>(<span class="kw">new</span> <span class="cls">Espasa</span>());  heroi.<span class="fn">afegirArma</span>(<span class="kw">new</span> <span class="cls">Arc</span>());
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"=== Abans d'equipar ==="</span>);
+        heroi.<span class="fn">mostrarEstat</span>();
+        heroi.<span class="fn">equipar</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== Després d'equipar ==="</span>);
+        heroi.<span class="fn">mostrarEstat</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">6. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 7.2</span><span class="ca-text">Utilitza modificadors <code>abstract</code> per forçar la implementació en subclasses.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.4</span><span class="ca-text">Crea classes heretades que sobreescriuen mètodes de la superclasse.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.5</span><span class="ca-text">Dissenya i aplica jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.7</span><span class="ca-text">Realitza programes que implementin i utilitzin jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.9</span><span class="ca-text">Identifica i avalua els escenaris d'ús d'interfícies.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.10</span><span class="ca-text">Identifica i avalua els escenaris d'utilització de l'herència i la composició.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> POO. Classes abstractes i interfícies — Albert Canela. Classes abstractes, interfícies, mètodes <code>default</code> i estàtics, extensió d'interfícies, herència múltiple funcional.</li>
+    <li><strong>Material del professor (Drive):</strong> ExerciciArmes — Albert Canela. Font de l'exercici integrador.</li>
+    <li><strong>Universidad Java (UJB) — Ubaldo Acosta:</strong> Interfaces-UJB.java, ClasesAbstractas-UJB.java.</li>
+    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> tema7. <a href="https://github.com/aulaenlanube" style="color:#e74c3c">github.com/aulaenlanube</a>.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

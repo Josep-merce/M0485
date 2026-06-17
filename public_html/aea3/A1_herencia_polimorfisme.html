@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Herència, sobreescriptura i polimorfisme · AEA3 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA3 &middot; POO. Avançada</p>
+  <h1>A1 — Herència, sobreescriptura i polimorfisme</h1>
+  <p>Crear jerarquies de classes amb <code>extends</code> i <code>super()</code>, sobreescriure mètodes amb <code>@Override</code>, entendre el polimorfisme dinàmic i usar <code>instanceof</code>.</p>
+  <div class="hero-pills">
+    <span class="pill">6 hores</span>
+    <span class="pill">RA7 — CA 7.1 a 7.8</span>
+    <span class="pill">Java</span>
+    <span class="pill">Bàsic · Mitjà</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea3.html">AEA3 — POO. Avançada</a>
+  <span>&rsaquo;</span>
+  A1 — Herència, sobreescriptura i polimorfisme
+</nav>
+
+<main>
+
+<h2 class="block-title">1. Herència: la paraula clau <code>extends</code></h2>
+<p>L'herència permet crear una classe nova basada en una d'existent, reutilitzant el seu codi i afegint noves característiques. La classe de la qual s'hereta s'anomena <strong>superclasse</strong>; la que hereta, <strong>subclasse</strong>.</p>
+<div class="info-box"><strong>Regla "és un":</strong> Usa herència quan pots dir que la subclasse "és un" tipus de la superclasse. Un <em>Gos</em> és un <em>Animal</em>. Un <em>Cotxe</em> és un <em>Vehicle</em>. Si no pots dir "és un", probablement cal composició (que veurem a A2).</div>
+<div class="code-block"><span class="kw">public class</span> <span class="cls">Animal</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">int</span>    edat;
+
+    <span class="cls">Animal</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat) {
+        <span class="kw">this</span>.nom  = nom;
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    <span class="kw">void</span> <span class="fn">descriure</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Animal: "</span> + nom + <span class="str">", edat: "</span> + edat);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Gos</span> <span class="kw">extends</span> <span class="cls">Animal</span> {   <span class="cmt">// Gos hereta d'Animal</span>
+
+    <span class="cls">String</span> raca;
+
+    <span class="cls">Gos</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> raca) {
+        <span class="kw">super</span>(nom, edat);   <span class="cmt">// crida al constructor d'Animal</span>
+        <span class="kw">this</span>.raca = raca;
+    }
+
+    <span class="kw">void</span> <span class="fn">bordar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" diu: Bup!"</span>);  <span class="cmt">// nom és heretat d'Animal</span>
+    }
+}</div>
+
+<h2 class="block-title">2. La paraula clau <code>super()</code></h2>
+<p><code>super()</code> crida el constructor de la superclasse des del constructor de la subclasse. <strong>Ha de ser sempre la primera instrucció</strong> del constructor. Si la superclasse no té constructor sense paràmetres, és obligatori cridar <code>super(...)</code> explícitament.</p>
+<div class="warn-box"><strong>Error típic:</strong> Oblidar <code>super()</code> quan la superclasse té constructor amb paràmetres. El compilador donarà error: <em>"There is no default constructor available in [superclasse]"</em>.</div>
+
+<h2 class="block-title">3. Modificador <code>final</code></h2>
+<p>La paraula clau <code>final</code> permet bloquejar l'herència o la sobreescriptura de mètodes i classes:</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Aplicat a</th><th>Efecte</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td>Classe</td><td>No es pot heretar d'ella</td><td><code>public final class String</code></td></tr>
+      <tr><td>Mètode</td><td>Les subclasses no el poden sobreescriure</td><td><code>public final void calcular()</code></td></tr>
+      <tr><td>Variable</td><td>El seu valor no es pot canviar (constant)</td><td><code>final int MAX = 100;</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="block-title">4. Sobreescriptura de mètodes (<code>@Override</code>)</h2>
+<p>Quan una subclasse defineix un mètode amb el <strong>mateix nom, paràmetres i tipus de retorn</strong> que un de la superclasse, el <strong>sobreescriu</strong>. L'anotació <code>@Override</code> ho indica explícitament al compilador i evita errors de tipografia.</p>
+<div class="code-block"><span class="kw">public class</span> <span class="cls">Figura</span> {
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> <span class="num">0</span>; }
+}
+
+<span class="kw">public class</span> <span class="cls">Rectangle</span> <span class="kw">extends</span> <span class="cls">Figura</span> {
+
+    <span class="kw">double</span> base, altura;
+
+    <span class="cls">Rectangle</span>(<span class="kw">double</span> base, <span class="kw">double</span> altura) {
+        <span class="kw">this</span>.base   = base;
+        <span class="kw">this</span>.altura = altura;
+    }
+
+    @Override
+    <span class="kw">double</span> <span class="fn">area</span>() {           <span class="cmt">// sobreescriu el mètode de Figura</span>
+        <span class="kw">return</span> base * altura;
+    }
+}</div>
+<div class="tip-box"><strong>Bona pràctica:</strong> Usa sempre <code>@Override</code>. Si la signatura no coincideix exactament amb cap mètode de la superclasse, el compilador t'avisarà en lloc de crear un mètode nou per error.</div>
+
+<h2 class="block-title">5. Polimorfisme dinàmic</h2>
+<p>El polimorfisme permet que una variable de tipus superclasse apunti a un objecte d'una subclasse. En temps d'execució, Java executa el mètode de <strong>la classe real de l'objecte</strong>, no el de la variable de referència.</p>
+<div class="code-block"><span class="cls">Figura</span>[] formes = {
+    <span class="kw">new</span> <span class="cls">Rectangle</span>(<span class="num">5</span>, <span class="num">3</span>),
+    <span class="kw">new</span> <span class="cls">Triangle</span>(<span class="num">4</span>, <span class="num">6</span>),
+    <span class="kw">new</span> <span class="cls">Cercle</span>(<span class="num">2</span>)
+};
+
+<span class="kw">for</span> (<span class="cls">Figura</span> f : formes) {
+    <span class="cmt">// Java crida al area() correcte de cada subclasse → polimorfisme</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + f.<span class="fn">area</span>());
+}</div>
+
+<h2 class="block-title">6. <code>instanceof</code> i càsting d'objectes</h2>
+<p>Amb una variable de la superclasse podem saber quina subclasse és l'objecte real usant <code>instanceof</code>, i accedir als membres específics fent un <strong>càsting</strong> explícit.</p>
+<div class="code-block"><span class="cls">Figura</span> f = <span class="kw">new</span> <span class="cls">Rectangle</span>(<span class="num">5</span>, <span class="num">3</span>);
+
+<span class="kw">if</span> (f <span class="kw">instanceof</span> <span class="cls">Rectangle</span>) {
+    <span class="cls">Rectangle</span> r = (<span class="cls">Rectangle</span>) f;   <span class="cmt">// càsting explícit</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base: "</span> + r.base);
+}</div>
+<div class="warn-box"><strong>Atenció:</strong> Un càsting incorrecte llança <code>ClassCastException</code> en temps d'execució. Comprova sempre amb <code>instanceof</code> abans de fer el càsting.</div>
+
+<h2 class="block-title">7. Documentació amb Javadoc</h2>
+<p>Javadoc és l'estàndard de Java per documentar classes i mètodes. S'escriu amb comentaris <code>/** ... */</code> just abans de la classe o mètode. <strong>A partir d'ara és obligatori en tots els exercicis.</strong></p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Etiqueta</th><th>Descripció</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>@param</code></td><td>Descriu un paràmetre d'entrada</td><td><code>@param nom el nom de l'empleat</code></td></tr>
+      <tr><td><code>@return</code></td><td>Descriu el valor de retorn</td><td><code>@return el salari en euros</code></td></tr>
+      <tr><td><code>@throws</code></td><td>Documenta les excepcions possibles</td><td><code>@throws IllegalArgumentException si negatiu</code></td></tr>
+      <tr><td><code>@author</code></td><td>Autor de la classe</td><td><code>@author Nom Cognom</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="code-block"><span class="cmt">/**
+ * Representa un empleat a temps complet.
+ *
+ * @author Nom Cognom
+ * @version 1.0
+ */</span>
+<span class="kw">public class</span> <span class="cls">EmpleatTempsComplet</span> <span class="kw">extends</span> <span class="cls">Empleat</span> {
+
+    <span class="cmt">/**
+     * Crea un empleat a temps complet.
+     * @param nom    el nom de l'empleat
+     * @param id     identificador únic
+     * @param salari salari mensual en euros
+     */</span>
+    <span class="kw">public</span> <span class="cls">EmpleatTempsComplet</span>(<span class="cls">String</span> nom, <span class="kw">int</span> id, <span class="kw">double</span> salari) {
+        <span class="kw">super</span>(nom, id);
+        <span class="kw">this</span>.salariMensual = salari;
+    }
+
+    <span class="cmt">/**
+     * Retorna el salari mensual fix.
+     * @return el salari en euros
+     */</span>
+    @Override
+    <span class="kw">public double</span> <span class="fn">calcularSalari</span>() { <span class="kw">return</span> salariMensual; }
+}</div>
+
+<h2 class="block-title">8. Exercicis</h2>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex 1</span>
+    <span class="exercici-title">Figures geomètriques</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una jerarquia bàsica de figures geomètriques amb herència i sobreescriptura.</p>
+    <ul class="exercici-tasques">
+      <li>Classe <code>Figura</code>: atributs <code>color</code> i <code>nom</code> (String). Constructor i mètode <code>descriure()</code>. Mètode <code>area()</code> que retorni <code>0</code>.</li>
+      <li>Classe <code>Rectangle extends Figura</code>: afegeix <code>base</code> i <code>altura</code> (double). Constructor que cridi <code>super()</code>. Sobreescriu <code>area()</code>.</li>
+      <li>Classe <code>Cercle extends Figura</code>: afegeix <code>radi</code> (double). Sobreescriu <code>area()</code> (<code>Math.PI * radi * radi</code>).</li>
+      <li>Al <code>main</code>: crea un array de <code>Figura</code> amb un rectangle i un cercle. Recorre'l i imprimeix <code>descriure()</code> i l'àrea de cada un.</li>
+      <li>Afegeix Javadoc a totes les classes i mètodes.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA: 7.1 · 7.3 · 7.4 · 7.5 · 7.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="cmt">/** Classe base per a figures geomètriques. */</span>
+<span class="kw">public class</span> <span class="cls">Figura</span> {
+
+    <span class="cls">String</span> nom, color;
+
+    <span class="cmt">/** @param nom   nom de la figura
+     *  @param color color de la figura */</span>
+    <span class="cls">Figura</span>(<span class="cls">String</span> nom, <span class="cls">String</span> color) {
+        <span class="kw">this</span>.nom   = nom;
+        <span class="kw">this</span>.color = color;
+    }
+
+    <span class="cmt">/** Imprimeix el nom i el color de la figura. */</span>
+    <span class="kw">void</span> <span class="fn">descriure</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" ["</span> + color + <span class="str">"]"</span>);
+    }
+
+    <span class="cmt">/** @return l'àrea de la figura */</span>
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> <span class="num">0</span>; }
+}
+
+<span class="cmt">/** Rectangle que hereta de Figura. */</span>
+<span class="kw">public class</span> <span class="cls">Rectangle</span> <span class="kw">extends</span> <span class="cls">Figura</span> {
+
+    <span class="kw">double</span> base, altura;
+
+    <span class="cls">Rectangle</span>(<span class="cls">String</span> color, <span class="kw">double</span> base, <span class="kw">double</span> altura) {
+        <span class="kw">super</span>(<span class="str">"Rectangle"</span>, color);
+        <span class="kw">this</span>.base   = base;
+        <span class="kw">this</span>.altura = altura;
+    }
+
+    @Override
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> base * altura; }
+}
+
+<span class="cmt">/** Cercle que hereta de Figura. */</span>
+<span class="kw">public class</span> <span class="cls">Cercle</span> <span class="kw">extends</span> <span class="cls">Figura</span> {
+
+    <span class="kw">double</span> radi;
+
+    <span class="cls">Cercle</span>(<span class="cls">String</span> color, <span class="kw">double</span> radi) {
+        <span class="kw">super</span>(<span class="str">"Cercle"</span>, color);
+        <span class="kw">this</span>.radi = radi;
+    }
+
+    @Override
+    <span class="kw">double</span> <span class="fn">area</span>() { <span class="kw">return</span> <span class="cls">Math</span>.PI * radi * radi; }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Figura</span>[] formes = {
+            <span class="kw">new</span> <span class="cls">Rectangle</span>(<span class="str">"blau"</span>, <span class="num">5.0</span>, <span class="num">3.0</span>),
+            <span class="kw">new</span> <span class="cls">Cercle</span>(<span class="str">"vermell"</span>, <span class="num">4.0</span>)
+        };
+        <span class="kw">for</span> (<span class="cls">Figura</span> f : formes) {
+            f.<span class="fn">descriure</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Àrea: "</span> + f.<span class="fn">area</span>());
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex 2</span>
+    <span class="exercici-title">Zoo polimòrfic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Practica sobreescriptura i polimorfisme amb animals i <code>instanceof</code>.</p>
+    <ul class="exercici-tasques">
+      <li>Classe <code>Animal</code>: <code>nom</code> i <code>edat</code>. Mètodes <code>ferSoroll()</code> (imprimeix "...") i <code>mostrar()</code>.</li>
+      <li>Subclasses <code>Gat</code>, <code>Gos</code> i <code>Ocell</code>: sobreescriuen <code>ferSoroll()</code> amb el so correcte i <code>mostrar()</code> afegint una característica pròpia.</li>
+      <li>Al <code>main</code>: crea un <code>ArrayList&lt;Animal&gt;</code> amb almenys 5 animals (barreja de tipus). Recorre la llista, crida <code>mostrar()</code> i <code>ferSoroll()</code>.</li>
+      <li>Compta quants <code>Gat</code> hi ha a la llista usant <code>instanceof</code> i imprimeix el total.</li>
+      <li>Javadoc obligatori a totes les classes.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA: 7.1 · 7.4 · 7.5 · 7.6 · 7.7 · 7.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="cmt">/** Classe base que representa un animal genèric. */</span>
+<span class="kw">public class</span> <span class="cls">Animal</span> {
+
+    <span class="cls">String</span> nom;
+    <span class="kw">int</span>    edat;
+
+    <span class="cmt">/** @param nom  el nom de l'animal  @param edat l'edat en anys */</span>
+    <span class="cls">Animal</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat) { <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.edat = edat; }
+
+    <span class="cmt">/** Emet el so de l'animal. */</span>
+    <span class="kw">void</span> <span class="fn">ferSoroll</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">": ..."</span>); }
+
+    <span class="cmt">/** Mostra informació de l'animal. */</span>
+    <span class="kw">void</span> <span class="fn">mostrar</span>()    { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Animal: "</span> + nom + <span class="str">", edat: "</span> + edat); }
+}
+
+<span class="kw">public class</span> <span class="cls">Gat</span>   <span class="kw">extends</span> <span class="cls">Animal</span> {
+    <span class="cls">Gat</span>(<span class="cls">String</span> n, <span class="kw">int</span> e)   { <span class="kw">super</span>(n, e); }
+    @Override <span class="kw">void</span> <span class="fn">ferSoroll</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">": Miol!"</span>); }
+    @Override <span class="kw">void</span> <span class="fn">mostrar</span>()   { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[Gat]   "</span> + nom + <span class="str">", edat: "</span> + edat); }
+}
+
+<span class="kw">public class</span> <span class="cls">Gos</span>   <span class="kw">extends</span> <span class="cls">Animal</span> {
+    <span class="cls">Gos</span>(<span class="cls">String</span> n, <span class="kw">int</span> e)   { <span class="kw">super</span>(n, e); }
+    @Override <span class="kw">void</span> <span class="fn">ferSoroll</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">": Bup!"</span>); }
+    @Override <span class="kw">void</span> <span class="fn">mostrar</span>()   { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[Gos]   "</span> + nom + <span class="str">", edat: "</span> + edat); }
+}
+
+<span class="kw">public class</span> <span class="cls">Ocell</span> <span class="kw">extends</span> <span class="cls">Animal</span> {
+    <span class="cls">Ocell</span>(<span class="cls">String</span> n, <span class="kw">int</span> e) { <span class="kw">super</span>(n, e); }
+    @Override <span class="kw">void</span> <span class="fn">ferSoroll</span>() { <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">": Piu!"</span>); }
+    @Override <span class="kw">void</span> <span class="fn">mostrar</span>()   { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[Ocell] "</span> + nom + <span class="str">", edat: "</span> + edat); }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">ArrayList</span>&lt;<span class="cls">Animal</span>&gt; zoo = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        zoo.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Gat</span>(<span class="str">"Whiskers"</span>, <span class="num">2</span>)); zoo.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Gos</span>(<span class="str">"Rex"</span>, <span class="num">4</span>));
+        zoo.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Gat</span>(<span class="str">"Tom"</span>, <span class="num">3</span>));     zoo.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Ocell</span>(<span class="str">"Piu"</span>, <span class="num">1</span>));
+        zoo.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Gos</span>(<span class="str">"Laika"</span>, <span class="num">5</span>));
+
+        <span class="kw">int</span> numGats = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="cls">Animal</span> a : zoo) {
+            a.<span class="fn">mostrar</span>(); a.<span class="fn">ferSoroll</span>();
+            <span class="kw">if</span> (a <span class="kw">instanceof</span> <span class="cls">Gat</span>) numGats++;
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nTotal de gats: "</span> + numGats);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex 3</span>
+    <span class="exercici-title">Gestió d'empleats i projectes</span>
+  </div>
+  <div class="exercici-body">
+    <p>Sistema de gestió d'empleats amb herència, sobreescriptura i polimorfisme complet.</p>
+    <ul class="exercici-tasques">
+      <li>Classe <code>Empleat</code>: <code>nom</code> (String) i <code>id</code> (int). Mètode <code>calcularSalari()</code> retorna <code>0.0</code>. Mètode <code>mostrarInfo()</code>.</li>
+      <li>Classe <code>EmpleatTempsComplet extends Empleat</code>: afegeix <code>salariMensual</code> (double). Sobreescriu els dos mètodes.</li>
+      <li>Classe <code>EmpleatTempsParcial extends Empleat</code>: afegeix <code>horesTreballades</code> (int) i <code>tarifaHora</code> (double). Sobreescriu els dos mètodes.</li>
+      <li>Classe <code>Projecte</code>: <code>nom</code> i un <code>ArrayList&lt;Empleat&gt;</code>. Mètodes <code>afegirEmpleat()</code> i <code>mostrarEmpleats()</code>.</li>
+      <li>Al <code>main</code>: crea 2 empleats de cada tipus, 2 projectes, assigna'ls i mostra la suma total de salaris. Javadoc obligatori.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA: 7.1 · 7.3 · 7.4 · 7.5 · 7.7 · 7.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="cmt">/** Superclasse que representa un empleat genèric. */</span>
+<span class="kw">public class</span> <span class="cls">Empleat</span> {
+    <span class="cls">String</span> nom; <span class="kw">int</span> id;
+    <span class="cls">Empleat</span>(<span class="cls">String</span> nom, <span class="kw">int</span> id) { <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.id = id; }
+    <span class="kw">double</span> <span class="fn">calcularSalari</span>() { <span class="kw">return</span> <span class="num">0.0</span>; }
+    <span class="kw">void</span> <span class="fn">mostrarInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Empleat ["</span> + id + <span class="str">"] "</span> + nom + <span class="str">" — "</span> + <span class="fn">calcularSalari</span>() + <span class="str">"€"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">EmpleatTempsComplet</span> <span class="kw">extends</span> <span class="cls">Empleat</span> {
+    <span class="kw">double</span> salariMensual;
+    <span class="cls">EmpleatTempsComplet</span>(<span class="cls">String</span> nom, <span class="kw">int</span> id, <span class="kw">double</span> s) { <span class="kw">super</span>(nom, id); salariMensual = s; }
+    @Override <span class="kw">double</span> <span class="fn">calcularSalari</span>() { <span class="kw">return</span> salariMensual; }
+    @Override <span class="kw">void</span> <span class="fn">mostrarInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[TC] "</span> + nom + <span class="str">" — fix: "</span> + salariMensual + <span class="str">"€"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">EmpleatTempsParcial</span> <span class="kw">extends</span> <span class="cls">Empleat</span> {
+    <span class="kw">int</span> horesTreballades; <span class="kw">double</span> tarifaHora;
+    <span class="cls">EmpleatTempsParcial</span>(<span class="cls">String</span> nom, <span class="kw">int</span> id, <span class="kw">int</span> h, <span class="kw">double</span> t) {
+        <span class="kw">super</span>(nom, id); horesTreballades = h; tarifaHora = t;
+    }
+    @Override <span class="kw">double</span> <span class="fn">calcularSalari</span>() { <span class="kw">return</span> horesTreballades * tarifaHora; }
+    @Override <span class="kw">void</span> <span class="fn">mostrarInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"[TP] "</span> + nom + <span class="str">" — "</span> + horesTreballades + <span class="str">"h × "</span> + tarifaHora + <span class="str">"€ = "</span> + <span class="fn">calcularSalari</span>() + <span class="str">"€"</span>);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Projecte</span> {
+    <span class="cls">String</span> nom;
+    <span class="cls">ArrayList</span>&lt;<span class="cls">Empleat</span>&gt; empleats = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+    <span class="cls">Projecte</span>(<span class="cls">String</span> nom) { <span class="kw">this</span>.nom = nom; }
+    <span class="kw">void</span> <span class="fn">afegirEmpleat</span>(<span class="cls">Empleat</span> e) { empleats.<span class="fn">add</span>(e); }
+    <span class="kw">void</span> <span class="fn">mostrarEmpleats</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== Projecte: "</span> + nom + <span class="str">" ==="</span>);
+        <span class="kw">for</span> (<span class="cls">Empleat</span> e : empleats) e.<span class="fn">mostrarInfo</span>();
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">EmpleatTempsComplet</span> e1 = <span class="kw">new</span> <span class="cls">EmpleatTempsComplet</span>(<span class="str">"Anna"</span>,  <span class="num">1</span>, <span class="num">2500.0</span>);
+        <span class="cls">EmpleatTempsComplet</span> e2 = <span class="kw">new</span> <span class="cls">EmpleatTempsComplet</span>(<span class="str">"Marc"</span>,  <span class="num">2</span>, <span class="num">2800.0</span>);
+        <span class="cls">EmpleatTempsParcial</span> e3 = <span class="kw">new</span> <span class="cls">EmpleatTempsParcial</span>(<span class="str">"Laia"</span>,  <span class="num">3</span>, <span class="num">80</span>, <span class="num">15.0</span>);
+        <span class="cls">EmpleatTempsParcial</span> e4 = <span class="kw">new</span> <span class="cls">EmpleatTempsParcial</span>(<span class="str">"Jordi"</span>, <span class="num">4</span>, <span class="num">60</span>, <span class="num">18.0</span>);
+
+        <span class="cls">ArrayList</span>&lt;<span class="cls">Empleat</span>&gt; tots = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        tots.<span class="fn">add</span>(e1); tots.<span class="fn">add</span>(e2); tots.<span class="fn">add</span>(e3); tots.<span class="fn">add</span>(e4);
+
+        <span class="cls">Projecte</span> p1 = <span class="kw">new</span> <span class="cls">Projecte</span>(<span class="str">"Web corporativa"</span>);
+        <span class="cls">Projecte</span> p2 = <span class="kw">new</span> <span class="cls">Projecte</span>(<span class="str">"App mòbil"</span>);
+        p1.<span class="fn">afegirEmpleat</span>(e1); p1.<span class="fn">afegirEmpleat</span>(e3);
+        p2.<span class="fn">afegirEmpleat</span>(e2); p2.<span class="fn">afegirEmpleat</span>(e4);
+
+        <span class="kw">double</span> total = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="cls">Empleat</span> e : tots) { e.<span class="fn">mostrarInfo</span>(); total += e.<span class="fn">calcularSalari</span>(); }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nTotal salaris: "</span> + total + <span class="str">"€"</span>);
+        p1.<span class="fn">mostrarEmpleats</span>(); p2.<span class="fn">mostrarEmpleats</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">9. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 7.1</span><span class="ca-text">Identifica els conceptes d'herència, superclasse i subclasse.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.2</span><span class="ca-text">Utilitza <code>final</code> per bloquejar l'herència de classes i mètodes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.3</span><span class="ca-text">Reconeix la incidència dels constructors a l'herència (<code>super()</code>).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.4</span><span class="ca-text">Crea classes heretades que sobreescriuen mètodes de la superclasse.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.5</span><span class="ca-text">Dissenya i aplica jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.6</span><span class="ca-text">Prova i depura les jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.7</span><span class="ca-text">Realitza programes que implementin i utilitzin jerarquies de classes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 7.8</span><span class="ca-text">Comenta i documenta el codi amb Javadoc.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> Herència (Resum) — Albert Canela. <code>extends</code>, <code>super()</code>, sobreescriptura, <code>instanceof</code>, paquets i visibilitat.</li>
+    <li><strong>Material del professor (Drive):</strong> POO. Altres temes — Albert Canela. Classe Object, <code>equals</code>, <code>toString</code>, <code>getClass</code>, paraula clau <code>final</code>.</li>
+    <li><strong>Material del professor (Drive):</strong> Exercici Gestió d'empleats i projectes — Albert Canela.</li>
+    <li><strong>Universidad Java (UJB) — Ubaldo Acosta:</strong> ClasesAbstractas-UJB.java — exemples de codi pràctics.</li>
+    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> tema7 — exercicis Deportista/Futbolista. <a href="https://github.com/aulaenlanube" style="color:#e74c3c">github.com/aulaenlanube</a>.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>
