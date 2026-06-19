@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — Fitxers binaris i serialització · AEA5 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    /* Diagrama serialització */
+    .serial-flow { display:flex; align-items:center; gap:.5rem; margin:1rem 0 1.5rem; flex-wrap:wrap; }
+    .serial-box { background:var(--hero-bg); color:var(--text-hero); border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-family:'Consolas',monospace; text-align:center; }
+    .serial-box.obj { background:#2563eb; }
+    .serial-box.bytes { background:#059669; }
+    .serial-box.disc { background:#c0392b; }
+    .serial-arrow { color:#aaa; font-size:1.2rem; font-weight:700; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA5 &middot; Activitat 3</p>
+  <h1>Fitxers binaris i serialització</h1>
+  <p>Lectura i escriptura de dades en format binari amb <code>DataInputStream</code> / <code>DataOutputStream</code>. Persistència d'objectes sencers amb la serialització Java (<code>Serializable</code>).</p>
+  <div class="hero-pills">
+    <span class="pill">CA 5.4 Fitxers</span>
+    <span class="pill">CA 5.5 Mètodes accés</span>
+    <span class="pill">DataOutputStream · DataInputStream</span>
+    <span class="pill">ObjectOutputStream · Serializable</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea5.html">AEA5</a>
+  <span>&rsaquo;</span>
+  A3 — Fitxers binaris i serialització
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 1 -->
+<h2 class="block-title">1. Fitxers de text vs fitxers binaris</h2>
+
+<p>Fins ara hem treballat amb fitxers de text, on les dades es guarden com a seqüències de caràcters legibles. Els <strong>fitxers binaris</strong> guarden les dades directament en el format intern del processador (bytes), cosa que els fa més compactes i eficients però no llegibles directament per humans.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Característica</th><th>Fitxers de text</th><th>Fitxers binaris</th></tr></thead>
+    <tbody>
+      <tr><td>Llegible per humans</td><td>✅ Sí (editor de text)</td><td>❌ No (bytes bruts)</td></tr>
+      <tr><td>Mida per guardar <code>9999999</code></td><td>7 bytes (1 per dígit)</td><td>4 bytes (int Java)</td></tr>
+      <tr><td>Velocitat lectura/escriptura</td><td>Més lenta (conversió)</td><td>Més ràpida (directe)</td></tr>
+      <tr><td>Portabilitat</td><td>Alta (ASCII/UTF-8)</td><td>Depèn plataforma</td></tr>
+      <tr><td>Casos d'ús</td><td>Config, CSV, logs</td><td>Imatges, àudio, BDs</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 2 -->
+<h2 class="block-title">2. DataOutputStream i DataInputStream</h2>
+
+<p>Les classes <code>DataOutputStream</code> i <code>DataInputStream</code> permeten escriure i llegir <strong>tipus primitius</strong> Java (<code>int</code>, <code>double</code>, <code>boolean</code>, <code>String</code> UTF-8...) en fitxers binaris. Cal llegir les dades exactament en el <strong>mateix ordre</strong> en que s'han escrit.</p>
+
+<div class="sub-title">2.1 Mètodes d'escriptura (DataOutputStream)</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Mètode</th><th>Mida</th><th>Descripció</th></tr></thead>
+    <tbody>
+      <tr><td><code>writeInt(int v)</code></td><td>4 bytes</td><td>Escriu un enter</td></tr>
+      <tr><td><code>writeLong(long v)</code></td><td>8 bytes</td><td>Escriu un enter llarg</td></tr>
+      <tr><td><code>writeDouble(double v)</code></td><td>8 bytes</td><td>Escriu un decimal</td></tr>
+      <tr><td><code>writeFloat(float v)</code></td><td>4 bytes</td><td>Escriu un float</td></tr>
+      <tr><td><code>writeBoolean(boolean v)</code></td><td>1 byte</td><td>Escriu un booleà</td></tr>
+      <tr><td><code>writeUTF(String s)</code></td><td>2 + n bytes</td><td>Escriu un String en UTF-8 (precedit de longitud)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">2.2 Exemple: escriure i llegir tipus primitius</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ExempleBinari</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> fitxer = <span class="str">"dades.dat"</span>;
+
+        <span class="cmt">// ── ESCRIPTURA ──────────────────────────────────────</span>
+        <span class="kw">try</span> (<span class="cls">DataOutputStream</span> dos = <span class="kw">new</span> <span class="cls">DataOutputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileOutputStream</span>(fitxer))) {
+
+            dos.<span class="fn">writeUTF</span>(<span class="str">"Anna Garcia"</span>);  <span class="cmt">// String</span>
+            dos.<span class="fn">writeInt</span>(<span class="num">22</span>);              <span class="cmt">// int</span>
+            dos.<span class="fn">writeDouble</span>(<span class="num">8.75</span>);        <span class="cmt">// double</span>
+            dos.<span class="fn">writeBoolean</span>(<span class="kw">true</span>);       <span class="cmt">// boolean</span>
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error escriptura: "</span> + e.<span class="fn">getMessage</span>());
+        }
+
+        <span class="cmt">// ── LECTURA (MATEIX ORDRE!) ──────────────────────────</span>
+        <span class="kw">try</span> (<span class="cls">DataInputStream</span> dis = <span class="kw">new</span> <span class="cls">DataInputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileInputStream</span>(fitxer))) {
+
+            <span class="cls">String</span>  nom   = dis.<span class="fn">readUTF</span>();     <span class="cmt">// llegim en el MATEIX ordre</span>
+            <span class="kw">int</span>     edat  = dis.<span class="fn">readInt</span>();
+            <span class="kw">double</span>  nota  = dis.<span class="fn">readDouble</span>();
+            <span class="kw">boolean</span> actiu = dis.<span class="fn">readBoolean</span>();
+
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Nom: %s | Edat: %d | Nota: %.2f | Actiu: %b%n"</span>,
+                nom, edat, nota, actiu);
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error lectura: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<div class="warn-box">
+  <strong>Ordre de lectura = ordre d'escriptura.</strong> Si escrius un <code>String</code>, un <code>int</code> i un <code>double</code>, has de llegir exactament en aquest ordre. Si t'equivoques, llegiràs bytes incorrectes i obtindràs dades corruptes sense cap error visible.
+</div>
+
+<div class="sub-title">2.3 Escriure múltiples registres</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">AlumnesBinari</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span>[][] alumnes = {
+            {<span class="str">"Anna"</span>, <span class="str">"22"</span>, <span class="str">"8.75"</span>},
+            {<span class="str">"Bernat"</span>, <span class="str">"19"</span>, <span class="str">"6.50"</span>},
+            {<span class="str">"Clàudia"</span>, <span class="str">"21"</span>, <span class="str">"9.00"</span>}
+        };
+
+        <span class="cmt">// Escriptura</span>
+        <span class="kw">try</span> (<span class="cls">DataOutputStream</span> dos = <span class="kw">new</span> <span class="cls">DataOutputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileOutputStream</span>(<span class="str">"alumnes.dat"</span>))) {
+
+            <span class="kw">for</span> (<span class="cls">String</span>[] a : alumnes) {
+                dos.<span class="fn">writeUTF</span>(a[<span class="num">0</span>]);
+                dos.<span class="fn">writeInt</span>(<span class="cls">Integer</span>.<span class="fn">parseInt</span>(a[<span class="num">1</span>]));
+                dos.<span class="fn">writeDouble</span>(<span class="cls">Double</span>.<span class="fn">parseDouble</span>(a[<span class="num">2</span>]));
+            }
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { e.<span class="fn">printStackTrace</span>(); }
+
+        <span class="cmt">// Lectura fins EOFException</span>
+        <span class="kw">try</span> (<span class="cls">DataInputStream</span> dis = <span class="kw">new</span> <span class="cls">DataInputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileInputStream</span>(<span class="str">"alumnes.dat"</span>))) {
+
+            <span class="kw">while</span> (<span class="kw">true</span>) {  <span class="cmt">// sortim quan llança EOFException</span>
+                <span class="cls">String</span> nom   = dis.<span class="fn">readUTF</span>();
+                <span class="kw">int</span>    edat  = dis.<span class="fn">readInt</span>();
+                <span class="kw">double</span> nota  = dis.<span class="fn">readDouble</span>();
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-10s %3d %.2f%n"</span>, nom, edat, nota);
+            }
+        } <span class="kw">catch</span> (<span class="cls">EOFException</span> eof) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fi del fitxer."</span>);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { e.<span class="fn">printStackTrace</span>(); }
+    }
+}</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 3 -->
+<h2 class="block-title">3. Serialització d'objectes</h2>
+
+<p>La <strong>serialització</strong> és el procés de convertir un objecte Java complet (amb tots els seus atributs) en una seqüència de bytes per guardar-lo en un fitxer o enviar-lo per xarxa. La <strong>deserialització</strong> és el procés invers: recuperar l'objecte des dels bytes.</p>
+
+<div class="serial-flow">
+  <div class="serial-box obj">Objecte Java</div>
+  <div class="serial-arrow">→ writeObject →</div>
+  <div class="serial-box bytes">Bytes (fitxer .dat)</div>
+  <div class="serial-arrow">→ readObject →</div>
+  <div class="serial-box obj">Objecte Java</div>
+</div>
+
+<div class="info-box">
+  <strong>Requisit:</strong> per poder serialitzar una classe, ha d'implementar la interfície <code>java.io.Serializable</code>. És una interfície de <em>marcador</em> (no té mètodes): simplement indica a la JVM que els objectes d'aquesta classe es poden serialitzar.
+</div>
+
+<div class="sub-title">3.1 Fer una classe serialitzable</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.<span class="cls">Serializable</span>;
+
+<span class="kw">public class</span> <span class="cls">Producte</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    <span class="cmt">// serialVersionUID identifica la versió de la classe (recomanat)</span>
+    <span class="kw">private static final long</span> serialVersionUID = <span class="num">1L</span>;
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private double</span> preu;
+    <span class="kw">private int</span>    estoc;
+
+    <span class="kw">public</span> <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc) {
+        <span class="kw">this</span>.nom   = nom;
+        <span class="kw">this</span>.preu  = preu;
+        <span class="kw">this</span>.estoc = estoc;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()   { <span class="kw">return</span> nom; }
+    <span class="kw">public double</span> <span class="fn">getPreu</span>()  { <span class="kw">return</span> preu; }
+    <span class="kw">public int</span>    <span class="fn">getEstoc</span>() { <span class="kw">return</span> estoc; }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%-20s %7.2f € (estoc: %d)"</span>, nom, preu, estoc);
+    }
+}</div>
+
+<div class="sub-title">3.2 Serialitzar: ObjectOutputStream</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="cmt">// Guardar una llista d'objectes Producte al fitxer</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; productes = <span class="cls">List</span>.<span class="fn">of</span>(
+    <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Portàtil Dell"</span>,  <span class="num">899.99</span>, <span class="num">5</span>),
+    <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Ratolí Logitech"</span>, <span class="num">29.90</span>,  <span class="num">50</span>),
+    <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Teclat mecànic"</span>,  <span class="num">75.00</span>,  <span class="num">20</span>)
+);
+
+<span class="kw">try</span> (<span class="cls">ObjectOutputStream</span> oos = <span class="kw">new</span> <span class="cls">ObjectOutputStream</span>(
+        <span class="kw">new</span> <span class="cls">FileOutputStream</span>(<span class="str">"productes.dat"</span>))) {
+
+    oos.<span class="fn">writeObject</span>(productes);   <span class="cmt">// serialitzem la llista sencera</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✅ Productes guardats."</span>);
+
+} <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<div class="sub-title">3.3 Deserialitzar: ObjectInputStream</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="cmt">// Recuperar la llista del fitxer</span>
+<span class="kw">try</span> (<span class="cls">ObjectInputStream</span> ois = <span class="kw">new</span> <span class="cls">ObjectInputStream</span>(
+        <span class="kw">new</span> <span class="cls">FileInputStream</span>(<span class="str">"productes.dat"</span>))) {
+
+    <span class="cmt">// readObject() retorna Object → cal fer casting</span>
+    @<span class="cls">SuppressWarnings</span>(<span class="str">"unchecked"</span>)
+    <span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; recuperats = (<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt;) ois.<span class="fn">readObject</span>();
+
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Productes recuperats:"</span>);
+    recuperats.<span class="fn">forEach</span>(<span class="cls">System</span>.out::<span class="fn">println</span>);
+
+} <span class="kw">catch</span> (<span class="cls">IOException</span> | <span class="cls">ClassNotFoundException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<div class="tip-box">
+  <strong>Consell pràctic:</strong> per a projectes nous, considera usar <strong>JSON</strong> (amb la biblioteca Gson o Jackson) en lloc de serialització Java. JSON és llegible, portàtil entre llenguatges i no té problemes de compatibilitat entre versions. La serialització Java és útil quan treballes exclusivament en Java i la velocitat és crítica.
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 4: EXERCICIS -->
+<h2 class="block-title">4. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Registre de temperatures</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que guardi registres de temperatura en un fitxer binari. Cada registre té: un dia (int), una temperatura màxima (double) i una temperatura mínima (double).</p>
+    <ol class="exercici-tasques">
+      <li>Escriu 5 registres de prova al fitxer <code>temperatures.dat</code> amb <code>DataOutputStream</code>.</li>
+      <li>Llegeix tots els registres i mostra'ls per pantalla amb format.</li>
+      <li>Calcula i mostra la temperatura mitjana màxima.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Registre de temperatures</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">Temperatures</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[]    dies  = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>};
+        <span class="kw">double</span>[] maxes = {<span class="num">28.5</span>, <span class="num">30.1</span>, <span class="num">27.3</span>, <span class="num">32.0</span>, <span class="num">29.8</span>};
+        <span class="kw">double</span>[] mines = {<span class="num">18.2</span>, <span class="num">19.5</span>, <span class="num">17.0</span>, <span class="num">21.3</span>, <span class="num">20.1</span>};
+
+        <span class="cmt">// Escriptura</span>
+        <span class="kw">try</span> (<span class="cls">DataOutputStream</span> dos = <span class="kw">new</span> <span class="cls">DataOutputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileOutputStream</span>(<span class="str">"temperatures.dat"</span>))) {
+
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < dies.length; i++) {
+                dos.<span class="fn">writeInt</span>(dies[i]);
+                dos.<span class="fn">writeDouble</span>(maxes[i]);
+                dos.<span class="fn">writeDouble</span>(mines[i]);
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { e.<span class="fn">printStackTrace</span>(); }
+
+        <span class="cmt">// Lectura i càlcul</span>
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-6s %8s %8s%n"</span>, <span class="str">"Dia"</span>, <span class="str">"Màx(°C)"</span>, <span class="str">"Mín(°C)"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(24)</span>);
+
+        <span class="kw">double</span> sumaMax = <span class="num">0</span>;
+        <span class="kw">int</span> count = <span class="num">0</span>;
+
+        <span class="kw">try</span> (<span class="cls">DataInputStream</span> dis = <span class="kw">new</span> <span class="cls">DataInputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileInputStream</span>(<span class="str">"temperatures.dat"</span>))) {
+
+            <span class="kw">while</span> (<span class="kw">true</span>) {
+                <span class="kw">int</span>    dia = dis.<span class="fn">readInt</span>();
+                <span class="kw">double</span> max = dis.<span class="fn">readDouble</span>();
+                <span class="kw">double</span> min = dis.<span class="fn">readDouble</span>();
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-6d %8.1f %8.1f%n"</span>, dia, max, min);
+                sumaMax += max;
+                count++;
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">EOFException</span> eof) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(24)</span>);
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Mitjana màxima: %.2f °C%n"</span>, sumaMax / count);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { e.<span class="fn">printStackTrace</span>(); }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Persistència d'una classe Persona</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Persona</code> serialitzable amb els atributs: nom, edat i correu. Escriu una llista de persones al fitxer i torna a llegir-la.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>Persona</code> implementant <code>Serializable</code> amb constructor, getters i <code>toString()</code>.</li>
+      <li>Crea una llista de 4 objectes <code>Persona</code> i serialitza-la amb <code>ObjectOutputStream</code>.</li>
+      <li>Deserialitza la llista amb <code>ObjectInputStream</code> i mostra cada persona.</li>
+      <li>Comprova que els objectes recuperats son còpies exactes dels originals.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Persistència de Persona</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="cmt">// ─── Classe Persona ───────────────────────────────</span>
+<span class="kw">class</span> <span class="cls">Persona</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    <span class="kw">private static final long</span> serialVersionUID = <span class="num">1L</span>;
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span>    edat;
+    <span class="kw">private</span> <span class="cls">String</span> correu;
+
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> correu) {
+        <span class="kw">this</span>.nom    = nom;
+        <span class="kw">this</span>.edat   = edat;
+        <span class="kw">this</span>.correu = correu;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%-15s %3d  %s"</span>, nom, edat, correu);
+    }
+}
+
+<span class="cmt">// ─── Main ─────────────────────────────────────────</span>
+<span class="kw">public class</span> <span class="cls">PersistenciaPersones</span> {
+
+    <span class="kw">static final</span> <span class="cls">String</span> FITXER = <span class="str">"persones.dat"</span>;
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">List</span>&lt;<span class="cls">Persona</span>&gt; original = <span class="cls">List</span>.<span class="fn">of</span>(
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Anna Garcia"</span>,   <span class="num">22</span>, <span class="str">"anna@example.com"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Bernat López"</span>,  <span class="num">19</span>, <span class="str">"bernat@example.com"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Clàudia Puig"</span>,  <span class="num">25</span>, <span class="str">"claudia@example.com"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"David Mas"</span>,     <span class="num">30</span>, <span class="str">"david@example.com"</span>)
+        );
+
+        <span class="cmt">// Serialització</span>
+        <span class="kw">try</span> (<span class="cls">ObjectOutputStream</span> oos = <span class="kw">new</span> <span class="cls">ObjectOutputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileOutputStream</span>(FITXER))) {
+            oos.<span class="fn">writeObject</span>(original);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✅ Llista serialitzada."</span>);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) { e.<span class="fn">printStackTrace</span>(); }
+
+        <span class="cmt">// Deserialització</span>
+        <span class="kw">try</span> (<span class="cls">ObjectInputStream</span> ois = <span class="kw">new</span> <span class="cls">ObjectInputStream</span>(
+                <span class="kw">new</span> <span class="cls">FileInputStream</span>(FITXER))) {
+
+            @<span class="cls">SuppressWarnings</span>(<span class="str">"unchecked"</span>)
+            <span class="cls">List</span>&lt;<span class="cls">Persona</span>&gt; recuperades = (<span class="cls">List</span>&lt;<span class="cls">Persona</span>&gt;) ois.<span class="fn">readObject</span>();
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nPersones recuperades del fitxer:"</span>);
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-15s %3s  %s%n"</span>, <span class="str">"Nom"</span>, <span class="str">"Edat"</span>, <span class="str">"Correu"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(45)</span>);
+            recuperades.<span class="fn">forEach</span>(<span class="cls">System</span>.out::<span class="fn">println</span>);
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> | <span class="cls">ClassNotFoundException</span> e) {
+            e.<span class="fn">printStackTrace</span>();
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Magatzem persistent</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una aplicació de gestió d'un magatzem que persisteix les dades en un fitxer binari. L'aplicació ha de poder afegir productes, llistar-los i guardar/carregar des del fitxer.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>Producte</code> serialitzable (nom, preu, estoc).</li>
+      <li>En iniciar, carrega el fitxer <code>magatzem.dat</code> si existeix; si no, comença amb una llista buida.</li>
+      <li>Mostra un menú: 1) Afegir producte, 2) Llistar, 3) Guardar i sortir.</li>
+      <li>L'opció 3 serialitza la llista al fitxer i surt.</li>
+      <li>En rellançar el programa, les dades han de persistir.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Magatzem persistent</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">class</span> <span class="cls">Producte</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+    <span class="kw">private static final long</span> serialVersionUID = <span class="num">1L</span>;
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private double</span> preu;
+    <span class="kw">private int</span>    estoc;
+
+    <span class="kw">public</span> <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc) {
+        <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.preu = preu; <span class="kw">this</span>.estoc = estoc;
+    }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%-20s %8.2f € (estoc: %d)"</span>, nom, preu, estoc);
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Magatzem</span> {
+
+    <span class="kw">static final</span> <span class="cls">String</span> FITXER = <span class="str">"magatzem.dat"</span>;
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; productes = <span class="fn">carregarFitxer</span>();
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">int</span> opcio;
+
+        <span class="kw">do</span> {
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%n=== Magatzem (%d productes) ===%n"</span>, productes.<span class="fn">size</span>());
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"1. Afegir producte"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"2. Llistar productes"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"3. Guardar i sortir"</span>);
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Opció: "</span>);
+            opcio = sc.<span class="fn">nextInt</span>();
+            sc.<span class="fn">nextLine</span>();
+
+            <span class="kw">switch</span> (opcio) {
+                <span class="kw">case</span> <span class="num">1</span> -> {
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nom: "</span>);
+                    <span class="cls">String</span> nom = sc.<span class="fn">nextLine</span>();
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu: "</span>);
+                    <span class="kw">double</span> preu = sc.<span class="fn">nextDouble</span>();
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Estoc: "</span>);
+                    <span class="kw">int</span> estoc = sc.<span class="fn">nextInt</span>();
+                    sc.<span class="fn">nextLine</span>();
+                    productes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Producte</span>(nom, preu, estoc));
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✅ Producte afegit (pendent de guardar)."</span>);
+                }
+                <span class="kw">case</span> <span class="num">2</span> -> productes.<span class="fn">forEach</span>(<span class="cls">System</span>.out::<span class="fn">println</span>);
+                <span class="kw">case</span> <span class="num">3</span> -> <span class="fn">guardarFitxer</span>(productes);
+            }
+        } <span class="kw">while</span> (opcio != <span class="num">3</span>);
+        sc.<span class="fn">close</span>();
+    }
+
+    @<span class="cls">SuppressWarnings</span>(<span class="str">"unchecked"</span>)
+    <span class="kw">static</span> <span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; <span class="fn">carregarFitxer</span>() {
+        <span class="cls">File</span> f = <span class="kw">new</span> <span class="cls">File</span>(FITXER);
+        <span class="kw">if</span> (!f.<span class="fn">exists</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer nou. Comença buit."</span>);
+            <span class="kw">return new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        }
+        <span class="kw">try</span> (<span class="cls">ObjectInputStream</span> ois = <span class="kw">new</span> <span class="cls">ObjectInputStream</span>(<span class="kw">new</span> <span class="cls">FileInputStream</span>(f))) {
+            <span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; llista = (<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt;) ois.<span class="fn">readObject</span>();
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"✅ %d productes carregats.%n"</span>, llista.<span class="fn">size</span>());
+            <span class="kw">return</span> llista;
+        } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error al carregar: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        }
+    }
+
+    <span class="kw">static void</span> <span class="fn">guardarFitxer</span>(<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; productes) {
+        <span class="kw">try</span> (<span class="cls">ObjectOutputStream</span> oos = <span class="kw">new</span> <span class="cls">ObjectOutputStream</span>(<span class="kw">new</span> <span class="cls">FileOutputStream</span>(FITXER))) {
+            oos.<span class="fn">writeObject</span>(productes);
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"✅ %d productes guardats. Fins aviat!%n"</span>, productes.<span class="fn">size</span>());
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error al guardar: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CA -->
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 5.4</span><span class="ca-text">Utilitza fitxers binaris per emmagatzemar i recuperar informació: <code>DataOutputStream</code>/<code>DataInputStream</code> per a tipus primitius.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.5</span><span class="ca-text">Crea programes que utilitzen serialització d'objectes: <code>Serializable</code>, <code>ObjectOutputStream</code>, <code>ObjectInputStream</code>. Gestiona <code>EOFException</code> i <code>ClassNotFoundException</code>.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>aulaenlanube (Edu Torregrosa):</strong> <em>Almacenamiento de datos en JAVA.pdf</em> — seccions: <em>Ficheros binarios</em>, <em>DataOutputStream/DataInputStream</em>, <em>Serialización</em>, exemple <em>Alumno/Grupo</em>. CC BY-NC-SA 4.0.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/DataOutputStream.html" style="color:#e74c3c">DataOutputStream</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/ObjectOutputStream.html" style="color:#e74c3c">ObjectOutputStream</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" style="color:#e74c3c">Serializable</a></li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

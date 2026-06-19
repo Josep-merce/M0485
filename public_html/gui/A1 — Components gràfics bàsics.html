@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Components gràfics bàsics · AEA5 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA5 &middot; Activitat 1 GUI</p>
+  <h1>Components gràfics bàsics</h1>
+  <p>Introducció a Swing amb NetBeans. <code>JFrame</code>, <code>JPanel</code>, <code>JLabel</code>, <code>JTextField</code>, <code>JButton</code>, <code>JComboBox</code> i <code>JRadioButton</code>. Layout managers i editor visual de propietats.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 5.6</span>
+    <span class="pill">JFrame · JPanel · JLabel</span>
+    <span class="pill">JComboBox · JRadioButton</span>
+    <span class="pill">FlowLayout · BorderLayout · GridLayout</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea5.html">AEA5</a>
+  <span>&rsaquo;</span>
+  A1 &mdash; Components gràfics bàsics
+</nav>
+<main>
+
+<h2 class="block-title">1. Swing i NetBeans: visió general</h2>
+
+<p><strong>Swing</strong> és la biblioteca de Java per crear interfícies gràfiques d'escriptori. Tots els components hereten de <code>JComponent</code> i comencen amb <code>J</code> (JFrame, JButton, JLabel...). NetBeans ofereix un <strong>editor visual de formularis</strong> que genera el codi automàticament mentre dissenyes arrossegant components.</p>
+
+<div class="info-box">
+  <strong>Flux de treball a NetBeans:</strong> crear projecte Java &rarr; afegir un <em>JFrame Form</em> &rarr; arrossegar components des de la <strong>Paleta</strong> a l'àrea de disseny &rarr; editar propietats al panell dret &rarr; fer doble clic al component per afegir-hi el codi de l'esdeveniment.
+</div>
+
+<div class="sub-title">1.1 Eines de l'IDE</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Eina</th><th>Funció</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Paleta</strong></td><td>Llista tots els components Swing disponibles per arrossegar al formulari</td></tr>
+      <tr><td><strong>Àrea de disseny</strong></td><td>Vista visual del formulari; cada canvi es reflecteix al codi</td></tr>
+      <tr><td><strong>Editor de propietats</strong></td><td>Permet canviar les propietats de cada component (text, mida, font, color...)</td></tr>
+      <tr><td><strong>Vista de codi</strong></td><td>El codi generat per NetBeans; la secció <em>Generated Code</em> no s'ha d'editar manualment</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="block-title">2. Components principals</h2>
+
+<div class="sub-title">2.1 JFrame — la finestra principal</div>
+<p><code>JFrame</code> és la finestra contenidora principal. La nostra classe n'hereta i afegeix els components al seu interior. La propietat <code>defaultCloseOperation</code> s'ha de posar a <code>EXIT_ON_CLOSE</code> perquè el programa s'aturi en tancar la finestra.</p>
+
+<div class="code-block"><span class="cmt">// Per mostrar el formulari des del main:</span>
+<span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+    <span class="cmt">// Executa la creació de la finestra al fil de l'Event Dispatch Thread (EDT)</span>
+    <span class="cls">java.awt.EventQueue</span>.<span class="fn">invokeLater</span>(() -> {
+        <span class="kw">new</span> <span class="cls">MevaFinestra</span>().<span class="fn">setVisible</span>(<span class="kw">true</span>);
+    });
+}</div>
+
+<div class="sub-title">2.2 Components de text i botó</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Component</th><th>Ús</th><th>Mètodes clau</th></tr></thead>
+    <tbody>
+      <tr><td><code>JLabel</code></td><td>Text o imatge no editable</td><td><code>setText()</code>, <code>getText()</code></td></tr>
+      <tr><td><code>JTextField</code></td><td>Camp de text d'una línia</td><td><code>getText()</code>, <code>setText("")</code></td></tr>
+      <tr><td><code>JTextArea</code></td><td>Àrea de text multilínia</td><td><code>getText()</code>, <code>append()</code>, <code>setText("")</code></td></tr>
+      <tr><td><code>JPasswordField</code></td><td>Camp de contrasenya (oculta caràcters)</td><td><code>getPassword()</code> retorna <code>char[]</code></td></tr>
+      <tr><td><code>JButton</code></td><td>Botó que dispara accions</td><td><code>setText()</code>, <code>addActionListener()</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">2.3 Components de selecció</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Component</th><th>Ús</th><th>Mètodes clau</th></tr></thead>
+    <tbody>
+      <tr><td><code>JCheckBox</code></td><td>Casella de verificació (sí/no)</td><td><code>isSelected()</code>, <code>setSelected()</code></td></tr>
+      <tr><td><code>JRadioButton</code></td><td>Botó de ràdio (un de N); cal agrupar-los en un <code>ButtonGroup</code></td><td><code>isSelected()</code>, <code>setSelected()</code></td></tr>
+      <tr><td><code>JComboBox&lt;T&gt;</code></td><td>Llista desplegable</td><td><code>getSelectedItem()</code>, <code>getSelectedIndex()</code>, <code>addItem()</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="code-block"><span class="cmt">// Exemple: llegir valors de components al botó "Confirmar"</span>
+<span class="kw">private void</span> <span class="fn">btnConfirmarActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+
+    <span class="cls">String</span> nom  = tfNom.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> prov = (<span class="cls">String</span>) comboProvinciа.<span class="fn">getSelectedItem</span>();
+    <span class="kw">boolean</span> oferta = checkOferta.<span class="fn">isSelected</span>();
+
+    <span class="kw">if</span> (nom.<span class="fn">isEmpty</span>()) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"El nom no pot estar buit."</span>);
+        <span class="kw">return</span>;
+    }
+
+    <span class="cls">String</span> resum = <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"Nom: %s | Prov: %s | Oferta: %b"</span>, nom, prov, oferta);
+    taResultat.<span class="fn">append</span>(resum + <span class="str">"
+"</span>);
+    tfNom.<span class="fn">setText</span>(<span class="str">""</span>);
+    tfNom.<span class="fn">requestFocus</span>();
+}</div>
+
+<h2 class="block-title">3. Layout managers</h2>
+
+<p>Els <strong>layout managers</strong> controlen com es distribueixen els components dins d'un contenidor. NetBeans usa per defecte <code>GroupLayout</code>, però per als exercicis escrits a mà els layouts bàsics són més pràctics.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Layout</th><th>Comportament</th><th>Quan usar-lo</th></tr></thead>
+    <tbody>
+      <tr><td><code>FlowLayout</code></td><td>Components en fila, s'ajusten quan no hi cap</td><td>Grups de botons horitzontals</td></tr>
+      <tr><td><code>BorderLayout</code></td><td>5 zones: NORTH, SOUTH, EAST, WEST, CENTER</td><td>Estructures principals de finestra</td></tr>
+      <tr><td><code>GridLayout(f,c)</code></td><td>Quadrícula de f files i c columnes, mida igual</td><td>Formularis amb camps alineats</td></tr>
+      <tr><td><code>GroupLayout</code></td><td>Control precís horitzontal i vertical (NetBeans)</td><td>Formularis complexos generats per IDE</td></tr>
+      <tr><td><code>null</code></td><td>Posició absoluta amb <code>setBounds(x,y,w,h)</code></td><td>Prototips ràpids (no recomanat)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="code-block"><span class="cmt">// Exemple de BorderLayout amb panells</span>
+<span class="cls">JFrame</span> finestra = <span class="kw">new</span> <span class="cls">JFrame</span>(<span class="str">"Exemple BorderLayout"</span>);
+finestra.<span class="fn">setLayout</span>(<span class="kw">new</span> <span class="cls">BorderLayout</span>());
+
+<span class="cls">JLabel</span>  titol  = <span class="kw">new</span> <span class="cls">JLabel</span>(<span class="str">"Títol"</span>, <span class="cls">SwingConstants</span>.CENTER);
+<span class="cls">JButton</span> boto   = <span class="kw">new</span> <span class="cls">JButton</span>(<span class="str">"Acceptar"</span>);
+<span class="cls">JTextArea</span> area = <span class="kw">new</span> <span class="cls">JTextArea</span>();
+
+finestra.<span class="fn">add</span>(titol,  <span class="cls">BorderLayout</span>.NORTH);
+finestra.<span class="fn">add</span>(area,   <span class="cls">BorderLayout</span>.CENTER);
+finestra.<span class="fn">add</span>(boto,   <span class="cls">BorderLayout</span>.SOUTH);
+
+finestra.<span class="fn">setSize</span>(<span class="num">400</span>, <span class="num">300</span>);
+finestra.<span class="fn">setDefaultCloseOperation</span>(<span class="cls">JFrame</span>.EXIT_ON_CLOSE);
+finestra.<span class="fn">setVisible</span>(<span class="kw">true</span>);</div>
+
+<h2 class="block-title">4. Exercicis</h2>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Formulari de dades personals</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un formulari visual a NetBeans que reculli dades personals d'un usuari seguint el PDF de l'exemple pràctic de Canela.</p>
+    <ol class="exercici-tasques">
+<li>Crea un projecte nou a NetBeans i afegeix un <code>JFrame Form</code>.</li>
+      <li>Afegeix dos <code>JPanel</code> amb vora de tipus <code>TitledBorder</code>: "Dades personals" i "Correu electrònic".</li>
+      <li>Dins el primer, afegeix <code>JLabel</code> i <code>JTextField</code> per al nom, cognoms i DNI.</li>
+      <li>Afegeix un <code>JComboBox</code> amb les quatre províncies catalanes.</li>
+      <li>Afegeix un botó "Netejar" que buidi tots els camps.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Formulari de dades personals</div>
+<div class="code-block"><span class="cmt">// Neteja dels camps — mètode associat al botó "Netejar"</span>
+<span class="kw">private void</span> <span class="fn">btnNetejarActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    tfNom.<span class="fn">setText</span>(<span class="str">""</span>);
+    tfCognoms.<span class="fn">setText</span>(<span class="str">""</span>);
+    tfDNI.<span class="fn">setText</span>(<span class="str">""</span>);
+    comboProvinciа.<span class="fn">setSelectedIndex</span>(<span class="num">0</span>);
+    tfNom.<span class="fn">requestFocus</span>();
+}</div>
+    </div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Comanda de productes amb JComboBox</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa el formulari de comanda de productes de l'Exercici 5 de Canela: JComboBox editable, JRadioButton, JCheckBox i JTextArea de resultats.</p>
+    <ol class="exercici-tasques">
+<li>Crea un formulari de "Comanda de productes" basant-te en el PDF de l'exercici 5 de Canela.</li>
+      <li>Inclou un <code>JComboBox</code> editable amb tres productes inicials (Pa, Llet, Fruita).</li>
+      <li>Afegeix <code>JRadioButton</code> per al tipus de venda (Unitats / Pes), agrupats en un <code>ButtonGroup</code>.</li>
+      <li>Afegeix un <code>JCheckBox</code> "En oferta" i un <code>JTextField</code> per a la quantitat.</li>
+      <li>El botó "Afegir" ha d'afegir la comanda a un <code>JTextArea</code> amb el format: <code>producte – quantitat – tipus – oferta</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Comanda de productes amb JComboBox</div>
+<div class="code-block"><span class="cmt">// Botó Afegir — llegeix els components i afegeix a l'àrea de resultats</span>
+<span class="kw">private void</span> <span class="fn">afegirActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+
+    <span class="cls">String</span>  producte  = (<span class="cls">String</span>) combo.<span class="fn">getSelectedItem</span>();
+    <span class="cls">String</span>  quantitat = quantitatField.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span>  tipus     = unitats.<span class="fn">isSelected</span>() ? <span class="str">"Unitats"</span> : <span class="str">"Pes"</span>;
+    <span class="kw">boolean</span> esOferta  = oferta.<span class="fn">isSelected</span>();
+
+    <span class="kw">if</span> (quantitat.<span class="fn">isEmpty</span>()) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Introdueix la quantitat."</span>);
+        <span class="kw">return</span>;
+    }
+
+    <span class="cls">String</span> linia = <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%s — %s %s%s%n"</span>,
+        producte, quantitat, tipus, esOferta ? <span class="str">" [OFERTA]"</span> : <span class="str">""</span>);
+    resultat.<span class="fn">append</span>(linia);
+    quantitatField.<span class="fn">setText</span>(<span class="str">""</span>);
+}</div>
+    </div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Registre d'alumnes amb validació</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un formulari de registre d'alumnes complet amb validació de tots els camps, camp NIF amb màscara i exportació en format CSV al JTextArea.</p>
+    <ol class="exercici-tasques">
+<li>Crea un formulari complet de registre d'alumnes amb: nom, cognoms, NIF (camp <code>JFormattedTextField</code> amb màscara <code>########U</code>), correu, nota (0-10) i curs (<code>JComboBox</code>).</li>
+      <li>Afegeix validació al botó "Registrar": camp buit mostra un <code>JOptionPane</code> d'error; nota fora del rang 0-10 mostra avís.</li>
+      <li>Si la validació passa, afegeix l'alumne a un <code>JTextArea</code> de resultats en format CSV i neteja el formulari.</li>
+      <li>El botó "Esborrar resultats" ha de netejar el <code>JTextArea</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Registre d'alumnes amb validació</div>
+<div class="code-block"><span class="cmt">// Validació i registre d'alumne</span>
+<span class="kw">private void</span> <span class="fn">btnRegistrarActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+
+    <span class="cls">String</span> nom     = tfNom.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> cognoms = tfCognoms.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> nif     = tfNIF.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> correu  = tfCorreu.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> cursStr = (<span class="cls">String</span>) comboCurs.<span class="fn">getSelectedItem</span>();
+
+    <span class="kw">double</span> nota;
+    <span class="kw">try</span> {
+        nota = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(tfNota.<span class="fn">getText</span>().<span class="fn">trim</span>());
+    } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"La nota ha de ser un número."</span>);
+        <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (nom.<span class="fn">isEmpty</span>() || cognoms.<span class="fn">isEmpty</span>() || nif.<span class="fn">isEmpty</span>()) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Tots els camps són obligatoris."</span>);
+        <span class="kw">return</span>;
+    }
+    <span class="kw">if</span> (nota < <span class="num">0</span> || nota > <span class="num">10</span>) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"La nota ha d'estar entre 0 i 10."</span>);
+        <span class="kw">return</span>;
+    }
+
+    taResultats.<span class="fn">append</span>(<span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%s;%s;%s;%s;%.1f;%s%n"</span>,
+        nom, cognoms, nif, correu, nota, cursStr));
+
+    <span class="cmt">// Netejar formulari</span>
+    tfNom.<span class="fn">setText</span>(<span class="str">""</span>); tfCognoms.<span class="fn">setText</span>(<span class="str">""</span>);
+    tfNIF.<span class="fn">setText</span>(<span class="str">""</span>); tfCorreu.<span class="fn">setText</span>(<span class="str">""</span>); tfNota.<span class="fn">setText</span>(<span class="str">""</span>);
+    comboCurs.<span class="fn">setSelectedIndex</span>(<span class="num">0</span>);
+    tfNom.<span class="fn">requestFocus</span>();
+}</div>
+    </div>
+  </div>
+</div>
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 5.6</span><span class="ca-text">Utilitza les eines de l'entorn de desenvolupament (NetBeans) per crear interfícies gràfiques simples d'usuari amb JFrame, JPanel, JLabel, JTextField, JButton, JComboBox i JRadioButton.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>2. Creació d'interfícies gràfiques amb Netbeans.pdf</em> — Albert Canela. JFrame, paleta, àrea de disseny, editor de propietats.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>3. Exemple pràctic amb Netbeans.pdf</em> — Albert Canela. JPanel, JLabel, JTextField, JComboBox, JList, JRadioButton.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>8. ComboBox — Exercici 5.pdf</em> + <em>Exercici5Combo.java</em> — Albert Canela.</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 17, lliçons 254–258: Creació app Swing, mode fosc, caixa de text.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/" style="color:#e74c3c">Swing Components Tutorial</a></li>
+  </ul>
+</div>
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

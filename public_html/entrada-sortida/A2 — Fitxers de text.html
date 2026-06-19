@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Fitxers de text · AEA5 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    /* Diagrama de classes IO */
+    .io-diagram { display:flex; flex-wrap:wrap; gap:1rem; margin:1rem 0 1.5rem; }
+    .io-group { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; flex:1; min-width:200px; box-shadow:var(--shadow); }
+    .io-group h4 { font-size:.82rem; font-weight:700; color:var(--text); margin-bottom:.6rem; padding-bottom:.4rem; border-bottom:1px solid var(--border); }
+    .io-group ul { font-size:.8rem; color:var(--text-soft); padding-left:1rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA5 &middot; Activitat 2</p>
+  <h1>Fitxers de text</h1>
+  <p>Lectura i escriptura de fitxers de text amb <code>FileReader</code>, <code>FileWriter</code>, <code>PrintWriter</code>, <code>Scanner</code> i buffers per fer les operacions més eficients.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 5.3 java.io</span>
+    <span class="pill">CA 5.4 Fitxers</span>
+    <span class="pill">CA 5.5 Mètodes accés</span>
+    <span class="pill">FileWriter · PrintWriter</span>
+    <span class="pill">BufferedReader · BufferedWriter</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea5.html">AEA5</a>
+  <span>&rsaquo;</span>
+  A2 — Fitxers de text
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 1 -->
+<h2 class="block-title">1. Fluxos de caràcters: visió general</h2>
+
+<p>Per treballar amb fitxers de text en Java s'utilitzen els <strong>fluxos de caràcters</strong> (<em>character streams</em>), que gestionen automàticament la conversió entre bytes i caràcters Unicode. Les classes base són <code>Reader</code> (lectura) i <code>Writer</code> (escriptura).</p>
+
+<div class="io-diagram">
+  <div class="io-group">
+    <h4>📖 Lectura (Reader)</h4>
+    <ul>
+      <li><code>FileReader</code> — llegeix caràcters</li>
+      <li><code>BufferedReader</code> — buffer + <code>readLine()</code></li>
+      <li><code>Scanner</code> — tokens i línies</li>
+    </ul>
+  </div>
+  <div class="io-group">
+    <h4>✏️ Escriptura (Writer)</h4>
+    <ul>
+      <li><code>FileWriter</code> — escriu caràcters</li>
+      <li><code>PrintWriter</code> — escriu amb format</li>
+      <li><code>BufferedWriter</code> — buffer eficient</li>
+    </ul>
+  </div>
+</div>
+
+<div class="warn-box">
+  <strong>Regla important:</strong> un fitxer sempre s'ha de <strong>tancar</strong> explícitament amb <code>close()</code> un cop acabada la lectura o escriptura. Si no es tanca, les dades escrites al buffer poden perdre's. La forma moderna és usar el bloc <strong>try-with-resources</strong>, que tanca automàticament.
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 2 -->
+<h2 class="block-title">2. Escriptura: FileWriter i PrintWriter</h2>
+
+<div class="sub-title">2.1 FileWriter — escriptura bàsica de caràcters</div>
+
+<p><code>FileWriter</code> és la classe més senzilla per escriure text en un fitxer. Si el fitxer no existeix, el crea; si existeix, el sobreescriu per defecte. Per afegir contingut al final (<em>append</em>), s'usa el constructor amb <code>true</code>.</p>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ExempleFileWriter</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Escriptura normal (sobreescriu si existeix)</span>
+        <span class="kw">try</span> (<span class="cls">FileWriter</span> fw = <span class="kw">new</span> <span class="cls">FileWriter</span>(<span class="str">"notes.txt"</span>)) {
+            fw.<span class="fn">write</span>(<span class="str">"Primera línia del fitxer\n"</span>);
+            fw.<span class="fn">write</span>(<span class="str">"Segona línia del fitxer\n"</span>);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error d'escriptura: "</span> + e.<span class="fn">getMessage</span>());
+        }
+
+        <span class="cmt">// Append: afegir contingut al final (segon paràmetre = true)</span>
+        <span class="kw">try</span> (<span class="cls">FileWriter</span> fw = <span class="kw">new</span> <span class="cls">FileWriter</span>(<span class="str">"notes.txt"</span>, <span class="kw">true</span>)) {
+            fw.<span class="fn">write</span>(<span class="str">"Tercera línia afegida\n"</span>);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<div class="sub-title">2.2 PrintWriter — escriptura formatada</div>
+
+<p><code>PrintWriter</code> és molt més versàtil que <code>FileWriter</code>: ofereix <code>println()</code> per a tots els tipus primitius, <code>printf()</code> per formatar, i <code>print()</code>. S'acostuma a construir sobre un <code>FileWriter</code>.</p>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ExemplePrintWriter</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">try</span> (<span class="cls">PrintWriter</span> pw = <span class="kw">new</span> <span class="cls">PrintWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(<span class="str">"alumnes.txt"</span>))) {
+
+            pw.<span class="fn">println</span>(<span class="str">"Anna Garcia"</span>);      <span class="cmt">// String + salt de línia</span>
+            pw.<span class="fn">println</span>(<span class="num">22</span>);               <span class="cmt">// int</span>
+            pw.<span class="fn">println</span>(<span class="num">8.75</span>);             <span class="cmt">// double</span>
+            pw.<span class="fn">printf</span>(<span class="str">"%-15s %3d %.2f%n"</span>, <span class="str">"Bernat López"</span>, <span class="num">19</span>, <span class="num">6.5</span>);
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 3 -->
+<h2 class="block-title">3. Lectura: FileReader i Scanner</h2>
+
+<div class="sub-title">3.1 FileReader — lectura caràcter a caràcter</div>
+
+<p><code>FileReader</code> llegeix un caràcter a la vegada amb <code>read()</code>, que retorna un <code>int</code> (el valor Unicode del caràcter, o <code>-1</code> si s'ha arribat al final). Sol ser poc eficient per si sol i normalment es combina amb un <code>BufferedReader</code>.</p>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">try</span> (<span class="cls">FileReader</span> fr = <span class="kw">new</span> <span class="cls">FileReader</span>(<span class="str">"notes.txt"</span>)) {
+    <span class="kw">int</span> c;
+    <span class="kw">while</span> ((c = fr.<span class="fn">read</span>()) != -<span class="num">1</span>) {
+        <span class="cls">System</span>.out.<span class="fn">print</span>((<span class="kw">char</span>) c);   <span class="cmt">// convertim int a char</span>
+    }
+} <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<div class="sub-title">3.2 Scanner sobre fitxer — lectura per tokens i línies</div>
+
+<p>Podem usar <code>Scanner</code> no només per llegir del teclat, sinó també per llegir d'un fitxer passant-li un objecte <code>File</code> o un <code>FileReader</code>. És molt pràctic per llegir fitxers amb dades estructurades.</p>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Llegir línia a línia</span>
+<span class="kw">try</span> (<span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="kw">new</span> <span class="cls">File</span>(<span class="str">"alumnes.txt"</span>))) {
+    <span class="kw">while</span> (sc.<span class="fn">hasNextLine</span>()) {
+        <span class="cls">String</span> linia = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(linia);
+    }
+} <span class="kw">catch</span> (<span class="cls">FileNotFoundException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer no trobat: "</span> + e.<span class="fn">getMessage</span>());
+}
+
+<span class="cmt">// Llegir dades estructurades (un enter i un double per línia)</span>
+<span class="kw">try</span> (<span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="kw">new</span> <span class="cls">File</span>(<span class="str">"notes.txt"</span>))) {
+    <span class="kw">while</span> (sc.<span class="fn">hasNextInt</span>()) {
+        <span class="kw">int</span> id = sc.<span class="fn">nextInt</span>();
+        <span class="kw">double</span> nota = sc.<span class="fn">nextDouble</span>();
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"ID: %d → Nota: %.2f%n"</span>, id, nota);
+    }
+} <span class="kw">catch</span> (<span class="cls">FileNotFoundException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 4 -->
+<h2 class="block-title">4. Buffers: BufferedReader i BufferedWriter</h2>
+
+<p>Les classes <code>BufferedReader</code> i <code>BufferedWriter</code> afegeixen una memòria intermèdia (<em>buffer</em>) a les operacions d'E/S. En lloc de fer una operació de disc per cada caràcter, acumulen les dades en memòria i fan accesos al disc en blocs grans, cosa que millora molt el rendiment.</p>
+
+<div class="info-box">
+  <strong>Per què usar buffers?</strong> Accedir al disc és molt lent. Amb un buffer, en lloc de fer 10.000 lectures d'1 byte cadascuna, es fa 1 lectura de 10.000 bytes. El rendiment pot millorar 10-100×.
+</div>
+
+<div class="sub-title">4.1 BufferedWriter — escriptura eficient</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ExempleBufferedWriter</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">try</span> (<span class="cls">BufferedWriter</span> bw = <span class="kw">new</span> <span class="cls">BufferedWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(<span class="str">"sortida.txt"</span>))) {
+
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">5</span>; i++) {
+                bw.<span class="fn">write</span>(<span class="str">"Línia número "</span> + i);
+                bw.<span class="fn">newLine</span>();   <span class="cmt">// salt de línia portable (\r\n o \n)</span>
+            }
+            <span class="cmt">// El close() fa flush automàticament: buida el buffer al disc</span>
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<div class="sub-title">4.2 BufferedReader — lectura eficient línia a línia</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ExempleBufferedReader</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(<span class="str">"sortida.txt"</span>))) {
+
+            <span class="cls">String</span> linia;
+            <span class="kw">int</span> numLinia = <span class="num">1</span>;
+
+            <span class="cmt">// readLine() retorna null quan s'acaba el fitxer</span>
+            <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%3d: %s%n"</span>, numLinia++, linia);
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<div class="sub-title">4.3 Resum: quina classe usar?</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Cas d'ús</th><th>Escriptura recomanada</th><th>Lectura recomanada</th></tr></thead>
+    <tbody>
+      <tr><td>Fitxer de text senzill</td><td><code>FileWriter</code></td><td><code>FileReader</code> + cast a <code>char</code></td></tr>
+      <tr><td>Escriure tipus diversos (int, double...)</td><td><code>PrintWriter</code></td><td>—</td></tr>
+      <tr><td>Fitxer gran / rendiment</td><td><code>BufferedWriter</code></td><td><code>BufferedReader</code></td></tr>
+      <tr><td>Llegir dades estructurades (tokens)</td><td>—</td><td><code>Scanner(File)</code></td></tr>
+      <tr><td>Millor pràctica general</td><td><code>PrintWriter(new FileWriter(...))</code></td><td><code>BufferedReader(new FileReader(...))</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 5: EXERCICIS -->
+<h2 class="block-title">5. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Diari personal</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que permeti afegir entrades a un fitxer de diari. Cada vegada que s'executa, demana el text d'una nova entrada i l'afegeix al final del fitxer <code>diari.txt</code> amb la data del sistema.</p>
+    <ol class="exercici-tasques">
+      <li>Llegeix el text de l'entrada amb <code>Scanner</code>.</li>
+      <li>Obre el fitxer en mode <em>append</em> amb <code>FileWriter(nom, true)</code>.</li>
+      <li>Escriu la data (usa <code>LocalDate.now()</code>) i el text separats per <code>" | "</code>.</li>
+      <li>Mostra el contingut actual del fitxer llegint-lo amb <code>BufferedReader</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Diari personal</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
+<span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">DiariPersonal</span> {
+
+    <span class="kw">static final</span> <span class="cls">String</span> FITXER = <span class="str">"diari.txt"</span>;
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Escriu la teva entrada d'avui: "</span>);
+        <span class="cls">String</span> entrada = sc.<span class="fn">nextLine</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="cmt">// Afegim al fitxer (append = true)</span>
+        <span class="kw">try</span> (<span class="cls">PrintWriter</span> pw = <span class="kw">new</span> <span class="cls">PrintWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(FITXER, <span class="kw">true</span>))) {
+            pw.<span class="fn">printf</span>(<span class="str">"%s | %s%n"</span>, <span class="cls">LocalDate</span>.<span class="fn">now</span>(), entrada);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error en escriure: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return</span>;
+        }
+
+        <span class="cmt">// Mostrem el contingut actual</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== Diari complet ==="</span>);
+        <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(FITXER))) {
+            <span class="cls">String</span> linia;
+            <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(linia);
+            }
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error en llegir: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Comptador de paraules</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un mètode que rebi el nom d'un fitxer de text i retorni el nombre de línies, paraules i caràcters que conté. Mostra els resultats per pantalla.</p>
+    <ol class="exercici-tasques">
+      <li>Llegeix el fitxer línia a línia amb <code>BufferedReader</code>.</li>
+      <li>Per cada línia, compta les paraules usant <code>split("\\s+")</code>.</li>
+      <li>Compta els caràcters sumant la longitud de cada línia.</li>
+      <li>Mostra el resum final en format de taula.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Comptador de paraules</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+
+<span class="kw">public class</span> <span class="cls">ComptadorParaules</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="fn">analitzarFitxer</span>(<span class="str">"diari.txt"</span>);
+    }
+
+    <span class="kw">public static void</span> <span class="fn">analitzarFitxer</span>(<span class="cls">String</span> nomFitxer) {
+
+        <span class="kw">int</span> linies = <span class="num">0</span>, paraules = <span class="num">0</span>, caracters = <span class="num">0</span>;
+
+        <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(nomFitxer))) {
+
+            <span class="cls">String</span> linia;
+            <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+                linies++;
+                caracters += linia.<span class="fn">length</span>();
+                <span class="kw">if</span> (!linia.<span class="fn">trim</span>().<span class="fn">isEmpty</span>()) {
+                    paraules += linia.<span class="fn">trim</span>().<span class="fn">split</span>(<span class="str">"\\s+"</span>).length;
+                }
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== Estadístiques de '"</span> + nomFitxer + <span class="str">"' ==="</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-12s %6d%n"</span>, <span class="str">"Línies:"</span>,    linies);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-12s %6d%n"</span>, <span class="str">"Paraules:"</span>,  paraules);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-12s %6d%n"</span>, <span class="str">"Caràcters:"</span>, caracters);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Cerca i reemplaça</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que llegeixi un fitxer de text, reemplaci totes les ocurrències d'una paraula per una altra, i escrigui el resultat en un fitxer nou amb el sufix <code>_modificat.txt</code>.</p>
+    <ol class="exercici-tasques">
+      <li>Demana per consola: nom del fitxer, paraula a cercar i paraula de reemplaç.</li>
+      <li>Llegeix el fitxer original línia a línia amb <code>BufferedReader</code>.</li>
+      <li>Per cada línia, aplica <code>linia.replace(cerca, reemplaç)</code>.</li>
+      <li>Escriu les línies modificades al fitxer nou amb <code>PrintWriter</code>.</li>
+      <li>Mostra quantes substitucions s'han fet en total.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Cerca i reemplaça</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">CercaReemplaca</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nom del fitxer: "</span>);
+        <span class="cls">String</span> nomFitxer = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Paraula a cercar: "</span>);
+        <span class="cls">String</span> cerca = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Paraula de reemplaç: "</span>);
+        <span class="cls">String</span> reemplac = sc.<span class="fn">nextLine</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="cmt">// Nom del fitxer de sortida</span>
+        <span class="kw">int</span> punt = nomFitxer.<span class="fn">lastIndexOf</span>(<span class="str">'.'</span>);
+        <span class="cls">String</span> nomSortida = (punt >= <span class="num">0</span>)
+            ? nomFitxer.<span class="fn">substring</span>(<span class="num">0</span>, punt) + <span class="str">"_modificat"</span> + nomFitxer.<span class="fn">substring</span>(punt)
+            : nomFitxer + <span class="str">"_modificat"</span>;
+
+        <span class="kw">int</span> totalSubstitucions = <span class="num">0</span>;
+
+        <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(nomFitxer));
+             <span class="cls">PrintWriter</span>    pw = <span class="kw">new</span> <span class="cls">PrintWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(nomSortida))) {
+
+            <span class="cls">String</span> linia;
+            <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+                <span class="cmt">// Comptem ocurrències en aquesta línia</span>
+                <span class="kw">int</span> count = linia.<span class="fn">split</span>(<span class="cls">java.util.regex.Pattern</span>.<span class="fn">quote</span>(cerca), -<span class="num">1</span>).length - <span class="num">1</span>;
+                totalSubstitucions += count;
+                pw.<span class="fn">println</span>(linia.<span class="fn">replace</span>(cerca, reemplac));
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"✅ Fet. %d substitució(ns). Fitxer guardat: %s%n"</span>,
+            totalSubstitucions, nomSortida);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E4</span>
+    <span class="exercici-title">Gestió de notes d'alumnes</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que gestioni un fitxer <code>notes.csv</code> on cada línia té el format <code>nom;nota</code>. El programa ha de permetre afegir alumnes, mostrar tots els alumnes i calcular la mitjana de notes.</p>
+    <ol class="exercici-tasques">
+      <li>Mostra un menú: 1) Afegir alumne, 2) Mostrar tots, 3) Mitjana, 4) Sortir.</li>
+      <li>L'opció 1 demana nom i nota i els afegeix al final del fitxer (append).</li>
+      <li>L'opció 2 llegeix el fitxer i mostra els alumnes amb <code>printf</code> alineat.</li>
+      <li>L'opció 3 llegeix totes les notes, les suma i calcula la mitjana.</li>
+      <li>Valida que la nota estigui entre 0 i 10.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.3 · 5.4 · 5.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Gestió de notes d'alumnes</div>
+      <div class="code-block"><span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">GestioNotes</span> {
+
+    <span class="kw">static final</span> <span class="cls">String</span> FITXER = <span class="str">"notes.csv"</span>;
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">int</span> opcio;
+
+        <span class="kw">do</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== Gestió de Notes ==="</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"1. Afegir alumne"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"2. Mostrar tots"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"3. Calcular mitjana"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"4. Sortir"</span>);
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Opció: "</span>);
+            opcio = sc.<span class="fn">nextInt</span>();
+            sc.<span class="fn">nextLine</span>();
+
+            <span class="kw">switch</span> (opcio) {
+                <span class="kw">case</span> <span class="num">1</span> -> <span class="fn">afegirAlumne</span>(sc);
+                <span class="kw">case</span> <span class="num">2</span> -> <span class="fn">mostrarTots</span>();
+                <span class="kw">case</span> <span class="num">3</span> -> <span class="fn">calcularMitjana</span>();
+                <span class="kw">case</span> <span class="num">4</span> -> <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fins aviat!"</span>);
+                <span class="kw">default</span> -> <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Opció no vàlida."</span>);
+            }
+        } <span class="kw">while</span> (opcio != <span class="num">4</span>);
+        sc.<span class="fn">close</span>();
+    }
+
+    <span class="kw">static void</span> <span class="fn">afegirAlumne</span>(<span class="cls">Scanner</span> sc) {
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nom: "</span>);
+        <span class="cls">String</span> nom = sc.<span class="fn">nextLine</span>();
+        <span class="kw">double</span> nota;
+        <span class="kw">do</span> {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (0-10): "</span>);
+            nota = sc.<span class="fn">nextDouble</span>();
+            sc.<span class="fn">nextLine</span>();
+        } <span class="kw">while</span> (nota < <span class="num">0</span> || nota > <span class="num">10</span>);
+
+        <span class="kw">try</span> (<span class="cls">PrintWriter</span> pw = <span class="kw">new</span> <span class="cls">PrintWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(FITXER, <span class="kw">true</span>))) {
+            pw.<span class="fn">printf</span>(<span class="str">"%s;%.2f%n"</span>, nom, nota);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✅ Alumne afegit."</span>);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+
+    <span class="kw">static void</span> <span class="fn">mostrarTots</span>() {
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%n%-20s %6s%n"</span>, <span class="str">"Nom"</span>, <span class="str">"Nota"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(28)</span>);
+        <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(FITXER))) {
+            <span class="cls">String</span> linia;
+            <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+                <span class="cls">String</span>[] parts = linia.<span class="fn">split</span>(<span class="str">";"</span>);
+                <span class="kw">if</span> (parts.length == <span class="num">2</span>)
+                    <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-20s %6s%n"</span>, parts[<span class="num">0</span>], parts[<span class="num">1</span>]);
+            }
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer buit o no trobat."</span>);
+        }
+    }
+
+    <span class="kw">static void</span> <span class="fn">calcularMitjana</span>() {
+        <span class="kw">double</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> count = <span class="num">0</span>;
+        <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(FITXER))) {
+            <span class="cls">String</span> linia;
+            <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+                <span class="cls">String</span>[] parts = linia.<span class="fn">split</span>(<span class="str">";"</span>);
+                <span class="kw">if</span> (parts.length == <span class="num">2</span>) {
+                    suma += <span class="cls">Double</span>.<span class="fn">parseDouble</span>(parts[<span class="num">1</span>].<span class="fn">replace</span>(<span class="str">","</span>, <span class="str">"."</span>));
+                    count++;
+                }
+            }
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer buit o no trobat."</span>);
+            <span class="kw">return</span>;
+        }
+        <span class="kw">if</span> (count > <span class="num">0</span>)
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Mitjana de %d alumnes: %.2f%n"</span>, count, suma / count);
+        <span class="kw">else</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha dades."</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CA -->
+<h2 class="block-title">6. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 5.3</span><span class="ca-text">Reconeix les possibilitats d'E/S del llenguatge: fluxos de caràcters (<code>Reader</code>/<code>Writer</code>) i la diferència amb fluxos de bytes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.4</span><span class="ca-text">Utilitza fitxers per emmagatzemar i recuperar informació: escriptura (<code>FileWriter</code>, <code>PrintWriter</code>) i lectura (<code>FileReader</code>, <code>Scanner</code>).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.5</span><span class="ca-text">Crea programes que utilitzen diversos mètodes d'accés: lectura caràcter a caràcter, lectura per línies (<code>readLine</code>), lectura per tokens (<code>Scanner</code>), buffers.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>aulaenlanube (Edu Torregrosa):</strong> <em>Almacenamiento de datos en JAVA.pdf</em> — seccions: <em>FileWriter y FileReader</em>, <em>PrintWriter</em>, <em>Scanner (ficheros)</em>, <em>BufferedReader y BufferedWriter</em>, exercicis 1-8. CC BY-NC-SA 4.0.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/FileWriter.html" style="color:#e74c3c">FileWriter</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/BufferedReader.html" style="color:#e74c3c">BufferedReader</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/PrintWriter.html" style="color:#e74c3c">PrintWriter</a></li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

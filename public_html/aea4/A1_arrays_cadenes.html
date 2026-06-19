@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Arrays i cadenes de caràcters · AEA4 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA4 &middot; Activitat 1</p>
+  <h1>Arrays i cadenes de caràcters</h1>
+  <p>Estructures estàtiques per emmagatzemar seqüències de dades: arrays d'una i dues dimensions, i la classe <code style="color:#f0ece8">String</code> amb els seus mètodes principals.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 6.1 Arrays</span>
+    <span class="pill">CA 6.2 Arrays multidimensionals</span>
+    <span class="pill">CA 6.3 Estructures estàtiques</span>
+    <span class="pill">CA 6.5 Cadenes</span>
+    <span class="pill">12 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea4.html">AEA4</a>
+  <span>&rsaquo;</span>
+  A1 — Arrays i cadenes
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">1. Estructures estàtiques i dinàmiques</h2>
+
+<p>En programació, les dades s'organitzen en estructures. Fins ara hem treballat amb variables individuals, però sovint necessitem guardar molts valors del mateix tipus junts. Java ofereix dos grans tipus d'estructures:</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Característica</th><th>Estructura estàtica (array)</th><th>Estructura dinàmica (ArrayList, etc.)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Mida</td><td>Fixa en el moment de creació</td><td>Creix i decreix en temps d'execució</td></tr>
+      <tr><td>Rendiment accés</td><td>Molt ràpid per posició</td><td>Ràpid (ArrayList), menys per LinkedList</td></tr>
+      <tr><td>Tipus elements</td><td>Primitius o objectes</td><td>Només objectes (tipus wrapper)</td></tr>
+      <tr><td>Sintaxi Java</td><td><code>int[]</code>, <code>String[]</code></td><td><code>ArrayList&lt;Integer&gt;</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="info-box">
+  <strong>En aquesta activitat</strong> treballem els arrays (estructures estàtiques) i la classe <code>String</code>. Les estructures dinàmiques (col·leccions) les veurem a l'activitat A3.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">2. Arrays unidimensionals</h2>
+
+<p>Un array és una seqüència de posicions de memòria contigua, totes del mateix tipus. La primera posició té índex <strong>0</strong>.</p>
+
+<div class="sub-title">2.1 Declaració i inicialització</div>
+
+<p>Hi ha tres maneres equivalents de crear un array:</p>
+
+<div class="code-block"><span class="cmt">// Forma 1: declarar i crear en dos passos</span>
+<span class="kw">int</span>[] notes;
+notes = <span class="kw">new int</span>[<span class="num">5</span>];           <span class="cmt">// 5 posicions, totes inicialitzades a 0</span>
+
+<span class="cmt">// Forma 2: declarar i crear en un sol pas</span>
+<span class="kw">int</span>[] notes = <span class="kw">new int</span>[<span class="num">5</span>];
+
+<span class="cmt">// Forma 3: inicialitzar directament amb valors (literal)</span>
+<span class="kw">int</span>[] notes = { <span class="num">7</span>, <span class="num">8</span>, <span class="num">5</span>, <span class="num">9</span>, <span class="num">6</span> };</div>
+
+<div class="tip-box">
+  <strong>Consell:</strong> La propietat <code>length</code> d'un array retorna el nombre d'elements. No és un mètode (sense parèntesis): <code>notes.length</code> → <code>5</code>.
+</div>
+
+<div class="sub-title">2.2 Accés i modificació</div>
+
+<div class="code-block"><span class="kw">int</span>[] notes = { <span class="num">7</span>, <span class="num">8</span>, <span class="num">5</span>, <span class="num">9</span>, <span class="num">6</span> };
+
+<span class="cmt">// Lectura</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(notes[<span class="num">0</span>]);    <span class="cmt">// 7  (primera posició)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(notes[<span class="num">4</span>]);    <span class="cmt">// 6  (última posició)</span>
+
+<span class="cmt">// Modificació</span>
+notes[<span class="num">2</span>] = <span class="num">10</span>;                   <span class="cmt">// ara la posició 2 val 10</span>
+
+<span class="cmt">// Atenció: accedir fora de rang llença ArrayIndexOutOfBoundsException</span>
+<span class="cmt">// notes[5] → ERROR! Les posicions vàlides són 0..4</span></div>
+
+<div class="sub-title">2.3 Recorregut d'un array</div>
+
+<p>Existeixen dues formes principals de recórrer un array en Java:</p>
+
+<div class="code-block"><span class="kw">int</span>[] notes = { <span class="num">7</span>, <span class="num">8</span>, <span class="num">5</span>, <span class="num">9</span>, <span class="num">6</span> };
+
+<span class="cmt">// Forma clàssica: útil quan necessitem l'índex</span>
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; notes.length; i++) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Posició "</span> + i + <span class="str">": "</span> + notes[i]);
+}
+
+<span class="cmt">// For millorat (for-each): més net quan no necessitem l'índex</span>
+<span class="kw">for</span> (<span class="kw">int</span> nota : notes) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(nota);
+}</div>
+
+<div class="sub-title">2.4 Arrays d'objectes</div>
+
+<p>Els arrays no estan limitats a tipus primitius. Podem tenir arrays de qualsevol classe:</p>
+
+<div class="code-block"><span class="cls">String</span>[] noms = { <span class="str">"Anna"</span>, <span class="str">"Marc"</span>, <span class="str">"Laia"</span> };
+
+<span class="kw">for</span> (<span class="cls">String</span> nom : noms) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola, "</span> + nom + <span class="str">"!"</span>);
+}
+
+<span class="cmt">// Mida d'un array d'strings</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi ha "</span> + noms.length + <span class="str">" noms"</span>);</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">3. Arrays bidimensionals (matrius)</h2>
+
+<p>Un array bidimensional és, en essència, un array d'arrays. S'utilitzen per representar taules, matrius matemàtiques o graelles.</p>
+
+<div class="sub-title">3.1 Declaració i inicialització</div>
+
+<div class="code-block"><span class="cmt">// Declaració: int[files][columnes]</span>
+<span class="kw">int</span>[][] matriu = <span class="kw">new int</span>[<span class="num">3</span>][<span class="num">4</span>];   <span class="cmt">// 3 files, 4 columnes → 12 posicions</span>
+
+<span class="cmt">// Inicialització directa (literal)</span>
+<span class="kw">int</span>[][] taula = {
+    { <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> },
+    { <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span> },
+    { <span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span> }
+};
+
+<span class="cls">System</span>.out.<span class="fn">println</span>(taula[<span class="num">1</span>][<span class="num">2</span>]);   <span class="cmt">// 6  (fila 1, columna 2)</span></div>
+
+<div class="sub-title">3.2 Recorregut amb doble bucle</div>
+
+<div class="code-block"><span class="kw">int</span>[][] taula = {
+    { <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> },
+    { <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span> },
+    { <span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span> }
+};
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; taula.length; i++) {           <span class="cmt">// files</span>
+    <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; taula[i].length; j++) {   <span class="cmt">// columnes</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(taula[i][j] + <span class="str">" "</span>);
+    }
+    <span class="cls">System</span>.out.<span class="fn">println</span>();   <span class="cmt">// salt de línia al final de cada fila</span>
+}
+<span class="cmt">// Sortida:
+// 1 2 3
+// 4 5 6
+// 7 8 9</span></div>
+
+<div class="tip-box">
+  <strong>Per recordar:</strong> <code>taula.length</code> és el nombre de files. <code>taula[i].length</code> és el nombre de columnes de la fila <code>i</code>. En arrays rectangulars (totes les files del mateix tamany) els dos tenen el mateix valor de columnes.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">4. La classe String</h2>
+
+<p>Les cadenes de caràcters en Java no són un tipus primitiu: <code>String</code> és una <strong>classe</strong>. Això vol dir que té mètodes que podem cridar per manipular el text.</p>
+
+<div class="warn-box">
+  <strong>Atenció:</strong> Els objectes <code>String</code> són <strong>immutables</strong>. Quan apliques un mètode com <code>toUpperCase()</code>, no modifiques l'original: es crea un nou objecte. Sempre cal assignar el resultat a una variable.
+</div>
+
+<div class="sub-title">4.1 Mètodes principals</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Mètode</th><th>Descripció</th><th>Exemple</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>length()</code></td><td>Nombre de caràcters</td><td><code>"hola".length()</code> → <code>4</code></td></tr>
+      <tr><td><code>charAt(i)</code></td><td>Caràcter a la posició i</td><td><code>"hola".charAt(1)</code> → <code>'o'</code></td></tr>
+      <tr><td><code>substring(ini, fi)</code></td><td>Subcadena des d'ini fins a fi (exclòs)</td><td><code>"hola".substring(1,3)</code> → <code>"ol"</code></td></tr>
+      <tr><td><code>indexOf(s)</code></td><td>Primera posició on apareix s (−1 si no hi és)</td><td><code>"hola".indexOf("la")</code> → <code>2</code></td></tr>
+      <tr><td><code>contains(s)</code></td><td>Retorna <code>true</code> si conté la subcadena</td><td><code>"hola".contains("ol")</code> → <code>true</code></td></tr>
+      <tr><td><code>toUpperCase()</code></td><td>Converteix a majúscules</td><td><code>"hola".toUpperCase()</code> → <code>"HOLA"</code></td></tr>
+      <tr><td><code>toLowerCase()</code></td><td>Converteix a minúscules</td><td><code>"HOLA".toLowerCase()</code> → <code>"hola"</code></td></tr>
+      <tr><td><code>trim()</code></td><td>Elimina espais als extrems</td><td><code>" hola ".trim()</code> → <code>"hola"</code></td></tr>
+      <tr><td><code>replace(a, b)</code></td><td>Substitueix totes les ocurrències de a per b</td><td><code>"banana".replace("a","o")</code> → <code>"bonono"</code></td></tr>
+      <tr><td><code>split(sep)</code></td><td>Divideix la cadena per un separador → array</td><td><code>"a,b,c".split(",")</code> → <code>["a","b","c"]</code></td></tr>
+      <tr><td><code>equals(s)</code></td><td>Compara contingut (no usar <code>==</code> !)</td><td><code>"hola".equals("hola")</code> → <code>true</code></td></tr>
+      <tr><td><code>equalsIgnoreCase(s)</code></td><td>Compara sense distingir majúscules</td><td><code>"Hola".equalsIgnoreCase("HOLA")</code> → <code>true</code></td></tr>
+      <tr><td><code>isEmpty()</code></td><td>Retorna <code>true</code> si la cadena és buida</td><td><code>"".isEmpty()</code> → <code>true</code></td></tr>
+      <tr><td><code>startsWith(s)</code></td><td>Comprova si comença per s</td><td><code>"hola".startsWith("ho")</code> → <code>true</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">4.2 Exemple pràctic amb String</div>
+
+<div class="code-block"><span class="cls">String</span> frase = <span class="str">"  Hola, món!  "</span>;
+
+<span class="cls">System</span>.out.<span class="fn">println</span>(frase.<span class="fn">trim</span>());                <span class="cmt">// "Hola, món!"</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(frase.<span class="fn">trim</span>().<span class="fn">toUpperCase</span>());  <span class="cmt">// "HOLA, MÓN!"</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(frase.<span class="fn">length</span>());             <span class="cmt">// 15 (amb els espais)</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(frase.<span class="fn">contains</span>(<span class="str">"món"</span>));      <span class="cmt">// true</span>
+
+<span class="cmt">// Separar paraules pel separador espai</span>
+<span class="cls">String</span> lletra = <span class="str">"do,re,mi,fa,sol"</span>;
+<span class="cls">String</span>[] notes = lletra.<span class="fn">split</span>(<span class="str">","</span>);
+<span class="kw">for</span> (<span class="cls">String</span> n : notes) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(n);
+}
+<span class="cmt">// do
+// re
+// mi
+// fa
+// sol</span></div>
+
+<div class="warn-box">
+  <strong>Mai comparis Strings amb <code>==</code>:</strong> <code>==</code> compara referències de memòria, no contingut. Usa sempre <code>equals()</code>: <code>nom.equals("Anna")</code>.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">5. Exercicis — Arrays (bàsic)</h2>
+
+<!-- Exercici 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Suma i mitjana d'un array</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Declara un array de 6 enters amb els valors que vulguis. Calcula i mostra per pantalla la suma de tots els elements i la seva mitjana.</p>
+    <ol class="exercici-tasques">
+      <li>Declara i inicialitza l'array amb 6 valors enters.</li>
+      <li>Recorre l'array amb un bucle <code>for</code> clàssic i acumula la suma.</li>
+      <li>Calcula la mitjana dividint per <code>length</code>.</li>
+      <li>Mostra els resultats per pantalla.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.1 — Arrays unidimensionals</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">SumaArray</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[] valors = { <span class="num">10</span>, <span class="num">25</span>, <span class="num">7</span>, <span class="num">42</span>, <span class="num">18</span>, <span class="num">33</span> };
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; valors.length; i++) {
+            suma += valors[i];
+        }
+
+        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / valors.length;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + mitjana);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Màxim i mínim d'un array</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un array de 8 enters, troba i mostra el valor màxim i el valor mínim.</p>
+    <ol class="exercici-tasques">
+      <li>Inicialitza les variables <code>max</code> i <code>min</code> amb el primer element de l'array.</li>
+      <li>Recorre la resta d'elements comparant amb <code>max</code> i <code>min</code>.</li>
+      <li>Mostra el màxim i el mínim trobats.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.1 — Arrays unidimensionals</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">MaxMinArray</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[] valors = { <span class="num">34</span>, <span class="num">7</span>, <span class="num">56</span>, <span class="num">12</span>, <span class="num">89</span>, <span class="num">3</span>, <span class="num">45</span>, <span class="num">21</span> };
+        <span class="kw">int</span> max = valors[<span class="num">0</span>];
+        <span class="kw">int</span> min = valors[<span class="num">0</span>];
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; valors.length; i++) {
+            <span class="kw">if</span> (valors[i] &gt; max) max = valors[i];
+            <span class="kw">if</span> (valors[i] &lt; min) min = valors[i];
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Màxim: "</span> + max);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mínim: "</span> + min);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Inversió d'un array</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que, donat un array d'enters, mostri els seus elements en ordre invers sense usar cap array addicional.</p>
+    <ol class="exercici-tasques">
+      <li>Declara un array amb almenys 5 valors.</li>
+      <li>Mostra'l en ordre normal.</li>
+      <li>Recorre'l des de l'últim element fins al primer i mostra'l invertit.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.1 — Arrays</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">InversioArray</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[] nums = { <span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span> };
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Original:  "</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> n : nums) <span class="cls">System</span>.out.<span class="fn">print</span>(n + <span class="str">" "</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"\nInvertit:  "</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = nums.length - <span class="num">1</span>; i &gt;= <span class="num">0</span>; i--) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(nums[i] + <span class="str">" "</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">6. Exercicis — Arrays bidimensionals</h2>
+
+<!-- Exercici 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Suma de files i columnes d'una matriu</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una matriu 3×3 d'enters. Calcula i mostra la suma de cada fila i la suma de cada columna.</p>
+    <ol class="exercici-tasques">
+      <li>Declara i inicialitza una matriu 3×3 amb valors enters.</li>
+      <li>Recorre amb doble bucle i calcula la suma de cada fila.</li>
+      <li>Fes un segon doble bucle per calcular la suma de cada columna.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.2 · CA 6.3 — Arrays multidimensionals</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">SumaMatriu</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[][] m = {
+            { <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span> },
+            { <span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span> },
+            { <span class="num">7</span>, <span class="num">8</span>, <span class="num">9</span> }
+        };
+
+        <span class="cmt">// Suma de cada fila</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; m.length; i++) {
+            <span class="kw">int</span> sumaFila = <span class="num">0</span>;
+            <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; m[i].length; j++) {
+                sumaFila += m[i][j];
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma fila "</span> + i + <span class="str">": "</span> + sumaFila);
+        }
+
+        <span class="cmt">// Suma de cada columna</span>
+        <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; m[<span class="num">0</span>].length; j++) {
+            <span class="kw">int</span> sumaCol = <span class="num">0</span>;
+            <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; m.length; i++) {
+                sumaCol += m[i][j];
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma columna "</span> + j + <span class="str">": "</span> + sumaCol);
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 5 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Tauler de notes per alumne i assignatura</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Representa les notes de 4 alumnes en 3 assignatures amb una matriu bidimensional. Calcula la nota mitjana de cada alumne i determina quin ha tret la millor nota global.</p>
+    <ol class="exercici-tasques">
+      <li>Declara una matriu <code>double[4][3]</code> amb les notes.</li>
+      <li>Declara un array de noms d'alumne per identificar les files.</li>
+      <li>Per a cada alumne (fila), calcula la seva mitjana.</li>
+      <li>Troba i mostra l'alumne amb la nota global més alta.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.2 · CA 6.3 — Arrays multidimensionals</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">TaulerNotes</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span>[] alumnes = { <span class="str">"Anna"</span>, <span class="str">"Marc"</span>, <span class="str">"Laia"</span>, <span class="str">"Jordi"</span> };
+        <span class="kw">double</span>[][] notes = {
+            { <span class="num">7.5</span>, <span class="num">8.0</span>, <span class="num">6.5</span> },
+            { <span class="num">9.0</span>, <span class="num">7.0</span>, <span class="num">8.5</span> },
+            { <span class="num">5.0</span>, <span class="num">6.0</span>, <span class="num">7.0</span> },
+            { <span class="num">8.0</span>, <span class="num">9.5</span>, <span class="num">9.0</span> }
+        };
+
+        <span class="kw">double</span> millorMitjana = -<span class="num">1</span>;
+        <span class="kw">int</span> millorIdx = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; notes.length; i++) {
+            <span class="kw">double</span> suma = <span class="num">0</span>;
+            <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; notes[i].length; j++) {
+                suma += notes[i][j];
+            }
+            <span class="kw">double</span> mitjana = suma / notes[i].length;
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s → mitjana: %.2f%n"</span>, alumnes[i], mitjana);
+
+            <span class="kw">if</span> (mitjana &gt; millorMitjana) {
+                millorMitjana = mitjana;
+                millorIdx = i;
+            }
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nMillor alumne: "</span> + alumnes[millorIdx]
+            + <span class="str">" amb una mitjana de "</span> + millorMitjana);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">7. Exercicis — Cadenes de caràcters</h2>
+
+<!-- Exercici 6 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 6</span>
+    <span class="exercici-title">Analitzador de paraules</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donada la cadena <code>"Hola, benvinguts al mòdul de Programació!"</code>, realitza les operacions següents:</p>
+    <ol class="exercici-tasques">
+      <li>Mostra la longitud total de la cadena.</li>
+      <li>Converteix-la a majúscules i a minúscules.</li>
+      <li>Comprova si conté la paraula <code>"mòdul"</code>.</li>
+      <li>Extreu la subcadena <code>"Programació"</code> (usa <code>indexOf</code> i <code>substring</code>).</li>
+      <li>Substitueix la paraula <code>"Hola"</code> per <code>"Bon dia"</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.5 — Cadenes de caràcters</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">AnalitzadorParaules</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> frase = <span class="str">"Hola, benvinguts al mòdul de Programació!"</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Longitud: "</span> + frase.<span class="fn">length</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Majúscules: "</span> + frase.<span class="fn">toUpperCase</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Minúscules: "</span> + frase.<span class="fn">toLowerCase</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Conté 'mòdul': "</span> + frase.<span class="fn">contains</span>(<span class="str">"mòdul"</span>));
+
+        <span class="kw">int</span> ini = frase.<span class="fn">indexOf</span>(<span class="str">"Programació"</span>);
+        <span class="cls">String</span> sub = frase.<span class="fn">substring</span>(ini, ini + <span class="str">"Programació"</span>.<span class="fn">length</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Subcadena: "</span> + sub);
+
+        <span class="cls">String</span> nova = frase.<span class="fn">replace</span>(<span class="str">"Hola"</span>, <span class="str">"Bon dia"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Substituïda: "</span> + nova);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 7 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 7</span>
+    <span class="exercici-title">Comptador de vocals</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un mètode que, donada una cadena de text, compti quantes vocals conté (a, e, i, o, u, sense distingir majúscules ni minúscules).</p>
+    <ol class="exercici-tasques">
+      <li>Converteix la cadena a minúscules.</li>
+      <li>Recorre caràcter a caràcter amb <code>charAt(i)</code>.</li>
+      <li>Per a cada caràcter, comprova si és vocal amb <code>indexOf</code> o amb un <code>switch</code>.</li>
+      <li>Mostra el recompte final.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.5 — Cadenes de caràcters</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">ComptadorVocals</span> {
+
+    <span class="kw">static int</span> <span class="fn">comptarVocals</span>(<span class="cls">String</span> text) {
+        <span class="cls">String</span> vocals = <span class="str">"aeiou"</span>;
+        <span class="cls">String</span> lower = text.<span class="fn">toLowerCase</span>();
+        <span class="kw">int</span> comptador = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; lower.<span class="fn">length</span>(); i++) {
+            <span class="kw">if</span> (vocals.<span class="fn">indexOf</span>(lower.<span class="fn">charAt</span>(i)) != -<span class="num">1</span>) {
+                comptador++;
+            }
+        }
+        <span class="kw">return</span> comptador;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">comptarVocals</span>(<span class="str">"Hola, benvinguts!"</span>));  <span class="cmt">// 6</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">comptarVocals</span>(<span class="str">"Java és genial"</span>));       <span class="cmt">// 6</span>
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 8 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 8</span>
+    <span class="exercici-title">Gestió de productes amb arrays (pràctica integradora)</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Tenim un sistema de gestió de productes representat amb dos arrays paral·lels: un per als noms (<code>String[]</code>) i un per als preus (<code>double[]</code>). Completa el programa esquelet per implementar un menú amb les operacions de cerca i filtratge.</p>
+    <ol class="exercici-tasques">
+      <li>Mostra tots els productes amb el seu preu.</li>
+      <li>Implementa una cerca per nom (retorna el preu o informa si no existeix).</li>
+      <li>Mostra tots els productes amb preu inferior a un valor donat.</li>
+      <li>Calcula el preu mitjà de tots els productes.</li>
+    </ol>
+    <div class="info-box" style="margin-top:.75rem">
+      <strong>Nota:</strong> Aquest exercici correspon al fitxer <code>GestioProductesArraysEsquelet.java</code> disponible al Drive del professor. Pots executar <code>GestioProductesArrays.jar</code> per veure el resultat esperat abans de programar.
+    </div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.1 · CA 6.3 — Arrays + Strings</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució (fragment principal)</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">GestioProductes</span> {
+
+    <span class="kw">static</span> <span class="cls">String</span>[] noms   = { <span class="str">"Teclat"</span>, <span class="str">"Ratolí"</span>, <span class="str">"Monitor"</span>, <span class="str">"Auriculars"</span>, <span class="str">"Càmera web"</span> };
+    <span class="kw">static double</span>[] preus  = { <span class="num">45.99</span>, <span class="num">19.95</span>, <span class="num">249.00</span>, <span class="num">35.50</span>, <span class="num">89.00</span> };
+
+    <span class="kw">static void</span> <span class="fn">mostrarTots</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"=== Llista de productes ==="</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; noms.length; i++) {
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-15s %.2f €%n"</span>, noms[i], preus[i]);
+        }
+    }
+
+    <span class="kw">static void</span> <span class="fn">cercaPerNom</span>(<span class="cls">String</span> cerca) {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; noms.length; i++) {
+            <span class="kw">if</span> (noms[i].<span class="fn">equalsIgnoreCase</span>(cerca)) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trobat: "</span> + noms[i] + <span class="str">" → "</span> + preus[i] + <span class="str">" €"</span>);
+                <span class="kw">return</span>;
+            }
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte no trobat: "</span> + cerca);
+    }
+
+    <span class="kw">static void</span> <span class="fn">filtrarPerPreu</span>(<span class="kw">double</span> maxPreu) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Productes amb preu &lt; "</span> + maxPreu + <span class="str">" €:"</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; preus.length; i++) {
+            <span class="kw">if</span> (preus[i] &lt; maxPreu) {
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"  %-15s %.2f €%n"</span>, noms[i], preus[i]);
+            }
+        }
+    }
+
+    <span class="kw">static double</span> <span class="fn">preuMitja</span>() {
+        <span class="kw">double</span> suma = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="kw">double</span> p : preus) suma += p;
+        <span class="kw">return</span> suma / preus.length;
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="fn">mostrarTots</span>();
+        <span class="fn">cercaPerNom</span>(<span class="str">"Ratolí"</span>);
+        <span class="fn">filtrarPerPreu</span>(<span class="num">50.0</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Preu mitjà: %.2f €%n"</span>, <span class="fn">preuMitja</span>());
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">8. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 6.1</span><span class="ca-text">Escriu programes que utilitzen matrius (arrays) unidimensionals.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.2</span><span class="ca-text">Crea i manipula matrius multidimensionals (arrays 2D).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.3</span><span class="ca-text">Distingeix estructures estàtiques (arrays) de les dinàmiques (col·leccions).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.5</span><span class="ca-text">Utilitza la classe <code>String</code> i els seus mètodes principals per manipular cadenes de caràcters.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> GestioProductesArraysEsquelet.java + GestioProductesArrays.jar — Albert Canela. Pràctica integradora d'arrays amb cerca i filtratge.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html" style="color:#e74c3c">Tutorial oficial sobre Arrays</a> — declaració, creació, ús d'arrays de totes les dimensions.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" style="color:#e74c3c">API String Java 17</a> — referència completa de tots els mètodes de la classe String.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

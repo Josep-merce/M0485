@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Introducció a JDBC. Connexió i arquitectura · AEA6 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    .arch-diagram { background:var(--hero-bg); border-radius:var(--radius); padding:1.5rem 2rem; margin:1rem 0 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.88rem; color:#cdd6f4; line-height:2; text-align:center; }
+    .arch-diagram .layer { color:#a6e3a1; font-weight:700; }
+    .arch-diagram .arrow { color:#6c7086; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA6 &middot; Activitat 1 JDBC</p>
+  <h1>Introducció a JDBC. Connexió i arquitectura</h1>
+  <p>Arquitectura JDBC per capes, tipus de drivers, configuració de XAMPP i NetBeans. Primera connexió a MySQL amb <code>DriverManager</code>, <code>Connection</code> i gestió d'errors amb <code>SQLException</code>.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 9.1</span>
+    <span class="pill">CA 9.2</span>
+    <span class="pill">DriverManager · Connection</span>
+    <span class="pill">XAMPP · MySQL · NetBeans</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea6.html">AEA6 — Gestió de bases de dades relacionals</a>
+  <span>&rsaquo;</span>
+  A1 — Introducció a JDBC
+</nav>
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     1. QUÈ ÉS JDBC
+     ═══════════════════════════════════════════════ -->
+<h2 class="block-title">1. Què és JDBC?</h2>
+
+<p>Quan una aplicació Java ha d'interactuar amb una base de dades, necessita un mecanisme que faci de pont entre el codi Java i el sistema gestor de bases de dades (SGBD). Aquest pont és <strong>JDBC</strong> (Java Database Connectivity), una API estàndard de Java que permet connectar-se a qualsevol SGBD (MySQL, PostgreSQL, Oracle, SQLite…) de manera independent del proveïdor.</p>
+
+<p>Gràcies a JDBC podem fer des de Java totes les operacions habituals sobre una base de dades: connectar-nos, executar consultes SQL, llegir resultats i tancar la connexió.</p>
+
+<h2 class="block-title">2. Arquitectura per capes</h2>
+
+<p>Una aplicació Java ben estructurada que usa JDBC segueix una arquitectura de tres capes. Cada capa té una responsabilitat clara i no "sap" com funcionen les altres per dins:</p>
+
+<div class="arch-diagram">
+  <span class="layer">[ Capa de presentació (GUI / consola) ]</span><br>
+  <span class="arrow">↓ crida mètodes del servei</span><br>
+  <span class="layer">[ Capa de lògica de negoci (serveis) ]</span><br>
+  <span class="arrow">↓ crida mètodes de persistència</span><br>
+  <span class="layer">[ Capa de persistència (JDBC) ]</span><br>
+  <span class="arrow">↓ SQL</span><br>
+  <span class="layer">[ Base de dades relacional (MySQL) ]</span>
+</div>
+
+<p>En aquesta AEA treballarem principalment la <strong>capa de persistència</strong>, que és on s'usa JDBC per fer les operacions de connexió, consulta i modificació de dades.</p>
+
+<h2 class="block-title">3. El driver JDBC</h2>
+
+<p>Per poder connectar-nos a MySQL des de Java necessitem afegir al projecte el <strong>connector MySQL</strong>, que és un fitxer <code>.jar</code> que actua com a driver JDBC. Al Drive del curs trobareu el fitxer <code>mysql-connector-j-9.6.0.jar</code>.</p>
+
+<div class="info-box">
+  <strong>📌 Versions antigues vs actuals:</strong> En versions antigues de Java calia registrar el driver explícitament amb <code>Class.forName("com.mysql.jdbc.Driver")</code>. Amb els connectors actuals (versió 6+) ja no cal fer-ho: simplement afegiu el <code>.jar</code> al projecte i el driver es registra sol.
+</div>
+
+<p>Per afegir el connector a NetBeans de forma que el projecte sigui portable:</p>
+<ol>
+  <li>Copieu el fitxer <code>.jar</code> dins d'una carpeta <code>lib/</code> a l'arrel del vostre projecte NetBeans.</li>
+  <li>A NetBeans, botó dret sobre <em>Libraries</em> → <em>Add JAR/Folder</em> → seleccioneu el fitxer amb ruta relativa.</li>
+  <li>Comproveu que apareix a la llista de llibreries del projecte.</li>
+</ol>
+
+<div class="tip-box">
+  <strong>💡 Ruta relativa:</strong> Si useu ruta relativa per afegir el <code>.jar</code>, el projecte funcionarà en qualsevol ordinador sense haver de tornar a configurar res. Eviteu rutes absolutes tipus <code>C:\Users\...</code>.
+</div>
+
+<h2 class="block-title">4. Connexió amb l'SGBD</h2>
+
+<p>Un cop tenim el driver al projecte, podem establir la connexió. La classe clau és <code>DriverManager</code>, que s'encarrega de crear un objecte <code>Connection</code> a partir d'una URL, un usuari i una contrasenya.</p>
+
+<p>L'URL de connexió per a MySQL té aquest format:</p>
+
+<div class="code-block"><span class="cmt">// Format general</span>
+jdbc:mysql://adreça_servidor:port/nom_base_de_dades
+
+<span class="cmt">// Exemple per a servidor local</span>
+jdbc:mysql://localhost:<span class="num">3306</span>/libros</div>
+
+<p>El codi per establir la connexió és el següent:</p>
+
+<div class="code-block"><span class="kw">import</span> java.sql.<span class="cls">Connection</span>;
+<span class="kw">import</span> java.sql.<span class="cls">DriverManager</span>;
+<span class="kw">import</span> java.sql.<span class="cls">SQLException</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> url    = <span class="str">"jdbc:mysql://localhost:3306/libros"</span>;
+        <span class="cls">String</span> usuari = <span class="str">"root"</span>;
+        <span class="cls">String</span> pass   = <span class="str">""</span>;
+
+        <span class="kw">try</span> (<span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(url, usuari, pass)) {
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Connexió establerta correctament!"</span>);
+
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error de connexió: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<div class="info-box">
+  <strong>📌 try-with-resources:</strong> Obrir la connexió dins del <code>try(...)</code> garanteix que es tancarà automàticament quan el bloc acabi, fins i tot si es produeix un error. No cal cridar <code>con.close()</code> explícitament. És la forma recomanada.
+</div>
+
+<div class="warn-box">
+  <strong>⚠️ SQLException:</strong> Si la connexió falla, <code>getConnection()</code> llança una <code>SQLException</code>. Les causes més habituals són: XAMPP no arrenccat, URL incorrecta, base de dades inexistent, o usuari/contrasenya incorrectes. <strong>Sempre</strong> gestioneu aquest error.
+</div>
+
+<h2 class="block-title">5. La classe Connexio (patró Singleton)</h2>
+
+<p>En projectes reals no volem crear una connexió nova cada vegada que accedim a la BD. La solució és encapsular la connexió en una classe separada que asseguri que només existeix <strong>una única instància</strong> de la connexió (patró Singleton).</p>
+
+<div class="code-block"><span class="kw">package</span> persistencia;
+
+<span class="kw">import</span> java.sql.<span class="cls">Connection</span>;
+<span class="kw">import</span> java.sql.<span class="cls">DriverManager</span>;
+<span class="kw">import</span> java.sql.<span class="cls">SQLException</span>;
+
+<span class="kw">public class</span> <span class="cls">Connexio</span> {
+
+    <span class="kw">final static</span> <span class="cls">String</span> url    = <span class="str">"jdbc:mysql://localhost:3306/libros"</span>;
+    <span class="kw">final static</span> <span class="cls">String</span> usuari = <span class="str">"root"</span>;
+    <span class="kw">final static</span> <span class="cls">String</span> pass   = <span class="str">""</span>;
+    <span class="kw">static</span> <span class="cls">Connection</span> con = <span class="kw">null</span>;
+
+    <span class="kw">private</span> <span class="fn">Connexio</span>() {
+        <span class="cmt">// Constructor privat: impedeix instanciar la classe des de fora</span>
+    }
+
+    <span class="kw">public static</span> <span class="cls">Connection</span> <span class="fn">getConnexio</span>() <span class="kw">throws</span> <span class="cls">SQLException</span> {
+        <span class="kw">if</span> (con == <span class="kw">null</span>) {
+            con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(url, usuari, pass);
+        }
+        <span class="kw">return</span> con;
+    }
+}</div>
+
+<p>D'aquesta manera, qualsevol part del programa pot cridar <code>Connexio.getConnexio()</code> i sempre obtindrà la mateixa connexió, en lloc de crear-ne una de nova cada vegada.</p>
+
+<h2 class="block-title">6. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Primera connexió a MySQL</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un projecte NetBeans nou, afegeix el connector <code>mysql-connector-j-9.6.0.jar</code> a les llibreries i escriu un programa que intenti connectar-se a la base de dades <code>libros</code> i mostri per pantalla si la connexió ha estat correcta o ha fallat.</p>
+    <ol class="exercici-tasques">
+      <li>Crea el projecte <code>PrimerJDBC</code> a NetBeans.</li>
+      <li>Crea la carpeta <code>lib/</code> dins el projecte i copia-hi el <code>.jar</code> del connector.</li>
+      <li>Afegeix el <code>.jar</code> a les llibreries del projecte amb ruta relativa.</li>
+      <li>Executa el fitxer <code>libros.sql</code> a MySQL (via phpMyAdmin o des de NetBeans) per crear la BD.</li>
+      <li>Escriu el codi de connexió amb <code>try-with-resources</code> i <code>catch(SQLException)</code>.</li>
+      <li>Prova el cas d'error: atura XAMPP i torna a executar el programa. Observa el missatge d'error.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.1 · 9.2</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Primera connexió a MySQL</div>
+<div class="code-block"><span class="kw">import</span> java.sql.<span class="cls">Connection</span>;
+<span class="kw">import</span> java.sql.<span class="cls">DriverManager</span>;
+<span class="kw">import</span> java.sql.<span class="cls">SQLException</span>;
+
+<span class="kw">public class</span> <span class="cls">PrimerJDBC</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> url    = <span class="str">"jdbc:mysql://localhost:3306/libros"</span>;
+        <span class="cls">String</span> usuari = <span class="str">"root"</span>;
+        <span class="cls">String</span> pass   = <span class="str">""</span>;
+
+        <span class="kw">try</span> (<span class="cls">Connection</span> con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(url, usuari, pass)) {
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✓ Connexió establerta correctament!"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  BD: "</span> + con.<span class="fn">getCatalog</span>());
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Driver: "</span> + con.<span class="fn">getMetaData</span>().<span class="fn">getDriverName</span>());
+
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ Error de connexió: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Classe Connexio per al Gimnàs</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Adapta la classe <code>Connexio</code> del patró Singleton perquè apunti a la base de dades <code>Gimnas</code>, i crea una classe <code>Main</code> que la faci servir per verificar la connexió i mostri informació de la BD.</p>
+    <ol class="exercici-tasques">
+      <li>Crea un projecte nou <code>GimnasJDBC</code> amb dos paquets: <code>persistencia</code> i <code>presentacio</code>.</li>
+      <li>Importa el fitxer <code>Gimnas.sql</code> a MySQL per crear la base de dades.</li>
+      <li>Crea la classe <code>Connexio</code> al paquet <code>persistencia</code> apuntant a <code>Gimnas</code>.</li>
+      <li>Crea la classe <code>Main</code> al paquet <code>presentacio</code> que cridi <code>Connexio.getConnexio()</code> i mostri: nom de la BD (<code>getCatalog()</code>), versió del servidor (<code>getMetaData().getDatabaseProductVersion()</code>) i si la connexió és vàlida (<code>isValid(1)</code>).</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.1 · 9.2</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Classe Connexio per al Gimnàs</div>
+<div class="code-block"><span class="cmt">// ── paquet persistencia ─────────────────────────</span>
+<span class="kw">package</span> persistencia;
+
+<span class="kw">import</span> java.sql.<span class="cls">Connection</span>;
+<span class="kw">import</span> java.sql.<span class="cls">DriverManager</span>;
+<span class="kw">import</span> java.sql.<span class="cls">SQLException</span>;
+
+<span class="kw">public class</span> <span class="cls">Connexio</span> {
+
+    <span class="kw">private static final</span> <span class="cls">String</span> URL    = <span class="str">"jdbc:mysql://localhost:3306/Gimnas"</span>;
+    <span class="kw">private static final</span> <span class="cls">String</span> USUARI = <span class="str">"root"</span>;
+    <span class="kw">private static final</span> <span class="cls">String</span> PASS   = <span class="str">""</span>;
+    <span class="kw">private static</span> <span class="cls">Connection</span> con = <span class="kw">null</span>;
+
+    <span class="kw">private</span> <span class="fn">Connexio</span>() {}
+
+    <span class="kw">public static</span> <span class="cls">Connection</span> <span class="fn">getConnexio</span>() <span class="kw">throws</span> <span class="cls">SQLException</span> {
+        <span class="kw">if</span> (con == <span class="kw">null</span> || !con.<span class="fn">isValid</span>(<span class="num">1</span>)) {
+            con = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(URL, USUARI, PASS);
+        }
+        <span class="kw">return</span> con;
+    }
+}
+
+<span class="cmt">// ── paquet presentacio ─────────────────────────</span>
+<span class="kw">package</span> presentacio;
+
+<span class="kw">import</span> java.sql.<span class="cls">Connection</span>;
+<span class="kw">import</span> java.sql.<span class="cls">SQLException</span>;
+<span class="kw">import</span> persistencia.<span class="cls">Connexio</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">try</span> {
+            <span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base de dades : "</span> + con.<span class="fn">getCatalog</span>());
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Versió servidor: "</span>
+                + con.<span class="fn">getMetaData</span>().<span class="fn">getDatabaseProductVersion</span>());
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Connexió vàlida: "</span> + con.<span class="fn">isValid</span>(<span class="num">1</span>));
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Gestió robusta d'errors de connexió</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Millora la classe <code>Connexio</code> del Gimnàs per gestionar de manera informativa els tres errors de connexió més habituals: servidor aturat, base de dades inexistent i contrasenya incorrecta.</p>
+    <ol class="exercici-tasques">
+      <li>Partint de la solució de l'E2, amplia el bloc <code>catch(SQLException)</code> de la classe <code>Main</code>.</li>
+      <li>Usa <code>e.getErrorCode()</code> i/o <code>e.getSQLState()</code> per distingir els casos:
+        <ul>
+          <li>Codi <code>0</code> / SQLState <code>08S01</code>: servidor aturat o no accessible.</li>
+          <li>Codi <code>1049</code>: base de dades desconeguda.</li>
+          <li>Codi <code>1045</code>: accés denegat (usuari/contrasenya incorrectes).</li>
+        </ul>
+      </li>
+      <li>Mostra un missatge específic i comprensible per a cada cas.</li>
+      <li>Prova cada cas modificant la URL, el nom de la BD o la contrasenya.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.1 · 9.2</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Gestió robusta d'errors de connexió</div>
+<div class="code-block"><span class="kw">try</span> {
+    <span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✓ Connexió correcta a: "</span> + con.<span class="fn">getCatalog</span>());
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+
+    <span class="kw">int</span>    codi     = e.<span class="fn">getErrorCode</span>();
+    <span class="cls">String</span> sqlState = e.<span class="fn">getSQLState</span>();
+
+    <span class="kw">if</span> (codi == <span class="num">0</span> || <span class="str">"08S01"</span>.<span class="fn">equals</span>(sqlState)) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ No s'ha pogut connectar al servidor MySQL."</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Comprova que XAMPP (MySQL) està arrencat."</span>);
+    } <span class="kw">else if</span> (codi == <span class="num">1049</span>) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ La base de dades no existeix."</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Importa el fitxer Gimnas.sql primer."</span>);
+    } <span class="kw">else if</span> (codi == <span class="num">1045</span>) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ Accés denegat. Usuari o contrasenya incorrectes."</span>);
+    } <span class="kw">else</span> {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ Error inesperat (codi "</span> + codi + <span class="str">"): "</span>
+            + e.<span class="fn">getMessage</span>());
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAs -->
+<h2 class="block-title">7. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.1</span>
+    <span class="ca-text">Identifica les característiques i els mètodes d'accés a sistemes gestors de bases de dades. Arquitectura JDBC per capes, tipus de drivers i API estàndard.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.2</span>
+    <span class="ca-text">Programa connexions amb bases de dades. Ús de <code>DriverManager.getConnection()</code>, <code>Connection</code>, <code>SQLException</code> i patró Singleton per a la gestió de la connexió.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Accés a BD relacionals.pdf</em> — Albert Canela. Capítols 1 (Drivers JDBC), 2 (Estructura programa JDBC) i 2.1 (Connexió amb l'SGBD).</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Xampp i administració de la BD.pdf</em> — Albert Canela. Instal·lació XAMPP, phpMyAdmin i connexió des de NetBeans.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Connexio.java</em> — Albert Canela. Classe Singleton de connexió.</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 29 — Java con JDBC: Conexión a Base de Datos con MySQL, Java y Netbeans.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

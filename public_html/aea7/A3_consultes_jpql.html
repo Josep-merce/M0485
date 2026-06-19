@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — Consultes amb JPQL · AEA7 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .code-block .at  { color:#f38ba8; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA7 &middot; Activitat 3</p>
+  <h1>Consultes amb JPQL</h1>
+  <p>Recuperació d'objectes amb <code>find()</code> i JPQL. Paràmetres de nom i ordinals, <code>@NamedQuery</code>, actualització transparent, <code>merge()</code> per a objectes desconnectats i eliminació.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 8.4</span>
+    <span class="pill">CA 8.7</span>
+    <span class="pill">JPQL · find() · merge() · remove()</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea7.html">AEA7 — Persistència dels objectes</a>
+  <span>&rsaquo;</span>
+  A3 — Consultes amb JPQL
+</nav>
+<main>
+
+<h2 class="block-title">1. Recuperació per clau primària: find()</h2>
+<p>El mètode <code>find()</code> recupera un objecte directament per la seva clau primària. És la forma més eficient quan es coneix l'ID:</p>
+
+<div class="code-block"><span class="cmt">// Recupera el Producte amb id = 1L</span>
+<span class="cls">Producte</span> p = em.<span class="fn">find</span>(<span class="cls">Producte</span>.<span class="kw">class</span>, <span class="num">1L</span>);
+
+<span class="kw">if</span> (p != <span class="kw">null</span>) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">getNom</span>() + <span class="str">" — "</span> + p.<span class="fn">getPreu</span>() + <span class="str">" €"</span>);
+} <span class="kw">else</span> {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte no trobat"</span>);
+}</div>
+
+<div class="info-box">
+  <strong>📌 find() no necessita transacció:</strong> <code>find()</code> no modifica la BD, per tant no requereix transacció activa. Retorna <code>null</code> si no existeix cap objecte amb aquella clau primària.
+</div>
+
+<h2 class="block-title">2. Consultes JPQL</h2>
+<p>JPQL (Java Persistence Query Language) és el llenguatge de consultes de JPA. S'assembla a SQL però opera sobre <strong>classes i atributs Java</strong>, no sobre taules i columnes.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>SQL</th><th>JPQL equivalent</th></tr></thead>
+  <tbody>
+    <tr><td><code>SELECT * FROM producte</code></td><td><code>SELECT p FROM Producte p</code></td></tr>
+    <tr><td><code>SELECT * FROM producte WHERE preu &gt; 50</code></td><td><code>SELECT p FROM Producte p WHERE p.preu &gt; 50</code></td></tr>
+    <tr><td><code>SELECT * FROM producte ORDER BY preu ASC</code></td><td><code>SELECT p FROM Producte p ORDER BY p.preu ASC</code></td></tr>
+    <tr><td><code>SELECT COUNT(*) FROM producte</code></td><td><code>SELECT COUNT(p) FROM Producte p</code></td></tr>
+    <tr><td><code>UPDATE producte SET preu = preu * 0.9</code></td><td><code>UPDATE Producte p SET p.preu = p.preu * 0.9</code></td></tr>
+    <tr><td><code>DELETE FROM producte WHERE disponible = 0</code></td><td><code>DELETE FROM Producte p WHERE p.disponible = false</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="code-block"><span class="cmt">// JPQL bàsic: tots els productes</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; llista = em
+    .<span class="fn">createQuery</span>(<span class="str">"SELECT p FROM Producte p"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">getResultList</span>();
+
+<span class="kw">for</span> (<span class="cls">Producte</span> p : llista) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">getNom</span>());
+}
+
+<span class="cmt">// JPQL amb filtre</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; cars = em
+    .<span class="fn">createQuery</span>(<span class="str">"SELECT p FROM Producte p WHERE p.preu > 50"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">getResultList</span>();
+
+<span class="cmt">// JPQL amb ORDER BY</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; ordenats = em
+    .<span class="fn">createQuery</span>(<span class="str">"SELECT p FROM Producte p ORDER BY p.preu ASC"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">getResultList</span>();</div>
+
+<div class="sub-title">Paràmetres de consulta</div>
+<p>Les consultes amb paràmetres eviten problemes de seguretat (injecció) i milloren la llegibilitat:</p>
+
+<div class="code-block"><span class="cmt">// Paràmetres de NOM (recomanats)</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; resultat = em
+    .<span class="fn">createQuery</span>(
+        <span class="str">"SELECT p FROM Producte p WHERE p.disponible = :disp AND p.preu < :maxPreu"</span>,
+        <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">setParameter</span>(<span class="str">"disp"</span>, <span class="kw">true</span>)
+    .<span class="fn">setParameter</span>(<span class="str">"maxPreu"</span>, <span class="num">100.0</span>)
+    .<span class="fn">getResultList</span>();
+
+<span class="cmt">// Paràmetres ORDINALS (posicionals, menys llegibles)</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; res2 = em
+    .<span class="fn">createQuery</span>(
+        <span class="str">"SELECT p FROM Producte p WHERE p.preu BETWEEN ?1 AND ?2"</span>,
+        <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">setParameter</span>(<span class="num">1</span>, <span class="num">20.0</span>)
+    .<span class="fn">setParameter</span>(<span class="num">2</span>, <span class="num">80.0</span>)
+    .<span class="fn">getResultList</span>();</div>
+
+<div class="sub-title">@NamedQuery: consultes predefinides a l'entitat</div>
+<p>Les consultes amb nom es defineixen directament a la classe d'entitat amb l'anotació <code>@NamedQuery</code>. S'executen de manera més eficient perquè es compilen una sola vegada:</p>
+
+<div class="code-block"><span class="at">@Entity</span>
+<span class="at">@NamedQuery</span>(
+    name = <span class="str">"Producte.findDisponibles"</span>,
+    query = <span class="str">"SELECT p FROM Producte p WHERE p.disponible = true ORDER BY p.preu"</span>
+)
+<span class="kw">public class</span> <span class="cls">Producte</span> <span class="kw">implements</span> <span class="cls">Serializable</span> { <span class="cmt">/* ... */</span> }
+
+<span class="cmt">// Ús de la named query</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; disp = em
+    .<span class="fn">createNamedQuery</span>(<span class="str">"Producte.findDisponibles"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">getResultList</span>();</div>
+
+<h2 class="block-title">3. Actualització d'objectes</h2>
+
+<div class="sub-title">Actualització transparent (objecte managed)</div>
+<p>Si modifiques un objecte en estat <em>managed</em> dins d'una transacció activa, JPA detecta el canvi automàticament:</p>
+
+<div class="code-block">em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+<span class="cls">Producte</span> p = em.<span class="fn">find</span>(<span class="cls">Producte</span>.<span class="kw">class</span>, <span class="num">1L</span>);
+p.<span class="fn">setPreu</span>(<span class="num">79.99</span>);   <span class="cmt">// Canvi detectat automàticament</span>
+p.<span class="fn">setEstoc</span>(<span class="num">20</span>);
+
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();  <span class="cmt">// El canvi es desa sense cridar cap mètode addicional</span></div>
+
+<div class="sub-title">Actualització amb merge() (objecte detached)</div>
+<p>Si l'objecte s'ha obtingut en una sessió anterior (EntityManager tancat), cal usar <code>merge()</code>:</p>
+
+<div class="code-block"><span class="cmt">// Sessió 1: obtenim i tanquem</span>
+<span class="cls">Producte</span> p = em.<span class="fn">find</span>(<span class="cls">Producte</span>.<span class="kw">class</span>, <span class="num">1L</span>);
+em.<span class="fn">close</span>();  <span class="cmt">// p queda en estat DETACHED</span>
+
+<span class="cmt">// Modifiquem el producte desconnectat</span>
+p.<span class="fn">setPreu</span>(<span class="num">55.00</span>);
+
+<span class="cmt">// Sessió 2: fusionem amb merge()</span>
+<span class="cls">EntityManager</span> em2 = emf.<span class="fn">createEntityManager</span>();
+em2.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+em2.<span class="fn">merge</span>(p);   <span class="cmt">// Fusiona l'objecte detached amb la BD</span>
+em2.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();</div>
+
+<h2 class="block-title">4. Eliminació d'objectes</h2>
+
+<div class="code-block"><span class="cmt">// Eliminació explícita d'un objecte</span>
+em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+<span class="cls">Producte</span> p = em.<span class="fn">find</span>(<span class="cls">Producte</span>.<span class="kw">class</span>, <span class="num">3L</span>);
+<span class="kw">if</span> (p != <span class="kw">null</span>) {
+    em.<span class="fn">remove</span>(p);   <span class="cmt">// Marca per eliminar; efectiu en fer commit</span>
+}
+
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+
+<span class="cmt">// Eliminació massiva amb JPQL (DELETE)</span>
+em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+<span class="kw">int</span> eliminats = em
+    .<span class="fn">createQuery</span>(<span class="str">"DELETE FROM Producte p WHERE p.disponible = false"</span>)
+    .<span class="fn">executeUpdate</span>();
+
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Eliminats: "</span> + eliminats);
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();</div>
+
+<div class="warn-box">
+  <strong>⚠️ remove() requereix objecte managed:</strong> No pots cridar <code>remove()</code> sobre un objecte detached. Primer cal fer <code>find()</code> per obtenir-lo en estat managed, i llavors eliminar-lo.
+</div>
+
+<h2 class="block-title">5. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Consultes JPQL sobre Producte</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Partint del projecte de productes de l'A2 (amb almenys 5 productes a la BD), implementa les consultes següents.</p>
+    <ol class="exercici-tasques">
+      <li>Recupera i mostra tots els productes amb <code>find()</code> usant els IDs 1 a 5 en un bucle.</li>
+      <li>Llista tots els productes disponibles (<code>disponible = true</code>) ordenats per preu ascendent.</li>
+      <li>Mostra el nombre total de productes amb una consulta agregada (<code>COUNT</code>).</li>
+      <li>Mostra el preu màxim i el preu mínim dels productes disponibles.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.4 · 8.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Consultes JPQL sobre Producte</div>
+<div class="code-block"><span class="cmt">// 1. find() en bucle</span>
+<span class="kw">for</span> (<span class="kw">long</span> i = <span class="num">1</span>; i &lt;= <span class="num">5</span>; i++) {
+    <span class="cls">Producte</span> p = em.<span class="fn">find</span>(<span class="cls">Producte</span>.<span class="kw">class</span>, i);
+    <span class="kw">if</span> (p != <span class="kw">null</span>) <span class="cls">System</span>.out.<span class="fn">println</span>(i + <span class="str">": "</span> + p.<span class="fn">getNom</span>());
+}
+
+<span class="cmt">// 2. Disponibles per preu</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; disp = em
+    .<span class="fn">createQuery</span>(
+        <span class="str">"SELECT p FROM Producte p WHERE p.disponible = true ORDER BY p.preu ASC"</span>,
+        <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">getResultList</span>();
+disp.<span class="fn">forEach</span>(p -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">getNom</span>() + <span class="str">": "</span> + p.<span class="fn">getPreu</span>() + <span class="str">"€"</span>));
+
+<span class="cmt">// 3. COUNT</span>
+<span class="kw">long</span> total = em
+    .<span class="fn">createQuery</span>(<span class="str">"SELECT COUNT(p) FROM Producte p"</span>, <span class="cls">Long</span>.<span class="kw">class</span>)
+    .<span class="fn">getSingleResult</span>();
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total);
+
+<span class="cmt">// 4. MAX i MIN</span>
+<span class="kw">double</span> maxPreu = em
+    .<span class="fn">createQuery</span>(<span class="str">"SELECT MAX(p.preu) FROM Producte p WHERE p.disponible = true"</span>, <span class="cls">Double</span>.<span class="kw">class</span>)
+    .<span class="fn">getSingleResult</span>();
+<span class="kw">double</span> minPreu = em
+    .<span class="fn">createQuery</span>(<span class="str">"SELECT MIN(p.preu) FROM Producte p WHERE p.disponible = true"</span>, <span class="cls">Double</span>.<span class="kw">class</span>)
+    .<span class="fn">getSingleResult</span>();
+<span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Màx: %.2f€  Mín: %.2f€%n"</span>, maxPreu, minPreu);</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Actualitzar i eliminar productes</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Amplia el projecte anterior implementant operacions d'actualització i eliminació sobre la BD de productes.</p>
+    <ol class="exercici-tasques">
+      <li>Aplica un 10% de descompte a tots els productes amb preu superior a 80€ usant una consulta <code>UPDATE</code> JPQL.</li>
+      <li>Recupera el primer producte amb <code>find()</code>, canvia el seu estoc a 50 i actualitza'l (actualització transparent).</li>
+      <li>Elimina tots els productes no disponibles (<code>disponible = false</code>) amb una consulta <code>DELETE</code> JPQL.</li>
+      <li>Mostra la llista final de productes per verificar els canvis.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Actualitzar i eliminar productes</div>
+<div class="code-block">em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+<span class="cmt">// 1. Descompte del 10% als productes > 80€</span>
+<span class="kw">int</span> actualitzats = em
+    .<span class="fn">createQuery</span>(<span class="str">"UPDATE Producte p SET p.preu = p.preu * 0.9 WHERE p.preu > 80"</span>)
+    .<span class="fn">executeUpdate</span>();
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Productes amb descompte: "</span> + actualitzats);
+
+<span class="cmt">// 2. Actualització transparent (cal refrescar el context)</span>
+em.<span class="fn">clear</span>();  <span class="cmt">// Netegem el context per veure els valors actualitzats</span>
+<span class="cls">Producte</span> p = em.<span class="fn">find</span>(<span class="cls">Producte</span>.<span class="kw">class</span>, <span class="num">1L</span>);
+<span class="kw">if</span> (p != <span class="kw">null</span>) p.<span class="fn">setEstoc</span>(<span class="num">50</span>);
+
+<span class="cmt">// 3. Eliminar no disponibles</span>
+<span class="kw">int</span> eliminats = em
+    .<span class="fn">createQuery</span>(<span class="str">"DELETE FROM Producte p WHERE p.disponible = false"</span>)
+    .<span class="fn">executeUpdate</span>();
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Eliminats: "</span> + eliminats);
+
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+
+<span class="cmt">// 4. Llistar resultat final</span>
+em.<span class="fn">createQuery</span>(<span class="str">"SELECT p FROM Producte p ORDER BY p.preu"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+  .<span class="fn">getResultList</span>()
+  .<span class="fn">forEach</span>(prod -&gt; <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-20s %.2f€  estoc:%d%n"</span>,
+      prod.<span class="fn">getNom</span>(), prod.<span class="fn">getPreu</span>(), prod.<span class="fn">getEstoc</span>()));</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">@NamedQuery i consultes agregades avançades</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Afegeix <code>@NamedQuery</code> a l'entitat <code>Producte</code> i implementa un informe de resum de l'estoc.</p>
+    <ol class="exercici-tasques">
+      <li>Afegeix dues <code>@NamedQuery</code> a la classe <code>Producte</code>: una per buscar per nom (amb paràmetre <code>:nom</code>) i una altra per buscar per rang de preus (<code>:min</code> i <code>:max</code>).</li>
+      <li>Usa les named queries per cercar productes que continguin "a" al nom i productes entre 30€ i 90€.</li>
+      <li>Implementa un informe d'estoc amb JPQL que mostri per cada producte: nom, preu, estoc i el valor total d'estoc (<code>preu * estoc</code>). Ordena per valor total descendent.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.4 · 8.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — @NamedQuery i informe d'estoc</div>
+<div class="code-block"><span class="cmt">// Definició a la classe Producte</span>
+<span class="at">@Entity</span>
+<span class="at">@NamedQueries</span>({
+    <span class="at">@NamedQuery</span>(
+        name = <span class="str">"Producte.findByNom"</span>,
+        query = <span class="str">"SELECT p FROM Producte p WHERE p.nom LIKE :nom"</span>
+    ),
+    <span class="at">@NamedQuery</span>(
+        name = <span class="str">"Producte.findByRangPreu"</span>,
+        query = <span class="str">"SELECT p FROM Producte p WHERE p.preu BETWEEN :min AND :max ORDER BY p.preu"</span>
+    )
+})
+<span class="kw">public class</span> <span class="cls">Producte</span> <span class="kw">implements</span> <span class="cls">Serializable</span> { <span class="cmt">/* ... */</span> }</div>
+<div class="code-block"><span class="cmt">// Ús de les named queries</span>
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; ambA = em
+    .<span class="fn">createNamedQuery</span>(<span class="str">"Producte.findByNom"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">setParameter</span>(<span class="str">"nom"</span>, <span class="str">"%a%"</span>)
+    .<span class="fn">getResultList</span>();
+
+<span class="cls">List</span>&lt;<span class="cls">Producte</span>&gt; rang = em
+    .<span class="fn">createNamedQuery</span>(<span class="str">"Producte.findByRangPreu"</span>, <span class="cls">Producte</span>.<span class="kw">class</span>)
+    .<span class="fn">setParameter</span>(<span class="str">"min"</span>, <span class="num">30.0</span>).<span class="fn">setParameter</span>(<span class="str">"max"</span>, <span class="num">90.0</span>)
+    .<span class="fn">getResultList</span>();
+
+<span class="cmt">// Informe d'estoc amb valor total</span>
+<span class="cls">List</span>&lt;<span class="cls">Object</span>[]&gt; informe = em
+    .<span class="fn">createQuery</span>(
+        <span class="str">"SELECT p.nom, p.preu, p.estoc, p.preu * p.estoc "</span> +
+        <span class="str">"FROM Producte p ORDER BY p.preu * p.estoc DESC"</span>,
+        <span class="cls">Object</span>[].<span class="kw">class</span>)
+    .<span class="fn">getResultList</span>();
+
+<span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-20s %8s %6s %10s%n"</span>, <span class="str">"Producte"</span>, <span class="str">"Preu"</span>, <span class="str">"Estoc"</span>, <span class="str">"Valor"</span>);
+<span class="kw">for</span> (<span class="cls">Object</span>[] row : informe) {
+    <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-20s %7.2f€ %6d %9.2f€%n"</span>,
+        row[<span class="num">0</span>], row[<span class="num">1</span>], row[<span class="num">2</span>], row[<span class="num">3</span>]);
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAs -->
+<h2 class="block-title">6. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.4</span>
+    <span class="ca-text">Classifica i analitza els mètodes de consulta. Recuperació amb <code>find()</code>, actualització transparent d'objectes managed i context de persistència.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.7</span>
+    <span class="ca-text">Programa l'accés a la informació. Consultes JPQL amb paràmetres de nom i ordinals, <code>@NamedQuery</code>, operacions <code>UPDATE</code> i <code>DELETE</code> massives, i funcions agregades.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>5. Operacions CRUD.pdf</em> — Albert Canela. Seccions 2 (obtenció d'objectes, JPQL, paràmetres, @NamedQuery), 3 (actualització transparent i merge()) i 4 (esborrat).</li>
+    <li><strong>Material del professor (Drive):</strong> <em>6. Expressions JPQL.pdf</em> — Albert Canela. Rutes JPQL, operadors, funcions de strings, comparacions i col·leccions.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

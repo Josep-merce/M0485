@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — Col·leccions, genericitat i Streams · AEA4 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    /* Pipeline Stream visual */
+    .pipeline { display:flex; align-items:center; gap:0; margin:1rem 0 1.5rem; flex-wrap:wrap; gap:.3rem; }
+    .pipe-step { background:var(--hero-bg); color:var(--text-hero); border-radius:8px; padding:.45rem .9rem; font-size:.8rem; font-family:'Consolas',monospace; font-weight:600; }
+    .pipe-step.source { background:#2563eb; }
+    .pipe-step.intermediate { background:#059669; }
+    .pipe-step.terminal { background:#c0392b; }
+    .pipe-arrow { color:#aaa; font-size:1rem; font-weight:700; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} .pipeline{flex-direction:column;align-items:flex-start;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA4 &middot; Activitat 3</p>
+  <h1>Col·leccions, genericitat i Streams</h1>
+  <p>El Java Collections Framework: <code>List</code>, <code>Set</code> i <code>Map</code>. Classes i mètodes genèrics. Processament declaratiu de dades amb la Stream API.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 6.4 Genericitat</span>
+    <span class="pill">CA 6.6 Col·leccions</span>
+    <span class="pill">CA 6.7 Streams</span>
+    <span class="pill">List · Set · Map</span>
+    <span class="pill">filter · map · collect</span>
+    <span class="pill">18 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea4.html">AEA4</a>
+  <span>&rsaquo;</span>
+  A3 — Col·leccions, genericitat i Streams
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 1 -->
+<h2 class="block-title">1. El Java Collections Framework</h2>
+
+<p>El <strong>Java Collections Framework (JCF)</strong> és un conjunt d'interfícies i classes que proporcionen estructures de dades dinàmiques. A diferència dels arrays, les col·leccions creixen i decreixen en temps d'execució i ofereixen moltes operacions ja implementades (ordenació, cerca, filtratge...).</p>
+
+<p>Totes les col·leccions es declaren amb el <strong>tipus de l'element entre <code>&lt;&gt;</code></strong>. Això és la genericitat en acció: el compilador sap quin tipus espera i detecta errors en temps de compilació.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Interfície</th><th>Característiques</th><th>Implementacions típiques</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>List&lt;E&gt;</code></td><td>Ordenada per posició, permet repetits, indexada</td><td><code>ArrayList</code>, <code>LinkedList</code></td></tr>
+      <tr><td><code>Set&lt;E&gt;</code></td><td>No permet duplicats, no té ordre garantit (depèn)</td><td><code>HashSet</code>, <code>TreeSet</code>, <code>LinkedHashSet</code></td></tr>
+      <tr><td><code>Map&lt;K,V&gt;</code></td><td>Parells clau→valor, claus úniques</td><td><code>HashMap</code>, <code>TreeMap</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="tip-box">
+  <strong>Bona pràctica:</strong> declara la variable amb la <em>interfície</em> i instancia amb la <em>classe concreta</em>. Així pots canviar la implementació en un sol punt sense tocar la resta del codi:<br>
+  <code>List&lt;String&gt; noms = new ArrayList&lt;&gt;();</code><br>
+  <code>List&lt;String&gt; noms = new LinkedList&lt;&gt;();</code> &nbsp;← canvi mínim
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 2 -->
+<h2 class="block-title">2. List: ArrayList i LinkedList</h2>
+
+<p>Una <code>List</code> és una col·lecció <strong>ordenada per posició</strong> que permet elements repetits. <code>ArrayList</code> és la millor opció per a accessos aleatoris ràpids; <code>LinkedList</code> és millor per a insercions i esborrades al mig.</p>
+
+<div class="sub-title">2.1 Operacions bàsiques amb ArrayList</div>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+<span class="kw">import</span> java.util.<span class="cls">List</span>;
+
+<span class="cls">List</span>&lt;<span class="cls">String</span>&gt; fruites = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+<span class="cmt">// Afegir elements</span>
+fruites.<span class="fn">add</span>(<span class="str">"poma"</span>);
+fruites.<span class="fn">add</span>(<span class="str">"pera"</span>);
+fruites.<span class="fn">add</span>(<span class="str">"mango"</span>);
+fruites.<span class="fn">add</span>(<span class="num">1</span>, <span class="str">"kiwi"</span>);    <span class="cmt">// inserir a la posició 1</span>
+
+<span class="cmt">// Llegir elements</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(fruites.<span class="fn">get</span>(<span class="num">0</span>));          <span class="cmt">// "poma"</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(fruites.<span class="fn">size</span>());          <span class="cmt">// 4</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(fruites.<span class="fn">contains</span>(<span class="str">"pera"</span>)); <span class="cmt">// true</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(fruites.<span class="fn">indexOf</span>(<span class="str">"mango"</span>)); <span class="cmt">// 2</span>
+
+<span class="cmt">// Eliminar elements</span>
+fruites.<span class="fn">remove</span>(<span class="str">"kiwi"</span>);     <span class="cmt">// per valor</span>
+fruites.<span class="fn">remove</span>(<span class="num">0</span>);          <span class="cmt">// per posició</span>
+
+<span class="cmt">// Recorregut (for-each)</span>
+<span class="kw">for</span> (<span class="cls">String</span> f : fruites) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(f);
+}
+
+<span class="cmt">// Ordenar</span>
+fruites.<span class="fn">sort</span>(<span class="cls">Comparator</span>.<span class="fn">naturalOrder</span>());</div>
+
+<div class="sub-title">2.2 Iterator — eliminar mentre recorrem</div>
+
+<p>Mai eliminis elements d'una col·lecció dins d'un bucle <code>for-each</code> normal; causarà <code>ConcurrentModificationException</code>. Usa un <code>Iterator</code> o el mètode <code>removeIf</code>:</p>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Iterator</span>;
+
+<span class="cls">Iterator</span>&lt;<span class="cls">String</span>&gt; it = fruites.<span class="fn">iterator</span>();
+<span class="kw">while</span> (it.<span class="fn">hasNext</span>()) {
+    <span class="cls">String</span> f = it.<span class="fn">next</span>();
+    <span class="kw">if</span> (f.<span class="fn">startsWith</span>(<span class="str">"p"</span>)) {
+        it.<span class="fn">remove</span>();    <span class="cmt">// elimina de forma segura</span>
+    }
+}
+
+<span class="cmt">// Alternativa més concisa amb removeIf (Java 8+)</span>
+fruites.<span class="fn">removeIf</span>(f -&gt; f.<span class="fn">startsWith</span>(<span class="str">"p"</span>));</div>
+
+<div class="sub-title">2.3 ArrayList vs LinkedList</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Operació</th><th>ArrayList</th><th>LinkedList</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Accés per índex (<code>get(i)</code>)</td><td>✅ O(1) molt ràpid</td><td>⚠️ O(n) lent</td></tr>
+      <tr><td>Inserció al mig</td><td>⚠️ O(n) lent (cal desplaçar)</td><td>✅ O(1) molt ràpid</td></tr>
+      <tr><td>Afegir al final</td><td>✅ ràpid (amortitzat)</td><td>✅ ràpid</td></tr>
+      <tr><td>Ús de memòria</td><td>Menys (array intern)</td><td>Més (nodes amb punters)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 3 -->
+<h2 class="block-title">3. Set: HashSet i TreeSet</h2>
+
+<p>Un <code>Set</code> no permet elements duplicats. És útil quan necessites garantir la unicitat d'un conjunt de valors (p. ex. paraules úniques, categories, DNIs...).</p>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Classe</th><th>Ordre dels elements</th><th>Quan usar-la</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>HashSet</code></td><td>Cap ordre garantit</td><td>Quan la velocitat és prioritat i l'ordre no importa</td></tr>
+      <tr><td><code>LinkedHashSet</code></td><td>Ordre d'inserció</td><td>Quan cal unicitat i recordar l'ordre d'inserció</td></tr>
+      <tr><td><code>TreeSet</code></td><td>Ordre natural o per comparador</td><td>Quan cal unicitat i els elements ordenats</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">HashSet</span>;
+<span class="kw">import</span> java.util.<span class="cls">TreeSet</span>;
+<span class="kw">import</span> java.util.<span class="cls">Set</span>;
+
+<span class="cmt">// HashSet: sense ordre</span>
+<span class="cls">Set</span>&lt;<span class="cls">String</span>&gt; colors = <span class="kw">new</span> <span class="cls">HashSet</span>&lt;&gt;();
+colors.<span class="fn">add</span>(<span class="str">"vermell"</span>);
+colors.<span class="fn">add</span>(<span class="str">"blau"</span>);
+colors.<span class="fn">add</span>(<span class="str">"vermell"</span>);   <span class="cmt">// duplicat: ignorat</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(colors.<span class="fn">size</span>());   <span class="cmt">// 2</span>
+
+<span class="cmt">// TreeSet: elements ordenats alfabèticament</span>
+<span class="cls">Set</span>&lt;<span class="cls">String</span>&gt; ordenat = <span class="kw">new</span> <span class="cls">TreeSet</span>&lt;&gt;(colors);
+<span class="cls">System</span>.out.<span class="fn">println</span>(ordenat);  <span class="cmt">// [blau, vermell]</span>
+
+<span class="cmt">// TreeSet amb objectes propis: cal un Comparator</span>
+<span class="cls">Set</span>&lt;<span class="cls">Alumne</span>&gt; alumnes = <span class="kw">new</span> <span class="cls">TreeSet</span>&lt;&gt;(
+    <span class="cls">Comparator</span>.<span class="fn">comparing</span>(<span class="cls">Alumne</span>::<span class="fn">getNota</span>)
+);
+alumnes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Anna"</span>, <span class="num">8.5</span>));
+alumnes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Marc"</span>, <span class="num">7.0</span>));
+alumnes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Laia"</span>, <span class="num">9.0</span>));
+<span class="cmt">// Recorrem ordenats per nota</span>
+<span class="kw">for</span> (<span class="cls">Alumne</span> a : alumnes) <span class="cls">System</span>.out.<span class="fn">println</span>(a);</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 4 -->
+<h2 class="block-title">4. Map: HashMap i TreeMap</h2>
+
+<p>Un <code>Map</code> associa <strong>claus úniques a valors</strong>. És com un diccionari: donada una clau, obtens el valor corresponent en temps constant (amb <code>HashMap</code>).</p>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">HashMap</span>;
+<span class="kw">import</span> java.util.<span class="cls">Map</span>;
+
+<span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; edats = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+
+<span class="cmt">// Inserir parells clau→valor</span>
+edats.<span class="fn">put</span>(<span class="str">"Anna"</span>, <span class="num">22</span>);
+edats.<span class="fn">put</span>(<span class="str">"Marc"</span>, <span class="num">19</span>);
+edats.<span class="fn">put</span>(<span class="str">"Laia"</span>, <span class="num">25</span>);
+edats.<span class="fn">put</span>(<span class="str">"Anna"</span>, <span class="num">23</span>);   <span class="cmt">// sobreescriu el valor d'Anna</span>
+
+<span class="cmt">// Llegir</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(edats.<span class="fn">get</span>(<span class="str">"Marc"</span>));            <span class="cmt">// 19</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(edats.<span class="fn">containsKey</span>(<span class="str">"Laia"</span>));   <span class="cmt">// true</span>
+<span class="cls">System</span>.out.<span class="fn">println</span>(edats.<span class="fn">getOrDefault</span>(<span class="str">"Jordi"</span>, <span class="num">0</span>)); <span class="cmt">// 0 (no existeix)</span>
+
+<span class="cmt">// Recórrer totes les entrades (clau + valor)</span>
+<span class="kw">for</span> (<span class="cls">Map</span>.<span class="cls">Entry</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; entrada : edats.<span class="fn">entrySet</span>()) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(entrada.<span class="fn">getKey</span>() + <span class="str">" → "</span> + entrada.<span class="fn">getValue</span>());
+}
+
+<span class="cmt">// Mètodes útils</span>
+edats.<span class="fn">putIfAbsent</span>(<span class="str">"Anna"</span>, <span class="num">99</span>);   <span class="cmt">// no sobreescriu perquè ja existeix</span>
+edats.<span class="fn">remove</span>(<span class="str">"Marc"</span>);
+<span class="cls">System</span>.out.<span class="fn">println</span>(edats.<span class="fn">size</span>());  <span class="cmt">// 2</span></div>
+
+<div class="tip-box">
+  <strong>HashMap vs TreeMap:</strong> <code>HashMap</code> no garanteix cap ordre de les claus (màxim rendiment). <code>TreeMap</code> manté les claus ordenades per ordre natural o per un <code>Comparator</code>.
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 5 -->
+<h2 class="block-title">5. Genericitat</h2>
+
+<p>Els <strong>genèrics</strong> permeten escriure classes, interfícies i mètodes que funcionen amb qualsevol tipus, garantint la seguretat de tipus en temps de compilació. Ja els has vist als contenidors (<code>List&lt;String&gt;</code>, <code>Map&lt;K,V&gt;</code>); ara aprendrem a crear-ne de propis.</p>
+
+<div class="sub-title">5.1 Classe genèrica</div>
+
+<div class="code-block"><span class="cmt">// Classe Caixa que pot contenir qualsevol tipus T</span>
+<span class="kw">public class</span> <span class="cls">Caixa</span>&lt;T&gt; {
+
+    <span class="kw">private</span> T contingut;
+
+    <span class="kw">public void</span> <span class="fn">set</span>(T contingut) {
+        <span class="kw">this</span>.contingut = contingut;
+    }
+
+    <span class="kw">public</span> T <span class="fn">get</span>() {
+        <span class="kw">return</span> contingut;
+    }
+}
+
+<span class="cmt">// Ús: el compilador comprova els tipus</span>
+<span class="cls">Caixa</span>&lt;<span class="cls">String</span>&gt; c1 = <span class="kw">new</span> <span class="cls">Caixa</span>&lt;&gt;();
+c1.<span class="fn">set</span>(<span class="str">"Hola"</span>);
+<span class="cls">String</span> text = c1.<span class="fn">get</span>();  <span class="cmt">// no cal cast</span>
+
+<span class="cls">Caixa</span>&lt;<span class="cls">Integer</span>&gt; c2 = <span class="kw">new</span> <span class="cls">Caixa</span>&lt;&gt;();
+c2.<span class="fn">set</span>(<span class="num">42</span>);
+<span class="cmt">// c2.set("text"); → ERROR en compilació! </span></div>
+
+<div class="sub-title">5.2 Convenis de noms</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Símbol</th><th>Significat</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>T</code></td><td>Tipus genèric general</td><td><code>Caixa&lt;T&gt;</code></td></tr>
+      <tr><td><code>E</code></td><td>Element (per a col·leccions)</td><td><code>ArrayList&lt;E&gt;</code></td></tr>
+      <tr><td><code>K</code></td><td>Clau (key)</td><td><code>Map&lt;K, V&gt;</code></td></tr>
+      <tr><td><code>V</code></td><td>Valor (value)</td><td><code>Map&lt;K, V&gt;</code></td></tr>
+      <tr><td><code>?</code></td><td>Tipus desconegut (comodí)</td><td><code>List&lt;?&gt;</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">5.3 Mètode genèric</div>
+
+<div class="code-block"><span class="cmt">// Mètode que imprimeix qualsevol llista independentment del tipus</span>
+<span class="kw">static</span> &lt;T&gt; <span class="kw">void</span> <span class="fn">imprimirLlista</span>(<span class="cls">List</span>&lt;T&gt; llista) {
+    <span class="kw">for</span> (T element : llista) {
+        <span class="cls">System</span>.out.<span class="fn">print</span>(element + <span class="str">" "</span>);
+    }
+    <span class="cls">System</span>.out.<span class="fn">println</span>();
+}
+
+<span class="cmt">// Mètode genèric amb límit superior: T ha de ser Number o subclasse</span>
+<span class="kw">static</span> &lt;T <span class="kw">extends</span> <span class="cls">Number</span>&gt; <span class="kw">double</span> <span class="fn">sumarLlista</span>(<span class="cls">List</span>&lt;T&gt; llista) {
+    <span class="kw">double</span> suma = <span class="num">0</span>;
+    <span class="kw">for</span> (T n : llista) suma += n.<span class="fn">doubleValue</span>();
+    <span class="kw">return</span> suma;
+}
+
+<span class="cmt">// Ús</span>
+<span class="fn">imprimirLlista</span>(<span class="cls">List</span>.<span class="fn">of</span>(<span class="str">"a"</span>, <span class="str">"b"</span>, <span class="str">"c"</span>));
+<span class="fn">imprimirLlista</span>(<span class="cls">List</span>.<span class="fn">of</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>));
+<span class="cls">System</span>.out.<span class="fn">println</span>(<span class="fn">sumarLlista</span>(<span class="cls">List</span>.<span class="fn">of</span>(<span class="num">1.5</span>, <span class="num">2.0</span>, <span class="num">3.5</span>))); <span class="cmt">// 7.0</span></div>
+
+<div class="warn-box">
+  <strong>Restricció important:</strong> els genèrics no accepten tipus primitius directament. Usa les classes wrapper: <code>Integer</code> en lloc de <code>int</code>, <code>Double</code> en lloc de <code>double</code>, etc. Java fa l'autoboxing automàticament quan assignes valors literals.
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 6 -->
+<h2 class="block-title">6. Stream API</h2>
+
+<p>Un <strong>Stream</strong> és una seqüència d'elements sobre la qual podem aplicar operacions de forma declarativa (dient <em>què</em> volem, no <em>com</em>). No modifica la col·lecció original i s'estructura sempre en tres fases:</p>
+
+<div class="pipeline">
+  <span class="pipe-step source">Font (col·lecció / array)</span>
+  <span class="pipe-arrow">→</span>
+  <span class="pipe-step intermediate">Intermèdies (0..N)</span>
+  <span class="pipe-arrow">→</span>
+  <span class="pipe-step terminal">Terminal (1)</span>
+</div>
+
+<div class="info-box">
+  <strong>Regles fonamentals dels Streams:</strong><br>
+  · Les operacions intermèdies <em>no executen res per si soles</em>: només descriuen el procés.<br>
+  · L'operació terminal <em>dispara</em> tota la cadena i tanca el Stream.<br>
+  · Un Stream <em>només es pot usar una vegada</em>: un cop consumit no es pot reutilitzar.<br>
+  · El Stream <em>no modifica mai la col·lecció original</em>.
+</div>
+
+<div class="sub-title">6.1 Operacions intermèdies</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Operació</th><th>Descripció</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>filter(predicat)</code></td><td>Manté els elements que compleixen la condició</td><td><code>.filter(p -&gt; p.getEdat() &gt;= 18)</code></td></tr>
+      <tr><td><code>map(funció)</code></td><td>Transforma cada element</td><td><code>.map(p -&gt; p.getNom())</code></td></tr>
+      <tr><td><code>sorted()</code></td><td>Ordena per ordre natural</td><td><code>.sorted()</code></td></tr>
+      <tr><td><code>sorted(comparador)</code></td><td>Ordena per criteri personalitzat</td><td><code>.sorted(Comparator.comparing(Persona::getEdat))</code></td></tr>
+      <tr><td><code>distinct()</code></td><td>Elimina duplicats</td><td><code>.distinct()</code></td></tr>
+      <tr><td><code>limit(n)</code></td><td>Pren els primers n elements</td><td><code>.limit(5)</code></td></tr>
+      <tr><td><code>skip(n)</code></td><td>Descarta els primers n elements</td><td><code>.skip(2)</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">6.2 Operacions terminals</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Operació</th><th>Descripció</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>forEach(acció)</code></td><td>Executa una acció per cada element</td><td><code>.forEach(System.out::println)</code></td></tr>
+      <tr><td><code>collect(collector)</code></td><td>Acumula els resultats en una col·lecció</td><td><code>.collect(Collectors.toList())</code></td></tr>
+      <tr><td><code>count()</code></td><td>Retorna el nombre d'elements</td><td><code>.count()</code></td></tr>
+      <tr><td><code>min(comparador)</code></td><td>Retorna l'element mínim (Optional)</td><td><code>.min(Comparator.naturalOrder())</code></td></tr>
+      <tr><td><code>max(comparador)</code></td><td>Retorna l'element màxim (Optional)</td><td><code>.max(Comparator.naturalOrder())</code></td></tr>
+      <tr><td><code>allMatch(predicat)</code></td><td>Tots compleixen la condició?</td><td><code>.allMatch(p -&gt; p.getEdat() &gt; 0)</code></td></tr>
+      <tr><td><code>anyMatch(predicat)</code></td><td>Algun compleix la condició?</td><td><code>.anyMatch(p -&gt; p.getNom().equals("Anna"))</code></td></tr>
+      <tr><td><code>noneMatch(predicat)</code></td><td>Cap compleix la condició?</td><td><code>.noneMatch(p -&gt; p.getEdat() &lt; 0)</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">6.3 Exemple complet amb classe Persona</div>
+
+<div class="code-block"><span class="kw">import</span> java.util.*;
+<span class="kw">import</span> java.util.stream.*;
+
+<span class="kw">public class</span> <span class="cls">ExempleStream</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">List</span>&lt;<span class="cls">Persona</span>&gt; persones = <span class="cls">List</span>.<span class="fn">of</span>(
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Anna"</span>,  <span class="num">22</span>, <span class="str">"F"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Marc"</span>,  <span class="num">17</span>, <span class="str">"M"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Laia"</span>,  <span class="num">30</span>, <span class="str">"F"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Jordi"</span>, <span class="num">15</span>, <span class="str">"M"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Marta"</span>, <span class="num">28</span>, <span class="str">"F"</span>)
+        );
+
+        <span class="cmt">// Noms de les persones majors d'edat, ordenats alfabèticament</span>
+        <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; majors = persones.<span class="fn">stream</span>()
+            .<span class="fn">filter</span>(p -&gt; p.<span class="fn">getEdat</span>() &gt;= <span class="num">18</span>)
+            .<span class="fn">map</span>(<span class="cls">Persona</span>::<span class="fn">getNom</span>)
+            .<span class="fn">sorted</span>()
+            .<span class="fn">collect</span>(<span class="cls">Collectors</span>.<span class="fn">toList</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(majors);   <span class="cmt">// [Anna, Laia, Marta]</span>
+
+        <span class="cmt">// Quantes persones hi ha de cada sexe?</span>
+        <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">Long</span>&gt; perSexe = persones.<span class="fn">stream</span>()
+            .<span class="fn">collect</span>(<span class="cls">Collectors</span>.<span class="fn">groupingBy</span>(<span class="cls">Persona</span>::<span class="fn">getSexe</span>, <span class="cls">Collectors</span>.<span class="fn">counting</span>()));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(perSexe);   <span class="cmt">// {F=3, M=2}</span>
+
+        <span class="cmt">// La persona més jove</span>
+        persones.<span class="fn">stream</span>()
+            .<span class="fn">min</span>(<span class="cls">Comparator</span>.<span class="fn">comparing</span>(<span class="cls">Persona</span>::<span class="fn">getEdat</span>))
+            .<span class="fn">ifPresent</span>(p -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Més jove: "</span> + p.<span class="fn">getNom</span>())); <span class="cmt">// Jordi</span>
+
+        <span class="cmt">// Totes les persones són majors d'edat?</span>
+        <span class="kw">boolean</span> totesMajors = persones.<span class="fn">stream</span>()
+            .<span class="fn">allMatch</span>(p -&gt; p.<span class="fn">getEdat</span>() &gt;= <span class="num">18</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(totesMajors);  <span class="cmt">// false</span>
+    }
+}</div>
+
+<!-- ═══════════════════════════════════════════════════ EXERCICIS -->
+<h2 class="block-title">7. Exercicis</h2>
+
+<!-- Ex 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Gestió d'una llista d'alumnes</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Treballa amb un <code>ArrayList&lt;String&gt;</code> de noms d'alumnes i realitza les operacions indicades.</p>
+    <ol class="exercici-tasques">
+      <li>Crea un <code>ArrayList</code> amb almenys 6 noms.</li>
+      <li>Mostra el segon i el penúltim element.</li>
+      <li>Afegeix un nou nom a la posició 2.</li>
+      <li>Elimina tots els noms que tinguin menys de 4 caràcters usant <code>removeIf</code>.</li>
+      <li>Ordena la llista alfabèticament i mostra-la.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.6 — ArrayList, iteradors</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">GestioAlumnes</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; alumnes = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(
+            <span class="cls">List</span>.<span class="fn">of</span>(<span class="str">"Anna"</span>, <span class="str">"Marc"</span>, <span class="str">"Laia"</span>, <span class="str">"Pol"</span>, <span class="str">"Marta"</span>, <span class="str">"Eva"</span>)
+        );
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Segon: "</span>    + alumnes.<span class="fn">get</span>(<span class="num">1</span>));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Penúltim: "</span> + alumnes.<span class="fn">get</span>(alumnes.<span class="fn">size</span>() - <span class="num">2</span>));
+
+        alumnes.<span class="fn">add</span>(<span class="num">2</span>, <span class="str">"Jordi"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Après afegir: "</span> + alumnes);
+
+        alumnes.<span class="fn">removeIf</span>(nom -&gt; nom.<span class="fn">length</span>() &lt; <span class="num">4</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sense noms curts: "</span> + alumnes);
+
+        alumnes.<span class="fn">sort</span>(<span class="cls">Comparator</span>.<span class="fn">naturalOrder</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ordenada: "</span> + alumnes);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Paraules úniques d'un text</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donada la cadena <code>"poma pera poma kiwi pera taronja kiwi poma"</code>, calcula quantes paraules úniques conté i mostra-les en ordre alfabètic.</p>
+    <ol class="exercici-tasques">
+      <li>Divideix la cadena en paraules amb <code>split(" ")</code>.</li>
+      <li>Afegeix-les totes a un <code>TreeSet&lt;String&gt;</code> (que eliminarà duplicats i les ordenarà).</li>
+      <li>Mostra el conjunt i la seva mida.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.6 — TreeSet, unicitat</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">ParaulesUniques</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> text = <span class="str">"poma pera poma kiwi pera taronja kiwi poma"</span>;
+        <span class="cls">String</span>[] paraules = text.<span class="fn">split</span>(<span class="str">" "</span>);
+
+        <span class="cls">Set</span>&lt;<span class="cls">String</span>&gt; uniques = <span class="kw">new</span> <span class="cls">TreeSet</span>&lt;&gt;();
+        <span class="kw">for</span> (<span class="cls">String</span> p : paraules) uniques.<span class="fn">add</span>(p);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Paraules úniques: "</span> + uniques);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + uniques.<span class="fn">size</span>());
+    }
+}
+<span class="cmt">// Sortida:
+// Paraules úniques: [kiwi, pera, poma, taronja]
+// Total: 4</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Diccionari d'ocurrències amb HashMap</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donada la mateixa cadena de l'exercici anterior, compta quantes vegades apareix cada paraula usant un <code>HashMap&lt;String, Integer&gt;</code>.</p>
+    <ol class="exercici-tasques">
+      <li>Per a cada paraula, si ja és al mapa incrementa el comptador; si no, afegeix-la amb valor 1. Pots usar <code>getOrDefault</code> per simplificar.</li>
+      <li>Mostra totes les parelles paraula → nombre d'ocurrències.</li>
+      <li>Mostra quina paraula apareix més vegades.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.6 — HashMap, entrySet</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">Ocurrencies</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span>[] paraules = <span class="str">"poma pera poma kiwi pera taronja kiwi poma"</span>.<span class="fn">split</span>(<span class="str">" "</span>);
+        <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; comptador = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+
+        <span class="kw">for</span> (<span class="cls">String</span> p : paraules) {
+            comptador.<span class="fn">put</span>(p, comptador.<span class="fn">getOrDefault</span>(p, <span class="num">0</span>) + <span class="num">1</span>);
+        }
+
+        <span class="cmt">// Mostrar totes les ocurrències</span>
+        <span class="kw">for</span> (<span class="cls">Map</span>.<span class="cls">Entry</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; e : comptador.<span class="fn">entrySet</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getKey</span>() + <span class="str">" → "</span> + e.<span class="fn">getValue</span>());
+        }
+
+        <span class="cmt">// Paraula més freqüent</span>
+        <span class="cls">String</span> maxParaula = comptador.<span class="fn">entrySet</span>().<span class="fn">stream</span>()
+            .<span class="fn">max</span>(<span class="cls">Map</span>.<span class="cls">Entry</span>.<span class="fn">comparingByValue</span>())
+            .<span class="fn">get</span>().<span class="fn">getKey</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Més freqüent: "</span> + maxParaula + <span class="str">" ("</span> + comptador.<span class="fn">get</span>(maxParaula) + <span class="str">"x)"</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Classe genèrica Parell&lt;A, B&gt;</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe genèrica <code>Parell&lt;A, B&gt;</code> que emmagatzemi dos valors de tipus potencialment diferents. Implementa-la i demostra el seu ús.</p>
+    <ol class="exercici-tasques">
+      <li>La classe tindrà dos atributs genèrics <code>primer</code> (de tipus <code>A</code>) i <code>segon</code> (de tipus <code>B</code>), constructor, getters i <code>toString()</code>.</li>
+      <li>Al <code>main</code>, crea: un <code>Parell&lt;String, Integer&gt;</code> per a nom i edat, un <code>Parell&lt;String, Double&gt;</code> per a producte i preu.</li>
+      <li>Crea un mètode genèric estàtic <code>bescanviar(Parell&lt;A,B&gt;)</code> que retorni un nou <code>Parell&lt;B,A&gt;</code> amb els elements intercanviats.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.4 — Classes genèriques</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">Parell</span>&lt;A, B&gt; {
+
+    <span class="kw">private</span> A primer;
+    <span class="kw">private</span> B segon;
+
+    <span class="kw">public</span> <span class="cls">Parell</span>(A primer, B segon) {
+        <span class="kw">this</span>.primer = primer;
+        <span class="kw">this</span>.segon = segon;
+    }
+
+    <span class="kw">public</span> A <span class="fn">getPrimer</span>() { <span class="kw">return</span> primer; }
+    <span class="kw">public</span> B <span class="fn">getSegon</span>()  { <span class="kw">return</span> segon;  }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"("</span> + primer + <span class="str">", "</span> + segon + <span class="str">")"</span>;
+    }
+
+    <span class="cmt">// Mètode genèric estàtic que bescanvia els dos elements</span>
+    <span class="kw">public static</span> &lt;A, B&gt; <span class="cls">Parell</span>&lt;B, A&gt; <span class="fn">bescanviar</span>(<span class="cls">Parell</span>&lt;A, B&gt; p) {
+        <span class="kw">return new</span> <span class="cls">Parell</span>&lt;&gt;(p.<span class="fn">getSegon</span>(), p.<span class="fn">getPrimer</span>());
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Parell</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; persona = <span class="kw">new</span> <span class="cls">Parell</span>&lt;&gt;(<span class="str">"Anna"</span>, <span class="num">22</span>);
+        <span class="cls">Parell</span>&lt;<span class="cls">String</span>, <span class="cls">Double</span>&gt;  producte = <span class="kw">new</span> <span class="cls">Parell</span>&lt;&gt;(<span class="str">"Teclat"</span>, <span class="num">45.99</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(persona);   <span class="cmt">// (Anna, 22)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(producte);   <span class="cmt">// (Teclat, 45.99)</span>
+
+        <span class="cls">Parell</span>&lt;<span class="cls">Integer</span>, <span class="cls">String</span>&gt; bescanviat = <span class="cls">Parell</span>.<span class="fn">bescanviar</span>(persona);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(bescanviat); <span class="cmt">// (22, Anna)</span>
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 5 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Processament de persones amb Streams</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donada una llista de 6 persones (nom, edat, sexe), resol les consultes usant exclusivament Streams.</p>
+    <ol class="exercici-tasques">
+      <li>Llista els noms de les dones ordenats alfabèticament.</li>
+      <li>Calcula l'edat mitjana de tots els homes.</li>
+      <li>Comprova si hi ha alguna persona menor de 18 anys.</li>
+      <li>Recull en un <code>TreeSet</code> les edats de totes les persones (sense repetits i ordenades).</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.7 — Stream: filter, map, collect, anyMatch</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.*;
+<span class="kw">import</span> java.util.stream.*;
+
+<span class="cmt">// Classe Persona (simplificada)</span>
+<span class="kw">class</span> <span class="cls">Persona</span> {
+    <span class="kw">private</span> <span class="cls">String</span> nom; <span class="kw">private int</span> edat; <span class="kw">private</span> <span class="cls">String</span> sexe;
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> sexe) {
+        <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.edat = edat; <span class="kw">this</span>.sexe = sexe;
+    }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom;  }
+    <span class="kw">public int</span>    <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getSexe</span>() { <span class="kw">return</span> sexe; }
+}
+
+<span class="kw">public class</span> <span class="cls">StreamPersones</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">List</span>&lt;<span class="cls">Persona</span>&gt; llista = <span class="cls">List</span>.<span class="fn">of</span>(
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Anna"</span>,  <span class="num">22</span>, <span class="str">"F"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Marc"</span>,  <span class="num">17</span>, <span class="str">"M"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Laia"</span>,  <span class="num">30</span>, <span class="str">"F"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Jordi"</span>, <span class="num">15</span>, <span class="str">"M"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Marta"</span>, <span class="num">28</span>, <span class="str">"F"</span>),
+            <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Pau"</span>,   <span class="num">34</span>, <span class="str">"M"</span>)
+        );
+
+        <span class="cmt">// 1. Noms de les dones, ordenats</span>
+        <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; dones = llista.<span class="fn">stream</span>()
+            .<span class="fn">filter</span>(p -&gt; p.<span class="fn">getSexe</span>().<span class="fn">equals</span>(<span class="str">"F"</span>))
+            .<span class="fn">map</span>(<span class="cls">Persona</span>::<span class="fn">getNom</span>)
+            .<span class="fn">sorted</span>()
+            .<span class="fn">collect</span>(<span class="cls">Collectors</span>.<span class="fn">toList</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dones: "</span> + dones);  <span class="cmt">// [Anna, Laia, Marta]</span>
+
+        <span class="cmt">// 2. Edat mitjana dels homes</span>
+        <span class="kw">double</span> mitjanaHomes = llista.<span class="fn">stream</span>()
+            .<span class="fn">filter</span>(p -&gt; p.<span class="fn">getSexe</span>().<span class="fn">equals</span>(<span class="str">"M"</span>))
+            .<span class="fn">mapToInt</span>(<span class="cls">Persona</span>::<span class="fn">getEdat</span>)
+            .<span class="fn">average</span>()
+            .<span class="fn">orElse</span>(<span class="num">0</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Edat mitjana homes: %.1f%n"</span>, mitjanaHomes); <span class="cmt">// 22.0</span>
+
+        <span class="cmt">// 3. Hi ha algun menor?</span>
+        <span class="kw">boolean</span> hiHaMinor = llista.<span class="fn">stream</span>()
+            .<span class="fn">anyMatch</span>(p -&gt; p.<span class="fn">getEdat</span>() &lt; <span class="num">18</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hi ha menors: "</span> + hiHaMinor);  <span class="cmt">// true</span>
+
+        <span class="cmt">// 4. Edats úniques i ordenades</span>
+        <span class="cls">Set</span>&lt;<span class="cls">Integer</span>&gt; edats = llista.<span class="fn">stream</span>()
+            .<span class="fn">map</span>(<span class="cls">Persona</span>::<span class="fn">getEdat</span>)
+            .<span class="fn">collect</span>(<span class="cls">Collectors</span>.<span class="fn">toCollection</span>(<span class="cls">TreeSet</span>::<span class="kw">new</span>));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edats: "</span> + edats);  <span class="cmt">// [15, 17, 22, 28, 30, 34]</span>
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 6 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 6</span>
+    <span class="exercici-title">Sistema d'inventari amb genèrics (pràctica integradora)</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa un sistema d'inventari genèric seguint l'enunciat del fitxer <code>Tema3_ExerciciGenerics.pdf</code> del Drive. El sistema ha de gestionar productes de tipus diferent (Llibre, Electrodomèstic) a través d'una classe genèrica <code>Inventari&lt;T extends Producte&gt;</code>.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la interfície <code>Producte</code> amb <code>getId()</code>, <code>getNom()</code> i <code>getPreu()</code>.</li>
+      <li>Implementa les classes <code>Llibre</code> (atribut extra: <code>autor</code>) i <code>Electrodomestic</code> (atribut extra: <code>marca</code>).</li>
+      <li>Crea la classe genèrica <code>Inventari&lt;T extends Producte&gt;</code> amb mètodes per afegir, consultar, eliminar i mostrar tots els productes. Llença <code>IllegalArgumentException</code> per a productes duplicats o inexistents.</li>
+      <li>Al <code>main</code>, crea un inventari de llibres i un d'electrodomèstics, demostra totes les operacions i gestiona els errors.</li>
+    </ol>
+    <div class="info-box" style="margin-top:.75rem">
+      <strong>Nota:</strong> Pots executar el fitxer <code>GestioProductesArrays.jar</code> del Drive per veure un exemple del resultat esperat amb arrays. L'exercici d'inventari genèric és equivalent però usant col·leccions i genèrics.
+    </div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.4 · CA 6.6 · CA 6.10 — Genèrics + col·leccions + excepcions</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució (estructura principal)</div>
+      <div class="code-block"><span class="cmt">// Interfície Producte</span>
+<span class="kw">public interface</span> <span class="cls">Producte</span> {
+    <span class="cls">String</span> <span class="fn">getId</span>();
+    <span class="cls">String</span> <span class="fn">getNom</span>();
+    <span class="kw">double</span> <span class="fn">getPreu</span>();
+}
+
+<span class="cmt">// Classe Llibre</span>
+<span class="kw">public class</span> <span class="cls">Llibre</span> <span class="kw">implements</span> <span class="cls">Producte</span> {
+    <span class="kw">private</span> <span class="cls">String</span> id, nom, autor; <span class="kw">private double</span> preu;
+    <span class="kw">public</span> <span class="cls">Llibre</span>(<span class="cls">String</span> id, <span class="cls">String</span> nom, <span class="cls">String</span> autor, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>.id = id; <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.autor = autor; <span class="kw">this</span>.preu = preu;
+    }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getId</span>()  { <span class="kw">return</span> id;   }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>() { <span class="kw">return</span> nom;  }
+    <span class="kw">public double</span> <span class="fn">getPreu</span>(){ <span class="kw">return</span> preu; }
+    @Override <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Llibre["</span>+nom+<span class="str">", "</span>+autor+<span class="str">", "</span>+preu+<span class="str">"€]"</span>;
+    }
+}
+
+<span class="cmt">// Classe genèrica Inventari</span>
+<span class="kw">public class</span> <span class="cls">Inventari</span>&lt;T <span class="kw">extends</span> <span class="cls">Producte</span>&gt; {
+
+    <span class="kw">private</span> <span class="cls">List</span>&lt;T&gt; elements = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public void</span> <span class="fn">afegir</span>(T producte) {
+        <span class="kw">for</span> (T e : elements)
+            <span class="kw">if</span> (e.<span class="fn">getId</span>().<span class="fn">equals</span>(producte.<span class="fn">getId</span>()))
+                <span class="kw">throw new</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"Producte ja existent: "</span> + producte.<span class="fn">getId</span>());
+        elements.<span class="fn">add</span>(producte);
+    }
+
+    <span class="kw">public</span> T <span class="fn">consultar</span>(<span class="cls">String</span> id) {
+        <span class="kw">return</span> elements.<span class="fn">stream</span>()
+            .<span class="fn">filter</span>(e -&gt; e.<span class="fn">getId</span>().<span class="fn">equals</span>(id))
+            .<span class="fn">findFirst</span>()
+            .<span class="fn">orElseThrow</span>(() -&gt; <span class="kw">new</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"No trobat: "</span> + id));
+    }
+
+    <span class="kw">public void</span> <span class="fn">eliminar</span>(<span class="cls">String</span> id) {
+        T p = <span class="fn">consultar</span>(id);   <span class="cmt">// llança excepció si no existeix</span>
+        elements.<span class="fn">remove</span>(p);
+    }
+
+    <span class="kw">public void</span> <span class="fn">mostrarTots</span>() {
+        elements.<span class="fn">forEach</span>(<span class="cls">System</span>.out::<span class="fn">println</span>);
+    }
+}
+
+<span class="cmt">// Main</span>
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Inventari</span>&lt;<span class="cls">Llibre</span>&gt; inv = <span class="kw">new</span> <span class="cls">Inventari</span>&lt;&gt;();
+        inv.<span class="fn">afegir</span>(<span class="kw">new</span> <span class="cls">Llibre</span>(<span class="str">"L1"</span>, <span class="str">"El Quixot"</span>,   <span class="str">"Cervantes"</span>, <span class="num">12.50</span>));
+        inv.<span class="fn">afegir</span>(<span class="kw">new</span> <span class="cls">Llibre</span>(<span class="str">"L2"</span>, <span class="str">"1984"</span>,         <span class="str">"Orwell"</span>,    <span class="num">9.95</span>));
+        inv.<span class="fn">mostrarTots</span>();
+
+        <span class="kw">try</span> {
+            inv.<span class="fn">afegir</span>(<span class="kw">new</span> <span class="cls">Llibre</span>(<span class="str">"L1"</span>, <span class="str">"Duplicat"</span>, <span class="str">"?"</span>, <span class="num">0</span>));  <span class="cmt">// llança excepció</span>
+        } <span class="kw">catch</span> (<span class="cls">IllegalArgumentException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Consulta L2: "</span> + inv.<span class="fn">consultar</span>(<span class="str">"L2"</span>));
+        inv.<span class="fn">eliminar</span>(<span class="str">"L1"</span>);
+        inv.<span class="fn">mostrarTots</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CA -->
+<h2 class="block-title">8. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 6.4</span><span class="ca-text">Crea classes i mètodes genèrics (<code>&lt;T&gt;</code>, bounds, comodins).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.6</span><span class="ca-text">Utilitza llistes (<code>ArrayList</code>, <code>LinkedList</code>), conjunts (<code>HashSet</code>, <code>TreeSet</code>) i mapes (<code>HashMap</code>).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.6</span><span class="ca-text">Utilitza iteradors (<code>Iterator</code>) per recórrer i modificar col·leccions de forma segura.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.7</span><span class="ca-text">Utilitza operacions agregades amb Stream API: <code>filter</code>, <code>map</code>, <code>sorted</code>, <code>collect</code>, <code>count</code>, <code>min</code>/<code>max</code>.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Interfícies Collection i List</em> — Albert Canela (Des. 2025). JCF, interfície Collection, Iterator, llistes.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Conjunts i mapes</em> — Albert Canela (Gen. 2025). HashSet, TreeSet, HashMap, getOrDefault, putIfAbsent.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Streams</em> — Albert Canela (Gen. 2026). Operacions intermèdies i terminals completes. Exercicis amb Corredors/Tennistes/Jugadors.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Genèrics</em> — Albert Canela (Des. 2024). Tipus genèrics, mètodes genèrics, bounds, comodins.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Tema3_ExerciciGenerics.pdf</em> — sistema d'inventari (exercici 6 d'aquesta activitat). <em>GestioGimnas.jar</em> — exemple executable de TreeSet amb Comparator.</li>
+    <li><strong>Universidad Java (UJB) — Ubaldo Acosta:</strong> 10-09-Listas, 10-13-Sets, 10-14-Mapa, 10-10-Genericos, 10-11-FuncionesLambda, 10-12-MetodoReferencia.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/collections/" style="color:#e74c3c">Collections Tutorial</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html" style="color:#e74c3c">Stream API</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Collectors.html" style="color:#e74c3c">Collectors</a></li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

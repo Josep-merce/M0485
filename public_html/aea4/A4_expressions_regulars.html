@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A4 — Expressions regulars i JSON · AEA4 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .code-block .re  { color:#f9e2af; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    /* JSON color box */
+    .json-box  { background:#0d1117; border-left:4px solid #58a6ff; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#e6edf3; margin:1rem 0 1.5rem; line-height:1.6; font-family:'Consolas','Courier New',monospace; }
+    .json-box .jk  { color:#79c0ff; }   /* clau */
+    .json-box .jv  { color:#a5d6ff; }   /* valor string */
+    .json-box .jn  { color:#f0883e; }   /* valor numèric */
+    .json-box .jb  { color:#d2a8ff; }   /* valor boolean / null */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA4 &middot; Activitat 4</p>
+  <h1>Expressions regulars i JSON</h1>
+  <p>Validació i extracció de patrons de text amb <code>Pattern</code> i <code>Matcher</code>. Lectura i escriptura de documents JSON amb la llibreria Gson.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 6.5 Regex</span>
+    <span class="pill">CA 6.8 Formats d'intercanvi</span>
+    <span class="pill">CA 6.9 Manipulació JSON</span>
+    <span class="pill">Pattern · Matcher</span>
+    <span class="pill">Gson</span>
+    <span class="pill">9 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea4.html">AEA4</a>
+  <span>&rsaquo;</span>
+  A4 — Expressions regulars i JSON
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 1 -->
+<h2 class="block-title">1. Expressions regulars</h2>
+
+<p>Una <strong>expressió regular</strong> (o <em>regex</em>) és una seqüència de caràcters que descriu un <strong>patró de text</strong>. En lloc de cercar un text concret, una regex descriu l'estructura que ha de tenir el text: "exactament 5 dígits", "un email vàlid", "un telèfon espanyol"...</p>
+
+<p>A Java les expressions regulars s'utilitzen principalment per a tres coses: <strong>validar</strong> que una cadena té un format concret, <strong>cercar</strong> fragments que compleixen un patró dins d'un text llarg, i <strong>substituir</strong> parts d'una cadena.</p>
+
+<div class="tip-box">
+  <strong>Quan usar regex i quan no:</strong><br>
+  ✅ Usa regex quan el format és complex o té múltiples regles (email, telèfon, codi postal, matrícula).<br>
+  ❌ No cal regex quan n'hi ha prou amb <code>contains()</code>, <code>startsWith()</code>, <code>endsWith()</code> o <code>equals()</code>.
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 2 -->
+<h2 class="block-title">2. Sintaxi bàsica</h2>
+
+<div class="sub-title">2.1 Metacaracters i classes de caràcters</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Patró</th><th>Concorda amb</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>.</code></td><td>Qualsevol caràcter (excepte salt de línia)</td><td><code>"c.t"</code> → "cat", "cut", "c3t"</td></tr>
+      <tr><td><code>\d</code></td><td>Qualsevol dígit (0–9)</td><td><code>"\\d"</code> → "5"</td></tr>
+      <tr><td><code>\w</code></td><td>Lletra, dígit o guió baix <code>[a-zA-Z_0-9]</code></td><td><code>"\\w+"</code> → "hola_123"</td></tr>
+      <tr><td><code>\s</code></td><td>Espai en blanc (espai, tab, salt de línia)</td><td><code>"\\s"</code> → " "</td></tr>
+      <tr><td><code>\D</code>, <code>\W</code>, <code>\S</code></td><td>Negació de \d, \w, \s</td><td><code>"\\D"</code> → "a", "!", " "</td></tr>
+      <tr><td><code>[abc]</code></td><td>Un dels caràcters indicats</td><td><code>"[aeiou]"</code> → "a"</td></tr>
+      <tr><td><code>[a-z]</code></td><td>Qualsevol lletra minúscula</td><td><code>"[a-z]"</code> → "m"</td></tr>
+      <tr><td><code>[^abc]</code></td><td>Qualsevol caràcter que NO sigui a, b o c</td><td><code>"[^0-9]"</code> → "x"</td></tr>
+      <tr><td><code>A|B</code></td><td>"A" o "B"</td><td><code>"gat|gos"</code> → "gat" o "gos"</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">2.2 Quantificadors</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Quantificador</th><th>Significat</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>*</code></td><td>Zero o més vegades</td><td><code>"\\d*"</code> → "", "1", "123"</td></tr>
+      <tr><td><code>+</code></td><td>Una o més vegades</td><td><code>"\\d+"</code> → "1", "123" (no "")</td></tr>
+      <tr><td><code>?</code></td><td>Zero o una vegada (opcional)</td><td><code>"colou?r"</code> → "color" o "colour"</td></tr>
+      <tr><td><code>{n}</code></td><td>Exactament n vegades</td><td><code>"\\d{5}"</code> → "08080"</td></tr>
+      <tr><td><code>{n,}</code></td><td>Almenys n vegades</td><td><code>"\\d{2,}"</code> → "12", "1234"</td></tr>
+      <tr><td><code>{n,m}</code></td><td>Entre n i m vegades</td><td><code>"\\w{3,15}"</code> → entre 3 i 15 caràcters de paraula</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="warn-box">
+  <strong>Doble barra invertida a Java:</strong> A les cadenes Java, <code>\</code> és el caràcter d'escapament. Per tant, per escriure <code>\d</code> en una regex has d'escriure <code>"\\d"</code>. Per escriure un <code>\</code> literal has d'escriure <code>"\\\\"</code>.
+</div>
+
+<div class="sub-title">2.3 Combinació de patrons — exemples pràctics</div>
+
+<div class="code-block"><span class="cmt">// Exactament 5 dígits (codi postal simple)</span>
+<span class="str">"08080"</span>.matches(<span class="re">"\\d{5}"</span>)      <span class="cmt">// true</span>
+<span class="str">"1234"</span>.matches(<span class="re">"\\d{5}"</span>)       <span class="cmt">// false (4 dígits)</span>
+
+<span class="cmt">// 3 lletres minúscules seguides de 2 dígits</span>
+<span class="str">"abc12"</span>.matches(<span class="re">"[a-z]{3}\\d{2}"</span>)  <span class="cmt">// true</span>
+<span class="str">"ABC12"</span>.matches(<span class="re">"[a-z]{3}\\d{2}"</span>)  <span class="cmt">// false (majúscules)</span>
+
+<span class="cmt">// Nom d'usuari: comença per lletra, 3-15 caràcters [a-zA-Z0-9_]</span>
+<span class="str">"Usuari123"</span>.matches(<span class="re">"[a-zA-Z]\\w{2,14}"</span>)  <span class="cmt">// true</span>
+<span class="str">"99User"</span>.matches(<span class="re">"[a-zA-Z]\\w{2,14}"</span>)    <span class="cmt">// false (comença per dígit)</span>
+
+<span class="cmt">// Substituir tots els espais per guions</span>
+<span class="cls">String</span> resultat = <span class="str">"hola món"</span>.replaceAll(<span class="re">"\\s"</span>, <span class="str">"-"</span>);  <span class="cmt">// "hola-món"</span>
+
+<span class="cmt">// Dividir per qualsevol quantitat d'espais en blanc</span>
+<span class="cls">String</span>[] parts = <span class="str">"a  b   c"</span>.split(<span class="re">"\\s+"</span>);  <span class="cmt">// ["a", "b", "c"]</span></div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 3 -->
+<h2 class="block-title">3. Les classes Pattern i Matcher</h2>
+
+<p>Els mètodes de <code>String</code> (<code>matches</code>, <code>replaceAll</code>, <code>split</code>) serveixen quan volem comprovar tota la cadena o fer substitucions simples. Però quan volem <strong>cercar totes les coincidències</strong> dins d'un text llarg, necessitem les classes <code>Pattern</code> i <code>Matcher</code>.</p>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Mètode de String</th><th>Classes Pattern / Matcher</th></tr></thead>
+    <tbody>
+      <tr><td>Comprova <strong>tota</strong> la cadena</td><td>Cerca <strong>parts</strong> del text</td></tr>
+      <tr><td>Una sola comprovació ràpida</td><td>Itera sobre totes les coincidències</td></tr>
+      <tr><td><code>"08080".matches("\\d{5}")</code></td><td><code>while (matcher.find()) { ... }</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">3.1 Estructura bàsica</div>
+
+<div class="code-block"><span class="kw">import</span> java.util.regex.<span class="cls">Pattern</span>;
+<span class="kw">import</span> java.util.regex.<span class="cls">Matcher</span>;
+
+<span class="cmt">// 1. Compilar el patró (reutilitzable)</span>
+<span class="cls">Pattern</span> patro = <span class="cls">Pattern</span>.<span class="fn">compile</span>(<span class="re">"\\d+"</span>);
+
+<span class="cmt">// 2. Aplicar-lo sobre un text</span>
+<span class="cls">String</span> text = <span class="str">"El curs 2024 té 198 hores i 9 RAs"</span>;
+<span class="cls">Matcher</span> m = patro.<span class="fn">matcher</span>(text);
+
+<span class="cmt">// 3. Iterar sobre totes les coincidències</span>
+<span class="kw">while</span> (m.<span class="fn">find</span>()) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trobat: "</span> + m.<span class="fn">group</span>());
+}
+<span class="cmt">// Sortida:
+// Trobat: 2024
+// Trobat: 198
+// Trobat: 9</span></div>
+
+<div class="sub-title">3.2 matches() vs find()</div>
+
+<div class="code-block"><span class="cls">Pattern</span> p = <span class="cls">Pattern</span>.<span class="fn">compile</span>(<span class="re">"\\d{4}"</span>);
+
+<span class="cmt">// matches(): comprova si TOTA la cadena compleix el patró</span>
+p.<span class="fn">matcher</span>(<span class="str">"2024"</span>).<span class="fn">matches</span>()          <span class="cmt">// true</span>
+p.<span class="fn">matcher</span>(<span class="str">"l'any 2024"</span>).<span class="fn">matches</span>()   <span class="cmt">// false (hi ha més text)</span>
+
+<span class="cmt">// find(): cerca si el patró apareix EN ALGUN PUNT del text</span>
+p.<span class="fn">matcher</span>(<span class="str">"l'any 2024"</span>).<span class="fn">find</span>()      <span class="cmt">// true (troba "2024")</span></div>
+
+<div class="sub-title">3.3 Exemple complet: extracció de dates</div>
+
+<p>El patró per a dates en format DD/MM/AAAA és un bon exemple de combinació de classes, rangs i quantificadors. El dia pot ser 01–31, el mes 01–12 i l'any 4 dígits:</p>
+
+<div class="code-block"><span class="kw">import</span> java.util.regex.*;
+
+<span class="kw">public class</span> <span class="cls">ExtraccioDates</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> text = <span class="str">"""
+Avui, 15/09/2023, s'ha fet una reunió. La propera sessió serà
+el 01/10/2023, just abans del congrés del 05/11/2023.
+L'empresa va ser fundada el 08/03/1999.
+"""</span>;
+
+        <span class="cmt">// DD: 01-09, 10-29, 30-31  /  MM: 01-09, 10-12  /  AAAA: 4 dígits</span>
+        <span class="cls">String</span> regex = <span class="re">"(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}"</span>;
+        <span class="cls">Pattern</span> patro  = <span class="cls">Pattern</span>.<span class="fn">compile</span>(regex);
+        <span class="cls">Matcher</span> matcher = patro.<span class="fn">matcher</span>(text);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dates trobades:"</span>);
+        <span class="kw">while</span> (matcher.<span class="fn">find</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  "</span> + matcher.<span class="fn">group</span>());
+        }
+    }
+}
+<span class="cmt">// Sortida:
+// Dates trobades:
+//   15/09/2023
+//   01/10/2023
+//   05/11/2023
+//   08/03/1999</span></div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 4 -->
+<h2 class="block-title">4. JSON i Java</h2>
+
+<div class="sub-title">4.1 Què és JSON?</div>
+
+<p>JSON (<em>JavaScript Object Notation</em>) és el format d'intercanvi de dades més usat avui dia. El trobaràs a tot arreu: respostes d'APIs web, fitxers de configuració, bases de dades document... Aprendre a llegir-lo i generar-lo és una habilitat fonamental per a qualsevol desenvolupador web.</p>
+
+<p>L'estructura és senzilla: parells <strong>clau: valor</strong> entre claus, arrays entre claudàtors. Els valors poden ser cadenes, números, booleans, null, objectes o arrays.</p>
+
+<div class="json-box">{
+  <span class="jk">"nom"</span>: <span class="jv">"Anna Puig"</span>,
+  <span class="jk">"edat"</span>: <span class="jn">22</span>,
+  <span class="jk">"activa"</span>: <span class="jb">true</span>,
+  <span class="jk">"email"</span>: <span class="jv">"anna@example.com"</span>,
+  <span class="jk">"notes"</span>: [<span class="jn">7.5</span>, <span class="jn">8.0</span>, <span class="jn">9.5</span>],
+  <span class="jk">"adreca"</span>: {
+    <span class="jk">"carrer"</span>: <span class="jv">"Gran Via"</span>,
+    <span class="jk">"codi_postal"</span>: <span class="jv">"08080"</span>
+  }
+}</div>
+
+<div class="sub-title">4.2 La llibreria Gson</div>
+
+<p>Java no inclou suport natiu per a JSON. La llibreria més popular per processar JSON és <strong>Gson</strong> (de Google). Permet convertir objectes Java a JSON (<em>serialització</em>) i JSON a objectes Java (<em>deserialització</em>) de forma molt senzilla.</p>
+
+<div class="info-box">
+  <strong>Afegir Gson al projecte (Maven):</strong> Inclou aquesta dependència al teu <code>pom.xml</code>:<br><br>
+  <code>&lt;dependency&gt;</code><br>
+  <code>&nbsp;&nbsp;&lt;groupId&gt;com.google.code.gson&lt;/groupId&gt;</code><br>
+  <code>&nbsp;&nbsp;&lt;artifactId&gt;gson&lt;/artifactId&gt;</code><br>
+  <code>&nbsp;&nbsp;&lt;version&gt;2.10.1&lt;/version&gt;</code><br>
+  <code>&lt;/dependency&gt;</code><br><br>
+  O descarrega el <code>.jar</code> directament de <a href="https://mvnrepository.com/artifact/com.google.code.gson/gson" style="color:#1e3a5f;font-weight:600">mvnrepository.com</a> i afegeix-lo al classpath del projecte.
+</div>
+
+<div class="sub-title">4.3 Serialització: Java → JSON</div>
+
+<div class="code-block"><span class="kw">import</span> com.google.gson.<span class="cls">Gson</span>;
+<span class="kw">import</span> com.google.gson.<span class="cls">GsonBuilder</span>;
+
+<span class="kw">public class</span> <span class="cls">Alumne</span> {
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span>    edat;
+    <span class="kw">private double</span> nota;
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="kw">double</span> nota) {
+        <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.edat = edat; <span class="kw">this</span>.nota = nota;
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Alumne</span> a = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Anna"</span>, <span class="num">22</span>, <span class="num">8.5</span>);
+
+        <span class="cmt">// Gson bàsic</span>
+        <span class="cls">Gson</span> gson = <span class="kw">new</span> <span class="cls">Gson</span>();
+        <span class="cls">String</span> json = gson.<span class="fn">toJson</span>(a);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(json);
+        <span class="cmt">// {"nom":"Anna","edat":22,"nota":8.5}</span>
+
+        <span class="cmt">// GsonBuilder: JSON formatat (pretty print)</span>
+        <span class="cls">Gson</span> gsonBonic = <span class="kw">new</span> <span class="cls">GsonBuilder</span>().<span class="fn">setPrettyPrinting</span>().<span class="fn">create</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(gsonBonic.<span class="fn">toJson</span>(a));
+        <span class="cmt">// {
+        //   "nom": "Anna",
+        //   "edat": 22,
+        //   "nota": 8.5
+        // }</span>
+    }
+}</div>
+
+<div class="sub-title">4.4 Deserialització: JSON → Java</div>
+
+<div class="code-block"><span class="kw">import</span> com.google.gson.<span class="cls">Gson</span>;
+<span class="kw">import</span> com.google.gson.reflect.<span class="cls">TypeToken</span>;
+<span class="kw">import</span> java.util.<span class="cls">List</span>;
+<span class="kw">import</span> java.lang.reflect.<span class="cls">Type</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Gson</span> gson = <span class="kw">new</span> <span class="cls">Gson</span>();
+
+        <span class="cmt">// JSON d'un objecte → objecte Java</span>
+        <span class="cls">String</span> jsonAlumne = <span class="str">"{\"nom\":\"Marc\",\"edat\":19,\"nota\":7.5}"</span>;
+        <span class="cls">Alumne</span> a = gson.<span class="fn">fromJson</span>(jsonAlumne, <span class="cls">Alumne</span>.<span class="kw">class</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a.<span class="fn">getNom</span>() + <span class="str">" — "</span> + a.<span class="fn">getNota</span>());  <span class="cmt">// Marc — 7.5</span>
+
+        <span class="cmt">// JSON d'un array → List Java</span>
+        <span class="cls">String</span> jsonArray = <span class="str">"[{\"nom\":\"Anna\",\"edat\":22,\"nota\":8.5},"</span>
+                         + <span class="str">"{\"nom\":\"Laia\",\"edat\":20,\"nota\":9.0}]"</span>;
+
+        <span class="cls">Type</span> tipusLlista = <span class="kw">new</span> <span class="cls">TypeToken</span>&lt;<span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt;&gt;(){}.getType();
+        <span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; alumnes = gson.<span class="fn">fromJson</span>(jsonArray, tipusLlista);
+
+        alumnes.<span class="fn">forEach</span>(al -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(al.<span class="fn">getNom</span>() + <span class="str">": "</span> + al.<span class="fn">getNota</span>()));
+        <span class="cmt">// Anna: 8.5
+        // Laia: 9.0</span>
+    }
+}</div>
+
+<div class="sub-title">4.5 Llegir i escriure fitxers JSON</div>
+
+<div class="code-block"><span class="kw">import</span> com.google.gson.*;
+<span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">FitxerJSON</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) <span class="kw">throws</span> <span class="cls">IOException</span> {
+
+        <span class="cls">Gson</span> gson = <span class="kw">new</span> <span class="cls">GsonBuilder</span>().<span class="fn">setPrettyPrinting</span>().<span class="fn">create</span>();
+        <span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; alumnes = <span class="cls">List</span>.<span class="fn">of</span>(
+            <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Anna"</span>, <span class="num">22</span>, <span class="num">8.5</span>),
+            <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Marc"</span>, <span class="num">19</span>, <span class="num">7.5</span>)
+        );
+
+        <span class="cmt">// Escriure al fitxer</span>
+        <span class="kw">try</span> (<span class="cls">FileWriter</span> fw = <span class="kw">new</span> <span class="cls">FileWriter</span>(<span class="str">"alumnes.json"</span>)) {
+            gson.<span class="fn">toJson</span>(alumnes, fw);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer escrit!"</span>);
+
+        <span class="cmt">// Llegir del fitxer</span>
+        <span class="kw">try</span> (<span class="cls">FileReader</span> fr = <span class="kw">new</span> <span class="cls">FileReader</span>(<span class="str">"alumnes.json"</span>)) {
+            <span class="cls">Type</span> tipus = <span class="kw">new</span> <span class="cls">TypeToken</span>&lt;<span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt;&gt;(){}.getType();
+            <span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; llegits = gson.<span class="fn">fromJson</span>(fr, tipus);
+            llegits.<span class="fn">forEach</span>(a -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(a.<span class="fn">getNom</span>()));
+        }
+    }
+}</div>
+
+<!-- ═══════════════════════════════════════════════════ EXERCICIS -->
+<h2 class="block-title">5. Exercicis — Expressions regulars</h2>
+
+<!-- Ex 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Validació de matrícula espanyola</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que validi si una cadena correspon a una matrícula espanyola moderna: exactament 4 dígits seguits de 3 lletres majúscules, sense espais.</p>
+    <ol class="exercici-tasques">
+      <li>Vàlids: <code>1234ABC</code>, <code>0001BCD</code>, <code>9876XYZ</code></li>
+      <li>No vàlids: <code>123ABC</code>, <code>12345ABC</code>, <code>1234abc</code>, <code>1234 ABC</code></li>
+      <li>Demana la matrícula per teclat i mostra si és vàlida o no.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.5 — matches(), quantificadors, classes de caràcters</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">ValidacioMatricula</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix una matrícula: "</span>);
+        <span class="cls">String</span> matricula = sc.<span class="fn">nextLine</span>().<span class="fn">trim</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="cls">String</span> regex = <span class="re">"\\d{4}[A-Z]{3}"</span>;
+        <span class="kw">boolean</span> valid = matricula.<span class="fn">matches</span>(regex);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(matricula + <span class="str">" → "</span> + (valid ? <span class="str">"VÀLIDA ✓"</span> : <span class="str">"NO VÀLIDA ✗"</span>));
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Validació de codi postal espanyol</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Valida codis postals espanyols: 5 dígits, els dos primers entre 01 i 52 (les províncies espanyoles).</p>
+    <ol class="exercici-tasques">
+      <li>Vàlids: <code>08080</code>, <code>29012</code>, <code>47001</code>, <code>01001</code></li>
+      <li>No vàlids: <code>99999</code> (fora de rang), <code>1234</code> (4 dígits), <code>A2890</code> (lletra), <code>00001</code> (comença per 00)</li>
+      <li>La regex ha de controlar que els dos primers dígits siguin 01–52.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.5 — matches(), alternança |, rangs</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">ValidacioCodiPostal</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix un codi postal: "</span>);
+        <span class="cls">String</span> codi = sc.<span class="fn">nextLine</span>().<span class="fn">trim</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="cmt">// 0[1-9] = 01..09 | [1-4][0-9] = 10..49 | 5[0-2] = 50..52</span>
+        <span class="cls">String</span> regex = <span class="re">"(0[1-9]|[1-4][0-9]|5[0-2])\\d{3}"</span>;
+        <span class="kw">boolean</span> valid = codi.<span class="fn">matches</span>(regex);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Codi postal vàlid? "</span> + valid);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Validació de nom d'usuari</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un nom d'usuari vàlid ha de: (a) Començar per una lletra. (b) Tenir entre 3 i 15 caràcters. (c) Contenir només lletres, dígits i guió baix.</p>
+    <ol class="exercici-tasques">
+      <li>Vàlids: <code>Usuari123</code>, <code>Xavi_99</code>, <code>abc</code></li>
+      <li>No vàlids: <code>99User</code> (comença per dígit), <code>U</code> (massa curt), <code>abc@123</code> (caràcter no permès)</li>
+      <li>Prova el teu programa amb almenys 5 casos, incloent-ne de vàlids i no vàlids.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.5 — matches(), \w, quantificadors {n,m}</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public class</span> <span class="cls">ValidacioUsuari</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span>[] casos = {
+            <span class="str">"Usuari123"</span>, <span class="str">"Xavi_99"</span>, <span class="str">"abc"</span>,
+            <span class="str">"99User"</span>, <span class="str">"U"</span>, <span class="str">"abc@123"</span>, <span class="str">"nom_molt_llarg_que_no_cap"</span>
+        };
+
+        <span class="cmt">// [a-zA-Z] = comença per lletra
+        // \\w{2,14} = 2..14 caràcters més de paraula (total 3..15)</span>
+        <span class="cls">String</span> regex = <span class="re">"[a-zA-Z]\\w{2,14}"</span>;
+
+        <span class="kw">for</span> (<span class="cls">String</span> usuari : casos) {
+            <span class="kw">boolean</span> valid = usuari.<span class="fn">matches</span>(regex);
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-30s → %s%n"</span>,
+                usuari, valid ? <span class="str">"VÀLID ✓"</span> : <span class="str">"NO VÀLID ✗"</span>);
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Extracció de dates d'un text</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat el text de l'exercici del Drive, cerca totes les dates en format DD/MM/AAAA i mostra-les per pantalla. Usa <code>Pattern</code> i <code>Matcher</code> amb <code>find()</code>.</p>
+    <ol class="exercici-tasques">
+      <li>El patró ha de validar correctament el dia (01–31) i el mes (01–12).</li>
+      <li>Copia literalment el text del Drive al codi com a <code>String</code> text block.</li>
+      <li>Mostra quantes dates s'han trobat i llista-les totes.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.5 — Pattern, Matcher, find(), group()</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.regex.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">ExtraccioDates</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> text = <span class="str">"""
+Avui, 15/09/2023, s'ha fet una reunió molt important. Ens han
+informat que la següent sessió serà el 01/10/2023, just abans
+del congrés del 05/11/2023.
+Recordeu que l'any passat, el 25/12/2022, vam tenir un
+esdeveniment especial. Les dates de l'examen final:
+- Primera convocatòria: 10/06/2024
+- Segona convocatòria: 20/07/2024
+L'empresa va ser fundada el 08/03/1999.
+El festival d'estiu, del 01/07/2025 al 20/08/2025.
+Última actualització: 30/01/2024.
+"""</span>;
+
+        <span class="cls">String</span> regex = <span class="re">"(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\\d{4}"</span>;
+        <span class="cls">Pattern</span> patro   = <span class="cls">Pattern</span>.<span class="fn">compile</span>(regex);
+        <span class="cls">Matcher</span> matcher  = patro.<span class="fn">matcher</span>(text);
+
+        <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; dates = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        <span class="kw">while</span> (matcher.<span class="fn">find</span>()) {
+            dates.<span class="fn">add</span>(matcher.<span class="fn">group</span>());
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dates trobades: "</span> + dates.<span class="fn">size</span>());
+        dates.<span class="fn">forEach</span>(<span class="cls">System</span>.out::<span class="fn">println</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ EXERCICIS JSON -->
+<h2 class="block-title">6. Exercicis — JSON amb Gson</h2>
+
+<!-- Ex 5 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Serialitzar i deserialitzar un alumne</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea la classe <code>Alumne</code> amb atributs <code>nom</code>, <code>edat</code> i <code>nota</code>. Serialitza un objecte a JSON i deserialitza el JSON resultant per verificar que les dades coincideixen.</p>
+    <ol class="exercici-tasques">
+      <li>Crea un <code>Alumne</code>, converteix-lo a JSON amb Gson i mostra la cadena JSON.</li>
+      <li>Converteix la cadena JSON de nou a objecte <code>Alumne</code> i mostra els atributs per comprovar que tot és correcte.</li>
+      <li>Usa <code>GsonBuilder().setPrettyPrinting()</code> per formatar el JSON.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.8 · CA 6.9 — Gson toJson / fromJson</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> com.google.gson.*;
+
+<span class="kw">class</span> <span class="cls">Alumne</span> {
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span>    edat;
+    <span class="kw">private double</span> nota;
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="kw">double</span> nota) {
+        <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.edat = edat; <span class="kw">this</span>.nota = nota;
+    }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom;  }
+    <span class="kw">public int</span>    <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
+    <span class="kw">public double</span> <span class="fn">getNota</span>() { <span class="kw">return</span> nota; }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Gson</span> gson = <span class="kw">new</span> <span class="cls">GsonBuilder</span>().<span class="fn">setPrettyPrinting</span>().<span class="fn">create</span>();
+
+        <span class="cmt">// Serialització</span>
+        <span class="cls">Alumne</span> original = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Anna"</span>, <span class="num">22</span>, <span class="num">8.5</span>);
+        <span class="cls">String</span> json = gson.<span class="fn">toJson</span>(original);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"JSON generat:\n"</span> + json);
+
+        <span class="cmt">// Deserialització</span>
+        <span class="cls">Alumne</span> recuperat = gson.<span class="fn">fromJson</span>(json, <span class="cls">Alumne</span>.<span class="kw">class</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nAlumne recuperat:"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Nom:  "</span> + recuperat.<span class="fn">getNom</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Edat: "</span> + recuperat.<span class="fn">getEdat</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Nota: "</span> + recuperat.<span class="fn">getNota</span>());
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Ex 6 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 6</span>
+    <span class="exercici-title">Gestió d'alumnes amb fitxer JSON</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que gestioni una llista d'alumnes persistent en un fitxer JSON. El programa ha de poder guardar i recuperar la llista entre execucions.</p>
+    <ol class="exercici-tasques">
+      <li>En iniciar, llegeix el fitxer <code>alumnes.json</code> si existeix i carrega la llista. Si no existeix, comença amb una llista buida.</li>
+      <li>Permet afegir nous alumnes des de teclat (nom, edat, nota). Valida que el nom no estigui buit i la nota entre 0 i 10.</li>
+      <li>Mostra la llista completa d'alumnes amb la seva posició i nota.</li>
+      <li>En sortir del programa, guarda la llista actualitzada al fitxer JSON.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.8 · CA 6.9 — Gson + FileReader/FileWriter + col·leccions</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> com.google.gson.*;
+<span class="kw">import</span> com.google.gson.reflect.<span class="cls">TypeToken</span>;
+<span class="kw">import</span> java.io.*;
+<span class="kw">import</span> java.lang.reflect.<span class="cls">Type</span>;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">GestioAlumnesJSON</span> {
+
+    <span class="kw">static final</span> <span class="cls">String</span> FITXER = <span class="str">"alumnes.json"</span>;
+    <span class="kw">static</span> <span class="cls">Gson</span> gson = <span class="kw">new</span> <span class="cls">GsonBuilder</span>().<span class="fn">setPrettyPrinting</span>().<span class="fn">create</span>();
+
+    <span class="kw">static</span> <span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; <span class="fn">carregarAlumnes</span>() {
+        <span class="cls">File</span> f = <span class="kw">new</span> <span class="cls">File</span>(FITXER);
+        <span class="kw">if</span> (!f.<span class="fn">exists</span>()) <span class="kw">return new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        <span class="kw">try</span> (<span class="cls">FileReader</span> fr = <span class="kw">new</span> <span class="cls">FileReader</span>(f)) {
+            <span class="cls">Type</span> tipus = <span class="kw">new</span> <span class="cls">TypeToken</span>&lt;<span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt;&gt;(){}.getType();
+            <span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; llista = gson.<span class="fn">fromJson</span>(fr, tipus);
+            <span class="kw">return</span> llista != <span class="kw">null</span> ? llista : <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error llegint fitxer: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        }
+    }
+
+    <span class="kw">static void</span> <span class="fn">guardarAlumnes</span>(<span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; alumnes) {
+        <span class="kw">try</span> (<span class="cls">FileWriter</span> fw = <span class="kw">new</span> <span class="cls">FileWriter</span>(FITXER)) {
+            gson.<span class="fn">toJson</span>(alumnes, fw);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dades guardades a "</span> + FITXER);
+        } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error escrivint fitxer: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">List</span>&lt;<span class="cls">Alumne</span>&gt; alumnes = <span class="fn">carregarAlumnes</span>();
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">boolean</span> continuar = <span class="kw">true</span>;
+
+        <span class="kw">while</span> (continuar) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n1. Afegir alumne  2. Mostrar llista  3. Sortir"</span>);
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Opció: "</span>);
+            <span class="kw">int</span> opcio = sc.<span class="fn">nextInt</span>(); sc.<span class="fn">nextLine</span>();
+
+            <span class="kw">switch</span> (opcio) {
+                <span class="kw">case</span> <span class="num">1</span>:
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nom: "</span>);
+                    <span class="cls">String</span> nom = sc.<span class="fn">nextLine</span>().<span class="fn">trim</span>();
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Edat: "</span>);
+                    <span class="kw">int</span> edat = sc.<span class="fn">nextInt</span>();
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (0-10): "</span>);
+                    <span class="kw">double</span> nota = sc.<span class="fn">nextDouble</span>(); sc.<span class="fn">nextLine</span>();
+                    <span class="kw">if</span> (!nom.<span class="fn">isEmpty</span>() && nota &gt;= <span class="num">0</span> && nota &lt;= <span class="num">10</span>) {
+                        alumnes.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Alumne</span>(nom, edat, nota));
+                        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Alumne afegit."</span>);
+                    } <span class="kw">else</span> {
+                        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dades no vàlides."</span>);
+                    }
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> <span class="num">2</span>:
+                    <span class="kw">if</span> (alumnes.<span class="fn">isEmpty</span>()) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Llista buida."</span>); <span class="kw">break</span>; }
+                    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; alumnes.<span class="fn">size</span>(); i++) {
+                        <span class="cls">Alumne</span> a = alumnes.<span class="fn">get</span>(i);
+                        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%d. %s (%d anys) — %.1f%n"</span>,
+                            i+<span class="num">1</span>, a.<span class="fn">getNom</span>(), a.<span class="fn">getEdat</span>(), a.<span class="fn">getNota</span>());
+                    }
+                    <span class="kw">break</span>;
+                <span class="kw">case</span> <span class="num">3</span>:
+                    continuar = <span class="kw">false</span>;
+                    <span class="kw">break</span>;
+            }
+        }
+        <span class="fn">guardarAlumnes</span>(alumnes);
+        sc.<span class="fn">close</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CA -->
+<h2 class="block-title">7. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 6.5</span><span class="ca-text">Utilitza expressions regulars en la cerca de patrons en cadenes de text (<code>matches</code>, <code>Pattern</code>, <code>Matcher</code>).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.8</span><span class="ca-text">Identifica les classes relacionades amb el tractament de documents en formats d'intercanvi de dades (JSON).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 6.9</span><span class="ca-text">Realitza programes que facin manipulacions sobre documents JSON: lectura, escriptura i persistència en fitxer.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Expressions regulars a Java</em> — Albert Canela. Sintaxi, classes de caràcters, quantificadors, Pattern/Matcher, find() vs matches().</li>
+    <li><strong>Material del professor (Drive):</strong> <em>ExercicisExpressionsRegulars.pdf</em> — Albert Canela. 5 exercicis de validació (codi postal, usuari, telèfon, matrícula, extracció de dates).</li>
+    <li><strong>Material del professor (Drive — solucions):</strong> ValidacioCodiPostal.java · ValidacioMatricula.java · ValidacioUsuari.java · ValidacioTelefon.java · ExtraccioDates.java — Albert Canela.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/essential/regex/" style="color:#e74c3c">Tutorial de Regular Expressions</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/regex/Pattern.html" style="color:#e74c3c">API Pattern</a></li>
+    <li><strong>Gson (Google):</strong> <a href="https://github.com/google/gson/blob/main/UserGuide.md" style="color:#e74c3c">Guia d'usuari oficial de Gson</a> · <a href="https://mvnrepository.com/artifact/com.google.code.gson/gson" style="color:#e74c3c">Descarregar .jar a Maven Repository</a></li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

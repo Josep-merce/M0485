@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Control d'excepcions · AEA4 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    /* Diagrama jerarquia */
+    .jerarquia { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.25rem 1.5rem; margin:1rem 0 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.83rem; line-height:1.9; color:var(--text); box-shadow:var(--shadow); }
+    .jerarquia .node-root  { color:#c0392b; font-weight:700; }
+    .jerarquia .node-main  { color:#2563eb; font-weight:600; }
+    .jerarquia .node-sub   { color:#059669; }
+    .jerarquia .node-check { color:#7c3aed; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA4 &middot; Activitat 2</p>
+  <h1>Control d'excepcions</h1>
+  <p>Mecanisme de Java per gestionar errors en temps d'execució: captura amb <code style="color:#f0ece8">try-catch-finally</code>, llançament amb <code style="color:#f0ece8">throw</code> i creació d'excepcions pròpies.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 6.10 Excepcions</span>
+    <span class="pill">try · catch · finally</span>
+    <span class="pill">throw · throws</span>
+    <span class="pill">Excepcions personalitzades</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea4.html">AEA4</a>
+  <span>&rsaquo;</span>
+  A2 — Control d'excepcions
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">1. Què és una excepció?</h2>
+
+<p>Fins ara, quan un programa trobava un error (dividir per zero, accedir a una posició inexistent d'un array…), s'aturava bruscament. Les <strong>excepcions</strong> són el mecanisme de Java per <em>detectar</em> aquests errors en temps d'execució i <em>reaccionar</em> de forma controlada, sense que el programa es tanqui de cop.</p>
+
+<p>Quan es produeix un error, Java crea un <strong>objecte excepció</strong> que conté informació sobre el problema i el <em>llança</em>. El nostre codi pot <em>capturar</em> aquest objecte i decidir què fer.</p>
+
+<div class="info-box">
+  <strong>Dos enfocaments per gestionar errors:</strong><br>
+  <strong>Sense excepcions</strong> (prevenció): comproves les condicions prèviament amb <code>if</code>.<br>
+  <strong>Amb excepcions</strong> (reacció): deixes que l'error es produeixi i el captures amb <code>try-catch</code>.<br>
+  Les excepcions permeten <em>separar la lògica de negoci del codi de gestió d'errors</em>, fent el codi més llegible.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">2. La jerarquia Throwable</h2>
+
+<p>Totes les excepcions i errors de Java hereten de la classe <code>Throwable</code>. Conèixer l'arbre és essencial per entendre quines excepcions cal capturar obligatòriament i quines no.</p>
+
+<div class="jerarquia"><span class="node-root">Throwable</span>
+├── <span class="node-main">Error</span>  <span style="color:#6c7086;font-style:italic">← problemes greus de la JVM (no cal capturar)</span>
+│     ├── OutOfMemoryError
+│     └── StackOverflowError
+│
+└── <span class="node-main">Exception</span>
+      ├── <span class="node-check">IOException</span>  <span style="color:#6c7086;font-style:italic">← checked: el compilador obliga a capturar</span>
+      │     └── FileNotFoundException
+      │
+      └── <span class="node-sub">RuntimeException</span>  <span style="color:#6c7086;font-style:italic">← unchecked: no cal capturar obligatòriament</span>
+            ├── ArithmeticException       <span style="color:#6c7086;font-style:italic">(divisió per zero)</span>
+            ├── NullPointerException      <span style="color:#6c7086;font-style:italic">(accés a referència null)</span>
+            ├── ArrayIndexOutOfBoundsException
+            ├── NumberFormatException     <span style="color:#6c7086;font-style:italic">(parseInt("hola"))</span>
+            └── InputMismatchException    <span style="color:#6c7086;font-style:italic">(Scanner llegeix tipus incorrecte)</span></div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Tipus</th><th>Hereten de</th><th>Cal capturar?</th><th>Exemples típics</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Checked</strong></td><td><code>Exception</code> (no Runtime)</td><td>✅ Sí, el compilador ho exigeix</td><td><code>IOException</code>, <code>FileNotFoundException</code></td></tr>
+      <tr><td><strong>Unchecked</strong></td><td><code>RuntimeException</code></td><td>⚠️ Opcional (però recomanable)</td><td><code>ArithmeticException</code>, <code>NullPointerException</code>, <code>NumberFormatException</code></td></tr>
+      <tr><td><strong>Error</strong></td><td><code>Error</code></td><td>❌ No (no recuperables)</td><td><code>OutOfMemoryError</code>, <code>StackOverflowError</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">3. Capturar excepcions: try-catch-finally</h2>
+
+<div class="sub-title">3.1 Estructura bàsica</div>
+
+<div class="code-block"><span class="kw">try</span> {
+    <span class="cmt">// Codi que pot generar una excepció</span>
+    <span class="kw">int</span> resultat = <span class="num">10</span> / <span class="num">0</span>;
+} <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
+    <span class="cmt">// S'executa NOMÉS si es produeix l'excepció indicada</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+} <span class="kw">finally</span> {
+    <span class="cmt">// S'executa SEMPRE, hi hagi excepció o no</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bloc finally executat"</span>);
+}</div>
+
+<div class="sub-title">3.2 Flux d'execució</div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr><th>Situació</th><th>Ordre d'execució</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Sense cap excepció</td><td><code>try</code> complet → <code>finally</code> → continua</td></tr>
+      <tr><td>Excepció capturada pel <code>catch</code></td><td><code>try</code> fins al punt d'error → <code>catch</code> → <code>finally</code> → continua</td></tr>
+      <tr><td>Excepció NO capturada</td><td><code>try</code> fins al punt d'error → <code>finally</code> → es propaga cap amunt</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">3.3 Múltiples catch</div>
+
+<p>Quan un bloc <code>try</code> pot generar diversos tipus d'excepció, es pot afegir un <code>catch</code> per a cada tipus. Java els avalua <strong>en ordre</strong> i executa el primer que coincideixi. Posa sempre les excepcions més específiques <em>primer</em>.</p>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+<span class="kw">import</span> java.util.<span class="cls">InputMismatchException</span>;
+
+<span class="kw">public class</span> <span class="cls">MultipleCatch</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">try</span> {
+            <span class="kw">int</span> num1 = sc.<span class="fn">nextInt</span>();             <span class="cmt">// possible InputMismatchException</span>
+            <span class="kw">int</span> num2 = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(<span class="str">"hola"</span>); <span class="cmt">// possible NumberFormatException</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(num2 / num1);      <span class="cmt">// possible ArithmeticException</span>
+
+        } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error aritmètic: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">catch</span> (<span class="cls">InputMismatchException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Entrada no vàlida (esperava un enter)"</span>);
+        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Format numèric incorrecte: "</span> + e.<span class="fn">getMessage</span>());
+        } <span class="kw">finally</span> {
+            sc.<span class="fn">close</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Programa finalitzat correctament"</span>);
+        }
+    }
+}</div>
+
+<div class="tip-box">
+  <strong>Mètodes útils de l'objecte excepció:</strong><br>
+  <code>e.getMessage()</code> → retorna un text descriptiu de l'error.<br>
+  <code>e.printStackTrace()</code> → mostra per consola la traça completa d'on s'ha produït l'error. Molt útil per depurar.
+</div>
+
+<div class="sub-title">3.4 Capturar amb la superclasse Exception</div>
+
+<p>Si poses <code>catch (Exception e)</code> captures qualsevol excepció. És còmode però poc precís: no saps exactament quin error s'ha produït. Usa-ho com a últim recurs o per depurar.</p>
+
+<div class="code-block"><span class="kw">try</span> {
+    <span class="kw">int</span> valor1 = <span class="num">10</span>, valor2 = <span class="num">0</span>;
+    <span class="kw">var</span> resultat = valor1 / valor2;
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"resultat = "</span> + resultat);
+} <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ha ocorregut un error: "</span> + e);
+}</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">4. Llançar excepcions: throw i throws</h2>
+
+<div class="sub-title">4.1 throw — llançar una excepció manualment</div>
+
+<p>Podem llançar nosaltres mateixos una excepció quan detectem una situació d'error, sense esperar que Java la generi automàticament.</p>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">InputMismatchException</span>;
+
+<span class="kw">public class</span> <span class="cls">ValidacioMinuts</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> minuts = <span class="num">75</span>;   <span class="cmt">// valor invàlid</span>
+
+        <span class="kw">if</span> (minuts &lt; <span class="num">0</span> || minuts &gt;= <span class="num">60</span>) {
+            <span class="kw">throw new</span> <span class="cls">InputMismatchException</span>(<span class="str">"Valor fora de rang: ha de ser entre 0 i 59"</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Minuts vàlids: "</span> + minuts);
+    }
+}</div>
+
+<div class="sub-title">4.2 throws — declarar que un mètode pot propagar una excepció</div>
+
+<p>Quan un mètode pot llançar una excepció <em>checked</em> i no la captura internament, ha de declarar-ho a la seva capçalera amb <code>throws</code>. Qui cridi al mètode haurà de capturar-la.</p>
+
+<div class="code-block"><span class="cmt">// El mètode declara que pot llançar ArithmeticException</span>
+<span class="kw">static void</span> <span class="fn">dividir</span>(<span class="kw">int</span> n, <span class="kw">int</span> m) <span class="kw">throws</span> <span class="cls">ArithmeticException</span> {
+    <span class="kw">if</span> (m == <span class="num">0</span>)
+        <span class="kw">throw new</span> <span class="cls">ArithmeticException</span>(<span class="str">"No es pot dividir per zero"</span>);
+    <span class="cls">System</span>.out.<span class="fn">println</span>(n + <span class="str">"/"</span> + m + <span class="str">" = "</span> + (n / m));
+}
+
+<span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+    <span class="kw">try</span> {
+        <span class="fn">dividir</span>(<span class="num">10</span>, <span class="num">2</span>);   <span class="cmt">// 10/2 = 5 → OK</span>
+        <span class="fn">dividir</span>(<span class="num">5</span>, <span class="num">0</span>);    <span class="cmt">// llança excepció</span>
+    } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Capturada al main: "</span> + e.<span class="fn">getMessage</span>());
+    }
+}</div>
+
+<div class="tip-box">
+  <strong>throw vs throws:</strong><br>
+  <code>throw</code> (sense 's') <em>llança</em> un objecte excepció en un punt concret del codi.<br>
+  <code>throws</code> (amb 's') <em>declara</em> a la capçalera d'un mètode que pot propagar aquell tipus d'excepció.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">5. Excepcions personalitzades</h2>
+
+<p>Quan les excepcions predefinides de Java no representen prou bé el nostre error de negoci, podem crear les nostres pròpies. El procés és senzill: creem una classe que <strong>hereti de <code>Exception</code></strong> (checked) o de <code>RuntimeException</code> (unchecked).</p>
+
+<div class="sub-title">5.1 Estructura d'una excepció pròpia</div>
+
+<div class="code-block"><span class="cmt">// Definim la nostra excepció personalitzada (checked)</span>
+<span class="kw">public class</span> <span class="cls">EdatNoValidaException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+
+    <span class="kw">private int</span> edat;
+
+    <span class="kw">public</span> <span class="cls">EdatNoValidaException</span>(<span class="kw">int</span> edat) {
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Edat no vàlida: "</span> + edat + <span class="str">". Ha de ser entre 0 i 120."</span>;
+    }
+}</div>
+
+<div class="sub-title">5.2 Ús de l'excepció personalitzada</div>
+
+<div class="code-block"><span class="kw">public class</span> <span class="cls">Persona</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span> edat;
+
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat) <span class="kw">throws</span> <span class="cls">EdatNoValidaException</span> {
+        <span class="kw">if</span> (edat &lt; <span class="num">0</span> || edat &gt; <span class="num">120</span>)
+            <span class="kw">throw new</span> <span class="cls">EdatNoValidaException</span>(edat);
+        <span class="kw">this</span>.nom = nom;
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> nom + <span class="str">" ("</span> + edat + <span class="str">" anys)"</span>;
+    }
+}
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">try</span> {
+            <span class="cls">Persona</span> p1 = <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Anna"</span>, <span class="num">25</span>);    <span class="cmt">// OK</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(p1);
+            <span class="cls">Persona</span> p2 = <span class="kw">new</span> <span class="cls">Persona</span>(<span class="str">"Marc"</span>, <span class="num">-5</span>);   <span class="cmt">// llança EdatNoValidaException</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(p2);
+        } <span class="kw">catch</span> (<span class="cls">EdatNoValidaException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e);
+        }
+    }
+}
+<span class="cmt">// Sortida:
+// Anna (25 anys)
+// Error: Edat no vàlida: -5. Ha de ser entre 0 i 120.</span></div>
+
+<div class="warn-box">
+  <strong>Exception vs RuntimeException:</strong> Si la teva excepció hereta de <code>Exception</code>, qui la llanci haurà de declarar-la amb <code>throws</code> i qui la cridi haurà de capturar-la (és <em>checked</em>). Si hereta de <code>RuntimeException</code>, no és obligatori (és <em>unchecked</em>). Per a errors de lògica de negoci (edat invàlida, saldo insuficient…) és recomanable usar <code>Exception</code> per forçar la gestió explícita.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">6. Exercicis</h2>
+
+<!-- Exercici 1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Divisió segura</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que demani dos enters per teclat i mostri el resultat de la seva divisió. Captura les excepcions que es puguin produir: divisió per zero i entrada no numèrica.</p>
+    <ol class="exercici-tasques">
+      <li>Usa un bloc <code>try-catch</code> amb múltiples <code>catch</code>: un per <code>ArithmeticException</code>, un per <code>InputMismatchException</code>.</li>
+      <li>Afegeix un bloc <code>finally</code> que mostri "Programa finalitzat".</li>
+      <li>Prova el programa introduint: (a) dos enters vàlids, (b) divisor zero, (c) text en lloc d'un nombre.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.10 — try-catch-finally</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+<span class="kw">import</span> java.util.<span class="cls">InputMismatchException</span>;
+
+<span class="kw">public class</span> <span class="cls">DivisioSegura</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">try</span> {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix el dividend: "</span>);
+            <span class="kw">int</span> a = sc.<span class="fn">nextInt</span>();
+
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix el divisor: "</span>);
+            <span class="kw">int</span> b = sc.<span class="fn">nextInt</span>();
+
+            <span class="kw">int</span> resultat = a / b;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resultat: "</span> + resultat);
+
+        } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: no es pot dividir per zero."</span>);
+        } <span class="kw">catch</span> (<span class="cls">InputMismatchException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: cal introduir un número enter."</span>);
+        } <span class="kw">finally</span> {
+            sc.<span class="fn">close</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Programa finalitzat."</span>);
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Accés segur a un array</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Declara un array de 5 enters. Demana a l'usuari una posició i mostra el valor. Captura les dues excepcions possibles: índex fora de rang i entrada no numèrica.</p>
+    <ol class="exercici-tasques">
+      <li>Captura <code>ArrayIndexOutOfBoundsException</code> quan la posició no existeixi.</li>
+      <li>Captura <code>InputMismatchException</code> quan l'usuari no introdueixi un enter.</li>
+      <li>Usa un bucle <code>do-while</code> perquè el programa repeteixi la pregunta fins que l'entrada sigui vàlida.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.10 — try-catch + excepcions d'array</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+<span class="kw">import</span> java.util.<span class="cls">InputMismatchException</span>;
+
+<span class="kw">public class</span> <span class="cls">AccessSegurArray</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span>[] dades = { <span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span> };
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">boolean</span> valid = <span class="kw">false</span>;
+
+        <span class="kw">do</span> {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix una posició (0-4): "</span>);
+            <span class="kw">try</span> {
+                <span class="kw">int</span> pos = sc.<span class="fn">nextInt</span>();
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Valor a la posició "</span> + pos + <span class="str">": "</span> + dades[pos]);
+                valid = <span class="kw">true</span>;
+
+            } <span class="kw">catch</span> (<span class="cls">ArrayIndexOutOfBoundsException</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: posició fora de rang (0-4)."</span>);
+            } <span class="kw">catch</span> (<span class="cls">InputMismatchException</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: cal introduir un número enter."</span>);
+                sc.<span class="fn">next</span>(); <span class="cmt">// buidem el buffer del Scanner</span>
+            }
+        } <span class="kw">while</span> (!valid);
+
+        sc.<span class="fn">close</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Validació d'edat amb excepció pròpia</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una excepció personalitzada <code>EdatNoValidaException</code> i una classe <code>Persona</code> que la llanci quan es creï un objecte amb una edat fora del rang 0–120.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>EdatNoValidaException</code> que hereti de <code>Exception</code>. Guarda l'edat invàlida com a atribut i sobreescriu <code>toString()</code> per mostrar un missatge clar.</li>
+      <li>Modifica el constructor de <code>Persona</code> per llançar <code>EdatNoValidaException</code> si l'edat no és vàlida.</li>
+      <li>Al <code>main</code>, crea diverses persones (algunes vàlides, algunes no) i captura l'excepció.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.10 — Excepcions personalitzades (checked)</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="cmt">// Fitxer: EdatNoValidaException.java</span>
+<span class="kw">public class</span> <span class="cls">EdatNoValidaException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+
+    <span class="kw">private int</span> edat;
+
+    <span class="kw">public</span> <span class="cls">EdatNoValidaException</span>(<span class="kw">int</span> edat) {
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Edat no vàlida: "</span> + edat + <span class="str">". Ha de ser entre 0 i 120."</span>;
+    }
+}
+
+<span class="cmt">// Fitxer: Persona.java</span>
+<span class="kw">public class</span> <span class="cls">Persona</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span> edat;
+
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat) <span class="kw">throws</span> <span class="cls">EdatNoValidaException</span> {
+        <span class="kw">if</span> (edat &lt; <span class="num">0</span> || edat &gt; <span class="num">120</span>)
+            <span class="kw">throw new</span> <span class="cls">EdatNoValidaException</span>(edat);
+        <span class="kw">this</span>.nom = nom;
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> nom + <span class="str">" ("</span> + edat + <span class="str">" anys)"</span>;
+    }
+}
+
+<span class="cmt">// Fitxer: Main.java</span>
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span>[] noms  = { <span class="str">"Anna"</span>, <span class="str">"Marc"</span>, <span class="str">"Laia"</span>, <span class="str">"Jordi"</span> };
+        <span class="kw">int</span>[] edats    = {    <span class="num">25</span>,    <span class="num">-5</span>,     <span class="num">30</span>,    <span class="num">150</span> };
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; noms.length; i++) {
+            <span class="kw">try</span> {
+                <span class="cls">Persona</span> p = <span class="kw">new</span> <span class="cls">Persona</span>(noms[i], edats[i]);
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Creada: "</span> + p);
+            } <span class="kw">catch</span> (<span class="cls">EdatNoValidaException</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error en crear "</span> + noms[i] + <span class="str">": "</span> + e);
+            }
+        }
+    }
+}
+<span class="cmt">// Sortida:
+// Creada: Anna (25 anys)
+// Error en crear Marc: Edat no vàlida: -5. Ha de ser entre 0 i 120.
+// Creada: Laia (30 anys)
+// Error en crear Jordi: Edat no vàlida: 150. Ha de ser entre 0 i 120.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Exercici 4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Gestió d'alumnes amb excepcions de validació</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una classe <code>Alumne</code> amb els atributs <code>nom</code>, <code>cognoms</code>, <code>nif</code> i <code>nota</code>. Implementa una excepció personalitzada <code>AlumneExcepcio</code> que es llanci en els casos indicats.</p>
+    <ol class="exercici-tasques">
+      <li>La <code>nota</code> ha d'estar entre 0 i 10. Si no, llença <code>AlumneExcepcio</code>.</li>
+      <li>El <code>nom</code> i els <code>cognoms</code> han de començar amb majúscula (usa <code>Character.isUpperCase(nom.charAt(0))</code>). Si no, llença <code>AlumneExcepcio</code>.</li>
+      <li>Crea un <code>main</code> que intenti crear diversos alumnes, alguns amb dades correctes i altres amb dades incorrectes, i mostri un missatge clar per a cada cas.</li>
+    </ol>
+    <div class="tip-box" style="margin-top:.75rem">
+      <strong>Pista:</strong> Pots tenir un únic <code>catch (AlumneExcepcio e)</code> si el missatge d'error ja descriu bé el problema. O bé pots fer que <code>AlumneExcepcio</code> guardi el camp que ha fallat com a atribut.
+    </div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft)">CA 6.10 — Excepcions personalitzades + validació de dades</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="cmt">// Fitxer: AlumneExcepcio.java</span>
+<span class="kw">public class</span> <span class="cls">AlumneExcepcio</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> camp;
+    <span class="kw">private</span> <span class="cls">String</span> motiu;
+
+    <span class="kw">public</span> <span class="cls">AlumneExcepcio</span>(<span class="cls">String</span> camp, <span class="cls">String</span> motiu) {
+        <span class="kw">this</span>.camp = camp;
+        <span class="kw">this</span>.motiu = motiu;
+    }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Error al camp '"</span> + camp + <span class="str">"': "</span> + motiu;
+    }
+}
+
+<span class="cmt">// Fitxer: Alumne.java</span>
+<span class="kw">public class</span> <span class="cls">Alumne</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private</span> <span class="cls">String</span> cognoms;
+    <span class="kw">private</span> <span class="cls">String</span> nif;
+    <span class="kw">private double</span> nota;
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>(<span class="cls">String</span> nom, <span class="cls">String</span> cognoms, <span class="cls">String</span> nif, <span class="kw">double</span> nota)
+            <span class="kw">throws</span> <span class="cls">AlumneExcepcio</span> {
+
+        <span class="kw">if</span> (!<span class="cls">Character</span>.<span class="fn">isUpperCase</span>(nom.<span class="fn">charAt</span>(<span class="num">0</span>)))
+            <span class="kw">throw new</span> <span class="cls">AlumneExcepcio</span>(<span class="str">"nom"</span>, <span class="str">"la primera lletra ha de ser majúscula"</span>);
+
+        <span class="kw">if</span> (!<span class="cls">Character</span>.<span class="fn">isUpperCase</span>(cognoms.<span class="fn">charAt</span>(<span class="num">0</span>)))
+            <span class="kw">throw new</span> <span class="cls">AlumneExcepcio</span>(<span class="str">"cognoms"</span>, <span class="str">"la primera lletra ha de ser majúscula"</span>);
+
+        <span class="kw">if</span> (nota &lt; <span class="num">0</span> || nota &gt; <span class="num">10</span>)
+            <span class="kw">throw new</span> <span class="cls">AlumneExcepcio</span>(<span class="str">"nota"</span>, <span class="str">"ha d'estar entre 0 i 10"</span>);
+
+        <span class="kw">this</span>.nom = nom;
+        <span class="kw">this</span>.cognoms = cognoms;
+        <span class="kw">this</span>.nif = nif;
+        <span class="kw">this</span>.nota = nota;
+    }
+
+    @Override
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> nom + <span class="str">" "</span> + cognoms + <span class="str">" | NIF: "</span> + nif + <span class="str">" | Nota: "</span> + nota;
+    }
+}
+
+<span class="cmt">// Fitxer: Main.java</span>
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span>[][] dades = {
+            { <span class="str">"Anna"</span>,  <span class="str">"Puig"</span>,   <span class="str">"12345678A"</span>, <span class="str">"8.5"</span>  },
+            { <span class="str">"marc"</span>,  <span class="str">"Serra"</span>,  <span class="str">"87654321B"</span>, <span class="str">"7.0"</span>  },  <span class="cmt">// nom en minúscula</span>
+            { <span class="str">"Laia"</span>,  <span class="str">"Roca"</span>,   <span class="str">"11223344C"</span>, <span class="str">"11.0"</span> },  <span class="cmt">// nota > 10</span>
+            { <span class="str">"Jordi"</span>, <span class="str">"Martí"</span>,  <span class="str">"44332211D"</span>, <span class="str">"9.0"</span>  }
+        };
+
+        <span class="kw">for</span> (<span class="cls">String</span>[] d : dades) {
+            <span class="kw">try</span> {
+                <span class="cls">Alumne</span> a = <span class="kw">new</span> <span class="cls">Alumne</span>(d[<span class="num">0</span>], d[<span class="num">1</span>], d[<span class="num">2</span>], <span class="cls">Double</span>.<span class="fn">parseDouble</span>(d[<span class="num">3</span>]));
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Creat: "</span> + a);
+            } <span class="kw">catch</span> (<span class="cls">AlumneExcepcio</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No creat ("</span> + d[<span class="num">0</span>] + <span class="str">"): "</span> + e);
+            }
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<h2 class="block-title">7. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 6.10</span><span class="ca-text">Utilitza excepcions per al maneig d'informació emmagatzemada en col·leccions i estructures de dades.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.4</span><span class="ca-text">(Repàs) Escriu codi fent servir control d'excepcions: <code>try</code>, <code>catch</code>, <code>finally</code>.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 3.8</span><span class="ca-text">(Repàs) Crea excepcions pròpies que hereten de <code>Exception</code> o <code>RuntimeException</code>.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> <em>Herencia y excepciones en JAVA</em>, secció 3 completa: captura, llançament, propagació i excepcions personalitzades. Exercici AppSucursalBancaria. <a href="https://aulaenlanube.com" style="color:#e74c3c">aulaenlanube.com</a></li>
+    <li><strong>Universidad Java (UJB) — Ubaldo Acosta:</strong> 10-06-00-Excepciones-parte1-UJB.java — exemple bàsic de <code>try-catch</code> amb divisió per zero. 10-07-00-Excepciones-parte2-UJB.zip — exemples amb múltiples excepcions i jerarquia.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/" style="color:#e74c3c">Tutorial oficial sobre Exceptions</a> — jerarquia Throwable, checked vs unchecked, bones pràctiques.</li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

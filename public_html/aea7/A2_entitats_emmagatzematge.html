@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Entitats JPA i emmagatzematge d'objectes · AEA7 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA7 &middot; Activitat 2</p>
+  <h1>Entitats JPA i emmagatzematge d&rsquo;objectes</h1>
+  <p>Definici&oacute; de classes d&apos;entitat amb <code>@Entity</code>, <code>@Id</code> i <code>@GeneratedValue</code>. Cicle de vida d&apos;un objecte persistent, <code>persist()</code>, transaccions i emmagatzematge massiu amb <code>flush()</code> + <code>clear()</code>.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 8.4</span>
+    <span class="pill">CA 8.5</span>
+    <span class="pill">CA 8.6</span>
+    <span class="pill">@Entity &middot; @Id &middot; persist()</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programaci&oacute;</a>
+  <span>&rsaquo;</span>
+  <a href="../aea7.html">AEA7 &mdash; Persist&egrave;ncia dels objectes</a>
+  <span>&rsaquo;</span>
+  A2 &mdash; Entitats JPA i emmagatzematge d&apos;objectes
+</nav>
+<main>
+
+<h2 class="block-title">1. Classe d&apos;entitat JPA</h2>
+
+<p>Una <strong>classe d&apos;entitat</strong> &eacute;s una classe Java normal que JPA pot emmagatzemar a la base de dades. Ha de complir tres requisits: estar anotada amb <code>@Entity</code>, implementar <code>Serializable</code>, i tenir un constructor sense par&agrave;metres.</p>
+
+<div class="code-block"><span class="kw">import</span> java.io.<span class="cls">Serializable</span>;
+<span class="kw">import</span> javax.persistence.*;
+
+@<span class="cls">Entity</span>
+<span class="kw">public class</span> <span class="cls">Punt</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    @<span class="cls">Id</span>
+    @<span class="cls">GeneratedValue</span>
+    <span class="kw">private</span> <span class="cls">Long</span> id;
+
+    <span class="kw">private double</span> x;
+    <span class="kw">private double</span> y;
+
+    <span class="kw">public</span> <span class="fn">Punt</span>() {}   <span class="cmt">// Constructor sense par&agrave;metres &mdash; obligatori per JPA</span>
+
+    <span class="kw">public</span> <span class="fn">Punt</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) {
+        <span class="kw">this</span>.x = x;
+        <span class="kw">this</span>.y = y;
+    }
+
+    <span class="kw">public double</span> <span class="fn">getX</span>() { <span class="kw">return</span> x; }
+    <span class="kw">public double</span> <span class="fn">getY</span>() { <span class="kw">return</span> y; }
+}</div>
+
+<div class="warn-box">
+  <strong>&#9888;&#65039; Error freq&uuml;ent &mdash; oblidar <code>@GeneratedValue</code>:</strong> Si defines <code>@Id</code> per&ograve; oblides <code>@GeneratedValue</code> i no assignes el valor manualment, tots els objectes tindran <code>id = null</code> i cada nou objecte sobreescriur&agrave; l&apos;anterior. Obre l&apos;Explorer: si nom&eacute;s queda un objecte a la BD, &eacute;s aquest l&apos;error.
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Anotaci&oacute;</th><th>Significat</th></tr></thead>
+  <tbody>
+    <tr><td><code>@Entity</code></td><td>Marca la classe com a persistent. Sense ella, JPA llança <code>PersistenceException</code>.</td></tr>
+    <tr><td><code>@Id</code></td><td>Camp clau prim&agrave;ria. Obligatori per JPA. Identificador &uacute;nic de cada objecte.</td></tr>
+    <tr><td><code>@GeneratedValue</code></td><td>La BD genera autom&agrave;ticament el valor de l&apos;ID. Evita que els objectes es sobreescriguin.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="block-title">2. Cicle de vida d&apos;un objecte d&apos;entitat</h2>
+
+<p>Un objecte d&apos;entitat passa per quatre estats al llarg de la seva vida:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Estat</th><th>Descripci&oacute;</th><th>Com s&apos;hi arriba</th></tr></thead>
+  <tbody>
+    <tr><td><strong>New</strong></td><td>Reci&eacute;n creat amb <code>new</code>. No t&eacute; ID, no &eacute;s gestionat per l&apos;EM.</td><td><code>new Punt(...)</code></td></tr>
+    <tr><td><strong>Managed</strong></td><td>Associat a l&apos;EntityManager. Els canvis es sincronitzen autom&agrave;ticament.</td><td><code>em.persist(p)</code> o <code>em.find(...)</code></td></tr>
+    <tr><td><strong>Detached</strong></td><td>Ha estat gestionat per&ograve; ja no ho &eacute;s (EM tancat).</td><td><code>em.close()</code></td></tr>
+    <tr><td><strong>Removed</strong></td><td>Marcat per eliminar. S&apos;esborra al <code>commit()</code>.</td><td><code>em.remove(p)</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="code-block"><span class="cmt">// NEW: objecte creat per&ograve; no persistent</span>
+<span class="cls">Punt</span> p = <span class="kw">new</span> <span class="cls">Punt</span>(<span class="num">3.0</span>, <span class="num">4.0</span>);
+
+em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+em.<span class="fn">persist</span>(p);          <span class="cmt">// MANAGED: ara &eacute;s gestionat per l&apos;EntityManager</span>
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+
+em.<span class="fn">close</span>();              <span class="cmt">// DETACHED: l&apos;EntityManager s&apos;ha tancat</span></div>
+
+<div class="info-box">
+  <strong>📌 Actualització transparent:</strong> Si modifiques un objecte en estat <em>managed</em> dins d&apos;una transacci&oacute; activa, JPA detecta el canvi autom&agrave;ticament i actualitza la BD al fer <code>commit()</code>. No cal cridar cap m&egrave;tode d&apos;actualitzaci&oacute; expl&iacute;cit.
+</div>
+
+<h2 class="block-title">3. Emmagatzematge massiu</h2>
+
+<p>Quan cal emmagatzemar milers d&apos;objectes, mantenir-los tots al context de persist&egrave;ncia (en memòria) consumeix molta RAM. La solució &eacute;s buidar peri&ograve;dicament el context amb <code>flush()</code> + <code>clear()</code>:</p>
+
+<div class="code-block">em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">100000</span>; i++) {
+    <span class="cls">Punt</span> p = <span class="kw">new</span> <span class="cls">Punt</span>(i * <span class="num">0.1</span>, i * <span class="num">0.2</span>);
+    em.<span class="fn">persist</span>(p);
+
+    <span class="kw">if</span> (i % <span class="num">10000</span> == <span class="num">0</span>) {
+        em.<span class="fn">flush</span>();    <span class="cmt">// Envia els canvis a la BD (temporalment)</span>
+        em.<span class="fn">clear</span>();   <span class="cmt">// Buida el context de persist&egrave;ncia de mem&ograve;ria</span>
+    }
+}
+
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();</div>
+
+<div class="tip-box">
+  <strong>&#128161; flush() vs commit():</strong> <code>flush()</code> envia els canvis a la BD per&ograve; dins la mateixa transacci&oacute; &mdash; si no es fa <code>commit()</code>, es perden. <code>commit()</code> confirma definitivament tots els canvis.
+</div>
+
+<h2 class="block-title">4. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Entitat Punt i 10 punts aleatoris</span>
+    <span class="badge badge-basic" style="margin-left:auto">B&agrave;sic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea la classe d&apos;entitat <code>Punt</code> i un programa que emmagatzemi 10 punts amb coordenades aleat&ograve;ries a una base de dades ObjectDB.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>Punt</code> amb atributs <code>x</code> i <code>y</code> (double), anotada com a <code>@Entity</code> amb <code>@Id @GeneratedValue</code>.</li>
+      <li>Crea el fitxer <code>persistence.xml</code> incloent la classe <code>Punt</code> a la unitat <code>"PuntsPU"</code>.</li>
+      <li>Al <code>main</code>, persisteix 10 objectes <code>Punt</code> amb <code>Math.random()</code> per a les coordenades.</li>
+      <li>Obre l&apos;Explorer i verifica que hi ha exactament 10 punts emmagatzemats.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">B&agrave;sic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.4 &middot; 8.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure soluci&oacute;</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Entitat Punt i 10 punts aleatoris</div>
+<div class="code-block"><span class="cmt">// src/META-INF/persistence.xml</span>
+&lt;persistence version=<span class="str">"2.1"</span> xmlns=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence"</span>&gt;
+  &lt;persistence-unit name=<span class="str">"PuntsPU"</span>&gt;
+    &lt;provider&gt;com.objectdb.jpa.Provider&lt;/provider&gt;
+    &lt;class&gt;<span class="cls">programa.Punt</span>&lt;/class&gt;
+    &lt;properties&gt;
+      &lt;property name=<span class="str">"javax.persistence.jdbc.url"</span>
+                value=<span class="str">"db/punts.odb"</span>/&gt;
+    &lt;/properties&gt;
+  &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</div>
+<div class="code-block"><span class="cmt">// Punt.java</span>
+<span class="kw">import</span> java.io.<span class="cls">Serializable</span>;
+<span class="kw">import</span> javax.persistence.*;
+
+@<span class="cls">Entity</span>
+<span class="kw">public class</span> <span class="cls">Punt</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    @<span class="cls">Id</span> @<span class="cls">GeneratedValue</span>
+    <span class="kw">private</span> <span class="cls">Long</span> id;
+    <span class="kw">private double</span> x;
+    <span class="kw">private double</span> y;
+
+    <span class="kw">public</span> <span class="fn">Punt</span>() {}
+    <span class="kw">public</span> <span class="fn">Punt</span>(<span class="kw">double</span> x, <span class="kw">double</span> y) { <span class="kw">this</span>.x = x; <span class="kw">this</span>.y = y; }
+
+    @<span class="cls">Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() { <span class="kw">return</span> <span class="str">"Punt("</span> + x + <span class="str">", "</span> + y + <span class="str">")"</span>; }
+}</div>
+<div class="code-block"><span class="cmt">// Main.java</span>
+<span class="kw">import</span> javax.persistence.*;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">EntityManagerFactory</span> emf =
+            <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(<span class="str">"PuntsPU"</span>);
+        <span class="cls">EntityManager</span> em = emf.<span class="fn">createEntityManager</span>();
+
+        em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">10</span>; i++) {
+            <span class="cls">Punt</span> p = <span class="kw">new</span> <span class="cls">Punt</span>(<span class="cls">Math</span>.<span class="fn">random</span>() * <span class="num">100</span>, <span class="cls">Math</span>.<span class="fn">random</span>() * <span class="num">100</span>);
+            em.<span class="fn">persist</span>(p);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Persistit: "</span> + p);
+        }
+
+        em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+        em.<span class="fn">close</span>();
+        emf.<span class="fn">close</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"10 punts emmagatzemats."</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Entitat Producte amb camps variats</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitj&agrave;</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una entitat <code>Producte</code> amb atributs de tipus variats i desa un conjunt de productes d&apos;una botiga.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>Producte</code> amb: <code>Long id</code> (autogenerat), <code>String nom</code>, <code>double preu</code>, <code>int estoc</code>, <code>boolean disponible</code>.</li>
+      <li>Afegeix el <code>persistence.xml</code> amb una unitat <code>"ProductesPU"</code> que inclogui la classe <code>Producte</code>.</li>
+      <li>Persisteix 5 productes: Teclat (89.99, 15), Rat&oacute;l&iacute; (34.50, 32), Monitor (249.00, 0), Auriculars (59.95, 8), Webcam (45.00, 0). Marca com a <code>disponible=false</code> els de estoc 0.</li>
+      <li>Comprova amb l&apos;Explorer que tots els productes apareixen amb els valors correctes.</li>
+      <li>Executa el programa un segon cop. Quants productes hi ha ara a la BD? Per qu&egrave;?</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitj&agrave;</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.4 &middot; 8.5 &middot; 8.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure soluci&oacute;</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Entitat Producte</div>
+<div class="code-block"><span class="cmt">// src/META-INF/persistence.xml</span>
+&lt;persistence version=<span class="str">"2.1"</span> xmlns=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence"</span>&gt;
+  &lt;persistence-unit name=<span class="str">"ProductesPU"</span>&gt;
+    &lt;provider&gt;com.objectdb.jpa.Provider&lt;/provider&gt;
+    &lt;class&gt;<span class="cls">model.Producte</span>&lt;/class&gt;
+    &lt;properties&gt;
+      &lt;property name=<span class="str">"javax.persistence.jdbc.url"</span>
+                value=<span class="str">"db/productes.odb"</span>/&gt;
+    &lt;/properties&gt;
+  &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</div>
+<div class="code-block">@<span class="cls">Entity</span>
+<span class="kw">public class</span> <span class="cls">Producte</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    @<span class="cls">Id</span> @<span class="cls">GeneratedValue</span>
+    <span class="kw">private</span> <span class="cls">Long</span> id;
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private double</span> preu;
+    <span class="kw">private int</span> estoc;
+    <span class="kw">private boolean</span> disponible;
+
+    <span class="kw">public</span> <span class="fn">Producte</span>() {}
+    <span class="kw">public</span> <span class="fn">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu, <span class="kw">int</span> estoc) {
+        <span class="kw">this</span>.nom = nom; <span class="kw">this</span>.preu = preu; <span class="kw">this</span>.estoc = estoc;
+        <span class="kw">this</span>.disponible = estoc &gt; <span class="num">0</span>;
+    }
+    <span class="cmt">// getters...</span>
+}</div>
+<div class="code-block">em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+em.<span class="fn">persist</span>(<span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Teclat mec&agrave;nic"</span>,  <span class="num">89.99</span>, <span class="num">15</span>));
+em.<span class="fn">persist</span>(<span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Rat&oacute;l&iacute; sense fil"</span>, <span class="num">34.50</span>, <span class="num">32</span>));
+em.<span class="fn">persist</span>(<span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Monitor 24\"</span>,       <span class="num">249.00</span>, <span class="num">0</span>));
+em.<span class="fn">persist</span>(<span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Auriculars"</span>,        <span class="num">59.95</span>, <span class="num">8</span>));
+em.<span class="fn">persist</span>(<span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Webcam HD"</span>,         <span class="num">45.00</span>, <span class="num">0</span>));
+em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+<span class="cmt">// Al segon cop hi haur&agrave; 10 productes: @GeneratedValue</span>
+<span class="cmt">// genera IDs nous cada vegada i ObjectDB acumula.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Emmagatzematge massiu de 50.000 punts</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avan&ccedil;at</span>
+  </div>
+  <div class="exercici-body">
+    <p>Emmagatzema 50.000 objectes <code>Punt</code> usant <code>flush()</code> + <code>clear()</code> cada 5.000 insercions i mesura el temps d&apos;execuci&oacute;.</p>
+    <ol class="exercici-tasques">
+      <li>Reutilitza el projecte de l&apos;E1. Elimina la BD des de l&apos;Explorer abans d&apos;executar.</li>
+      <li>Insereix 50.000 punts en un bucle. Aplica <code>flush()</code> + <code>clear()</code> cada 5.000 iteracions.</li>
+      <li>Mesura el temps total d&apos;execuci&oacute; amb <code>System.currentTimeMillis()</code>.</li>
+      <li>Comprova amb l&apos;Explorer que hi ha exactament 50.000 objectes.</li>
+      <li><strong>Opcional:</strong> Prova sense <code>flush/clear</code> per comparar el temps i l&apos;&uacute;s de mem&ograve;ria.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avan&ccedil;at</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure soluci&oacute;</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Soluci&oacute; &mdash; Emmagatzematge massiu 50.000 punts</div>
+<div class="code-block"><span class="kw">public class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">EntityManagerFactory</span> emf =
+            <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(<span class="str">"PuntsPU"</span>);
+        <span class="cls">EntityManager</span> em = emf.<span class="fn">createEntityManager</span>();
+
+        <span class="kw">long</span> inici = <span class="cls">System</span>.<span class="fn">currentTimeMillis</span>();
+        em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">50000</span>; i++) {
+            em.<span class="fn">persist</span>(<span class="kw">new</span> <span class="cls">Punt</span>(i * <span class="num">0.01</span>, i * <span class="num">0.02</span>));
+            <span class="kw">if</span> (i % <span class="num">5000</span> == <span class="num">0</span> &amp;&amp; i &gt; <span class="num">0</span>) {
+                em.<span class="fn">flush</span>();
+                em.<span class="fn">clear</span>();
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Processats: "</span> + i);
+            }
+        }
+
+        em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+        <span class="kw">long</span> fi = <span class="cls">System</span>.<span class="fn">currentTimeMillis</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Temps total: "</span> + (fi - inici) + <span class="str">" ms"</span>);
+
+        em.<span class="fn">close</span>();
+        emf.<span class="fn">close</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.4</span>
+    <span class="ca-text">Defineix classes d'entitat JPA. Ús de <code>@Entity</code>, <code>Serializable</code>, <code>@Id</code> i <code>@GeneratedValue</code>. Error freqüent de sobreescriptura sense <code>@GeneratedValue</code>.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.5</span>
+    <span class="ca-text">Programa la creaci&oacute; d&apos;objectes persistents. &Uacute;s de <code>persist()</code> dins de transaccions actives. Cicle de vida New &rarr; Managed &rarr; Detached.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.6</span>
+    <span class="ca-text">Programa l&apos;emmagatzematge d&apos;objectes. Persist&egrave;ncia expl&iacute;cita i massiva. &Uacute;s de <code>flush()</code> i <code>clear()</code> per optimitzar la mem&ograve;ria.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de refer&egrave;ncia usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>3. Creaci&oacute; d&apos;un projecte ObjectDb amb Netbeans.pdf</em> &mdash; Albert Canela. Secci&oacute;ns 1 (definici&oacute; d&apos;entitat JPA), 2 (classe principal) i 3.2 (persist&egrave;ncia d&apos;objectes i cicle de vida).</li>
+    <li><strong>Material del professor (Drive):</strong> <em>5. Operacions CRUD.pdf</em> &mdash; Albert Canela. Secci&oacute; 1 (emmagatzematge expl&iacute;cit i massiu amb flush/clear).</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M&ograve;dul M0485 Programaci&oacute;</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure soluci\u00f3' : 'Amagar soluci\u00f3';
+  }
+</script>
+</body>
+</html>

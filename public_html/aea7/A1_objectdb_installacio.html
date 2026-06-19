@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — ObjectDB i JPA: instal·lació i primers passos · AEA7 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA7 &middot; Activitat 1</p>
+  <h1>ObjectDB i JPA: instal·lació i primers passos</h1>
+  <p>Introducció a les bases de dades orientades a objectes. Instal·lació d'ObjectDB, configuració a NetBeans, exploració amb Database Explorer i primer programa Java que obre i tanca una connexió JPA.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 8.1</span>
+    <span class="pill">CA 8.2</span>
+    <span class="pill">CA 8.3</span>
+    <span class="pill">ObjectDB &middot; JPA &middot; NetBeans</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea7.html">AEA7 — Persistència dels objectes</a>
+  <span>&rsaquo;</span>
+  A1 — ObjectDB i JPA: instal·lació i primers passos
+</nav>
+<main>
+
+<h2 class="block-title">1. Bases de dades orientades a objectes</h2>
+
+<p>En les bases de dades relacionals (MySQL, PostgreSQL…) les dades s'emmagatzemen en taules, i cal traduir els objectes Java a files i columnes. Quan les classes Java són complexes —amb herència, col·leccions i relacions entre objectes— aquesta traducció es complica i genera molt codi repetitiu.</p>
+
+<p>Les <strong>bases de dades orientades a objectes (BDOO)</strong> solucionen aquest problema: permeten emmagatzemar directament els objectes Java sense cap traducció. L'objecte es guarda tal com és a memòria i es recupera en el mateix estat.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Característica</th><th>BD Relacional (MySQL)</th><th>BD Orientada a Objectes (ObjectDB)</th></tr></thead>
+  <tbody>
+    <tr><td>Unitat d'emmagatzematge</td><td>Files i columnes</td><td>Objectes Java directament</td></tr>
+    <tr><td>Traducció necessària</td><td>Sí (Object-Relational Mapping)</td><td>No — l'objecte es guarda tal qual</td></tr>
+    <tr><td>Consultes</td><td>SQL</td><td>JPQL (Java Persistence Query Language)</td></tr>
+    <tr><td>Suport herència</td><td>Complex (diverses estratègies)</td><td>Natural — les subclasses s'emmagatzemen directament</td></tr>
+    <tr><td>Cas d'ús ideal</td><td>Dades tabulars, reports</td><td>Models OO complexos, prototips ràpids</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="block-title">2. ObjectDB i JPA</h2>
+
+<p><strong>ObjectDB</strong> és un sistema gestor de bases de dades orientades a objectes (SGBDOO) natiu de Java. Implementa directament l'estàndard <strong>JPA (Java Persistence API)</strong>, la mateixa API que s'usa en Java EE per a la persistència.</p>
+
+<p>Això vol dir que el codi que escrivim per a ObjectDB és <strong>estàndard JPA</strong>: si en el futur volguéssim canviar a Hibernate + MySQL o EclipseLink + PostgreSQL, el codi de les classes d'entitat i les consultes JPQL es podria reutilitzar en gran part.</p>
+
+<div class="info-box">
+  <strong>&#128204; JPA és un estàndard, ObjectDB és una implementació:</strong> JPA defineix les anotacions (<code>@Entity</code>, <code>@Id</code>…) i les interfícies (<code>EntityManager</code>, <code>EntityManagerFactory</code>…). ObjectDB és el motor que les implementa per a bases de dades d'objectes. Altres implementacions de JPA populars són Hibernate, EclipseLink i OpenJPA.
+</div>
+
+<h2 class="block-title">3. Instal·lació a NetBeans</h2>
+
+<p>Per treballar amb ObjectDB només calen dos fitxers <code>.jar</code> que trobareu al Drive del curs:</p>
+
+<ul>
+  <li><code>objectdb-2.9.5.jar</code> — el motor de la base de dades ObjectDB</li>
+  <li><code>javax.persistence-api-2.2.jar</code> — les interfícies i anotacions estàndard JPA</li>
+</ul>
+
+<p>Per afegir-los a un projecte NetBeans:</p>
+
+<ol>
+  <li>Creeu una carpeta <code>lib/</code> a l'arrel del vostre projecte NetBeans.</li>
+  <li>Copieu els dos fitxers <code>.jar</code> dins de <code>lib/</code>.</li>
+  <li>A NetBeans, botó dret sobre <strong>Libraries</strong> &rarr; <strong>Add JAR/Folder</strong>.</li>
+  <li>Seleccioneu cada <code>.jar</code> usant la ruta relativa (no absoluta).</li>
+  <li>Comproveu que apareixen a la llista de llibreries del projecte.</li>
+</ol>
+
+<div class="tip-box">
+  <strong>&#128161; Ruta relativa:</strong> Useu sempre ruta relativa per als <code>.jar</code>. D'aquesta manera el projecte funcionarà en qualsevol ordinador sense reconfigurar res. Si useu una ruta absoluta tipus <code>C:\Users\...</code>, el projecte no s'obrirà a d'altres màquines.
+</div>
+
+<h2 class="block-title">4. Explorar bases de dades amb Database Explorer</h2>
+
+<p>ObjectDB inclou una eina gràfica, el <strong>Database Explorer</strong>, que permet inspeccionar el contingut d'un fitxer <code>.odb</code> sense necessitat d'escriure codi.</p>
+
+<p>Per obrir-lo, des de la carpeta on heu descomprimit ObjectDB executeu:</p>
+
+<div class="code-block"><span class="cmt">// Executeu des de la carpeta d'instal·lació d'ObjectDB:</span>
+java -jar objectdb/bin/explorer.jar</div>
+
+<p>Al Drive del curs trobareu dos fitxers de base de dades de mostra:</p>
+
+<ul>
+  <li><code>point.odb</code> — base de dades senzilla amb objectes Punt (x, y)</li>
+  <li><code>world.odb</code> — base de dades amb dades de països, ciutats i idiomes</li>
+</ul>
+
+<div class="warn-box">
+  <strong>⚠️ No podeu tenir la BD oberta alhora:</strong> Si teniu el fitxer <code>.odb</code> obert al Database Explorer i intenteu executar el vostre programa Java, obtindreu un error de bloqueig. Tanqueu la connexió a l'Explorer (<em>Connection → Disconnect</em>) abans d'executar el programa, i viceversa.
+</div>
+
+<div class="info-box">
+  <strong>📌 Format del fitxer:</strong> Una base de dades ObjectDB és un únic fitxer <code>.odb</code>. No cal instal·lar cap servidor ni servei: simplement indiqueu la ruta del fitxer al vostre programa i ObjectDB s'encarrega de tot. Això la fa ideal per a aplicacions d'escriptori i prototips.
+</div>
+
+<h2 class="block-title">5. Estructura bàsica d'un programa JPA</h2>
+
+<p>Tot programa que usa JPA segueix el mateix esquelet. Les tres classes fonamentals són:</p>
+
+<ul>
+  <li><code>EntityManagerFactory</code> — es crea una vegada i gestiona la connexió amb la BD</li>
+  <li><code>EntityManager</code> — s'usa per fer operacions (guardar, cercar, eliminar, consultar)</li>
+  <li><code>EntityTransaction</code> — agrupa les operacions en una transacció atòmica</li>
+</ul>
+
+<div class="code-block"><span class="kw">import</span> javax.persistence.<span class="cls">EntityManager</span>;
+<span class="kw">import</span> javax.persistence.<span class="cls">EntityManagerFactory</span>;
+<span class="kw">import</span> javax.persistence.<span class="cls">Persistence</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// 1. Obrir la "fàbrica" (connexió amb la BD)</span>
+        <span class="cls">EntityManagerFactory</span> emf =
+            <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(<span class="str">"$objectdb/db/prova.odb"</span>);
+
+        <span class="cmt">// 2. Obtenir un EntityManager (sessió de treball)</span>
+        <span class="cls">EntityManager</span> em = emf.<span class="fn">createEntityManager</span>();
+
+        <span class="cmt">// 3. Iniciar la transacció</span>
+        em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+        <span class="cmt">// 4. Fer operacions (guardar, cercar, actualitzar, eliminar)</span>
+        <span class="cmt">// ... codi de les operacions</span>
+
+        <span class="cmt">// 5. Confirmar la transacció</span>
+        em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+
+        <span class="cmt">// 6. Tancar en ordre invers a l'obertura</span>
+        em.<span class="fn">close</span>();
+        emf.<span class="fn">close</span>();
+    }
+}</div>
+
+<div class="warn-box">
+  <strong>&#9888;&#65039; Ordre de tancament:</strong> Sempre tanqueu primer l'<code>EntityManager</code> i després l'<code>EntityManagerFactory</code>. Si no tanqueu l'EMF, el fitxer <code>.odb</code> pot quedar bloquejat i el proper cop que intenteu obrir-lo obtindreu un error.
+</div>
+
+<h3 class="sub-title">Connexió directa vs persistence.xml</h3>
+
+<p>Hi ha dues maneres d'indicar a JPA quina base de dades cal obrir:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Mètode</th><th>Codi</th><th>Quan usar-la</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Connexió directa</strong></td>
+      <td><code>createEntityManagerFactory("$objectdb/db/fitxer.odb")</code></td>
+      <td>Proves ràpides, exemples senzills</td>
+    </tr>
+    <tr>
+      <td><strong>persistence.xml</strong></td>
+      <td><code>createEntityManagerFactory("NomUnitat")</code> + fitxer XML</td>
+      <td>Projectes reals, configurable sense recompilar</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3 class="sub-title">El fitxer persistence.xml</h3>
+
+<p>El fitxer <code>persistence.xml</code> s'ha de col·locar a <code>src/META-INF/persistence.xml</code>. Defineix una <em>unitat de persistència</em> amb el nom i la URL de la base de dades:</p>
+
+<div class="code-block">&lt;?xml version=<span class="str">"1.0"</span> encoding=<span class="str">"UTF-8"</span>?&gt;
+&lt;persistence version=<span class="str">"2.1"</span>
+    xmlns=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence"</span>
+    xmlns:xsi=<span class="str">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    xsi:schemaLocation=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"</span>&gt;
+
+    &lt;persistence-unit name=<span class="str">"ProvaUnit"</span>&gt;
+        &lt;provider&gt;com.objectdb.jpa.Provider&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;property name=<span class="str">"javax.persistence.jdbc.url"</span>
+                      value=<span class="str">"$objectdb/db/prova.odb"</span>/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+
+&lt;/persistence&gt;</div>
+
+<div class="tip-box">
+  <strong>&#128161; La variable <code>$objectdb</code>:</strong> ObjectDB interpreta <code>$objectdb</code> com la carpeta d'instal·lació d'ObjectDB. Si voleu que el fitxer <code>.odb</code> es creï en una ruta concreta del vostre projecte, useu una ruta relativa com ara <code>db/prova.odb</code>.
+</div>
+
+<h2 class="block-title">6. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Primera connexió amb ruta directa</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un projecte NetBeans nou i configura'l per usar ObjectDB. L'objectiu és únicament obrir la connexió amb la base de dades i tancar-la correctament, sense emmagatzemar cap objecte.</p>
+    <ol class="exercici-tasques">
+      <li>Crea un projecte Java nou a NetBeans anomenat <code>PrimerObjectDB</code>.</li>
+      <li>Afegeix els dos <code>.jar</code> d'ObjectDB a la carpeta <code>lib/</code> del projecte i registra'ls a Libraries.</li>
+      <li>Escriu una classe <code>Main</code> que obri una <code>EntityManagerFactory</code> amb ruta directa <code>"$objectdb/db/prova.odb"</code>, crei un <code>EntityManager</code> i els tanqui en ordre invers.</li>
+      <li>Mostra "Connexió oberta correctament!" i "Connexió tancada." per consola.</li>
+      <li>Executa el programa i comprova que s'ha creat el fitxer <code>prova.odb</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.1 · 8.3</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Primera connexió amb ruta directa</div>
+<div class="code-block"><span class="kw">import</span> javax.persistence.<span class="cls">EntityManager</span>;
+<span class="kw">import</span> javax.persistence.<span class="cls">EntityManagerFactory</span>;
+<span class="kw">import</span> javax.persistence.<span class="cls">Persistence</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">EntityManagerFactory</span> emf =
+            <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(<span class="str">"$objectdb/db/prova.odb"</span>);
+
+        <span class="cls">EntityManager</span> em = emf.<span class="fn">createEntityManager</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Connexió oberta correctament!"</span>);
+
+        em.<span class="fn">close</span>();
+        emf.<span class="fn">close</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Connexió tancada."</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Connexió via persistence.xml</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Refés l'exercici anterior però ara usant un fitxer <code>persistence.xml</code> per configurar la base de dades. Afegeix un bloc <code>try-finally</code> per garantir el tancament fins i tot si es produeix un error.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la carpeta <code>src/META-INF/</code> dins del teu projecte NetBeans.</li>
+      <li>Crea el fitxer <code>persistence.xml</code> amb una unitat de persistència anomenada <code>"ProvaUnit"</code> que apunti a <code>db/prova2.odb</code>.</li>
+      <li>Modifica la classe <code>Main</code> perquè usi <code>Persistence.createEntityManagerFactory("ProvaUnit")</code>.</li>
+      <li>Embolica l'obertura i el tancament en un bloc <code>try-finally</code>. Declara <code>emf</code> i <code>em</code> com a <code>null</code> abans del <code>try</code> i comprova que no siguin <code>null</code> al <code>finally</code> abans de tancar.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.2 · 8.3</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Connexió via persistence.xml</div>
+<div class="code-block"><span class="cmt">// src/META-INF/persistence.xml</span>
+&lt;?xml version=<span class="str">"1.0"</span> encoding=<span class="str">"UTF-8"</span>?&gt;
+&lt;persistence version=<span class="str">"2.1"</span>
+    xmlns=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence"</span>
+    xmlns:xsi=<span class="str">"http://www.w3.org/2001/XMLSchema-instance"</span>
+    xsi:schemaLocation=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence
+        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"</span>&gt;
+    &lt;persistence-unit name=<span class="str">"ProvaUnit"</span>&gt;
+        &lt;provider&gt;com.objectdb.jpa.Provider&lt;/provider&gt;
+        &lt;properties&gt;
+            &lt;property name=<span class="str">"javax.persistence.jdbc.url"</span>
+                      value=<span class="str">"db/prova2.odb"</span>/&gt;
+        &lt;/properties&gt;
+    &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</div>
+<div class="code-block"><span class="cmt">// Main.java</span>
+<span class="kw">import</span> javax.persistence.<span class="cls">EntityManager</span>;
+<span class="kw">import</span> javax.persistence.<span class="cls">EntityManagerFactory</span>;
+<span class="kw">import</span> javax.persistence.<span class="cls">Persistence</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">EntityManagerFactory</span> emf = <span class="kw">null</span>;
+        <span class="cls">EntityManager</span> em = <span class="kw">null</span>;
+
+        <span class="kw">try</span> {
+            emf = <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(<span class="str">"ProvaUnit"</span>);
+            em  = emf.<span class="fn">createEntityManager</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Connexió establerta via persistence.xml!"</span>);
+        } <span class="kw">finally</span> {
+            <span class="kw">if</span> (em  != <span class="kw">null</span>) em.<span class="fn">close</span>();
+            <span class="kw">if</span> (emf != <span class="kw">null</span>) emf.<span class="fn">close</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Connexió tancada."</span>);
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Explorar world.odb amb JPQL</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Obre la base de dades <code>world.odb</code> del Drive del curs amb el Database Explorer i, a continuació, escriu un programa Java per fer consultes bàsiques sobre el seu contingut.</p>
+    <ol class="exercici-tasques">
+      <li>Obre <code>world.odb</code> amb el Database Explorer d'ObjectDB. Navega per les classes emmagatzemades i anota els noms de les classes i les seves propietats principals.</li>
+      <li>Crea un projecte NetBeans nou i connecta't a <code>world.odb</code> via ruta directa.</li>
+      <li>Usa <code>em.createQuery("SELECT COUNT(c) FROM Country c", Long.class).getSingleResult()</code> per comptar el nombre de països i mostra'l per consola.</li>
+      <li>Usa una consulta JPQL per obtenir els 5 primers noms de país en ordre alfabètic i mostra'ls.</li>
+      <li>Usa <code>ORDER BY c.population DESC</code> i <code>setMaxResults(1)</code> per obtenir el país amb més població.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 8.1 · 8.2 · 8.3</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Consultes sobre world.odb</div>
+<div class="code-block"><span class="kw">import</span> javax.persistence.*;
+<span class="kw">import</span> java.util.<span class="cls">List</span>;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">EntityManagerFactory</span> emf = <span class="kw">null</span>;
+        <span class="cls">EntityManager</span> em = <span class="kw">null</span>;
+
+        <span class="kw">try</span> {
+            emf = <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(
+                <span class="str">"$objectdb/db/world.odb"</span>);
+            em = emf.<span class="fn">createEntityManager</span>();
+
+            <span class="cmt">// Nombre total de països</span>
+            <span class="kw">long</span> total = em.<span class="fn">createQuery</span>(
+                <span class="str">"SELECT COUNT(c) FROM Country c"</span>, <span class="cls">Long</span>.<span class="kw">class</span>)
+                .<span class="fn">getSingleResult</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total de països: "</span> + total);
+
+            <span class="cmt">// 5 primers en ordre alfabètic</span>
+            <span class="cls">List</span>&lt;<span class="cls">String</span>&gt; noms = em.<span class="fn">createQuery</span>(
+                <span class="str">"SELECT c.name FROM Country c ORDER BY c.name ASC"</span>,
+                <span class="cls">String</span>.<span class="kw">class</span>)
+                .<span class="fn">setMaxResults</span>(<span class="num">5</span>)
+                .<span class="fn">getResultList</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Primers 5 països: "</span> + noms);
+
+            <span class="cmt">// País amb més població</span>
+            <span class="cls">String</span> mesPoble = em.<span class="fn">createQuery</span>(
+                <span class="str">"SELECT c.name FROM Country c ORDER BY c.population DESC"</span>,
+                <span class="cls">String</span>.<span class="kw">class</span>)
+                .<span class="fn">setMaxResults</span>(<span class="num">1</span>)
+                .<span class="fn">getSingleResult</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"País amb més població: "</span> + mesPoble);
+
+        } <span class="kw">finally</span> {
+            <span class="kw">if</span> (em  != <span class="kw">null</span>) em.<span class="fn">close</span>();
+            <span class="kw">if</span> (emf != <span class="kw">null</span>) emf.<span class="fn">close</span>();
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAs -->
+<h2 class="block-title">7. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.1</span>
+    <span class="ca-text">Identifica les característiques de les BDOO. Comparació amb BD relacionals, avantatges per a models OO complexos.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.2</span>
+    <span class="ca-text">Analitza les classes que gestionen la informació en una BDOO: <code>EntityManagerFactory</code>, <code>EntityManager</code>, <code>EntityTransaction</code>.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 8.3</span>
+    <span class="ca-text">Instal·la i configura un SGBDOO. Configuració dels JARs a NetBeans, estructura del <code>persistence.xml</code> i unitat de persistència.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>1. ObjectDb i Netbeans.pdf</em> — Albert Canela. Instal·lació dels JARs i configuració a NetBeans.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>2. Database Explorer.pdf</em> — Albert Canela. Exploració de fitxers .odb, ús de point.odb i world.odb.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>4. Fitxer de persistència.pdf</em> — Albert Canela. Estructura del persistence.xml i unitats de persistència.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>AccesBasic.java</em> — Albert Canela. Codi de referència per a la connexió bàsica amb EntityManager.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — INSERT, UPDATE, DELETE i PreparedStatement · AEA6 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA6 &middot; Activitat 3 JDBC</p>
+  <h1>INSERT, UPDATE, DELETE i PreparedStatement</h1>
+  <p>Modificació de dades amb <code>executeUpdate()</code>. Sentències parametritzades amb <code>PreparedStatement</code> per inserir nous clients, actualitzar places i eliminar inscripcions al Gimnàs.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 9.3</span>
+    <span class="pill">CA 9.5</span>
+    <span class="pill">PreparedStatement</span>
+    <span class="pill">executeUpdate()</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea6.html">AEA6 — Gestió de bases de dades relacionals</a>
+  <span>&rsaquo;</span>
+  A3 — INSERT, UPDATE, DELETE i PreparedStatement
+</nav>
+<main>
+
+<h2 class="block-title">1. Sentències de modificació</h2>
+
+<p>Per a operacions que modifiquen dades (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>) no usem <code>executeQuery()</code> sinó <code>executeUpdate()</code>. La diferència clau és que <code>executeUpdate()</code> no retorna un <code>ResultSet</code>, sinó un <code>int</code> amb el nombre de files afectades.</p>
+
+<div class="code-block"><span class="kw">try</span> (<span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+     <span class="cls">Statement</span>  st  = con.<span class="fn">createStatement</span>()) {
+
+    <span class="kw">int</span> filesAfectades = st.<span class="fn">executeUpdate</span>(
+        <span class="str">"UPDATE Activitats SET places = 15 WHERE idActivitat = 1"</span>);
+
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Files actualitzades: "</span> + filesAfectades);
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<h2 class="block-title">2. PreparedStatement</h2>
+
+<p>La classe <code>Statement</code> té un problema important: si construïm la sentència SQL concatenant valors de l'usuari, el codi és vulnerable a <strong>SQL Injection</strong> i ineficient si s'executa moltes vegades. La solució és usar <code>PreparedStatement</code>.</p>
+
+<p>Amb <code>PreparedStatement</code> la sentència es <strong>precompila</strong> una sola vegada amb <code>?</code> com a marcadors de posició, i els valors s'assignen després amb mètodes <code>setTipus()</code>.</p>
+
+<div class="code-block"><span class="cmt">// ✗ MAL: vulnerable a SQL Injection</span>
+<span class="cls">String</span> sql = <span class="str">"INSERT INTO Clients VALUES ('"</span> + dni + <span class="str">"', '"</span> + nom + <span class="str">"', ...)"</span>;
+
+<span class="cmt">// ✓ BÉ: amb PreparedStatement</span>
+<span class="cls">String</span> sql = <span class="str">"INSERT INTO Clients (dni, nom, edat, correu) VALUES (?, ?, ?, ?)"</span>;
+
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+
+    ps.<span class="fn">setString</span>(<span class="num">1</span>, <span class="str">"67890123G"</span>);   <span class="cmt">// ? posició 1</span>
+    ps.<span class="fn">setString</span>(<span class="num">2</span>, <span class="str">"Carles Font"</span>); <span class="cmt">// ? posició 2</span>
+    ps.<span class="fn">setInt</span>   (<span class="num">3</span>, <span class="num">31</span>);            <span class="cmt">// ? posició 3</span>
+    ps.<span class="fn">setString</span>(<span class="num">4</span>, <span class="str">"carles@gm.com"</span>);<span class="cmt">// ? posició 4</span>
+
+    <span class="kw">int</span> files = ps.<span class="fn">executeUpdate</span>();
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Client inserit. Files: "</span> + files);
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Mètode set</th><th>Tipus SQL</th><th>Exemple</th></tr>
+  <tr><td><code>setString(pos, val)</code></td><td><code>VARCHAR</code>, <code>CHAR</code>, <code>ENUM</code></td><td><code>ps.setString(1, "Anna")</code></td></tr>
+  <tr><td><code>setInt(pos, val)</code></td><td><code>INT</code>, <code>SMALLINT</code></td><td><code>ps.setInt(2, 25)</code></td></tr>
+  <tr><td><code>setDouble(pos, val)</code></td><td><code>DECIMAL</code>, <code>FLOAT</code></td><td><code>ps.setDouble(3, 8.5)</code></td></tr>
+  <tr><td><code>setBoolean(pos, val)</code></td><td><code>BOOLEAN</code></td><td><code>ps.setBoolean(4, true)</code></td></tr>
+</table>
+</div>
+
+<div class="warn-box">
+  <strong>⚠️ Els índexs dels paràmetres comencen en 1, no en 0.</strong> El primer <code>?</code> és la posició 1, el segon la posició 2, etc.
+</div>
+
+<div class="info-box">
+  <strong>📌 PreparedStatement per a SELECT:</strong> <code>PreparedStatement</code> no és només per a modificacions. Si la consulta <code>SELECT</code> té condicions que depenen de valors externs (per exemple, buscar un client per DNI), cal usar <code>PreparedStatement</code> amb <code>executeQuery()</code> per evitar SQL Injection.
+</div>
+
+<h2 class="block-title">3. Exemples complets</h2>
+
+<p class="sub-title">Inserir un nou client</p>
+<div class="code-block"><span class="cls">String</span> sql = <span class="str">"INSERT INTO Clients (dni, nom, edat, correu) VALUES (?, ?, ?, ?)"</span>;
+
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+
+    ps.<span class="fn">setString</span>(<span class="num">1</span>, <span class="str">"67890123G"</span>);
+    ps.<span class="fn">setString</span>(<span class="num">2</span>, <span class="str">"Carles Font"</span>);
+    ps.<span class="fn">setInt</span>   (<span class="num">3</span>, <span class="num">31</span>);
+    ps.<span class="fn">setString</span>(<span class="num">4</span>, <span class="str">"carles@gmail.com"</span>);
+
+    <span class="kw">int</span> files = ps.<span class="fn">executeUpdate</span>();
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Inserit! Files afectades: "</span> + files);
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<p class="sub-title">Actualitzar les places d'una activitat</p>
+<div class="code-block"><span class="cls">String</span> sql = <span class="str">"UPDATE Activitats SET places = ? WHERE idActivitat = ?"</span>;
+
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+
+    ps.<span class="fn">setInt</span>(<span class="num">1</span>, <span class="num">20</span>);  <span class="cmt">// noves places</span>
+    ps.<span class="fn">setInt</span>(<span class="num">2</span>, <span class="num">1</span>);   <span class="cmt">// idActivitat</span>
+
+    <span class="kw">int</span> files = ps.<span class="fn">executeUpdate</span>();
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Actualitzat! Files: "</span> + files);
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<p class="sub-title">Eliminar la inscripció d'un client</p>
+<div class="code-block"><span class="cls">String</span> sql = <span class="str">"DELETE FROM Inscripcions WHERE dni = ? AND idActivitat = ?"</span>;
+
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+
+    ps.<span class="fn">setString</span>(<span class="num">1</span>, <span class="str">"12345678A"</span>);
+    ps.<span class="fn">setInt</span>   (<span class="num">2</span>, <span class="num">3</span>);
+
+    <span class="kw">int</span> files = ps.<span class="fn">executeUpdate</span>();
+    <span class="kw">if</span> (files > <span class="num">0</span>) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Inscripció eliminada."</span>);
+    } <span class="kw">else</span> {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No s'ha trobat la inscripció."</span>);
+    }
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+
+<h2 class="block-title">4. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Afegir nous clients al gimnàs</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que insereixi tres nous clients a la taula <code>Clients</code> del Gimnàs usant <code>PreparedStatement</code>, i comprovi que s'han inserit consultant el total de clients abans i després.</p>
+    <ol class="exercici-tasques">
+      <li>Consulta i mostra el nombre de clients abans de la inserció.</li>
+      <li>Crea un <code>PreparedStatement</code> per a l'<code>INSERT</code> i insereix els tres clients en un bucle.</li>
+      <li>Consulta i mostra el nombre de clients després de la inserció.</li>
+      <li>Verifica que la diferència és 3.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.3</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Afegir nous clients al gimnàs</div>
+<div class="code-block"><span class="kw">import</span> java.sql.*;
+<span class="kw">import</span> persistencia.<span class="cls">Connexio</span>;
+
+<span class="kw">public class</span> <span class="cls">AfegirClients</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) <span class="kw">throws</span> <span class="cls">SQLException</span> {
+
+        <span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+
+        <span class="cmt">// Recompte inicial</span>
+        <span class="kw">try</span> (<span class="cls">Statement</span> st = con.<span class="fn">createStatement</span>();
+             <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(<span class="str">"SELECT COUNT(*) FROM Clients"</span>)) {
+            rs.<span class="fn">next</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Clients abans: "</span> + rs.<span class="fn">getInt</span>(<span class="num">1</span>));
+        }
+
+        <span class="cmt">// Inserció dels 3 nous clients</span>
+        <span class="cls">String</span>[][] clients = {
+            {<span class="str">"67890123G"</span>, <span class="str">"Carles Font"</span>,  <span class="str">"31"</span>, <span class="str">"carles@gm.com"</span>},
+            {<span class="str">"78901234H"</span>, <span class="str">"Marta Puig"</span>,   <span class="str">"26"</span>, <span class="str">"marta@gm.com"</span> },
+            {<span class="str">"89012345I"</span>, <span class="str">"Andreu Sala"</span>,  <span class="str">"38"</span>, <span class="str">"andreu@gm.com"</span>}
+        };
+
+        <span class="cls">String</span> sql = <span class="str">"INSERT INTO Clients (dni, nom, edat, correu) VALUES (?,?,?,?)"</span>;
+
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(sql)) {
+            <span class="kw">for</span> (<span class="cls">String</span>[] c : clients) {
+                ps.<span class="fn">setString</span>(<span class="num">1</span>, c[<span class="num">0</span>]);
+                ps.<span class="fn">setString</span>(<span class="num">2</span>, c[<span class="num">1</span>]);
+                ps.<span class="fn">setInt</span>   (<span class="num">3</span>, <span class="cls">Integer</span>.<span class="fn">parseInt</span>(c[<span class="num">2</span>]));
+                ps.<span class="fn">setString</span>(<span class="num">4</span>, c[<span class="num">3</span>]);
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Inserit: "</span> + c[<span class="num">1</span>] + <span class="str">" ("</span> + ps.<span class="fn">executeUpdate</span>() + <span class="str">" fila)"</span>);
+            }
+        }
+
+        <span class="cmt">// Recompte final</span>
+        <span class="kw">try</span> (<span class="cls">Statement</span> st = con.<span class="fn">createStatement</span>();
+             <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(<span class="str">"SELECT COUNT(*) FROM Clients"</span>)) {
+            rs.<span class="fn">next</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Clients després: "</span> + rs.<span class="fn">getInt</span>(<span class="num">1</span>));
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Gestió d'inscripcions</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que permeti inscriure un client existent a una activitat i, posteriorment, cancel·lar-ne la inscripció. Ha de verificar que no hi ha places lliures abans d'inscriure.</p>
+    <ol class="exercici-tasques">
+      <li>Consulta les places lliures de l'activitat amb id 2 (Crossfit): si no n'hi ha, mostra un avís i no inscriguis.</li>
+      <li>Si hi ha places, inscriu el client <code>34567890C</code> (Maria López) a l'activitat 2 amb un <code>PreparedStatement</code>.</li>
+      <li>Confirma la inscripció mostrant el nombre de files afectades.</li>
+      <li>Elimina la mateixa inscripció amb un segon <code>PreparedStatement</code> i mostra el resultat.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.3 · 9.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Gestió d'inscripcions</div>
+<div class="code-block"><span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+<span class="kw">int</span> idActivitat = <span class="num">2</span>;
+<span class="cls">String</span> dni = <span class="str">"34567890C"</span>;
+
+<span class="cmt">// 1. Comprovar places lliures</span>
+<span class="cls">String</span> sqlPlaces =
+    <span class="str">"SELECT a.places - COUNT(i.idInscripcio) AS lliures "</span> +
+    <span class="str">"FROM Activitats a LEFT JOIN Inscripcions i ON a.idActivitat = i.idActivitat "</span> +
+    <span class="str">"WHERE a.idActivitat = ? GROUP BY a.places"</span>;
+
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(sqlPlaces)) {
+    ps.<span class="fn">setInt</span>(<span class="num">1</span>, idActivitat);
+    <span class="kw">try</span> (<span class="cls">ResultSet</span> rs = ps.<span class="fn">executeQuery</span>()) {
+        rs.<span class="fn">next</span>();
+        <span class="kw">int</span> lliures = rs.<span class="fn">getInt</span>(<span class="str">"lliures"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Places lliures: "</span> + lliures);
+        <span class="kw">if</span> (lliures == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"L'activitat és plena. No es pot inscriure."</span>);
+            <span class="kw">return</span>;
+        }
+    }
+}
+
+<span class="cmt">// 2. Inscriure el client</span>
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(
+        <span class="str">"INSERT INTO Inscripcions (dni, idActivitat) VALUES (?, ?)"</span>)) {
+    ps.<span class="fn">setString</span>(<span class="num">1</span>, dni);
+    ps.<span class="fn">setInt</span>   (<span class="num">2</span>, idActivitat);
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Inscripció creada. Files: "</span> + ps.<span class="fn">executeUpdate</span>());
+}
+
+<span class="cmt">// 3. Cancel·lar la inscripció</span>
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(
+        <span class="str">"DELETE FROM Inscripcions WHERE dni = ? AND idActivitat = ?"</span>)) {
+    ps.<span class="fn">setString</span>(<span class="num">1</span>, dni);
+    ps.<span class="fn">setInt</span>   (<span class="num">2</span>, idActivitat);
+    <span class="kw">int</span> files = ps.<span class="fn">executeUpdate</span>();
+    <span class="cls">System</span>.out.<span class="fn">println</span>(files > <span class="num">0</span>
+        ? <span class="str">"Inscripció cancel·lada."</span>
+        : <span class="str">"No s'ha trobat la inscripció."</span>);
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Actualització massiva de preus per nivell</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>El gimnàs decideix afegir una columna <code>preu DECIMAL(5,2)</code> a la taula <code>Activitats</code> i assignar preus automàticament segons el nivell. Desenvolupa el programa complet.</p>
+    <ol class="exercici-tasques">
+      <li>Afegeix la columna <code>preu</code> a la taula <code>Activitats</code> executant un <code>ALTER TABLE</code> amb <code>executeUpdate()</code>.</li>
+      <li>Usa un <code>PreparedStatement</code> per actualitzar el preu de totes les activitats per nivell: <code>inicial</code> → 25.00 €, <code>mitjà</code> → 35.00 €, <code>avançat</code> → 45.00 €.</li>
+      <li>Mostra el resultat final amb un <code>SELECT</code> de totes les activitats i el seu preu.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.3 · 9.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Actualització massiva de preus per nivell</div>
+<div class="code-block"><span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+
+<span class="cmt">// 1. Afegir columna preu</span>
+<span class="kw">try</span> (<span class="cls">Statement</span> st = con.<span class="fn">createStatement</span>()) {
+    st.<span class="fn">executeUpdate</span>(<span class="str">"ALTER TABLE Activitats ADD COLUMN preu DECIMAL(5,2)"</span>);
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Columna 'preu' afegida."</span>);
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cmt">// Si ja existeix la columna, ignorem l'error</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota: "</span> + e.<span class="fn">getMessage</span>());
+}
+
+<span class="cmt">// 2. Actualitzar preus per nivell</span>
+<span class="cls">String</span>[][] nivells = {
+    {<span class="str">"inicial"</span>, <span class="str">"25.00"</span>},
+    {<span class="str">"mitjà"</span>,   <span class="str">"35.00"</span>},
+    {<span class="str">"avançat"</span>, <span class="str">"45.00"</span>}
+};
+
+<span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(
+        <span class="str">"UPDATE Activitats SET preu = ? WHERE nivell = ?"</span>)) {
+    <span class="kw">for</span> (<span class="cls">String</span>[] n : nivells) {
+        ps.<span class="fn">setDouble</span>(<span class="num">1</span>, <span class="cls">Double</span>.<span class="fn">parseDouble</span>(n[<span class="num">1</span>]));
+        ps.<span class="fn">setString</span>(<span class="num">2</span>, n[<span class="num">0</span>]);
+        <span class="kw">int</span> files = ps.<span class="fn">executeUpdate</span>();
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Nivell %-8s → %.2f € (%d files)%n"</span>,
+            n[<span class="num">0</span>], <span class="cls">Double</span>.<span class="fn">parseDouble</span>(n[<span class="num">1</span>]), files);
+    }
+}
+
+<span class="cmt">// 3. Mostrar resultat final</span>
+<span class="kw">try</span> (<span class="cls">Statement</span> st = con.<span class="fn">createStatement</span>();
+     <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(
+         <span class="str">"SELECT nom, nivell, places, preu FROM Activitats ORDER BY nivell"</span>)) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n--- Activitats amb preu ---"</span>);
+    <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-15s %-8s %2d places  %.2f €%n"</span>,
+            rs.<span class="fn">getString</span>(<span class="str">"nom"</span>), rs.<span class="fn">getString</span>(<span class="str">"nivell"</span>),
+            rs.<span class="fn">getInt</span>(<span class="str">"places"</span>), rs.<span class="fn">getDouble</span>(<span class="str">"preu"</span>));
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.3</span>
+    <span class="ca-text">Escriu codi per emmagatzemar informació en bases de dades. <code>INSERT</code> amb <code>PreparedStatement</code> i mètodes <code>setTipus()</code>.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.5</span>
+    <span class="ca-text">Efectua esborrades i modificacions sobre la informació emmagatzemada. <code>UPDATE</code> i <code>DELETE</code> amb <code>PreparedStatement</code> i <code>executeUpdate()</code>.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Accés a BD relacionals.pdf</em> — Albert Canela. Capítols 5.2 (Sentències de modificació) i 6 (Sentències preparades).</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Gimnas.sql</em> — Esquema i dades de la base de dades del Gimnàs.</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 29 — Java con JDBC: Conexión a Base de Datos con MySQL, Java y Netbeans.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

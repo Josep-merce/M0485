@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Gestió d'esdeveniments · AEA5 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA5 &middot; Activitat 2 GUI</p>
+  <h1>Gestió d'esdeveniments</h1>
+  <p>Controladors d'accions amb <code>ActionListener</code>, esdeveniments de teclat amb <code>KeyListener</code>, <code>JList</code> amb <code>DefaultListModel</code>, <code>JTabbedPane</code>, <code>JMenuBar</code> i diàlegs especials (<code>JColorChooser</code>, <code>JFileChooser</code>).</p>
+  <div class="hero-pills">
+    <span class="pill">CA 5.7</span>
+    <span class="pill">CA 5.8</span>
+    <span class="pill">ActionListener · KeyListener</span>
+    <span class="pill">JList · JTabbedPane · JMenuBar</span>
+    <span class="pill">JColorChooser · JFileChooser</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea5.html">AEA5</a>
+  <span>&rsaquo;</span>
+  A2 &mdash; Gestió d'esdeveniments
+</nav>
+<main>
+
+<h2 class="block-title">1. El model d'esdeveniments de Swing</h2>
+
+<p>Swing usa el patró <strong>observador</strong>: un component és la <em>font</em> de l'esdeveniment, i un o diversos <em>listeners</em> en reben la notificació. Per afegir un listener a NetBeans, fem doble clic al component i el codi es genera automàticament. Manualment podem usar lambdes (Java 8+).</p>
+
+<div class="sub-title">1.1 ActionListener — el més habitual</div>
+<p>S'usa per botons, ítems de menú, combos i camps de text (Enter). El mètode a implementar és <code>actionPerformed(ActionEvent e)</code>.</p>
+
+<div class="code-block"><span class="cmt">// Tres formes equivalents d'afegir ActionListener a un botó</span>
+
+<span class="cmt">// 1. Classe anònima (estil clàssic)</span>
+boto.<span class="fn">addActionListener</span>(<span class="kw">new</span> <span class="cls">ActionListener</span>() {
+    <span class="kw">public void</span> <span class="fn">actionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Clicat!"</span>);
+    }
+});
+
+<span class="cmt">// 2. Lambda (Java 8+, recomanada)</span>
+boto.<span class="fn">addActionListener</span>(e -> <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Clicat!"</span>));
+
+<span class="cmt">// 3. Referència a mètode (NetBeans genera this::nomMetode)</span>
+boto.<span class="fn">addActionListener</span>(<span class="kw">this</span>::<span class="fn">botoActionPerformed</span>);</div>
+
+<div class="sub-title">1.2 KeyListener — tecles</div>
+<div class="code-block"><span class="cmt">// Detectar tecla Enter en un JTextField</span>
+tfNom.<span class="fn">addKeyListener</span>(<span class="kw">new</span> <span class="cls">KeyAdapter</span>() {
+    <span class="kw">public void</span> <span class="fn">keyPressed</span>(<span class="cls">KeyEvent</span> e) {
+        <span class="kw">if</span> (e.<span class="fn">getKeyCode</span>() == <span class="cls">KeyEvent</span>.VK_ENTER) {
+            <span class="fn">processarNom</span>();
+        }
+    }
+});</div>
+
+<h2 class="block-title">2. JList i DefaultListModel</h2>
+
+<p>Una <code>JList</code> mostra una llista d'ítems. Per afegir i eliminar elements dinàmicament cal usar un <code>DefaultListModel&lt;T&gt;</code> com a model de dades.</p>
+
+<div class="code-block"><span class="cmt">// Declaració del model a nivell de classe</span>
+<span class="cls">DefaultListModel</span>&lt;<span class="cls">String</span>&gt; model = <span class="kw">new</span> <span class="cls">DefaultListModel</span>&lt;&gt;();
+
+<span class="cmt">// Al constructor, assignar el model a la llista</span>
+llistaTasques.<span class="fn">setModel</span>(model);
+model.<span class="fn">addElement</span>(<span class="str">"Tasca inicial"</span>);
+
+<span class="cmt">// Afegir un element</span>
+<span class="kw">private void</span> <span class="fn">botoAfegirActionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+    <span class="cls">String</span> text = campTasca.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="kw">if</span> (!text.<span class="fn">isEmpty</span>()) {
+        model.<span class="fn">addElement</span>(text);
+        campTasca.<span class="fn">setText</span>(<span class="str">""</span>);
+    }
+}
+
+<span class="cmt">// Eliminar l'element seleccionat</span>
+<span class="kw">private void</span> <span class="fn">botoEliminarActionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+    <span class="kw">int</span> idx = llistaTasques.<span class="fn">getSelectedIndex</span>();
+    <span class="kw">if</span> (idx >= <span class="num">0</span>) model.<span class="fn">remove</span>(idx);
+}
+
+<span class="cmt">// Detectar quan canvia la selecció (ListSelectionListener)</span>
+llistaTasques.<span class="fn">addListSelectionListener</span>(e -> {
+    <span class="kw">if</span> (!e.<span class="fn">getValueIsAdjusting</span>()) {
+        <span class="cls">String</span> sel = llistaTasques.<span class="fn">getSelectedValue</span>();
+        <span class="kw">if</span> (sel != <span class="kw">null</span>) etiquetaSeleccio.<span class="fn">setText</span>(<span class="str">"Seleccionat: "</span> + sel);
+    }
+});</div>
+
+<h2 class="block-title">3. JTabbedPane i JMenuBar</h2>
+
+<div class="sub-title">3.1 JTabbedPane — pestanyes</div>
+<p>Permet organitzar la interfície en pestanyes. A NetBeans s'afegeix a l'àrea de disseny i dins s'hi col·loquen els panels de cada pestanya. Per accedir programàticament a la pestanya activa:</p>
+
+<div class="code-block"><span class="cmt">// Obtenir l'índex de la pestanya seleccionada</span>
+<span class="kw">int</span> idx = tabbedPane.<span class="fn">getSelectedIndex</span>();
+
+<span class="cmt">// Navegar a una pestanya concreta</span>
+tabbedPane.<span class="fn">setSelectedIndex</span>(<span class="num">1</span>);   <span class="cmt">// va a la 2a pestanya</span>
+
+<span class="cmt">// Detectar canvi de pestanya</span>
+tabbedPane.<span class="fn">addChangeListener</span>(e ->
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pestanya: "</span> + tabbedPane.<span class="fn">getSelectedIndex</span>()));</div>
+
+<div class="sub-title">3.2 JMenuBar — menús</div>
+<div class="code-block"><span class="cmt">// A NetBeans: clic dret al JFrame → Add JMenuBar</span>
+<span class="cmt">// Cada JMenu pot contenir JMenuItem, JCheckBoxMenuItem, JSeparator</span>
+
+<span class="cmt">// Afegir mnemònic (Alt+A per al menú Arxiu)</span>
+menuArxiu.<span class="fn">setMnemonic</span>(<span class="cls">KeyEvent</span>.VK_A);
+
+<span class="cmt">// Afegir accelerador (Ctrl+N per a "Nou")</span>
+itemNou.<span class="fn">setAccelerator</span>(
+    <span class="cls">KeyStroke</span>.<span class="fn">getKeyStroke</span>(<span class="cls">KeyEvent</span>.VK_N, <span class="cls">InputEvent</span>.CTRL_DOWN_MASK));</div>
+
+<h2 class="block-title">4. Diàlegs especials</h2>
+
+<div class="sub-title">4.1 JColorChooser</div>
+<div class="code-block"><span class="cmt">// Obrir el diàleg i obtenir el color triat</span>
+<span class="cls">Color</span> color = <span class="cls">JColorChooser</span>.<span class="fn">showDialog</span>(<span class="kw">this</span>, <span class="str">"Tria un color"</span>, <span class="cls">Color</span>.BLACK);
+<span class="kw">if</span> (color != <span class="kw">null</span>) {          <span class="cmt">// null si l'usuari cancel·la</span>
+    textArea.<span class="fn">setForeground</span>(color);
+}</div>
+
+<div class="sub-title">4.2 JFileChooser</div>
+<div class="code-block"><span class="cmt">// Diàleg per OBRIR un fitxer</span>
+<span class="cls">JFileChooser</span> fc = <span class="kw">new</span> <span class="cls">JFileChooser</span>();
+<span class="kw">int</span> resultat = fc.<span class="fn">showOpenDialog</span>(<span class="kw">this</span>);
+<span class="kw">if</span> (resultat == <span class="cls">JFileChooser</span>.APPROVE_OPTION) {
+    <span class="cls">File</span> fitxer = fc.<span class="fn">getSelectedFile</span>();
+    etiqueta.<span class="fn">setText</span>(fitxer.<span class="fn">getAbsolutePath</span>());
+}
+
+<span class="cmt">// Diàleg per GUARDAR un fitxer</span>
+<span class="kw">int</span> r2 = fc.<span class="fn">showSaveDialog</span>(<span class="kw">this</span>);
+<span class="kw">if</span> (r2 == <span class="cls">JFileChooser</span>.APPROVE_OPTION) {
+    <span class="cls">File</span> desti = fc.<span class="fn">getSelectedFile</span>();
+    <span class="cmt">// escriure al fitxer desti...</span>
+}</div>
+
+<h2 class="block-title">5. Exercicis</h2>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Gestor de tasques amb JList</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa l'aplicació de gestió de tasques de Canela (GestorTasquesLlistes.java). Permet afegir tasques amb prioritat, eliminar-les i filtrar entre pendents i fetes.</p>
+    <ol class="exercici-tasques">
+      <li>Crea un formulari amb un <code>JTextField</code> per al text de la tasca i un <code>JComboBox</code> amb les prioritats: Alta, Mitjana, Baixa.</li>
+      <li>Usa un <code>DefaultListModel&lt;String&gt;</code> com a model de la <code>JList</code>.</li>
+      <li>El botó "Afegir tasca" afegeix l'element <code>prioritat — text</code> al model.</li>
+      <li>El botó "Marcar com a fetes" mou les seleccionades a una llista de fetes a part.</li>
+      <li>Els botons "Mostrar pendents" i "Mostrar fetes" filtren la <code>JList</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Gestor de tasques amb JList</div>
+<div class="code-block"><span class="cmt">// Afegir tasca al model</span>
+<span class="kw">private void</span> <span class="fn">botoAfegirActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="cls">String</span> tasca    = campTasca.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> prioritat = (<span class="cls">String</span>) comboPrioritat.<span class="fn">getSelectedItem</span>();
+    <span class="kw">if</span> (!tasca.<span class="fn">isEmpty</span>()) {
+        model.<span class="fn">addElement</span>(prioritat + <span class="str">" — "</span> + tasca);
+        campTasca.<span class="fn">setText</span>(<span class="str">""</span>);
+        campTasca.<span class="fn">requestFocus</span>();
+    }
+}
+
+<span class="cmt">// Eliminar selecció</span>
+<span class="kw">private void</span> <span class="fn">botoEliminarActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="kw">int</span>[] selec = llistaTasques.<span class="fn">getSelectedIndices</span>();
+    <span class="kw">for</span> (<span class="kw">int</span> i = selec.length - <span class="num">1</span>; i >= <span class="num">0</span>; i--) model.<span class="fn">remove</span>(selec[i]);
+}
+
+<span class="cmt">// Detectar selecció i mostrar a l'àrea</span>
+<span class="kw">private void</span> <span class="fn">llistaTasquesValueChanged</span>(<span class="cls">ListSelectionEvent</span> evt) {
+    <span class="kw">if</span> (!evt.<span class="fn">getValueIsAdjusting</span>()) {
+        <span class="cls">String</span> sel = llistaTasques.<span class="fn">getSelectedValue</span>();
+        <span class="kw">if</span> (sel != <span class="kw">null</span>) areaResultats.<span class="fn">setText</span>(<span class="str">"Seleccionada: "</span> + sel);
+    }
+}</div>
+    </div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Formulari amb pestanyes (JTabbedPane)</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un formulari amb tres pestanyes basant-te en l'Exercici 6 de Canela (Exercici6Tabbed.java): Entrada de dades, Àrea de text i Estil de text.</p>
+    <ol class="exercici-tasques">
+      <li>Pestanya 1: formulari amb nom, contrasenya i NIF amb màscara. Botó "Validar" que comprova que tots els camps estan plens.</li>
+      <li>Pestanya 2: <code>JTextArea</code> editable amb botó "Gravar" que obre un <code>JFileChooser</code> per guardar el contingut en un fitxer de text.</li>
+      <li>Pestanya 3: <code>JTextArea</code> amb <code>JCheckBox</code> Negreta i Cursiva, i botó "Color" que obre un <code>JColorChooser</code> per canviar el color del text.</li>
+      <li>A la barra de menús, afegeix un menú "Arxiu" amb les opcions "Nou" (buida tots els camps) i "Sortir".</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.7 · 5.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Formulari amb pestanyes (JTabbedPane)</div>
+<div class="code-block"><span class="cmt">// Pestanya 2: guardar text amb JFileChooser</span>
+<span class="kw">private void</span> <span class="fn">GravarActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="cls">JFileChooser</span> fc = <span class="kw">new</span> <span class="cls">JFileChooser</span>();
+    <span class="kw">if</span> (fc.<span class="fn">showSaveDialog</span>(<span class="kw">this</span>) == <span class="cls">JFileChooser</span>.APPROVE_OPTION) {
+        <span class="kw">try</span> (<span class="cls">java.io.PrintWriter</span> pw = <span class="kw">new</span> <span class="cls">java.io.PrintWriter</span>(fc.<span class="fn">getSelectedFile</span>())) {
+            pw.<span class="fn">print</span>(Text.<span class="fn">getText</span>());
+        } <span class="kw">catch</span> (<span class="cls">Exception</span> e) {
+            <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}
+
+<span class="cmt">// Pestanya 3: canviar format del text</span>
+<span class="kw">private void</span> <span class="fn">NegretaActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="kw">int</span> estil = <span class="cls">Font</span>.PLAIN;
+    <span class="kw">if</span> (Negreta.<span class="fn">isSelected</span>()) estil |= <span class="cls">Font</span>.BOLD;
+    <span class="kw">if</span> (Cursiva.<span class="fn">isSelected</span>()) estil |= <span class="cls">Font</span>.ITALIC;
+    Text1.<span class="fn">setFont</span>(Text1.<span class="fn">getFont</span>().<span class="fn">deriveFont</span>(estil));
+}
+
+<span class="kw">private void</span> <span class="fn">BotoColorActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="cls">Color</span> c = <span class="cls">JColorChooser</span>.<span class="fn">showDialog</span>(<span class="kw">this</span>, <span class="str">"Tria color"</span>, Text1.<span class="fn">getForeground</span>());
+    <span class="kw">if</span> (c != <span class="kw">null</span>) Text1.<span class="fn">setForeground</span>(c);
+}</div>
+    </div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">App Login completa</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea una aplicació de login amb validació, control de KeyPressed i navegació entre panells, seguint l'estructura dels exercicis 8-10 del curs UJB (Ubaldo Acosta, secció 17).</p>
+    <ol class="exercici-tasques">
+      <li>Pantalla de login: <code>JTextField</code> usuari, <code>JPasswordField</code> contrasenya, botó "Entrar".</li>
+      <li>Detecta la tecla Enter als dos camps amb <code>KeyListener</code> per activar el login sense fer clic.</li>
+      <li>Valida: usuari = <code>admin</code>, contrasenya = <code>1234</code>. Si falla, incrementa un comptador i bloqueja el botó al tercer intent.</li>
+      <li>Si la validació correcta, oculta la finestra de login i mostra una finestra principal amb un menú i un missatge de benvinguda.</li>
+      <li>Afegeix un botó "Tancar sessió" a la finestra principal que torna a mostrar el login.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.7 · 5.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — App Login completa</div>
+<div class="code-block"><span class="cmt">// Classe Login — validació i control d'intents</span>
+<span class="kw">public class</span> <span class="cls">LoginForm</span> <span class="kw">extends</span> <span class="cls">JFrame</span> {
+
+    <span class="kw">private int</span> intents = <span class="num">0</span>;
+
+    <span class="kw">private void</span> <span class="fn">intentarLogin</span>() {
+        <span class="cls">String</span> usuari = tfUsuari.<span class="fn">getText</span>().<span class="fn">trim</span>();
+        <span class="cls">String</span> contra = <span class="kw">new</span> <span class="cls">String</span>(pfContra.<span class="fn">getPassword</span>());
+
+        <span class="kw">if</span> (usuari.<span class="fn">equals</span>(<span class="str">"admin"</span>) && contra.<span class="fn">equals</span>(<span class="str">"1234"</span>)) {
+            <span class="kw">this</span>.<span class="fn">setVisible</span>(<span class="kw">false</span>);
+            <span class="kw">new</span> <span class="cls">PantallaPrincipal</span>(usuari, <span class="kw">this</span>).<span class="fn">setVisible</span>(<span class="kw">true</span>);
+        } <span class="kw">else</span> {
+            intents++;
+            <span class="kw">if</span> (intents >= <span class="num">3</span>) {
+                btnEntrar.<span class="fn">setEnabled</span>(<span class="kw">false</span>);
+                <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>,
+                    <span class="str">"Compte bloquejat. Massa intents fallits."</span>,
+                    <span class="str">"Error"</span>, <span class="cls">JOptionPane</span>.ERROR_MESSAGE);
+            } <span class="kw">else</span> {
+                <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>,
+                    <span class="str">"Credencials incorrectes. Intent "</span> + intents + <span class="str">"/3"</span>,
+                    <span class="str">"Error"</span>, <span class="cls">JOptionPane</span>.ERROR_MESSAGE);
+                pfContra.<span class="fn">setText</span>(<span class="str">""</span>);
+                pfContra.<span class="fn">requestFocus</span>();
+            }
+        }
+    }
+
+    <span class="cmt">// KeyListener per detectar Enter als camps</span>
+    <span class="kw">private void</span> <span class="fn">campKeyPressed</span>(<span class="cls">KeyEvent</span> e) {
+        <span class="kw">if</span> (e.<span class="fn">getKeyCode</span>() == <span class="cls">KeyEvent</span>.VK_ENTER) <span class="fn">intentarLogin</span>();
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<h2 class="block-title">6. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 5.7</span><span class="ca-text">Programa controladors d'esdeveniments: <code>ActionListener</code>, <code>KeyListener</code>, <code>ListSelectionListener</code>, <code>ChangeListener</code>.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.8</span><span class="ca-text">Escriu programes que utilitzen interfícies gràfiques per a l'entrada i la sortida d'informació, incloent navegació entre panells i persistència en fitxers.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>9. Llistes i Tabbed Panes — Exercicis 6 i 7.pdf</em> + <em>GestorTasquesLlistes.java</em> + <em>Exercici6Tabbed.java</em> — Albert Canela.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>7. Treball amb menús — Exercici 4.pdf</em> — Albert Canela. JMenuBar, mnemònics, acceleradors, menú popup.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>10. Altres components — Exercici 8.pdf</em> + <em>Exercici8Altres.java</em> — Albert Canela. JColorChooser, JFileChooser.</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 17, lliçons 259–264: ActionListener, KeyPressed, App Login.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/uiswing/events/" style="color:#e74c3c">Writing Event Listeners</a></li>
+  </ul>
+</div>
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

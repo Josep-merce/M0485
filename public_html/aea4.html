@@ -25,11 +25,19 @@
     .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
     .breadcrumb a:hover { text-decoration:underline; }
     .breadcrumb span { margin:0 .4rem; color:#ccc; }
-    main { flex:1; max-width:760px; width:100%; margin:0 auto; padding:4rem 2rem; text-align:center; }
-    .coming h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.5rem; color:var(--text); margin-bottom:.75rem; }
-    .coming p { color:var(--text-soft); font-size:.95rem; }
-    .back { display:inline-block; margin-top:2rem; color:var(--accent); font-weight:600; text-decoration:none; font-size:.95rem; }
-    .back:hover { text-decoration:underline; }
+    main { flex:1; max-width:1000px; width:100%; margin:0 auto; padding:3.5rem 2rem; }
+    .section-intro { margin-bottom:1.5rem; }
+    .section-intro h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.6rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
+    .section-intro p { font-size:.92rem; color:var(--text-soft); max-width:680px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
+    .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
+    .card:hover { box-shadow:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10); transform:translateY(-3px); }
+    .card-badge { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--accent-bg); color:var(--accent); border-radius:8px; font-size:.78rem; font-weight:700; margin-bottom:.3rem; }
+    .card-title { font-size:1rem; font-weight:700; color:var(--text); line-height:1.3; }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; flex:1; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:.6rem; padding-top:.6rem; border-top:1px solid var(--border); }
+    .card-criteri { font-size:.74rem; color:var(--text-soft); }
+    .card-link { font-size:.84rem; font-weight:600; color:var(--accent); }
     footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
     @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} }
   </style>
@@ -38,20 +46,62 @@
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
   <h1>AEA4 &mdash; Tipus avançats de dades</h1>
-  <p>Arrays, col·leccions, iteradors, genèrics, expressions regulars i manipulació de documents JSON.</p>
+  <p>Arrays, cadenes de caràcters, excepcions, col·leccions, genericitat, Stream API i expressions regulars. Tota la potència de les estructures de dades de Java.</p>
 </header>
 <nav class="breadcrumb">
-  <a href="index.html">M0485 Programaci&oacute;</a>
+  <a href="../index.html">M0485 Programació</a>
   <span>&rsaquo;</span>
   AEA4 &mdash; Tipus avançats de dades
 </nav>
 <main>
-  <div class="coming">
-    <h2>Contingut en construcci&oacute;</h2>
-    <p>Les activitats d&rsquo;aquesta AEA s&rsquo;aniran publicant al llarg del curs.</p>
-    <a class="back" href="index.html">&larr; Tornar a M0485</a>
+  <div class="section-intro">
+    <h2>AEA4 — Tipus avançats de dades</h2>
+    <p>Quatre blocs progressius que cobreixen tot el RA6: des dels arrays i les cadenes fins a les col·leccions i els Streams, passant per les excepcions i les expressions regulars.</p>
+  </div>
+  <div class="cards">
+
+    <a class="card" href="aea4/A1_arrays_cadenes.html">
+      <span class="card-badge">A1</span>
+      <span class="card-title">Arrays i cadenes de caràcters</span>
+      <span class="card-desc">Declaració, inicialització i recorregut d'arrays unidimensionals i multidimensionals. Mètodes principals de la classe <code>String</code>.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 6.1 · 6.2 · 6.3 · 6.5 (String)</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea4/A2_excepcions.html">
+      <span class="card-badge">A2</span>
+      <span class="card-title">Control d'excepcions</span>
+      <span class="card-desc">Captura amb <code>try-catch-finally</code>, jerarquia de <code>Throwable</code>, llançament amb <code>throw</code> i creació d'excepcions personalitzades.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 6.10</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea4/A3_col_leccions_generics.html">
+      <span class="card-badge">A3</span>
+      <span class="card-title">Col·leccions, genericitat i Streams</span>
+      <span class="card-desc">Framework de col·leccions: <code>List</code>, <code>Set</code>, <code>Map</code> i iteradors. Classes i mètodes genèrics. Stream API: <code>filter</code>, <code>map</code>, <code>sorted</code>, <code>collect</code>.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 6.4 · 6.6 · 6.7</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea4/A4_expressions_regulars.html">
+      <span class="card-badge">A4</span>
+      <span class="card-title">Expressions regulars i JSON</span>
+      <span class="card-desc">Patrons amb <code>Pattern</code> i <code>Matcher</code>, metacaracters, quantificadors. Introducció al tractament de documents JSON amb Java.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 6.5 (regex) · 6.8 · 6.9</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
   </div>
 </main>
-<footer>Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M&ograve;dul M0485 Programaci&oacute;</footer>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
 </body>
 </html>

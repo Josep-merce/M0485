@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Consola, formats i classe File · AEA5 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA5 &middot; Activitat 1</p>
+  <h1>Consola, formats i classe File</h1>
+  <p>Entrada de dades per teclat amb <code>Scanner</code>, sortida formatada amb <code>printf</code> i <code>String.format</code>, i gestió del sistema de fitxers amb la classe <code>File</code>.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 5.1 Consola</span>
+    <span class="pill">CA 5.2 Formats</span>
+    <span class="pill">CA 5.3 java.io</span>
+    <span class="pill">Scanner · printf</span>
+    <span class="pill">File · mkdir · listFiles</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../../aea5.html">AEA5</a>
+  <span>&rsaquo;</span>
+  A1 — Consola, formats i classe File
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 1 -->
+<h2 class="block-title">1. Entrada per teclat amb Scanner</h2>
+
+<p>La classe <code>Scanner</code> del paquet <code>java.util</code> permet llegir dades de l'entrada estàndard (teclat). Es crea passant-li <code>System.in</code> com a font de dades i s'utilitzen mètodes específics per a cada tipus.</p>
+
+<div class="info-box">
+  <strong>Recordatori:</strong> <code>Scanner</code> ja l'hem usat en activitats anteriors per llegir dades simples. Aquí aprofundim en tots els mètodes disponibles i en els problemes habituals com el <em>salt de línia perdut</em>.
+</div>
+
+<div class="sub-title">1.1 Mètodes principals de Scanner</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Mètode</th><th>Llegeix</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>nextInt()</code></td><td>Un enter</td><td><code>int edat = sc.nextInt();</code></td></tr>
+      <tr><td><code>nextDouble()</code></td><td>Un decimal</td><td><code>double nota = sc.nextDouble();</code></td></tr>
+      <tr><td><code>nextLong()</code></td><td>Un enter llarg</td><td><code>long dni = sc.nextLong();</code></td></tr>
+      <tr><td><code>next()</code></td><td>Una paraula (fins espai)</td><td><code>String mot = sc.next();</code></td></tr>
+      <tr><td><code>nextLine()</code></td><td>Una línia completa</td><td><code>String frase = sc.nextLine();</code></td></tr>
+      <tr><td><code>nextBoolean()</code></td><td>Un booleà (true/false)</td><td><code>boolean ok = sc.nextBoolean();</code></td></tr>
+      <tr><td><code>hasNextInt()</code></td><td>Comprova si el següent és enter</td><td><code>while (sc.hasNextInt())</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">1.2 Exemple complet: formulari de dades</div>
+
+<div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">FormulariDades</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix el teu nom: "</span>);
+        <span class="cls">String</span> nom = sc.<span class="fn">nextLine</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la teva edat: "</span>);
+        <span class="kw">int</span> edat = sc.<span class="fn">nextInt</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la teva nota (0.0 - 10.0): "</span>);
+        <span class="kw">double</span> nota = sc.<span class="fn">nextDouble</span>();
+
+        sc.<span class="fn">close</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"--- Resum ---"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nom:  "</span> + nom);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota: "</span> + nota);
+    }
+}</div>
+
+<div class="warn-box">
+  <strong>Problema del salt de línia perdut:</strong> quan uses <code>nextInt()</code> o <code>nextDouble()</code> seguit de <code>nextLine()</code>, el primer <code>nextLine()</code> llegeix el <code>\n</code> que queda al buffer i retorna una cadena buida. Solució: afegeix un <code>sc.nextLine()</code> buit per consumir-lo.
+  <br><br>
+  <code>int edat = sc.nextInt();</code><br>
+  <code>sc.nextLine(); &nbsp;// ← consumeix el \n pendent</code><br>
+  <code>String nom = sc.nextLine(); &nbsp;// ← ara llegeix correctament</code>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 2 -->
+<h2 class="block-title">2. Sortida formatada: printf i String.format</h2>
+
+<p>Java ofereix dos mecanismes per formatar la sortida de dades: <code>System.out.printf()</code> per imprimir directament i <code>String.format()</code> per construir una cadena formatada que podem guardar o enviar on vulguem. Tots dos usen els mateixos especificadors de format.</p>
+
+<div class="sub-title">2.1 Especificadors de format principals</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Especificador</th><th>Tipus</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <tbody>
+      <tr><td><code>%d</code></td><td>Enter (int, long)</td><td><code>printf("%d", 42)</code></td><td><code>42</code></td></tr>
+      <tr><td><code>%f</code></td><td>Decimal (float, double)</td><td><code>printf("%f", 3.14)</code></td><td><code>3,140000</code></td></tr>
+      <tr><td><code>%.2f</code></td><td>Decimal amb 2 decimals</td><td><code>printf("%.2f", 3.14159)</code></td><td><code>3,14</code></td></tr>
+      <tr><td><code>%s</code></td><td>Cadena (String)</td><td><code>printf("%s", "hola")</code></td><td><code>hola</code></td></tr>
+      <tr><td><code>%c</code></td><td>Caràcter (char)</td><td><code>printf("%c", 'A')</code></td><td><code>A</code></td></tr>
+      <tr><td><code>%b</code></td><td>Booleà</td><td><code>printf("%b", true)</code></td><td><code>true</code></td></tr>
+      <tr><td><code>%n</code></td><td>Salt de línia (portable)</td><td><code>printf("fi%n")</code></td><td>(nova línia)</td></tr>
+      <tr><td><code>%10d</code></td><td>Enter ample 10, alineat dreta</td><td><code>printf("%10d", 42)</code></td><td><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;42</code></td></tr>
+      <tr><td><code>%-10s</code></td><td>Text ample 10, alineat esquerra</td><td><code>printf("%-10s|", "hola")</code></td><td><code>hola&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">2.2 Exemples de printf i String.format</div>
+
+<div class="code-block"><span class="cmt">// printf: imprimeix directament</span>
+<span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Nom: %-15s Edat: %3d Nota: %.2f%n"</span>, <span class="str">"Anna"</span>, <span class="num">22</span>, <span class="num">8.75</span>);
+<span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Nom: %-15s Edat: %3d Nota: %.2f%n"</span>, <span class="str">"Bernat"</span>, <span class="num">19</span>, <span class="num">6.50</span>);
+<span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Nom: %-15s Edat: %3d Nota: %.2f%n"</span>, <span class="str">"Clàudia"</span>, <span class="num">21</span>, <span class="num">9.00</span>);
+
+<span class="cmt">// Resultat:
+// Nom: Anna            Edat:  22 Nota: 8,75
+// Nom: Bernat          Edat:  19 Nota: 6,50
+// Nom: Clàudia         Edat:  21 Nota: 9,00</span>
+
+<span class="cmt">// String.format: construeix una cadena</span>
+<span class="cls">String</span> linia = <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"[%05d] %-20s → %.2f €"</span>, <span class="num">1</span>, <span class="str">"Ordinador portàtil"</span>, <span class="num">899.99</span>);
+<span class="cls">System</span>.out.<span class="fn">println</span>(linia);
+<span class="cmt">// [00001] Ordinador portàtil  → 899,99 €</span></div>
+
+<div class="tip-box">
+  <strong>Quan usar cada un?</strong> Usa <code>printf</code> quan vols imprimir immediatament. Usa <code>String.format</code> quan necessites la cadena per guardar-la, enviar-la a un fitxer o construir un missatge més complex.
+</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 3 -->
+<h2 class="block-title">3. La classe File</h2>
+
+<p>La classe <code>File</code> del paquet <code>java.io</code> representa un fitxer o directori del sistema de fitxers. <strong>No serveix per llegir ni escriure contingut</strong>, sinó per inspeccionar i manipular l'estructura: saber si existeix, quin nom té, crear directoris, llistar fitxers, esborrar...</p>
+
+<div class="info-box">
+  <strong>Concepte clau:</strong> un objecte <code>File</code> és simplement un <em>camí</em> (path). Pot apuntar a un fitxer que no existeixi encara. Crear l'objecte no crea el fitxer; cal cridar <code>createNewFile()</code> o <code>mkdir()</code> explícitament.
+</div>
+
+<div class="sub-title">3.1 Mètodes principals de File</div>
+
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Mètode</th><th>Descripció</th></tr></thead>
+    <tbody>
+      <tr><td><code>exists()</code></td><td>Retorna <code>true</code> si el fitxer/directori existeix</td></tr>
+      <tr><td><code>isFile()</code></td><td>Retorna <code>true</code> si és un fitxer (no directori)</td></tr>
+      <tr><td><code>isDirectory()</code></td><td>Retorna <code>true</code> si és un directori</td></tr>
+      <tr><td><code>getName()</code></td><td>Retorna el nom del fitxer o directori (sense ruta)</td></tr>
+      <tr><td><code>getAbsolutePath()</code></td><td>Retorna la ruta absoluta completa</td></tr>
+      <tr><td><code>length()</code></td><td>Retorna la mida en bytes</td></tr>
+      <tr><td><code>createNewFile()</code></td><td>Crea un fitxer buit; retorna <code>true</code> si s'ha creat</td></tr>
+      <tr><td><code>mkdir()</code></td><td>Crea el directori; retorna <code>true</code> si s'ha creat</td></tr>
+      <tr><td><code>mkdirs()</code></td><td>Crea el directori i tots els intermedis necessaris</td></tr>
+      <tr><td><code>delete()</code></td><td>Esborra el fitxer o directori (si és buit)</td></tr>
+      <tr><td><code>listFiles()</code></td><td>Retorna un array <code>File[]</code> amb el contingut del directori</td></tr>
+      <tr><td><code>renameTo(File dest)</code></td><td>Reanomena o mou el fitxer</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sub-title">3.2 Crear i inspeccionar fitxers</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.<span class="cls">File</span>;
+<span class="kw">import</span> java.io.<span class="cls">IOException</span>;
+
+<span class="kw">public class</span> <span class="cls">ExempleFile</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) <span class="kw">throws</span> <span class="cls">IOException</span> {
+
+        <span class="cls">File</span> fitxer = <span class="kw">new</span> <span class="cls">File</span>(<span class="str">"dades.txt"</span>);
+
+        <span class="kw">if</span> (!fitxer.<span class="fn">exists</span>()) {
+            <span class="kw">boolean</span> creat = fitxer.<span class="fn">createNewFile</span>();
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer creat: "</span> + creat);
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nom:         "</span> + fitxer.<span class="fn">getName</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ruta abs.:   "</span> + fitxer.<span class="fn">getAbsolutePath</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mida (bytes):"</span> + fitxer.<span class="fn">length</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És fitxer:   "</span> + fitxer.<span class="fn">isFile</span>());
+    }
+}</div>
+
+<div class="sub-title">3.3 Crear directoris i llistar contingut</div>
+
+<div class="code-block"><span class="kw">import</span> java.io.<span class="cls">File</span>;
+
+<span class="kw">public class</span> <span class="cls">GestioDirectoris</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Crear un directori nou</span>
+        <span class="cls">File</span> carpeta = <span class="kw">new</span> <span class="cls">File</span>(<span class="str">"projectes/java"</span>);
+        <span class="kw">if</span> (carpeta.<span class="fn">mkdirs</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Directori creat: "</span> + carpeta.<span class="fn">getAbsolutePath</span>());
+        }
+
+        <span class="cmt">// Llistar el contingut del directori actual</span>
+        <span class="cls">File</span> actual = <span class="kw">new</span> <span class="cls">File</span>(<span class="str">"."</span>);
+        <span class="cls">File</span>[] contingut = actual.<span class="fn">listFiles</span>();
+
+        <span class="kw">if</span> (contingut != <span class="kw">null</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nContingut del directori actual:"</span>);
+            <span class="kw">for</span> (<span class="cls">File</span> f : contingut) {
+                <span class="cls">String</span> tipus = f.<span class="fn">isDirectory</span>() ? <span class="str">"[DIR] "</span> : <span class="str">"[FIT] "</span>;
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s %-30s %8d bytes%n"</span>,
+                    tipus, f.<span class="fn">getName</span>(), f.<span class="fn">length</span>());
+            }
+        }
+    }
+}</div>
+
+<div class="sub-title">3.4 Llistar fitxers recursivament</div>
+
+<div class="code-block"><span class="cmt">// Mètode recursiu que llista tots els fitxers d'una carpeta i les seves subcarpetes</span>
+<span class="kw">public static void</span> <span class="fn">llistarRecursiu</span>(<span class="cls">File</span> carpeta, <span class="kw">int</span> nivell) {
+
+    <span class="cls">File</span>[] elements = carpeta.<span class="fn">listFiles</span>();
+    <span class="kw">if</span> (elements == <span class="kw">null</span>) <span class="kw">return</span>;
+
+    <span class="kw">for</span> (<span class="cls">File</span> f : elements) {
+        <span class="cls">String</span> sagna = <span class="str">"  "</span>.<span class="fn">repeat</span>(nivell);
+        <span class="kw">if</span> (f.<span class="fn">isDirectory</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(sagna + <span class="str">"📁 "</span> + f.<span class="fn">getName</span>());
+            <span class="fn">llistarRecursiu</span>(f, nivell + <span class="num">1</span>);   <span class="cmt">// crida recursiva</span>
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%s📄 %-25s (%d bytes)%n"</span>,
+                sagna, f.<span class="fn">getName</span>(), f.<span class="fn">length</span>());
+        }
+    }
+}</div>
+
+<!-- ═══════════════════════════════════════════════════ BLOC 4: EXERCICIS -->
+<h2 class="block-title">4. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Calculadora de nòmina</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que demani a l'usuari el nom d'un treballador, el seu sou brut mensual i el percentatge d'IRPF. El programa ha de mostrar una nòmina formatada amb <code>printf</code>.</p>
+    <ol class="exercici-tasques">
+      <li>Llegeix nom (String), sou brut (double) i IRPF % (double) amb <code>Scanner</code>.</li>
+      <li>Calcula la retenció i el sou net.</li>
+      <li>Mostra la nòmina amb columnes alineades usant <code>printf</code> i <code>%.2f</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.1 · 5.2</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Calculadora de nòmina</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">Nomina</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nom del treballador: "</span>);
+        <span class="cls">String</span> nom = sc.<span class="fn">nextLine</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Sou brut mensual (€): "</span>);
+        <span class="kw">double</span> brut = sc.<span class="fn">nextDouble</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Percentatge IRPF (%): "</span>);
+        <span class="kw">double</span> irpf = sc.<span class="fn">nextDouble</span>();
+
+        sc.<span class="fn">close</span>();
+
+        <span class="kw">double</span> retencio = brut * irpf / <span class="num">100</span>;
+        <span class="kw">double</span> net = brut - retencio;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n========== NÒMINA =========="</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Treballador: %-20s%n"</span>, nom);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Sou brut:    %10.2f €%n"</span>, brut);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Retenció IRPF(%4.1f%%): %6.2f €%n"</span>, irpf, retencio);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"----------------------------"</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"SOU NET:     %10.2f €%n"</span>, net);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"============================"</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Taula de multiplicar formatada</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Demana a l'usuari un número enter entre 1 i 10 i mostra la taula de multiplicar d'aquell número amb la sortida perfectament alineada usant <code>printf</code>.</p>
+    <ol class="exercici-tasques">
+      <li>Valida que el número estigui entre 1 i 10 (mostra un error si no).</li>
+      <li>Mostra la taula del 1 al 10 amb format: <code> 7 x  3 =  21</code></li>
+      <li>Tots els números han d'ocupar el mateix ample de columna.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.1 · 5.2</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Taula de multiplicar formatada</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">TaulaMultiplicar</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix un número (1-10): "</span>);
+        <span class="kw">int</span> n = sc.<span class="fn">nextInt</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="kw">if</span> (n < <span class="num">1</span> || n > <span class="num">10</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: el número ha d'estar entre 1 i 10."</span>);
+            <span class="kw">return</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%n=== Taula del %d ===%n"</span>, n);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i <= <span class="num">10</span>; i++) {
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%2d x %2d = %3d%n"</span>, n, i, n * i);
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Inspector de directori</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que demani a l'usuari una ruta de directori i mostri el seu contingut diferenciant fitxers de subcarpetes, indicant la mida de cada fitxer.</p>
+    <ol class="exercici-tasques">
+      <li>Comprova que la ruta existeix i és un directori; si no, mostra un error.</li>
+      <li>Llista el contingut amb <code>listFiles()</code>.</li>
+      <li>Mostra primer els directoris (prefix <code>[DIR]</code>) i després els fitxers (<code>[FIT]</code>), amb la mida en bytes formatada amb <code>%10d</code>.</li>
+      <li>Mostra al final el total de fitxers i la mida total.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.1 · 5.3</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Inspector de directori</div>
+      <div class="code-block"><span class="kw">import</span> java.io.<span class="cls">File</span>;
+<span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public class</span> <span class="cls">InspectorDirectori</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la ruta del directori: "</span>);
+        <span class="cls">String</span> ruta = sc.<span class="fn">nextLine</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="cls">File</span> dir = <span class="kw">new</span> <span class="cls">File</span>(ruta);
+
+        <span class="kw">if</span> (!dir.<span class="fn">exists</span>() || !dir.<span class="fn">isDirectory</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: la ruta no existeix o no és un directori."</span>);
+            <span class="kw">return</span>;
+        }
+
+        <span class="cls">File</span>[] elements = dir.<span class="fn">listFiles</span>();
+        <span class="kw">if</span> (elements == <span class="kw">null</span> || elements.length == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El directori és buit."</span>);
+            <span class="kw">return</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%n%-40s %10s%n"</span>, <span class="str">"Nom"</span>, <span class="str">"Mida"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(52)</span>);
+
+        <span class="kw">long</span> totalMida = <span class="num">0</span>;
+        <span class="kw">int</span> totalFitxers = <span class="num">0</span>;
+
+        <span class="cmt">// Primer directoris</span>
+        <span class="kw">for</span> (<span class="cls">File</span> f : elements) {
+            <span class="kw">if</span> (f.<span class="fn">isDirectory</span>())
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"[DIR] %-35s %10s%n"</span>, f.<span class="fn">getName</span>(), <span class="str">"-"</span>);
+        }
+        <span class="cmt">// Després fitxers</span>
+        <span class="kw">for</span> (<span class="cls">File</span> f : elements) {
+            <span class="kw">if</span> (f.<span class="fn">isFile</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"[FIT] %-35s %10d B%n"</span>, f.<span class="fn">getName</span>(), f.<span class="fn">length</span>());
+                totalMida += f.<span class="fn">length</span>();
+                totalFitxers++;
+            }
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(52)</span>);
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Total: %d fitxer(s) — %d bytes%n"</span>, totalFitxers, totalMida);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E4 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E4</span>
+    <span class="exercici-title">Organitzador de fitxers per extensió</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que llegeixi tots els fitxers d'un directori i els organitzi creant subdirectoris per extensió. Per exemple, tots els <code>.txt</code> aniran a la carpeta <code>txt/</code>, tots els <code>.pdf</code> a <code>pdf/</code>, etc.</p>
+    <ol class="exercici-tasques">
+      <li>Llegeix la ruta del directori d'origen amb <code>Scanner</code>.</li>
+      <li>Per a cada fitxer, obté la seva extensió (usa <code>lastIndexOf('.')</code>).</li>
+      <li>Crea el subdirectori de l'extensió si no existeix (<code>mkdir()</code>).</li>
+      <li>Mou el fitxer al subdirectori corresponent amb <code>renameTo()</code>.</li>
+      <li>Mostra un resum de quants fitxers s'han mogut per cada extensió.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.1 · 5.3</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">▶</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució — Organitzador de fitxers per extensió</div>
+      <div class="code-block"><span class="kw">import</span> java.io.<span class="cls">File</span>;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">Organitzador</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Directori a organitzar: "</span>);
+        <span class="cls">String</span> ruta = sc.<span class="fn">nextLine</span>();
+        sc.<span class="fn">close</span>();
+
+        <span class="cls">File</span> dir = <span class="kw">new</span> <span class="cls">File</span>(ruta);
+        <span class="kw">if</span> (!dir.<span class="fn">isDirectory</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No és un directori vàlid."</span>);
+            <span class="kw">return</span>;
+        }
+
+        <span class="cls">Map</span>&lt;<span class="cls">String</span>, <span class="cls">Integer</span>&gt; resum = <span class="kw">new</span> <span class="cls">TreeMap</span>&lt;&gt;();
+
+        <span class="kw">for</span> (<span class="cls">File</span> f : dir.<span class="fn">listFiles</span>()) {
+            <span class="kw">if</span> (!f.<span class="fn">isFile</span>()) <span class="kw">continue</span>;
+
+            <span class="cls">String</span> nom = f.<span class="fn">getName</span>();
+            <span class="kw">int</span> punt = nom.<span class="fn">lastIndexOf</span>(<span class="str">'.'</span>);
+            <span class="cls">String</span> ext = (punt >= <span class="num">0</span>) ? nom.<span class="fn">substring</span>(punt + <span class="num">1</span>).<span class="fn">toLowerCase</span>() : <span class="str">"sense_ext"</span>;
+
+            <span class="cls">File</span> subdir = <span class="kw">new</span> <span class="cls">File</span>(dir, ext);
+            <span class="kw">if</span> (!subdir.<span class="fn">exists</span>()) subdir.<span class="fn">mkdir</span>();
+
+            <span class="cls">File</span> desti = <span class="kw">new</span> <span class="cls">File</span>(subdir, nom);
+            <span class="kw">if</span> (f.<span class="fn">renameTo</span>(desti)) {
+                resum.<span class="fn">merge</span>(ext, <span class="num">1</span>, <span class="cls">Integer</span>::<span class="fn">sum</span>);
+            }
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n=== Resum de l'organització ==="</span>);
+        resum.<span class="fn">forEach</span>((ext, count) ->
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"  .%-10s → %d fitxer(s)%n"</span>, ext, count));
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════ CA -->
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 5.1</span><span class="ca-text">Utilitza la consola per fer operacions d'entrada (<code>Scanner</code>) i sortida (<code>System.out</code>) d'informació.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.2</span><span class="ca-text">Aplica formats a la visualització de la informació amb <code>printf</code> i <code>String.format</code> (amplada, decimals, alineació).</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.3</span><span class="ca-text">Reconeix les possibilitats d'E/S del llenguatge: paquets <code>java.io</code> i <code>java.nio</code>, fluxos de bytes i de caràcters.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>📚 Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>aulaenlanube (Edu Torregrosa):</strong> <em>Introducción a JAVA.pdf</em> — tema 7: Entrada de dades amb <code>Scanner</code>. CC BY-NC-SA 4.0.</li>
+    <li><strong>aulaenlanube (Edu Torregrosa):</strong> <em>Almacenamiento de datos en JAVA.pdf</em> — seccions: <em>La clase File</em>, <em>Acceso al sistema de ficheros</em>, <em>Crear y borrar ficheros y carpetas</em>. CC BY-NC-SA 4.0.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/File.html" style="color:#e74c3c">java.io.File</a> · <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Formatter.html" style="color:#e74c3c">java.util.Formatter (especificadors de format)</a></li>
+  </ul>
+</div>
+
+</main>
+
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

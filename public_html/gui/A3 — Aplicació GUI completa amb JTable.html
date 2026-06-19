@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3 — Aplicació GUI completa amb JTable · AEA5 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA5 &middot; Activitat 3 GUI</p>
+  <h1>Aplicació GUI completa amb JTable</h1>
+  <p>Gestió de dades estructurades amb <code>JTable</code> i <code>DefaultTableModel</code>. CRUD complet (afegir, modificar, eliminar files), detecció de selecció i pràctica integradora amb persistència en fitxer.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 5.6</span>
+    <span class="pill">CA 5.7</span>
+    <span class="pill">CA 5.8</span>
+    <span class="pill">JTable · DefaultTableModel</span>
+    <span class="pill">getSelectedRow · getValueAt</span>
+    <span class="pill">ListSelectionListener</span>
+    <span class="pill">6 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea5.html">AEA5</a>
+  <span>&rsaquo;</span>
+  A3 &mdash; Aplicació GUI completa amb JTable
+</nav>
+<main>
+
+<h2 class="block-title">1. JTable i DefaultTableModel</h2>
+
+<p>Una <code>JTable</code> mostra dades en format de files i columnes, com un full de càlcul. S'usa quan volem mostrar informació estructurada: llistes d'alumnes, productes, usuaris, etc. El component de vista es separa del model de dades (<code>DefaultTableModel</code>), seguint el patró MVC.</p>
+
+<div class="info-box">
+  <strong>Patró MVC a JTable:</strong> el <code>DefaultTableModel</code> és el model (les dades); la <code>JTable</code> és la vista (com es mostra); el nostre codi és el controlador (botó afegir, eliminar...). Qualsevol canvi al model es reflecteix automàticament a la vista.
+</div>
+
+<div class="sub-title">1.1 Crear el model i assignar-lo a la taula</div>
+<div class="code-block"><span class="cmt">// Declaració a nivell de classe</span>
+<span class="kw">private</span> <span class="cls">DefaultTableModel</span> modelTaula;
+
+<span class="cmt">// Al constructor, crear el model amb les capçaleres</span>
+modelTaula = <span class="kw">new</span> <span class="cls">DefaultTableModel</span>(
+    <span class="kw">new</span> <span class="cls">String</span>[]{ <span class="str">"Nom"</span>, <span class="str">"Categoria"</span>, <span class="str">"Preu"</span>, <span class="str">"Estoc"</span> }, <span class="num">0</span>
+);
+taulaProductes.<span class="fn">setModel</span>(modelTaula);
+
+<span class="cmt">// Fer la taula no editable directament (opcional)</span>
+modelTaula = <span class="kw">new</span> <span class="cls">DefaultTableModel</span>(
+    <span class="kw">new</span> <span class="cls">String</span>[]{ <span class="str">"Nom"</span>, <span class="str">"Categoria"</span>, <span class="str">"Preu"</span>, <span class="str">"Estoc"</span> }, <span class="num">0</span>
+) {
+    <span class="kw">public boolean</span> <span class="fn">isCellEditable</span>(<span class="kw">int</span> row, <span class="kw">int</span> col) { <span class="kw">return false</span>; }
+};</div>
+
+<div class="sub-title">1.2 Operacions bàsiques sobre el model</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Operació</th><th>Mètode</th></tr></thead>
+    <tbody>
+      <tr><td>Afegir una fila</td><td><code>modelTaula.addRow(new Object[]{"Anna", "DAW", 9.5, 1})</code></td></tr>
+      <tr><td>Eliminar una fila</td><td><code>modelTaula.removeRow(idx)</code></td></tr>
+      <tr><td>Llegir un valor</td><td><code>modelTaula.getValueAt(fila, columna)</code></td></tr>
+      <tr><td>Modificar un valor</td><td><code>modelTaula.setValueAt(valor, fila, columna)</code></td></tr>
+      <tr><td>Nombre de files</td><td><code>modelTaula.getRowCount()</code></td></tr>
+      <tr><td>Esborrar tot</td><td><code>modelTaula.setRowCount(0)</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="block-title">2. Selecció de files i càrrega als camps</h2>
+
+<p>Un dels patrons més comuns amb <code>JTable</code> és: l'usuari selecciona una fila i els camps del formulari es carreguen automàticament per poder editar o eliminar. S'implementa amb un <code>ListSelectionListener</code>.</p>
+
+<div class="code-block"><span class="cmt">// Detectar quan l'usuari selecciona una fila → carregar als camps</span>
+taulaProductes.<span class="fn">getSelectionModel</span>().<span class="fn">addListSelectionListener</span>(e -> {
+    <span class="kw">if</span> (!e.<span class="fn">getValueIsAdjusting</span>()) {
+        <span class="kw">int</span> fila = taulaProductes.<span class="fn">getSelectedRow</span>();
+        <span class="kw">if</span> (fila >= <span class="num">0</span>) {
+            tfNom.<span class="fn">setText</span>((<span class="cls">String</span>)  modelTaula.<span class="fn">getValueAt</span>(fila, <span class="num">0</span>));
+            tfCateg.<span class="fn">setText</span>((<span class="cls">String</span>)  modelTaula.<span class="fn">getValueAt</span>(fila, <span class="num">1</span>));
+            tfPreu.<span class="fn">setText</span>(            modelTaula.<span class="fn">getValueAt</span>(fila, <span class="num">2</span>).<span class="fn">toString</span>());
+            tfEstoc.<span class="fn">setText</span>(           modelTaula.<span class="fn">getValueAt</span>(fila, <span class="num">3</span>).<span class="fn">toString</span>());
+        }
+    }
+});
+
+<span class="cmt">// Obtenir la fila seleccionada (retorna -1 si cap)</span>
+<span class="kw">int</span> filaSelec = taulaProductes.<span class="fn">getSelectedRow</span>();
+<span class="kw">if</span> (filaSelec < <span class="num">0</span>) {
+    <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Selecciona una fila primer."</span>);
+    <span class="kw">return</span>;
+}</div>
+
+<h2 class="block-title">3. CRUD complet</h2>
+
+<div class="code-block"><span class="cmt">// AFEGIR una nova fila des del formulari</span>
+<span class="kw">private void</span> <span class="fn">btnAfegirActionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+    <span class="cls">String</span> nom   = tfNom.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> categ = tfCateg.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="kw">if</span> (nom.<span class="fn">isEmpty</span>()) { <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>,<span class="str">"Nom obligatori."</span>); <span class="kw">return</span>; }
+    <span class="kw">double</span> preu;
+    <span class="kw">int</span>    estoc;
+    <span class="kw">try</span> {
+        preu  = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(tfPreu.<span class="fn">getText</span>());
+        estoc = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(tfEstoc.<span class="fn">getText</span>());
+    } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> ex) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Preu i estoc han de ser números."</span>);
+        <span class="kw">return</span>;
+    }
+    modelTaula.<span class="fn">addRow</span>(<span class="kw">new</span> <span class="cls">Object</span>[]{ nom, categ, preu, estoc });
+    <span class="fn">netejarFormulari</span>();
+}
+
+<span class="cmt">// MODIFICAR la fila seleccionada</span>
+<span class="kw">private void</span> <span class="fn">btnModificarActionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+    <span class="kw">int</span> fila = taulaProductes.<span class="fn">getSelectedRow</span>();
+    <span class="kw">if</span> (fila < <span class="num">0</span>) { <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>,<span class="str">"Selecciona una fila."</span>); <span class="kw">return</span>; }
+    modelTaula.<span class="fn">setValueAt</span>(tfNom.<span class="fn">getText</span>(),   fila, <span class="num">0</span>);
+    modelTaula.<span class="fn">setValueAt</span>(tfCateg.<span class="fn">getText</span>(), fila, <span class="num">1</span>);
+    modelTaula.<span class="fn">setValueAt</span>(<span class="cls">Double</span>.<span class="fn">parseDouble</span>(tfPreu.<span class="fn">getText</span>()),   fila, <span class="num">2</span>);
+    modelTaula.<span class="fn">setValueAt</span>(<span class="cls">Integer</span>.<span class="fn">parseInt</span>(tfEstoc.<span class="fn">getText</span>()), fila, <span class="num">3</span>);
+    <span class="fn">netejarFormulari</span>();
+}
+
+<span class="cmt">// ELIMINAR la fila seleccionada</span>
+<span class="kw">private void</span> <span class="fn">btnEliminarActionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+    <span class="kw">int</span> fila = taulaProductes.<span class="fn">getSelectedRow</span>();
+    <span class="kw">if</span> (fila >= <span class="num">0</span>) modelTaula.<span class="fn">removeRow</span>(fila);
+}</div>
+
+<h2 class="block-title">4. Exercicis</h2>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Gestor d'alumnes amb JTable</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un formulari senzill de gestió d'alumnes amb JTable. Ha de permetre afegir alumnes i eliminar la fila seleccionada.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la taula amb les columnes: Nom, Cognoms, Nota. Model no editable directament.</li>
+      <li>El formulari té tres <code>JTextField</code> (nom, cognoms, nota) i dos botons: Afegir i Eliminar.</li>
+      <li>Afegir: valida que els camps no estiguin buits i que la nota sigui un número entre 0 i 10; afegeix la fila.</li>
+      <li>Eliminar: comprova que hi hagi una fila seleccionada i la treu del model.</li>
+      <li>En seleccionar una fila, els camps del formulari es carreguen automàticament.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.6 · 5.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Gestor d'alumnes amb JTable</div>
+<div class="code-block"><span class="cmt">// Fragment clau: validar i afegir alumne</span>
+<span class="kw">private void</span> <span class="fn">btnAfegirActionPerformed</span>(<span class="cls">ActionEvent</span> e) {
+
+    <span class="cls">String</span> nom     = tfNom.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="cls">String</span> cognoms = tfCognoms.<span class="fn">getText</span>().<span class="fn">trim</span>();
+    <span class="kw">double</span> nota;
+
+    <span class="kw">try</span> { nota = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(tfNota.<span class="fn">getText</span>()); }
+    <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> ex) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"La nota ha de ser un número."</span>);
+        <span class="kw">return</span>;
+    }
+
+    <span class="kw">if</span> (nom.<span class="fn">isEmpty</span>() || cognoms.<span class="fn">isEmpty</span>()) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Tots els camps son obligatoris."</span>);
+        <span class="kw">return</span>;
+    }
+    <span class="kw">if</span> (nota < <span class="num">0</span> || nota > <span class="num">10</span>) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Nota entre 0 i 10."</span>);
+        <span class="kw">return</span>;
+    }
+
+    modelTaula.<span class="fn">addRow</span>(<span class="kw">new</span> <span class="cls">Object</span>[]{ nom, cognoms, nota });
+    tfNom.<span class="fn">setText</span>(<span class="str">""</span>); tfCognoms.<span class="fn">setText</span>(<span class="str">""</span>); tfNota.<span class="fn">setText</span>(<span class="str">""</span>);
+    tfNom.<span class="fn">requestFocus</span>();
+}</div>
+    </div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">CRUD de productes (Exercici 9 Canela)</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa l'Exercici 9 de Canela (GestioComandes.java): gestió de comandes amb JList i JTable, botons per afegir i passar elements entre els dos components.</p>
+    <ol class="exercici-tasques">
+      <li>El formulari té: <code>JTextField</code> client, <code>JComboBox</code> producte, <code>JTextField</code> quantitat, <code>JCheckBox</code> urgent.</li>
+      <li>Botó "Afegir a la llista": afegeix la comanda a una <code>JList</code> (preparació).</li>
+      <li>Botó "Passar a taula": mou l'element seleccionat de la <code>JList</code> a la <code>JTable</code> de comandes.</li>
+      <li>Botó "Eliminar fila": elimina la fila seleccionada de la <code>JTable</code>.</li>
+      <li>Botó "Resum": mostra en un <code>JTextArea</code> el total de comandes i quantes són urgents.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.6 · 5.7 · 5.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — CRUD de productes (Exercici 9 Canela)</div>
+<div class="code-block"><span class="cmt">// Passar element de JList a JTable</span>
+<span class="kw">private void</span> <span class="fn">botoPassarTaulaActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="kw">int</span> idx = jListPreparacio.<span class="fn">getSelectedIndex</span>();
+    <span class="kw">if</span> (idx < <span class="num">0</span>) { <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>,<span class="str">"Selecciona un element."</span>); <span class="kw">return</span>; }
+
+    <span class="cls">String</span> item = modelLlista.<span class="fn">get</span>(idx);
+    <span class="cls">String</span>[] parts = item.<span class="fn">split</span>(<span class="str">" — "</span>);
+
+    modelTaula.<span class="fn">addRow</span>(<span class="kw">new</span> <span class="cls">Object</span>[]{
+        parts[<span class="num">0</span>],    <span class="cmt">// client</span>
+        parts[<span class="num">1</span>],    <span class="cmt">// producte</span>
+        parts[<span class="num">2</span>],    <span class="cmt">// quantitat</span>
+        parts[<span class="num">3</span>].<span class="fn">equals</span>(<span class="str">"URGENT"</span>)  <span class="cmt">// urgent (Boolean)</span>
+    });
+    modelLlista.<span class="fn">remove</span>(idx);
+}
+
+<span class="cmt">// Resum de comandes</span>
+<span class="kw">private void</span> <span class="fn">botoResumActionPerformed</span>(<span class="cls">ActionEvent</span> evt) {
+    <span class="kw">int</span> total = modelTaula.<span class="fn">getRowCount</span>();
+    <span class="kw">long</span> urgents = <span class="num">0</span>;
+    <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < total; i++)
+        <span class="kw">if</span> ((<span class="cls">Boolean</span>) modelTaula.<span class="fn">getValueAt</span>(i, <span class="num">3</span>)) urgents++;
+    jTextAreaResum.<span class="fn">setText</span>(<span class="cls">String</span>.<span class="fn">format</span>(
+        <span class="str">"Total comandes: %d%nUrgents: %d%n"</span>, total, urgents));
+}</div>
+    </div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Aplicació de gestió completa amb persistència</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea l'aplicació integradora GestioComandes inspirada en el material de Canela: formulari, JList, JTable, menú amb persistència en fitxer CSV i serialització.</p>
+    <ol class="exercici-tasques">
+      <li>Formulari complet: client, producte (JComboBox amb opció d'afegir-ne de nous), quantitat, urgent (JCheckBox).</li>
+      <li><code>JList</code> de preparació i <code>JTable</code> de comandes finalitzades amb CRUD complet.</li>
+      <li>Menú Arxiu: Nou (neteja tot), Obrir (carrega CSV), Guardar (desa CSV), Sortir.</li>
+      <li>Guardar CSV: itera totes les files de la taula i les escriu al fitxer.</li>
+      <li>Obrir CSV: llegeix el fitxer línia a línia i afegeix cada fila al model de la taula.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 5.6 · 5.7 · 5.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Aplicació de gestió completa amb persistència</div>
+<div class="code-block"><span class="cmt">// Guardar la taula en CSV</span>
+<span class="kw">private void</span> <span class="fn">guardarCSV</span>(<span class="cls">File</span> fitxer) {
+    <span class="kw">try</span> (<span class="cls">PrintWriter</span> pw = <span class="kw">new</span> <span class="cls">PrintWriter</span>(<span class="kw">new</span> <span class="cls">FileWriter</span>(fitxer))) {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < modelTaula.<span class="fn">getRowCount</span>(); i++) {
+            pw.<span class="fn">printf</span>(<span class="str">"%s;%s;%s;%s%n"</span>,
+                modelTaula.<span class="fn">getValueAt</span>(i,<span class="num">0</span>),
+                modelTaula.<span class="fn">getValueAt</span>(i,<span class="num">1</span>),
+                modelTaula.<span class="fn">getValueAt</span>(i,<span class="num">2</span>),
+                modelTaula.<span class="fn">getValueAt</span>(i,<span class="num">3</span>));
+        }
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Desat correctament."</span>);
+    } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+    }
+}
+
+<span class="cmt">// Obrir CSV i carregar a la taula</span>
+<span class="kw">private void</span> <span class="fn">obrirCSV</span>(<span class="cls">File</span> fitxer) {
+    modelTaula.<span class="fn">setRowCount</span>(<span class="num">0</span>);
+    <span class="kw">try</span> (<span class="cls">BufferedReader</span> br = <span class="kw">new</span> <span class="cls">BufferedReader</span>(<span class="kw">new</span> <span class="cls">FileReader</span>(fitxer))) {
+        <span class="cls">String</span> linia;
+        <span class="kw">while</span> ((linia = br.<span class="fn">readLine</span>()) != <span class="kw">null</span>) {
+            <span class="cls">String</span>[] p = linia.<span class="fn">split</span>(<span class="str">";"</span>);
+            <span class="kw">if</span> (p.length == <span class="num">4</span>)
+                modelTaula.<span class="fn">addRow</span>(<span class="kw">new</span> <span class="cls">Object</span>[]{ p[<span class="num">0</span>], p[<span class="num">1</span>], p[<span class="num">2</span>],
+                    <span class="cls">Boolean</span>.<span class="fn">parseBoolean</span>(p[<span class="num">3</span>]) });
+        }
+    } <span class="kw">catch</span> (<span class="cls">IOException</span> e) {
+        <span class="cls">JOptionPane</span>.<span class="fn">showMessageDialog</span>(<span class="kw">this</span>, <span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 5.6</span><span class="ca-text">Utilitza <code>JTable</code> i <code>DefaultTableModel</code> per mostrar i gestionar dades estructurades.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.7</span><span class="ca-text">Programa controladors d'esdeveniments sobre la taula: <code>ListSelectionListener</code>, botons CRUD.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 5.8</span><span class="ca-text">Escriu una aplicació GUI completa que combina interfície gràfica i persistència en fitxers (CSV).</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>11. Taules — Exercici 9.pdf</em> + <em>GestioComandes.java</em> + <em>GestioComandes.jar</em> — Albert Canela (Març-2026).</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 17, lliçons 265–279: App ZonaFit, taula visual, afegir/eliminar/guardar clients.</li>
+    <li><strong>Documentació oficial Java (Oracle):</strong> <a href="https://docs.oracle.com/javase/tutorial/uiswing/components/table.html" style="color:#e74c3c">How to Use Tables</a></li>
+  </ul>
+</div>
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

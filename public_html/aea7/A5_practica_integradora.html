@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A5 — Pràctica integradora: Exercici Institut · AEA7 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .code-block .at  { color:#f38ba8; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .pt1-box { background:#f0fdf4; border:2px solid #86efac; border-radius:var(--radius); padding:1.25rem; margin:1.25rem 0; }
+    .pt1-box h3 { font-size:1rem; font-weight:700; color:#166534; margin-bottom:.75rem; }
+    .pt1-box p { color:#166534; font-size:.88rem; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .rubrica-grid { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-top:1rem; }
+    .rubrica-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); }
+    .rubrica-pct { font-size:1.4rem; font-weight:700; color:var(--accent); }
+    .rubrica-label { font-size:.85rem; font-weight:600; color:var(--text); }
+    .rubrica-desc { font-size:.78rem; color:var(--text-soft); margin-top:.2rem; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} .rubrica-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA7 &middot; Activitat 5 &middot; Pt1</p>
+  <h1>Pràctica integradora: Exercici Institut</h1>
+  <p>Implementació d'un sistema de gestió d'un institut DAW amb les entitats <code>Alumne</code>, <code>Modul</code>, <code>Ra</code> i <code>Nota</code>: model complet, inserció massiva, consultes JPQL i càlcul de nota final.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 8.1 – 8.8</span>
+    <span class="pill">Pt1 — Pràctica avaluable</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea7.html">AEA7 — Persistència dels objectes</a>
+  <span>&rsaquo;</span>
+  A5 — Pràctica integradora: Exercici Institut
+</nav>
+<main>
+
+<div class="pt1-box">
+  <h3>&#9733; Pràctica avaluable Pt1 — AEA7</h3>
+  <p>Aquesta activitat és la <strong>pràctica avaluable (Pt1)</strong> de l'AEA7. Es lliura un projecte NetBeans complet amb totes les entitats, el persistence.xml, la inserció de dades i les consultes implementades. El professor avaluarà el projecte comprimit lliurat al Classroom.</p>
+</div>
+
+<h2 class="block-title">1. Enunciat</h2>
+<p>Volem una aplicació per gestionar les classes del cicle DAW i les notes dels alumnes. Necessitem la informació següent:</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Entitat</th><th>Atributs</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><code>Alumne</code></td><td><code>dniA</code> (String, PK), <code>nom</code>, <code>edat</code></td><td>La clau primària és el DNI (String), no autogenerat</td></tr>
+    <tr><td><code>Modul</code></td><td><code>numeroM</code> (int, PK), <code>nom</code>, <code>durada</code></td><td>La clau primària és el número de mòdul (int)</td></tr>
+    <tr><td><code>Ra</code></td><td><code>id</code> (Long, auto), <code>numeroRA</code>, <code>nom</code>, <code>durada</code>, <code>pes</code></td><td>Pertany a un <code>Modul</code> (ManyToOne)</td></tr>
+    <tr><td><code>Nota</code></td><td><code>id</code> (Long, auto), <code>nota</code> (double)</td><td>Pertany a un <code>Alumne</code> i a un <code>Ra</code> (ManyToOne × 2)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="sub-title">Relacions entre entitats</div>
+<ul>
+  <li><code>Modul</code> → <code>Ra</code>: un mòdul té molts RAs (<code>@OneToMany</code>)</li>
+  <li><code>Alumne</code> → <code>Nota</code>: un alumne té moltes notes (<code>@OneToMany</code>)</li>
+  <li><code>Ra</code> → <code>Nota</code>: un RA té moltes notes (<code>@OneToMany</code>)</li>
+</ul>
+
+<div class="info-box">
+  <strong>📌 Nota final: es calcula, no s'emmagatzema:</strong> La nota final del mòdul no s'ha de desar a la BD. Es calcula en temps d'execució navegant per les relacions: per a cada nota de l'alumne que pertanyi a un RA del mòdul indicat, es multiplica la nota pel pes del RA i es suma. Fórmula: <code>notaFinal = SUM(nota_RA × pes_RA / 100)</code>.
+</div>
+
+<h2 class="block-title">2. Requisits de la pràctica</h2>
+
+<div class="sub-title">Part A — Model de dades (25%)</div>
+<ol>
+  <li>Crea les 4 classes d'entitat (<code>Alumne</code>, <code>Modul</code>, <code>Ra</code>, <code>Nota</code>) amb les anotacions JPA correctes.</li>
+  <li>Configura el fitxer <code>persistence.xml</code> amb totes les classes incloses a la unitat <code>"InstitutPU"</code> i la URL <code>$objectdb/db/institut.odb</code>.</li>
+</ol>
+
+<div class="sub-title">Part B — Inserció massiva (25%)</div>
+<ol start="3">
+  <li>Crea 5 mòduls. Cada mòdul ha de tenir 3 RAs amb pesos que sumin 100 (per exemple: 33.33 + 33.33 + 33.34).</li>
+  <li>Crea 10 alumnes. Assigna a cada alumne notes per a 5 RAs aleatoris (valors entre 4.0 i 10.0). Usa <code>flush()</code> + <code>clear()</code> adequadament.</li>
+</ol>
+
+<div class="sub-title">Part C — Consultes JPQL (30%)</div>
+<ol start="5">
+  <li>Llista tots els alumnes ordenats per nom.</li>
+  <li>Mostra tots els RAs del Mòdul 1 ordenats per número de RA.</li>
+  <li>Llista les notes d'un alumne concret (per DNI) amb el nom del RA corresponent.</li>
+  <li>Mostra la mitjana de les notes de cada RA (nom del RA i mitjana). Ordena per RA descendent.</li>
+</ol>
+
+<div class="sub-title">Part D — Actualització i eliminació (20%)</div>
+<ol start="9">
+  <li>Incrementa en 1 punt (màxim 10) la nota de tots els alumnes en el RA amb pes més alt del Mòdul 1.</li>
+  <li>Implementa el mètode <code>calcularNotaFinalModul(Alumne, Modul)</code> usant Streams i mostra la nota final del Mòdul 1 per a tots els alumnes.</li>
+</ol>
+
+<h2 class="block-title">3. Codi de referència</h2>
+
+<div class="sub-title">persistence.xml — unitat InstitutPU</div>
+<div class="code-block">&lt;persistence version=<span class="str">"2.1"</span> xmlns=<span class="str">"http://xmlns.jcp.org/xml/ns/persistence"</span>&gt;
+  &lt;persistence-unit name=<span class="str">"InstitutPU"</span>&gt;
+    &lt;provider&gt;com.objectdb.jpa.Provider&lt;/provider&gt;
+    &lt;class&gt;<span class="cls">institut.Alumne</span>&lt;/class&gt;
+    &lt;class&gt;<span class="cls">institut.Modul</span>&lt;/class&gt;
+    &lt;class&gt;<span class="cls">institut.Ra</span>&lt;/class&gt;
+    &lt;class&gt;<span class="cls">institut.Nota</span>&lt;/class&gt;
+    &lt;properties&gt;
+      &lt;property name=<span class="str">"javax.persistence.jdbc.url"</span>
+                value=<span class="str">"$objectdb/db/institut.odb"</span>/&gt;
+    &lt;/properties&gt;
+  &lt;/persistence-unit&gt;
+&lt;/persistence&gt;</div>
+<div class="code-block"><span class="kw">package</span> institut;
+
+<span class="kw">import</span> java.io.<span class="cls">Serializable</span>;
+<span class="kw">import</span> javax.persistence.*;
+<span class="kw">import</span> java.util.<span class="cls">List</span>;
+<span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="at">@Entity</span>
+<span class="kw">public class</span> <span class="cls">Alumne</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    <span class="at">@Id</span>
+    <span class="kw">private</span> <span class="cls">String</span> dniA;
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span> edat;
+
+    <span class="at">@OneToMany</span>(mappedBy = <span class="str">"alumne"</span>)
+    <span class="kw">private</span> <span class="cls">List</span>&lt;<span class="cls">Nota</span>&gt; notes = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>() {}
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>(<span class="cls">String</span> dniA, <span class="cls">String</span> nom, <span class="kw">int</span> edat) {
+        <span class="kw">this</span>.dniA = dniA;
+        <span class="kw">this</span>.nom = nom;
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getDniA</span>() { <span class="kw">return</span> dniA; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom; }
+    <span class="kw">public int</span>    <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
+    <span class="kw">public</span> <span class="cls">List</span>&lt;<span class="cls">Nota</span>&gt; <span class="fn">getNotes</span>() { <span class="kw">return</span> notes; }
+    <span class="kw">public void</span> <span class="fn">setNotes</span>(<span class="cls">List</span>&lt;<span class="cls">Nota</span>&gt; notes) { <span class="kw">this</span>.notes = notes; }
+}</div>
+
+<div class="sub-title">Entitats — Modul.java i Ra.java</div>
+<div class="code-block"><span class="at">@Entity</span>
+<span class="kw">public class</span> <span class="cls">Modul</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    <span class="at">@Id</span>
+    <span class="kw">private int</span> numeroM;
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span> durada;
+
+    <span class="at">@OneToMany</span>(mappedBy = <span class="str">"modul"</span>)
+    <span class="kw">private</span> <span class="cls">List</span>&lt;<span class="cls">Ra</span>&gt; ras = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public</span> <span class="cls">Modul</span>() {}
+    <span class="kw">public</span> <span class="cls">Modul</span>(<span class="kw">int</span> numeroM, <span class="cls">String</span> nom, <span class="kw">int</span> durada) {
+        <span class="kw">this</span>.numeroM=numeroM; <span class="kw">this</span>.nom=nom; <span class="kw">this</span>.durada=durada;
+    }
+    <span class="kw">public int</span> <span class="fn">getNumeroM</span>() { <span class="kw">return</span> numeroM; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom; }
+    <span class="kw">public int</span> <span class="fn">getDurada</span>() { <span class="kw">return</span> durada; }
+    <span class="kw">public</span> <span class="cls">List</span>&lt;<span class="cls">Ra</span>&gt; <span class="fn">getRas</span>() { <span class="kw">return</span> ras; }
+    <span class="kw">public void</span> <span class="fn">setRas</span>(<span class="cls">List</span>&lt;<span class="cls">Ra</span>&gt; ras) { <span class="kw">this</span>.ras = ras; }
+}</div>
+<div class="code-block"><span class="at">@Entity</span>
+<span class="kw">public class</span> <span class="cls">Ra</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    <span class="at">@Id</span> <span class="at">@GeneratedValue</span>
+    <span class="kw">private</span> <span class="cls">Long</span> id;
+    <span class="kw">private int</span> numeroRA;
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private int</span> durada;
+    <span class="kw">private double</span> pes;
+
+    <span class="at">@ManyToOne</span>
+    <span class="kw">private</span> <span class="cls">Modul</span> modul;
+
+    <span class="at">@OneToMany</span>(mappedBy = <span class="str">"ra"</span>)
+    <span class="kw">private</span> <span class="cls">List</span>&lt;<span class="cls">Nota</span>&gt; notes = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public</span> <span class="cls">Ra</span>() {}
+    <span class="kw">public</span> <span class="cls">Ra</span>(<span class="kw">int</span> numeroRA, <span class="cls">String</span> nom, <span class="kw">int</span> durada, <span class="kw">double</span> pes, <span class="cls">Modul</span> modul) {
+        <span class="kw">this</span>.numeroRA=numeroRA; <span class="kw">this</span>.nom=nom; <span class="kw">this</span>.durada=durada;
+        <span class="kw">this</span>.pes=pes; <span class="kw">this</span>.modul=modul;
+    }
+    <span class="kw">public</span> <span class="cls">Long</span>   <span class="fn">getId</span>()      { <span class="kw">return</span> id; }
+    <span class="kw">public int</span>    <span class="fn">getNumeroRA</span>(){ <span class="kw">return</span> numeroRA; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()    { <span class="kw">return</span> nom; }
+    <span class="kw">public double</span> <span class="fn">getPes</span>()    { <span class="kw">return</span> pes; }
+    <span class="kw">public</span> <span class="cls">Modul</span>  <span class="fn">getModul</span>()  { <span class="kw">return</span> modul; }
+    <span class="kw">public</span> <span class="cls">List</span>&lt;<span class="cls">Nota</span>&gt; <span class="fn">getNotes</span>() { <span class="kw">return</span> notes; }
+}</div>
+
+<div class="sub-title">Entitat Nota.java</div>
+<div class="code-block"><span class="at">@Entity</span>
+<span class="kw">public class</span> <span class="cls">Nota</span> <span class="kw">implements</span> <span class="cls">Serializable</span> {
+
+    <span class="at">@Id</span> <span class="at">@GeneratedValue</span>
+    <span class="kw">private</span> <span class="cls">Long</span> id;
+    <span class="kw">private double</span> nota;
+
+    <span class="at">@ManyToOne</span>
+    <span class="kw">private</span> <span class="cls">Alumne</span> alumne;
+
+    <span class="at">@ManyToOne</span>
+    <span class="kw">private</span> <span class="cls">Ra</span> ra;
+
+    <span class="kw">public</span> <span class="cls">Nota</span>() {}
+    <span class="kw">public</span> <span class="cls">Nota</span>(<span class="kw">double</span> nota, <span class="cls">Alumne</span> alumne, <span class="cls">Ra</span> ra) {
+        <span class="kw">this</span>.nota=nota; <span class="kw">this</span>.alumne=alumne; <span class="kw">this</span>.ra=ra;
+    }
+    <span class="kw">public double</span> <span class="fn">getNota</span>() { <span class="kw">return</span> nota; }
+    <span class="kw">public void</span>   <span class="fn">setNota</span>(<span class="kw">double</span> nota) { <span class="kw">this</span>.nota = nota; }  <span class="cmt">// Necessari per a la Part D</span>
+    <span class="kw">public</span> <span class="cls">Alumne</span> <span class="fn">getAlumne</span>() { <span class="kw">return</span> alumne; }
+    <span class="kw">public</span> <span class="cls">Ra</span>     <span class="fn">getRa</span>()     { <span class="kw">return</span> ra; }
+}</div>
+
+<div class="warn-box">
+  <strong>⚠️ Elimina la BD entre execucions:</strong> <code>Alumne</code> i <code>Modul</code> usen claus primàries manuals (DNI i numeroM). Si executes <code>InsercioMassiva</code> un segon cop sense eliminar primer la BD, JPA llançarà una excepció per duplicat de clau primària. Obre el Database Explorer, elimina el fitxer <code>institut.odb</code> i torna a executar.
+</div>
+
+<div class="sub-title">Inserció massiva — InsercioMassiva.java</div>
+<div class="code-block"><span class="kw">public class</span> <span class="cls">InsercioMassiva</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">EntityManagerFactory</span> emf =
+            <span class="cls">Persistence</span>.<span class="fn">createEntityManagerFactory</span>(<span class="str">"InstitutPU"</span>);
+        <span class="cls">EntityManager</span> em = emf.<span class="fn">createEntityManager</span>();
+
+        em.<span class="fn">getTransaction</span>().<span class="fn">begin</span>();
+
+        <span class="cls">Random</span> rand = <span class="kw">new</span> <span class="cls">Random</span>();
+        <span class="cls">List</span>&lt;<span class="cls">Ra</span>&gt; rasTotals = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        <span class="kw">int</span> comptador = <span class="num">0</span>;
+
+        <span class="cmt">// PRIMER: crear mòduls i RAs</span>
+        <span class="kw">for</span> (<span class="kw">int</span> m = <span class="num">1</span>; m &lt;= <span class="num">5</span>; m++) {
+            <span class="cls">Modul</span> modul = <span class="kw">new</span> <span class="cls">Modul</span>(m, <span class="str">"Mòdul "</span> + m, <span class="num">180</span>);
+            <span class="cls">List</span>&lt;<span class="cls">Ra</span>&gt; raList = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+            <span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">1</span>; r &lt;= <span class="num">3</span>; r++) {
+                <span class="kw">double</span> pes = (r &lt; <span class="num">3</span>) ? <span class="num">33.33</span> : <span class="num">33.34</span>;
+                <span class="cls">Ra</span> ra = <span class="kw">new</span> <span class="cls">Ra</span>(r, <span class="str">"RA "</span>+r+<span class="str">" del Mòdul "</span>+m, <span class="num">60</span>, pes, modul);
+                em.<span class="fn">persist</span>(ra);
+                raList.<span class="fn">add</span>(ra);
+                rasTotals.<span class="fn">add</span>(ra);
+                comptador++;
+            }
+
+            modul.<span class="fn">setRas</span>(raList);
+            em.<span class="fn">persist</span>(modul);
+            comptador++;
+        }
+
+        <span class="cmt">// SEGON: crear alumnes amb notes</span>
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">10</span>; i++) {
+            <span class="cls">String</span> dni = <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%08dA"</span>, i);
+            <span class="cls">Alumne</span> alumne = <span class="kw">new</span> <span class="cls">Alumne</span>(dni, <span class="str">"Alumne "</span>+i, <span class="num">18</span>+rand.<span class="fn">nextInt</span>(<span class="num">5</span>));
+            <span class="cls">List</span>&lt;<span class="cls">Nota</span>&gt; notes = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+            <span class="cls">Collections</span>.<span class="fn">shuffle</span>(rasTotals);
+            <span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; <span class="num">5</span>; j++) {
+                <span class="cls">Ra</span> ra = rasTotals.<span class="fn">get</span>(j);
+                <span class="kw">double</span> valor = <span class="num">4.0</span> + rand.<span class="fn">nextDouble</span>() * <span class="num">6.0</span>;
+                valor = <span class="cls">Math</span>.<span class="fn">round</span>(valor * <span class="num">10.0</span>) / <span class="num">10.0</span>;
+                <span class="cls">Nota</span> n = <span class="kw">new</span> <span class="cls">Nota</span>(valor, alumne, ra);
+                em.<span class="fn">persist</span>(n);
+                notes.<span class="fn">add</span>(n);
+                comptador++;
+            }
+
+            alumne.<span class="fn">setNotes</span>(notes);
+            em.<span class="fn">persist</span>(alumne);
+            comptador++;
+
+            <span class="cmt">// flush + clear cada 10 objectes per alliberar memòria</span>
+            <span class="kw">if</span> (comptador % <span class="num">10</span> == <span class="num">0</span>) {
+                em.<span class="fn">flush</span>();
+                em.<span class="fn">clear</span>();
+            }
+        }
+
+        em.<span class="fn">getTransaction</span>().<span class="fn">commit</span>();
+        em.<span class="fn">close</span>();
+        emf.<span class="fn">close</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Inserció completada: "</span> + comptador + <span class="str">" objectes."</span>);
+    }
+}</div>
+
+<div class="sub-title">Càlcul de la nota final de mòdul (Streams)</div>
+<div class="code-block"><span class="kw">public static double</span> <span class="fn">calcularNotaFinalModul</span>(<span class="cls">Alumne</span> alumne, <span class="cls">Modul</span> modul) {
+    <span class="kw">return</span> alumne.<span class="fn">getNotes</span>().<span class="fn">stream</span>()
+        .<span class="fn">filter</span>(n -&gt; n.<span class="fn">getRa</span>().<span class="fn">getModul</span>().<span class="fn">getNumeroM</span>() == modul.<span class="fn">getNumeroM</span>())
+        .<span class="fn">mapToDouble</span>(n -&gt; n.<span class="fn">getNota</span>() * n.<span class="fn">getRa</span>().<span class="fn">getPes</span>() / <span class="num">100.0</span>)
+        .<span class="fn">sum</span>();
+}</div>
+
+<h2 class="block-title">4. Rúbrica d'avaluació</h2>
+<div class="rubrica-grid">
+  <div class="rubrica-item">
+    <div class="rubrica-pct">25%</div>
+    <div class="rubrica-label">A — Model de dades</div>
+    <div class="rubrica-desc">4 entitats correctes, anotacions JPA, constructors, getters. persistence.xml ben configurat amb totes les classes.</div>
+  </div>
+  <div class="rubrica-item">
+    <div class="rubrica-pct">25%</div>
+    <div class="rubrica-label">B — Inserció massiva</div>
+    <div class="rubrica-desc">5 mòduls × 3 RAs amb pesos correctes. 10 alumnes × 5 notes. Relacions bidireccionals sincronitzades.</div>
+  </div>
+  <div class="rubrica-item">
+    <div class="rubrica-pct">30%</div>
+    <div class="rubrica-label">C — Consultes JPQL</div>
+    <div class="rubrica-desc">Les 4 consultes obligatòries implementades i funcionant. Paràmetres correctes. Resultats mostrats per pantalla.</div>
+  </div>
+  <div class="rubrica-item">
+    <div class="rubrica-pct">20%</div>
+    <div class="rubrica-label">D — Actualització i nota final</div>
+    <div class="rubrica-desc">UPDATE JPQL amb condició de pes màxim. Mètode <code>calcularNotaFinalModul</code> amb Streams funcionant per a tots els alumnes.</div>
+  </div>
+</div>
+
+<!-- CAs -->
+<h2 class="block-title" style="margin-top:3rem">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item"><span class="ca-badge">CA 8.1</span><span class="ca-text">Identifica les característiques de les BD orientades a objectes.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.2</span><span class="ca-text">Instal·la i configura ObjectDB al projecte NetBeans.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.3</span><span class="ca-text">Configura el fitxer <code>persistence.xml</code> amb la unitat InstitutPU.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.4</span><span class="ca-text">Crea les 4 classes d'entitat JPA amb anotacions i claus primàries.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.5</span><span class="ca-text">Programa la creació d'objectes persistents amb <code>persist()</code>.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.6</span><span class="ca-text">Emmagatzematge massiu eficient amb <code>flush()</code> i <code>clear()</code>.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.7</span><span class="ca-text">Consultes JPQL amb paràmetres, UPDATE i funcions agregades.</span></div>
+  <div class="ca-item"><span class="ca-badge">CA 8.8</span><span class="ca-text">Relacions entre entitats: @OneToMany / @ManyToOne bidireccionals.</span></div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Exercici Institut.pdf</em> — Albert Canela. Enunciat original de la pràctica.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Alumne.java</em>, <em>Modul.java</em>, <em>Ra.java</em>, <em>Nota.java</em> — Albert Canela. Codi de referència de les entitats.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>InsercioMassiva.java</em> — Albert Canela. Exemple complet d'inserció de dades.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>calcularNotaFinal.java</em> — Albert Canela. Mètode de càlcul amb Streams.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

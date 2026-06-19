@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A4 — Aplicació CRUD completa · AEA6 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    .struct-box { background:#1e1e2e; border-radius:var(--radius); padding:1.25rem 1.5rem; margin:1rem 0 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.82rem; color:#cdd6f4; line-height:1.8; }
+    .struct-box .pkg { color:#cba6f7; }
+    .struct-box .cls2 { color:#89dceb; }
+    .struct-box .comm { color:#6c7086; font-style:italic; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA6 &middot; Activitat 4 JDBC</p>
+  <h1>Aplicació CRUD completa</h1>
+  <p>Integra tot el que has après en una aplicació de gestió del Gimnàs estructurada per capes: entitats, persistència i presentació. Operacions CRUD completes sobre <code>Clients</code> i <code>Activitats</code>.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 9.6</span>
+    <span class="pill">CA 9.7</span>
+    <span class="pill">Arquitectura per capes</span>
+    <span class="pill">DAO pattern</span>
+    <span class="pill">Transaccions</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea6.html">AEA6 — Gestió de bases de dades relacionals</a>
+  <span>&rsaquo;</span>
+  A4 — Aplicació CRUD completa
+</nav>
+<main>
+
+<h2 class="block-title">1. Arquitectura de l'aplicació</h2>
+
+<p>En les activitats anteriors hem escrit tot el codi JDBC directament al <code>main()</code>. En una aplicació real, el codi s'organitza en capes. En aquesta activitat aplicarem l'arquitectura que descriu el material del professor, amb tres paquets:</p>
+
+<div class="struct-box">
+<span class="pkg">entitats</span>/
+  <span class="cls2">Client.java</span>       <span class="comm">// Classe POJO que representa un client</span>
+  <span class="cls2">Activitat.java</span>    <span class="comm">// Classe POJO que representa una activitat</span>
+
+<span class="pkg">persistencia</span>/
+  <span class="cls2">Connexio.java</span>     <span class="comm">// Singleton de connexió (de l'A1)</span>
+  <span class="cls2">ClientDAO.java</span>    <span class="comm">// Operacions CRUD sobre Clients</span>
+  <span class="cls2">ActivitatDAO.java</span> <span class="comm">// Operacions CRUD sobre Activitats</span>
+
+<span class="pkg">presentacio</span>/
+  <span class="cls2">Main.java</span>         <span class="comm">// Menú principal i interacció</span>
+</div>
+
+<div class="info-box">
+  <strong>📌 Patró DAO (Data Access Object):</strong> Les classes <code>ClientDAO</code> i <code>ActivitatDAO</code> encapsulen tota la lògica d'accés a la BD. El <code>Main</code> no sap res de JDBC: només crida mètodes del DAO com <code>dao.inserir(client)</code> o <code>dao.llistarTots()</code>. Aquesta separació fa el codi molt més mantenible.
+</div>
+
+<h2 class="block-title">2. Les classes entitat (POJO)</h2>
+
+<div class="code-block"><span class="cmt">// ── entitats/Client.java ────────────────────────</span>
+<span class="kw">package</span> entitats;
+
+<span class="kw">public class</span> <span class="cls">Client</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> dni, nom, correu;
+    <span class="kw">private int</span>    edat;
+
+    <span class="kw">public</span> <span class="fn">Client</span>(<span class="cls">String</span> dni, <span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> correu) {
+        <span class="kw">this</span>.dni = dni; <span class="kw">this</span>.nom = nom;
+        <span class="kw">this</span>.edat = edat; <span class="kw">this</span>.correu = correu;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getDni</span>()    { <span class="kw">return</span> dni; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()    { <span class="kw">return</span> nom; }
+    <span class="kw">public int</span>    <span class="fn">getEdat</span>()   { <span class="kw">return</span> edat; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getCorreu</span>() { <span class="kw">return</span> correu; }
+    <span class="kw">public void</span>   <span class="fn">setEdat</span>(<span class="kw">int</span> edat)       { <span class="kw">this</span>.edat = edat; }
+    <span class="kw">public void</span>   <span class="fn">setCorreu</span>(<span class="cls">String</span> correu) { <span class="kw">this</span>.correu = correu; }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%-12s %-20s %3d  %s"</span>, dni, nom, edat, correu);
+    }
+}</div>
+
+<h2 class="block-title">3. La classe ClientDAO</h2>
+
+<p>La classe DAO conté un mètode per a cada operació CRUD. Cada mètode gestiona la seva pròpia <code>SQLException</code> o la propaga cap amunt, depenent del disseny.</p>
+
+<div class="code-block"><span class="kw">package</span> persistencia;
+
+<span class="kw">import</span> entitats.<span class="cls">Client</span>;
+<span class="kw">import</span> java.sql.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">ClientDAO</span> {
+
+    <span class="cmt">// ── CREATE ─────────────────────────────────────</span>
+    <span class="kw">public boolean</span> <span class="fn">inserir</span>(<span class="cls">Client</span> c) {
+        <span class="cls">String</span> sql = <span class="str">"INSERT INTO Clients (dni,nom,edat,correu) VALUES (?,?,?,?)"</span>;
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+            ps.<span class="fn">setString</span>(<span class="num">1</span>, c.<span class="fn">getDni</span>());
+            ps.<span class="fn">setString</span>(<span class="num">2</span>, c.<span class="fn">getNom</span>());
+            ps.<span class="fn">setInt</span>   (<span class="num">3</span>, c.<span class="fn">getEdat</span>());
+            ps.<span class="fn">setString</span>(<span class="num">4</span>, c.<span class="fn">getCorreu</span>());
+            <span class="kw">return</span> ps.<span class="fn">executeUpdate</span>() > <span class="num">0</span>;
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error inserint client: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return false</span>;
+        }
+    }
+
+    <span class="cmt">// ── READ ALL ───────────────────────────────────</span>
+    <span class="kw">public</span> <span class="cls">List</span>&lt;<span class="cls">Client</span>&gt; <span class="fn">llistarTots</span>() {
+        <span class="cls">List</span>&lt;<span class="cls">Client</span>&gt; llista = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        <span class="kw">try</span> (<span class="cls">Statement</span> st = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">createStatement</span>();
+             <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(<span class="str">"SELECT * FROM Clients ORDER BY nom"</span>)) {
+            <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+                llista.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Client</span>(
+                    rs.<span class="fn">getString</span>(<span class="str">"dni"</span>), rs.<span class="fn">getString</span>(<span class="str">"nom"</span>),
+                    rs.<span class="fn">getInt</span>(<span class="str">"edat"</span>),  rs.<span class="fn">getString</span>(<span class="str">"correu"</span>)));
+            }
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error llegint clients: "</span> + e.<span class="fn">getMessage</span>());
+        }
+        <span class="kw">return</span> llista;
+    }
+
+    <span class="cmt">// ── UPDATE ─────────────────────────────────────</span>
+    <span class="kw">public boolean</span> <span class="fn">actualitzar</span>(<span class="cls">Client</span> c) {
+        <span class="cls">String</span> sql = <span class="str">"UPDATE Clients SET nom=?, edat=?, correu=? WHERE dni=?"</span>;
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+            ps.<span class="fn">setString</span>(<span class="num">1</span>, c.<span class="fn">getNom</span>()); ps.<span class="fn">setInt</span>(<span class="num">2</span>, c.<span class="fn">getEdat</span>());
+            ps.<span class="fn">setString</span>(<span class="num">3</span>, c.<span class="fn">getCorreu</span>()); ps.<span class="fn">setString</span>(<span class="num">4</span>, c.<span class="fn">getDni</span>());
+            <span class="kw">return</span> ps.<span class="fn">executeUpdate</span>() > <span class="num">0</span>;
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error actualitzant: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return false</span>;
+        }
+    }
+
+    <span class="cmt">// ── DELETE ─────────────────────────────────────</span>
+    <span class="kw">public boolean</span> <span class="fn">eliminar</span>(<span class="cls">String</span> dni) {
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(
+                <span class="str">"DELETE FROM Clients WHERE dni = ?"</span>)) {
+            ps.<span class="fn">setString</span>(<span class="num">1</span>, dni);
+            <span class="kw">return</span> ps.<span class="fn">executeUpdate</span>() > <span class="num">0</span>;
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error eliminant: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return false</span>;
+        }
+    }
+}</div>
+
+<h2 class="block-title">4. Transaccions (nivell avançat)</h2>
+
+<p>Quan necessitem que dues o més operacions s'executin com una unitat indivisible (o totes o cap), usem <strong>transaccions</strong>. Per exemple: inscriure un client a una activitat <em>i</em> decrementar les places disponibles ha de ser atòmic.</p>
+
+<div class="code-block"><span class="cls">Connection</span> con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+
+<span class="kw">try</span> {
+    con.<span class="fn">setAutoCommit</span>(<span class="kw">false</span>); <span class="cmt">// Desactivem l'autocommit</span>
+
+    <span class="cmt">// Operació 1: inscriure el client</span>
+    <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps1 = con.<span class="fn">prepareStatement</span>(
+            <span class="str">"INSERT INTO Inscripcions (dni, idActivitat) VALUES (?, ?)"</span>)) {
+        ps1.<span class="fn">setString</span>(<span class="num">1</span>, <span class="str">"12345678A"</span>);
+        ps1.<span class="fn">setInt</span>   (<span class="num">2</span>, <span class="num">4</span>);
+        ps1.<span class="fn">executeUpdate</span>();
+    }
+
+    <span class="cmt">// Operació 2: decrementar les places</span>
+    <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps2 = con.<span class="fn">prepareStatement</span>(
+            <span class="str">"UPDATE Activitats SET places = places - 1 WHERE idActivitat = ?"</span>)) {
+        ps2.<span class="fn">setInt</span>(<span class="num">1</span>, <span class="num">4</span>);
+        ps2.<span class="fn">executeUpdate</span>();
+    }
+
+    con.<span class="fn">commit</span>(); <span class="cmt">// Confirmar les dues operacions juntes</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✓ Inscripció completada."</span>);
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    con.<span class="fn">rollback</span>(); <span class="cmt">// Si alguna falla, desfer-ho tot</span>
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ Error. Operació cancel·lada: "</span> + e.<span class="fn">getMessage</span>());
+} <span class="kw">finally</span> {
+    con.<span class="fn">setAutoCommit</span>(<span class="kw">true</span>); <span class="cmt">// Restaurar l'estat per defecte</span>
+}</div>
+
+<div class="warn-box">
+  <strong>⚠️ Sempre restaureu l'autocommit!</strong> Si no poseu <code>setAutoCommit(true)</code> al bloc <code>finally</code>, totes les operacions posteriors d'aquesta connexió també quedaran pendents de <code>commit</code>, la qual cosa pot causar comportaments inesperats.
+</div>
+
+<h2 class="block-title">5. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Gestor de clients per consola</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa una aplicació de consola amb un menú que permeti gestionar completament els clients del Gimnàs usant l'arquitectura per capes (entitats + DAO + presentació).</p>
+    <ol class="exercici-tasques">
+      <li>Crea les classes <code>Client</code> (paquet <code>entitats</code>) i <code>ClientDAO</code> (paquet <code>persistencia</code>) tal com s'ha descrit a la teoria.</li>
+      <li>Crea la classe <code>Main</code> amb un bucle de menú que ofereixi les opcions: 1) Llistar clients, 2) Afegir client, 3) Eliminar client, 4) Sortir.</li>
+      <li>Implementa cada opció cridant el mètode corresponent del <code>ClientDAO</code>.</li>
+      <li>Gestiona el cas en què l'usuari intenti eliminar un DNI que no existeix (mostra un missatge informatiu).</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.6 · 9.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Gestor de clients per consola (Main.java)</div>
+<div class="code-block"><span class="kw">package</span> presentacio;
+
+<span class="kw">import</span> entitats.<span class="cls">Client</span>;
+<span class="kw">import</span> persistencia.<span class="cls">ClientDAO</span>;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">ClientDAO</span> dao     = <span class="kw">new</span> <span class="cls">ClientDAO</span>();
+        <span class="cls">Scanner</span>   scanner = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">int</span>       opcio;
+
+        <span class="kw">do</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n══ GIMNÀS — Gestió de clients ══"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"1. Llistar clients"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"2. Afegir client"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"3. Eliminar client"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"4. Sortir"</span>);
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Opció: "</span>);
+            opcio = scanner.<span class="fn">nextInt</span>(); scanner.<span class="fn">nextLine</span>();
+
+            <span class="kw">switch</span> (opcio) {
+
+                <span class="kw">case</span> <span class="num">1</span>:
+                    <span class="cls">List</span>&lt;<span class="cls">Client</span>&gt; llista = dao.<span class="fn">llistarTots</span>();
+                    <span class="kw">if</span> (llista.<span class="fn">isEmpty</span>()) {
+                        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha clients."</span>);
+                    } <span class="kw">else</span> {
+                        llista.<span class="fn">forEach</span>(<span class="cls">System</span>.out::<span class="fn">println</span>);
+                    }
+                    <span class="kw">break</span>;
+
+                <span class="kw">case</span> <span class="num">2</span>:
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"DNI: "</span>);    <span class="cls">String</span> dni    = scanner.<span class="fn">nextLine</span>();
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nom: "</span>);    <span class="cls">String</span> nom    = scanner.<span class="fn">nextLine</span>();
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Edat: "</span>);   <span class="kw">int</span>    edat   = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(scanner.<span class="fn">nextLine</span>());
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Correu: "</span>); <span class="cls">String</span> correu = scanner.<span class="fn">nextLine</span>();
+                    <span class="kw">boolean</span> ok = dao.<span class="fn">inserir</span>(<span class="kw">new</span> <span class="cls">Client</span>(dni, nom, edat, correu));
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(ok ? <span class="str">"✓ Client afegit."</span> : <span class="str">"✗ Error en afegir."</span>);
+                    <span class="kw">break</span>;
+
+                <span class="kw">case</span> <span class="num">3</span>:
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"DNI a eliminar: "</span>);
+                    <span class="cls">String</span> dniEl = scanner.<span class="fn">nextLine</span>();
+                    <span class="kw">boolean</span> eliminat = dao.<span class="fn">eliminar</span>(dniEl);
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(eliminat
+                        ? <span class="str">"✓ Client eliminat."</span>
+                        : <span class="str">"✗ No s'ha trobat cap client amb aquest DNI."</span>);
+                    <span class="kw">break</span>;
+            }
+        } <span class="kw">while</span> (opcio != <span class="num">4</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fins aviat!"</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">CRUD complet d'activitats</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Amplía l'aplicació anterior afegint la gestió completa d'activitats: crea la classe <code>Activitat</code> i la classe <code>ActivitatDAO</code> amb tots els mètodes CRUD, i integra-la al menú principal.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>Activitat</code> al paquet <code>entitats</code> amb els atributs: <code>idActivitat</code>, <code>nom</code>, <code>nivell</code>, <code>places</code>.</li>
+      <li>Crea <code>ActivitatDAO</code> amb els mètodes: <code>llistarTots()</code>, <code>inserir(Activitat)</code>, <code>actualitzarPlaces(int id, int places)</code> i <code>eliminar(int id)</code>.</li>
+      <li>Afegeix al menú del <code>Main</code> un submenú per a la gestió d'activitats.</li>
+      <li>Prova que l'eliminació d'una activitat amb inscripcions actives falla degut a la restricció de clau forana (captura i mostra l'error de forma entenedora).</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.6 · 9.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — ActivitatDAO.java</div>
+<div class="code-block"><span class="kw">package</span> persistencia;
+
+<span class="kw">import</span> entitats.<span class="cls">Activitat</span>;
+<span class="kw">import</span> java.sql.*;
+<span class="kw">import</span> java.util.*;
+
+<span class="kw">public class</span> <span class="cls">ActivitatDAO</span> {
+
+    <span class="kw">public</span> <span class="cls">List</span>&lt;<span class="cls">Activitat</span>&gt; <span class="fn">llistarTots</span>() {
+        <span class="cls">List</span>&lt;<span class="cls">Activitat</span>&gt; llista = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+        <span class="kw">try</span> (<span class="cls">Statement</span> st = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">createStatement</span>();
+             <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(
+                 <span class="str">"SELECT * FROM Activitats ORDER BY nom"</span>)) {
+            <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+                llista.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Activitat</span>(
+                    rs.<span class="fn">getInt</span>(<span class="str">"idActivitat"</span>), rs.<span class="fn">getString</span>(<span class="str">"nom"</span>),
+                    rs.<span class="fn">getString</span>(<span class="str">"nivell"</span>), rs.<span class="fn">getInt</span>(<span class="str">"places"</span>)));
+            }
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) { <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getMessage</span>()); }
+        <span class="kw">return</span> llista;
+    }
+
+    <span class="kw">public boolean</span> <span class="fn">inserir</span>(<span class="cls">Activitat</span> a) {
+        <span class="cls">String</span> sql = <span class="str">"INSERT INTO Activitats (nom, nivell, places) VALUES (?,?,?)"</span>;
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(sql)) {
+            ps.<span class="fn">setString</span>(<span class="num">1</span>, a.<span class="fn">getNom</span>());
+            ps.<span class="fn">setString</span>(<span class="num">2</span>, a.<span class="fn">getNivell</span>());
+            ps.<span class="fn">setInt</span>   (<span class="num">3</span>, a.<span class="fn">getPlaces</span>());
+            <span class="kw">return</span> ps.<span class="fn">executeUpdate</span>() > <span class="num">0</span>;
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) { <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getMessage</span>()); <span class="kw">return false</span>; }
+    }
+
+    <span class="kw">public boolean</span> <span class="fn">actualitzarPlaces</span>(<span class="kw">int</span> id, <span class="kw">int</span> places) {
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(
+                <span class="str">"UPDATE Activitats SET places = ? WHERE idActivitat = ?"</span>)) {
+            ps.<span class="fn">setInt</span>(<span class="num">1</span>, places); ps.<span class="fn">setInt</span>(<span class="num">2</span>, id);
+            <span class="kw">return</span> ps.<span class="fn">executeUpdate</span>() > <span class="num">0</span>;
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) { <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getMessage</span>()); <span class="kw">return false</span>; }
+    }
+
+    <span class="kw">public boolean</span> <span class="fn">eliminar</span>(<span class="kw">int</span> id) {
+        <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">prepareStatement</span>(
+                <span class="str">"DELETE FROM Activitats WHERE idActivitat = ?"</span>)) {
+            ps.<span class="fn">setInt</span>(<span class="num">1</span>, id);
+            <span class="kw">return</span> ps.<span class="fn">executeUpdate</span>() > <span class="num">0</span>;
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="kw">if</span> (e.<span class="fn">getErrorCode</span>() == <span class="num">1451</span>) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No es pot eliminar: l'activitat té inscripcions actives."</span>);
+            } <span class="kw">else</span> { <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getMessage</span>()); }
+            <span class="kw">return false</span>;
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Inscripció atòmica amb transacció</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Implementa el mètode <code>inscriureClient(String dni, int idActivitat)</code> a una nova classe <code>InscripcioDAO</code> que realitzi les dues operacions (INSERT a Inscripcions + UPDATE places) de forma atòmica amb una transacció.</p>
+    <ol class="exercici-tasques">
+      <li>Crea la classe <code>InscripcioDAO</code> al paquet <code>persistencia</code>.</li>
+      <li>Implementa el mètode <code>inscriureClient</code> que: comprovi si hi ha places disponibles, faci l'INSERT a <code>Inscripcions</code>, faci l'UPDATE decrementant places, i faci <code>commit</code> si tot va bé o <code>rollback</code> si falla qualsevol operació.</li>
+      <li>Prova el cas d'error: simula un error al segon <code>executeUpdate</code> i comprova que el <code>rollback</code> desfà el primer INSERT.</li>
+      <li>Afegeix l'opció d'inscriure un client al menú del <code>Main</code>.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.6 · 9.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — InscripcioDAO.java amb transacció</div>
+<div class="code-block"><span class="kw">package</span> persistencia;
+
+<span class="kw">import</span> java.sql.*;
+
+<span class="kw">public class</span> <span class="cls">InscripcioDAO</span> {
+
+    <span class="kw">public boolean</span> <span class="fn">inscriureClient</span>(<span class="cls">String</span> dni, <span class="kw">int</span> idActivitat) {
+
+        <span class="cls">Connection</span> con = <span class="kw">null</span>;
+
+        <span class="kw">try</span> {
+            con = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>();
+            con.<span class="fn">setAutoCommit</span>(<span class="kw">false</span>);
+
+            <span class="cmt">// 1. Comprovar places disponibles</span>
+            <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(
+                    <span class="str">"SELECT places FROM Activitats WHERE idActivitat = ?"</span>)) {
+                ps.<span class="fn">setInt</span>(<span class="num">1</span>, idActivitat);
+                <span class="cls">ResultSet</span> rs = ps.<span class="fn">executeQuery</span>();
+                rs.<span class="fn">next</span>();
+                <span class="kw">if</span> (rs.<span class="fn">getInt</span>(<span class="str">"places"</span>) <= <span class="num">0</span>) {
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"L'activitat és plena."</span>);
+                    con.<span class="fn">setAutoCommit</span>(<span class="kw">true</span>);
+                    <span class="kw">return false</span>;
+                }
+            }
+
+            <span class="cmt">// 2. Crear la inscripció</span>
+            <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(
+                    <span class="str">"INSERT INTO Inscripcions (dni, idActivitat) VALUES (?, ?)"</span>)) {
+                ps.<span class="fn">setString</span>(<span class="num">1</span>, dni);
+                ps.<span class="fn">setInt</span>   (<span class="num">2</span>, idActivitat);
+                ps.<span class="fn">executeUpdate</span>();
+            }
+
+            <span class="cmt">// 3. Decrementar places</span>
+            <span class="kw">try</span> (<span class="cls">PreparedStatement</span> ps = con.<span class="fn">prepareStatement</span>(
+                    <span class="str">"UPDATE Activitats SET places = places - 1 WHERE idActivitat = ?"</span>)) {
+                ps.<span class="fn">setInt</span>(<span class="num">1</span>, idActivitat);
+                ps.<span class="fn">executeUpdate</span>();
+            }
+
+            con.<span class="fn">commit</span>(); <span class="cmt">// Tot correcte: confirmar</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✓ Inscripció completada correctament."</span>);
+            <span class="kw">return true</span>;
+
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="kw">try</span> { <span class="kw">if</span> (con != <span class="kw">null</span>) con.<span class="fn">rollback</span>(); } <span class="kw">catch</span> (<span class="cls">SQLException</span> ex) {}
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"✗ Error. Operació revertida: "</span> + e.<span class="fn">getMessage</span>());
+            <span class="kw">return false</span>;
+        } <span class="kw">finally</span> {
+            <span class="kw">try</span> { <span class="kw">if</span> (con != <span class="kw">null</span>) con.<span class="fn">setAutoCommit</span>(<span class="kw">true</span>); }
+            <span class="kw">catch</span> (<span class="cls">SQLException</span> ex) {}
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">6. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.6</span>
+    <span class="ca-text">Crea aplicacions que mostrin la informació emmagatzemada en bases de dades. Arquitectura per capes amb patró DAO i presentació per consola.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.7</span>
+    <span class="ca-text">Crea aplicacions per gestionar la informació present en bases de dades. CRUD complet integrat en una aplicació amb menú, validació i transaccions.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Accés a BD relacionals.pdf</em> — Albert Canela. Capítol 3 (Com treballarem? — arquitectura per capes i patró DAO).</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Transaccions.pdf</em> — Albert Canela. <code>setAutoCommit</code>, <code>commit</code> i <code>rollback</code>.</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Gimnas.sql</em> — Esquema i dades de la base de dades del Gimnàs.</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 29 — Java con JDBC: Conexión a Base de Datos con MySQL, Java y Netbeans.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

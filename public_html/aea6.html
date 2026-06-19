@@ -25,11 +25,19 @@
     .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
     .breadcrumb a:hover { text-decoration:underline; }
     .breadcrumb span { margin:0 .4rem; color:#ccc; }
-    main { flex:1; max-width:760px; width:100%; margin:0 auto; padding:4rem 2rem; text-align:center; }
-    .coming h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.5rem; color:var(--text); margin-bottom:.75rem; }
-    .coming p { color:var(--text-soft); font-size:.95rem; }
-    .back { display:inline-block; margin-top:2rem; color:var(--accent); font-weight:600; text-decoration:none; font-size:.95rem; }
-    .back:hover { text-decoration:underline; }
+    main { flex:1; max-width:1000px; width:100%; margin:0 auto; padding:3.5rem 2rem; }
+    .section-intro { margin-bottom:1.5rem; }
+    .section-intro h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.6rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
+    .section-intro p { font-size:.92rem; color:var(--text-soft); max-width:680px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
+    .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
+    .card:hover { box-shadow:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10); transform:translateY(-3px); }
+    .card-badge { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--accent-bg); color:var(--accent); border-radius:8px; font-size:.78rem; font-weight:700; margin-bottom:.3rem; }
+    .card-title { font-size:1rem; font-weight:700; color:var(--text); line-height:1.3; }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; flex:1; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; margin-top:.6rem; padding-top:.6rem; border-top:1px solid var(--border); }
+    .card-criteri { font-size:.74rem; color:var(--text-soft); }
+    .card-link { font-size:.84rem; font-weight:600; color:var(--accent); }
     footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
     @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} }
   </style>
@@ -38,20 +46,62 @@
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
   <h1>AEA6 &mdash; Gestió de bases de dades relacionals</h1>
-  <p>Connexió a bases de dades relacionals des de Java, execució de consultes i operacions CRUD amb JDBC.</p>
+  <p>Connexió a bases de dades MySQL amb JDBC, consultes SELECT, operacions d'inserció, modificació i eliminació, i construcció d'una aplicació CRUD completa.</p>
 </header>
 <nav class="breadcrumb">
-  <a href="index.html">M0485 Programaci&oacute;</a>
+  <a href="../index.html">M0485 Programació</a>
   <span>&rsaquo;</span>
   AEA6 &mdash; Gestió de bases de dades relacionals
 </nav>
 <main>
-  <div class="coming">
-    <h2>Contingut en construcci&oacute;</h2>
-    <p>Les activitats d&rsquo;aquesta AEA s&rsquo;aniran publicant al llarg del curs.</p>
-    <a class="back" href="index.html">&larr; Tornar a M0485</a>
+  <div class="section-intro">
+    <h2>AEA6 — Gestió de bases de dades relacionals</h2>
+    <p>Quatre activitats progressives que cobreixen tot el RA9: des de la connexió i l'arquitectura JDBC fins a la construcció d'una aplicació de gestió completa sobre la base de dades d'un gimnàs.</p>
+  </div>
+  <div class="cards">
+
+    <a class="card" href="aea6/A1_connexio_jdbc.html">
+      <span class="card-badge">A1</span>
+      <span class="card-title">Introducció a JDBC. Connexió i arquitectura</span>
+      <span class="card-desc">Arquitectura JDBC, tipus de drivers, configuració de XAMPP i NetBeans. Primera connexió a MySQL amb <code>DriverManager</code> i <code>Connection</code>.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 9.1 &middot; 9.2</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea6/A2_consultes_select.html">
+      <span class="card-badge">A2</span>
+      <span class="card-title">Consultes SELECT i ResultSet</span>
+      <span class="card-desc">Execució de sentències <code>SELECT</code>, recorregut del <code>ResultSet</code> i visualització de dades de la base de dades del Gimnàs.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 9.4 &middot; 9.6</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea6/A3_insert_update_delete.html">
+      <span class="card-badge">A3</span>
+      <span class="card-title">INSERT, UPDATE, DELETE i PreparedStatement</span>
+      <span class="card-desc">Modificació de dades amb sentències parametritzades. Inserció de nous clients i activitats, actualització de places i eliminació d'inscripcions al Gimnàs.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 9.3 &middot; 9.5</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea6/A4_crud_complet.html">
+      <span class="card-badge">A4</span>
+      <span class="card-title">Aplicació CRUD completa</span>
+      <span class="card-desc">Disseny i implementació d'una aplicació de gestió del Gimnàs que integra totes les operacions: connexió, consulta, inserció, modificació i eliminació.</span>
+      <div class="card-footer">
+        <span class="card-criteri">CA 9.6 &middot; 9.7</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
   </div>
 </main>
-<footer>Institut La Merc&egrave; &middot; Formaci&oacute; Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; M&ograve;dul M0485 Programaci&oacute;</footer>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
 </body>
 </html>

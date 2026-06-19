@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 — Consultes SELECT i ResultSet · AEA6 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .hero p code, .hero code { background:rgba(255,255,255,.12); color:#f0ece8; border-radius:4px; padding:.1rem .35rem; font-size:.9em; font-family:monospace; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p { font-size:.93rem; color:var(--text-soft); margin-bottom:.75rem; line-height:1.65; }
+    ul, ol { font-size:.9rem; color:var(--text-soft); padding-left:1.4rem; margin-bottom:1rem; }
+    li { margin-bottom:.3rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .info-box strong { color:#1e3a5f; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code, li code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s,transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    .schema-box { background:#1e1e2e; border-radius:var(--radius); padding:1.25rem 1.5rem; margin:1rem 0 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.82rem; color:#cdd6f4; line-height:1.8; }
+    .schema-box .tbl { color:#89dceb; font-weight:700; }
+    .schema-box .col { color:#a6e3a1; }
+    .schema-box .pk  { color:#fab387; }
+    .schema-box .fk  { color:#cba6f7; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">Cicle DAW &middot; AEA6 &middot; Activitat 2 JDBC</p>
+  <h1>Consultes SELECT i ResultSet</h1>
+  <p>Execució de sentències <code>SELECT</code> amb <code>Statement</code>, recorregut del <code>ResultSet</code> fila a fila i extracció de valors amb <code>getString</code>, <code>getInt</code> i <code>getDouble</code>. Treballa sobre la base de dades del Gimnàs.</p>
+  <div class="hero-pills">
+    <span class="pill">CA 9.4</span>
+    <span class="pill">CA 9.6</span>
+    <span class="pill">Statement · ResultSet</span>
+    <span class="pill">executeQuery()</span>
+    <span class="pill">3 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb">
+  <a href="../../index.html">M0485 Programació</a>
+  <span>&rsaquo;</span>
+  <a href="../aea6.html">AEA6 — Gestió de bases de dades relacionals</a>
+  <span>&rsaquo;</span>
+  A2 — Consultes SELECT i ResultSet
+</nav>
+<main>
+
+<!-- ═══════════════════════════════════════════════
+     1. LA BD GIMNAS
+     ═══════════════════════════════════════════════ -->
+<h2 class="block-title">1. La base de dades Gimnas</h2>
+
+<p>En aquesta activitat i les següents treballarem amb la base de dades <strong>Gimnas</strong>, que representa la gestió d'un gimnàs amb clients, activitats i inscripcions. Importa el fitxer <code>Gimnas.sql</code> a MySQL abans de continuar.</p>
+
+<div class="schema-box">
+<span class="tbl">Clients</span> (<span class="pk">dni</span> VARCHAR(10) PK, <span class="col">nom</span> VARCHAR(50), <span class="col">edat</span> INT, <span class="col">correu</span> VARCHAR(100))
+
+<span class="tbl">Activitats</span> (<span class="pk">idActivitat</span> INT PK AUTO_INCREMENT, <span class="col">nom</span> VARCHAR(50),
+             <span class="col">nivell</span> ENUM('inicial','mitjà','avançat'), <span class="col">places</span> INT)
+
+<span class="tbl">Inscripcions</span> (<span class="pk">idInscripcio</span> INT PK AUTO_INCREMENT,
+               <span class="fk">dni</span> VARCHAR(10) FK → Clients,
+               <span class="fk">idActivitat</span> INT FK → Activitats)
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     2. STATEMENT I EXECUTEQUERY
+     ═══════════════════════════════════════════════ -->
+<h2 class="block-title">2. Statement i executeQuery()</h2>
+
+<p>Per executar una consulta <code>SELECT</code> necessitem dos objectes: un <code>Statement</code> (que representa la sentència SQL) i un <code>ResultSet</code> (que conté les files retornades).</p>
+
+<p>El mètode <code>executeQuery()</code> de <code>Statement</code> envia la consulta SQL al servidor i retorna un <code>ResultSet</code> amb totes les files resultants.</p>
+
+<div class="code-block"><span class="kw">import</span> java.sql.*;
+
+<span class="kw">public class</span> <span class="cls">LlistarClients</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> url    = <span class="str">"jdbc:mysql://localhost:3306/Gimnas"</span>;
+        <span class="cls">String</span> usuari = <span class="str">"root"</span>;
+        <span class="cls">String</span> pass   = <span class="str">""</span>;
+        <span class="cls">String</span> sql    = <span class="str">"SELECT dni, nom, edat, correu FROM Clients"</span>;
+
+        <span class="kw">try</span> (<span class="cls">Connection</span>  con  = <span class="cls">DriverManager</span>.<span class="fn">getConnection</span>(url, usuari, pass);
+             <span class="cls">Statement</span>   st   = con.<span class="fn">createStatement</span>();
+             <span class="cls">ResultSet</span>   rs   = st.<span class="fn">executeQuery</span>(sql)) {
+
+            <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+                <span class="cls">String</span> dni    = rs.<span class="fn">getString</span>(<span class="str">"dni"</span>);
+                <span class="cls">String</span> nom    = rs.<span class="fn">getString</span>(<span class="str">"nom"</span>);
+                <span class="kw">int</span>    edat   = rs.<span class="fn">getInt</span>(<span class="str">"edat"</span>);
+                <span class="cls">String</span> correu = rs.<span class="fn">getString</span>(<span class="str">"correu"</span>);
+
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-12s %-20s %3d  %s%n"</span>, dni, nom, edat, correu);
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+
+<div class="info-box">
+  <strong>📌 try-with-resources amb múltiples recursos:</strong> Podem obrir <code>Connection</code>, <code>Statement</code> i <code>ResultSet</code> dins del mateix <code>try(...)</code> separats per punt i coma. Es tancaran tots automàticament i en ordre invers (primer <code>ResultSet</code>, després <code>Statement</code>, finalment <code>Connection</code>).
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     3. MÈTODES DEL RESULTSET
+     ═══════════════════════════════════════════════ -->
+<h2 class="block-title">3. Mètodes del ResultSet</h2>
+
+<p>El <code>ResultSet</code> és com una taula virtual. El cursor comença <em>abans</em> de la primera fila i cal cridar <code>next()</code> per avançar. Quan <code>next()</code> retorna <code>false</code>, hem arribat al final.</p>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Mètode de desplaçament</th><th>Descripció</th></tr>
+  <tr><td><code>next()</code></td><td>Avança una fila. Retorna <code>false</code> si no n'hi ha més.</td></tr>
+  <tr><td><code>previous()</code></td><td>Retrocedeix una fila.</td></tr>
+  <tr><td><code>first()</code> / <code>last()</code></td><td>Va a la primera / última fila.</td></tr>
+  <tr><td><code>absolute(n)</code></td><td>Va directament a la fila n.</td></tr>
+</table>
+</div>
+
+<div class="table-wrap">
+<table>
+  <tr><th>Tipus SQL</th><th>Mètode Java</th><th>Exemple</th></tr>
+  <tr><td><code>VARCHAR</code>, <code>CHAR</code>, <code>ENUM</code></td><td><code>getString()</code></td><td><code>rs.getString("nom")</code></td></tr>
+  <tr><td><code>INT</code>, <code>SMALLINT</code></td><td><code>getInt()</code></td><td><code>rs.getInt("edat")</code></td></tr>
+  <tr><td><code>DECIMAL</code>, <code>FLOAT</code></td><td><code>getDouble()</code></td><td><code>rs.getDouble("nota")</code></td></tr>
+  <tr><td><code>BOOLEAN</code></td><td><code>getBoolean()</code></td><td><code>rs.getBoolean("actiu")</code></td></tr>
+  <tr><td>Qualsevol</td><td><code>getString()</code></td><td>Sempre funciona per a qualsevol tipus.</td></tr>
+</table>
+</div>
+
+<div class="tip-box">
+  <strong>💡 Nom o índex?</strong> Podeu passar el nom de la columna (<code>rs.getString("nom")</code>) o la seva posició (<code>rs.getString(2)</code>). L'índex comença en <strong>1</strong>, no en 0. Amb el nom el codi és més llegible; amb l'índex és lleugerament més eficient.
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     4. EXERCICIS
+     ═══════════════════════════════════════════════ -->
+<h2 class="block-title">4. Exercicis</h2>
+
+<!-- E1 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E1</span>
+    <span class="exercici-title">Llistat d'activitats del gimnàs</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que recuperi totes les activitats de la taula <code>Activitats</code> i les mostri per pantalla amb format de taula.</p>
+    <ol class="exercici-tasques">
+      <li>Usa la classe <code>Connexio</code> del paquet <code>persistencia</code> per obtenir la connexió.</li>
+      <li>Executa la consulta <code>SELECT idActivitat, nom, nivell, places FROM Activitats</code>.</li>
+      <li>Recorre el <code>ResultSet</code> amb <code>while(rs.next())</code>.</li>
+      <li>Mostra cada activitat amb format: <code>ID | Nom | Nivell | Places</code>. Usa <code>printf</code> per alinear les columnes.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.4</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Llistat d'activitats del gimnàs</div>
+<div class="code-block"><span class="kw">package</span> presentacio;
+
+<span class="kw">import</span> java.sql.*;
+<span class="kw">import</span> persistencia.<span class="cls">Connexio</span>;
+
+<span class="kw">public class</span> <span class="cls">LlistarActivitats</span> {
+
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> sql = <span class="str">"SELECT idActivitat, nom, nivell, places FROM Activitats"</span>;
+
+        <span class="kw">try</span> (<span class="cls">Statement</span> st  = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">createStatement</span>();
+             <span class="cls">ResultSet</span> rs  = st.<span class="fn">executeQuery</span>(sql)) {
+
+            <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-5s %-15s %-10s %s%n"</span>,
+                <span class="str">"ID"</span>, <span class="str">"Nom"</span>, <span class="str">"Nivell"</span>, <span class="str">"Places"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(40)</span>);
+
+            <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-5d %-15s %-10s %d%n"</span>,
+                    rs.<span class="fn">getInt</span>(<span class="str">"idActivitat"</span>),
+                    rs.<span class="fn">getString</span>(<span class="str">"nom"</span>),
+                    rs.<span class="fn">getString</span>(<span class="str">"nivell"</span>),
+                    rs.<span class="fn">getInt</span>(<span class="str">"places"</span>));
+            }
+
+        } <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E2 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E2</span>
+    <span class="exercici-title">Clients inscrits a una activitat</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu un programa que mostri, per a cada activitat, la llista de clients inscrits. Has de fer una consulta amb <code>JOIN</code> entre les tres taules.</p>
+    <ol class="exercici-tasques">
+      <li>Fes la consulta SQL que uneixi <code>Inscripcions</code>, <code>Clients</code> i <code>Activitats</code> amb els <code>JOIN</code> corresponents.</li>
+      <li>Ordena el resultat per nom d'activitat (<code>ORDER BY Activitats.nom</code>).</li>
+      <li>Mostra: nom de l'activitat, nom del client i edat, agrupant visualment per activitat.</li>
+      <li>Compta el nombre de clients per activitat i mostra'l al final de cada grup.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.4 · 9.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Clients inscrits a una activitat</div>
+<div class="code-block"><span class="cls">String</span> sql = <span class="str">
+    "SELECT a.nom AS activitat, c.nom AS client, c.edat " +
+    "FROM Inscripcions i " +
+    "JOIN Clients    c ON i.dni        = c.dni " +
+    "JOIN Activitats a ON i.idActivitat = a.idActivitat " +
+    "ORDER BY a.nom, c.nom"</span>;
+
+<span class="kw">try</span> (<span class="cls">Statement</span> st = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">createStatement</span>();
+     <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(sql)) {
+
+    <span class="cls">String</span> activitatActual = <span class="str">""</span>;
+    <span class="kw">int</span>    comptador       = <span class="num">0</span>;
+
+    <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+        <span class="cls">String</span> activitat = rs.<span class="fn">getString</span>(<span class="str">"activitat"</span>);
+        <span class="cls">String</span> client    = rs.<span class="fn">getString</span>(<span class="str">"client"</span>);
+        <span class="kw">int</span>    edat      = rs.<span class="fn">getInt</span>(<span class="str">"edat"</span>);
+
+        <span class="kw">if</span> (!activitat.<span class="fn">equals</span>(activitatActual)) {
+            <span class="kw">if</span> (!activitatActual.<span class="fn">isEmpty</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Total inscrits: "</span> + comptador);
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n▸ "</span> + activitat);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  " + "-".repeat(30)</span>);
+            activitatActual = activitat;
+            comptador = <span class="num">0</span>;
+        }
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"  %-20s (%d anys)%n"</span>, client, edat);
+        comptador++;
+    }
+    <span class="kw">if</span> (!activitatActual.<span class="fn">isEmpty</span>()) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Total inscrits: "</span> + comptador);
+    }
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- E3 -->
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">E3</span>
+    <span class="exercici-title">Estadístiques d'ocupació del gimnàs</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un programa que mostri un resum d'ocupació de cada activitat: places totals, places ocupades i places lliures, usant consultes amb <code>COUNT</code> i <code>LEFT JOIN</code>.</p>
+    <ol class="exercici-tasques">
+      <li>Fes una consulta que compti els inscrits per activitat amb <code>COUNT</code> i <code>GROUP BY</code>.</li>
+      <li>Usa <code>LEFT JOIN</code> per incloure activitats sense cap inscrit.</li>
+      <li>Calcula les places lliures = places totals - inscrits. Mostra'n els resultats en una taula formatada.</li>
+      <li>Afegeix una línia final amb els totals globals del gimnàs.</li>
+    </ol>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.8rem;color:var(--text-soft)">CA 9.4 · 9.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)">
+      <span class="icon">&#9658;</span> <span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">Solució — Estadístiques d'ocupació del gimnàs</div>
+<div class="code-block"><span class="cls">String</span> sql = <span class="str">
+    "SELECT a.nom, a.places, COUNT(i.idInscripcio) AS inscrits " +
+    "FROM Activitats a " +
+    "LEFT JOIN Inscripcions i ON a.idActivitat = i.idActivitat " +
+    "GROUP BY a.idActivitat, a.nom, a.places " +
+    "ORDER BY a.nom"</span>;
+
+<span class="kw">try</span> (<span class="cls">Statement</span> st = <span class="cls">Connexio</span>.<span class="fn">getConnexio</span>().<span class="fn">createStatement</span>();
+     <span class="cls">ResultSet</span> rs = st.<span class="fn">executeQuery</span>(sql)) {
+
+    <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-15s %7s %8s %7s%n"</span>,
+        <span class="str">"Activitat"</span>, <span class="str">"Places"</span>, <span class="str">"Inscrits"</span>, <span class="str">"Lliures"</span>);
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(42)</span>);
+
+    <span class="kw">int</span> totalPlaces = <span class="num">0</span>, totalInscrits = <span class="num">0</span>;
+
+    <span class="kw">while</span> (rs.<span class="fn">next</span>()) {
+        <span class="cls">String</span> nom       = rs.<span class="fn">getString</span>(<span class="str">"nom"</span>);
+        <span class="kw">int</span>    places    = rs.<span class="fn">getInt</span>(<span class="str">"places"</span>);
+        <span class="kw">int</span>    inscrits  = rs.<span class="fn">getInt</span>(<span class="str">"inscrits"</span>);
+        <span class="kw">int</span>    lliures   = places - inscrits;
+
+        <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-15s %7d %8d %7d%n"</span>,
+            nom, places, inscrits, lliures);
+
+        totalPlaces   += places;
+        totalInscrits += inscrits;
+    }
+
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-".repeat(42)</span>);
+    <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"%-15s %7d %8d %7d%n"</span>,
+        <span class="str">"TOTAL"</span>, totalPlaces, totalInscrits, totalPlaces - totalInscrits);
+
+} <span class="kw">catch</span> (<span class="cls">SQLException</span> e) {
+    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+}</div>
+    </div>
+  </div>
+</div>
+
+<!-- CAs -->
+<h2 class="block-title">5. Criteris d'avaluació treballats</h2>
+<div class="ca-grid">
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.4</span>
+    <span class="ca-text">Crea programes per recuperar i mostrar informació emmagatzemada en bases de dades. Ús de <code>Statement</code>, <code>executeQuery()</code> i <code>ResultSet</code> amb <code>next()</code> i mètodes <code>getTipus</code>.</span>
+  </div>
+  <div class="ca-item">
+    <span class="ca-badge">CA 9.6</span>
+    <span class="ca-text">Crea aplicacions que mostrin la informació emmagatzemada en bases de dades. Consultes amb <code>JOIN</code>, <code>GROUP BY</code>, <code>ORDER BY</code> i presentació formatada amb <code>printf</code>.</span>
+  </div>
+</div>
+
+<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
+<div class="fonts-box">
+  <h3>Material de referència usat en aquesta activitat</h3>
+  <ul>
+    <li><strong>Material del professor (Drive):</strong> <em>Accés a BD relacionals.pdf</em> — Albert Canela. Capítols 4 (ResultSet), 5 (Execució de sentències), 5.1 (SELECT) i 5.1.1 (Recuperació de valors).</li>
+    <li><strong>Material del professor (Drive):</strong> <em>Gimnas.sql</em> — Esquema i dades de la base de dades del Gimnàs.</li>
+    <li><strong>Universidad Java (Udemy):</strong> Secció 29 — Java con JDBC: Conexión a Base de Datos con MySQL, Java y Netbeans.</li>
+  </ul>
+</div>
+
+</main>
+<footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>
