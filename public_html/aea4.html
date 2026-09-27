@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AEA4 &mdash; Tipus avançats de dades &middot; M0485</title>
+  <title>AEA4 &mdash; Entrada/Sortida i GUI &middot; M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -29,6 +29,7 @@
     .section-intro { margin-bottom:1.5rem; }
     .section-intro h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.6rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
     .section-intro p { font-size:.92rem; color:var(--text-soft); max-width:680px; }
+    .divider { border:none; border-top:2px solid var(--border); margin:3rem 0 2.5rem; }
     .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
     .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
     .card:hover { box-shadow:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10); transform:translateY(-3px); }
@@ -45,62 +46,104 @@
 <body>
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
-  <h1>AEA4 &mdash; Tipus avançats de dades</h1>
-  <p>Arrays, cadenes de caràcters, excepcions, col·leccions, genericitat, Stream API i expressions regulars. Tota la potència de les estructures de dades de Java.</p>
+  <h1>AEA4 &mdash; Entrada/Sortida i GUI</h1>
+  <p>Operacions d'entrada i sortida amb fitxers de text i binaris, gestió del sistema de fitxers i construcció d'interfícies gràfiques d'usuari amb Swing. Dos blocs que tanquen el RA5.</p>
 </header>
 <nav class="breadcrumb">
-  <a href="../index.html">M0485 Programació</a>
+  <a href="index.html">M0485 Programació</a>
   <span>&rsaquo;</span>
-  AEA4 &mdash; Tipus avançats de dades
+  AEA4 &mdash; Entrada/Sortida i GUI
 </nav>
 <main>
+
   <div class="section-intro">
-    <h2>AEA4 — Tipus avançats de dades</h2>
-    <p>Quatre blocs progressius que cobreixen tot el RA6: des dels arrays i les cadenes fins a les col·leccions i els Streams, passant per les excepcions i les expressions regulars.</p>
+    <h2>Bloc 1 &mdash; Entrada/Sortida</h2>
+    <p>Consola, formats de visualització, sistema de fitxers i lectura/escriptura de fitxers de text i binaris amb les classes de <code style="background:#f0f0f0;border-radius:4px;padding:.1rem .35rem;font-size:.82rem;font-family:monospace;color:#c0392b">java.io</code>. Cobreix els CA 5.1 a 5.5.</p>
   </div>
   <div class="cards">
 
-    <a class="card" href="aea4/A1_arrays_cadenes.html">
+    <a class="card" href="entrada-sortida/A1 — Consola, formats i classe File.html">
       <span class="card-badge">A1</span>
-      <span class="card-title">Arrays i cadenes de caràcters</span>
-      <span class="card-desc">Declaració, inicialització i recorregut d'arrays unidimensionals i multidimensionals. Mètodes principals de la classe <code>String</code>.</span>
+      <span class="card-title">Consola, formats i classe File</span>
+      <span class="card-desc">Entrada per teclat amb <code>Scanner</code>, sortida formatada amb <code>printf</code> i <code>String.format</code>. Gestió del sistema de fitxers amb la classe <code>File</code>: crear, esborrar, llistar.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 6.1 · 6.2 · 6.3 · 6.5 (String)</span>
+        <span class="card-criteri">RA5 · CA 5.1 &middot; 5.2 &middot; 5.3</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
-    <a class="card" href="aea4/A2_excepcions.html">
+    <a class="card" href="entrada-sortida/A2 — Fitxers de text.html">
       <span class="card-badge">A2</span>
-      <span class="card-title">Control d'excepcions</span>
-      <span class="card-desc">Captura amb <code>try-catch-finally</code>, jerarquia de <code>Throwable</code>, llançament amb <code>throw</code> i creació d'excepcions personalitzades.</span>
+      <span class="card-title">Fitxers de text</span>
+      <span class="card-desc">Lectura i escriptura amb <code>FileReader</code>, <code>FileWriter</code>, <code>PrintWriter</code>, <code>Scanner</code> sobre fitxer i buffers (<code>BufferedReader</code> / <code>BufferedWriter</code>).</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 6.10</span>
+        <span class="card-criteri">RA5 · CA 5.3 &middot; 5.4 &middot; 5.5</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
-    <a class="card" href="aea4/A3_col_leccions_generics.html">
+    <a class="card" href="entrada-sortida/A3 — Fitxers binaris i serialització.html">
       <span class="card-badge">A3</span>
-      <span class="card-title">Col·leccions, genericitat i Streams</span>
-      <span class="card-desc">Framework de col·leccions: <code>List</code>, <code>Set</code>, <code>Map</code> i iteradors. Classes i mètodes genèrics. Stream API: <code>filter</code>, <code>map</code>, <code>sorted</code>, <code>collect</code>.</span>
+      <span class="card-title">Fitxers binaris i serialització</span>
+      <span class="card-desc">Fitxers binaris amb <code>DataInputStream</code> / <code>DataOutputStream</code>. Serialització d'objectes amb <code>ObjectOutputStream</code> i la interfície <code>Serializable</code>.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 6.4 · 6.6 · 6.7</span>
+        <span class="card-criteri">RA5 · CA 5.4 &middot; 5.5</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
-    <a class="card" href="aea4/A4_expressions_regulars.html">
+    <a class="card" href="entrada-sortida/A4 — Pràctica integradora ES.html">
       <span class="card-badge">A4</span>
-      <span class="card-title">Expressions regulars i JSON</span>
-      <span class="card-desc">Patrons amb <code>Pattern</code> i <code>Matcher</code>, metacaracters, quantificadors. Introducció al tractament de documents JSON amb Java.</span>
+      <span class="card-title">Pràctica integradora E/S</span>
+      <span class="card-desc">Aplicació de consola que combina lectura de teclat, gestió de directoris i persistència en fitxers de text i binaris. Exercicis de nivell bàsic, mitjà i avançat.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 6.5 (regex) · 6.8 · 6.9</span>
+        <span class="card-criteri">RA5 · CA 5.1 &middot; 5.2 &middot; 5.3 &middot; 5.4 &middot; 5.5</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
   </div>
+
+  <hr class="divider">
+
+  <div class="section-intro">
+    <h2>Bloc 2 &mdash; Interfícies Gràfiques</h2>
+    <p>Creació d'aplicacions d'escriptori amb Java Swing: finestres, controls, gestió d'esdeveniments i aplicació completa amb taules i persistència. Cobreix els CA 5.6 a 5.8.</p>
+  </div>
+  <div class="cards">
+
+    <a class="card" href="gui/A1 — Components gràfics bàsics.html">
+      <span class="card-badge">A1</span>
+      <span class="card-title">Components gràfics bàsics</span>
+      <span class="card-desc">Introducció a Swing. <code>JFrame</code>, <code>JPanel</code>, <code>JLabel</code>, <code>JTextField</code>, <code>JButton</code>, <code>JComboBox</code>, <code>JRadioButton</code>. Layout managers: <code>FlowLayout</code>, <code>BorderLayout</code>, <code>GridLayout</code>.</span>
+      <div class="card-footer">
+        <span class="card-criteri">RA5 · CA 5.6</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="gui/A2 — Gestió d'esdeveniments.html">
+      <span class="card-badge">A2</span>
+      <span class="card-title">Gestió d'esdeveniments</span>
+      <span class="card-desc">Controladors amb <code>ActionListener</code>, <code>KeyListener</code> i <code>MouseListener</code>. <code>JList</code>, <code>JTabbedPane</code>, <code>JMenuBar</code>, <code>JFileChooser</code>. Aplicació Login completa.</span>
+      <div class="card-footer">
+        <span class="card-criteri">RA5 · CA 5.7 &middot; 5.8</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+    <a class="card" href="gui/A3 — Aplicació GUI completa amb JTable.html">
+      <span class="card-badge">A3</span>
+      <span class="card-title">Aplicació GUI completa amb JTable</span>
+      <span class="card-desc">Gestió de dades amb <code>JTable</code> i <code>DefaultTableModel</code>. CRUD complet: afegir, modificar i eliminar files. Pràctica integradora amb persistència en fitxer.</span>
+      <div class="card-footer">
+        <span class="card-criteri">RA5 · CA 5.6 &middot; 5.7 &middot; 5.8</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
+  </div>
+
 </main>
 <footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
 </body>

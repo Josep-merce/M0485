@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AEA3 &mdash; POO. Avançada &middot; M0485</title>
+  <title>AEA3 &mdash; Tipus avançats de dades &middot; M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -45,47 +45,61 @@
 <body>
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
-  <h1>AEA3 &mdash; POO. Avançada</h1>
-  <p>Herència avançada, polimorfisme, classes abstractes, interfícies i composició. Disseny de jerarquies de classes.</p>
+  <h1>AEA3 &mdash; Tipus avançats de dades</h1>
+  <p>Arrays, cadenes de caràcters, excepcions, col·leccions, genericitat, Stream API i expressions regulars. Tota la potència de les estructures de dades de Java.</p>
 </header>
 <nav class="breadcrumb">
   <a href="index.html">M0485 Programació</a>
   <span>&rsaquo;</span>
-  AEA3 &mdash; POO. Avançada
+  AEA3 &mdash; Tipus avançats de dades
 </nav>
 <main>
   <div class="section-intro">
-    <h2>AEA3 — POO. Avançada</h2>
-    <p>Tres blocs progressius: de l'herència i el polimorfisme fins a la pràctica guiada integradora, passant per les classes abstractes, les interfícies i la composició.</p>
+    <h2>AEA3 — Tipus avançats de dades</h2>
+    <p>Quatre blocs progressius que cobreixen tot el RA6: des dels arrays i les cadenes fins a les col·leccions i els Streams, passant per les excepcions i les expressions regulars.</p>
   </div>
   <div class="cards">
-    <a class="card" href="aea3/A1_herencia_polimorfisme.html">
+
+    <a class="card" href="aea3/A1_arrays_cadenes.html">
       <span class="card-badge">A1</span>
-      <span class="card-title">Herència, sobreescriptura i polimorfisme</span>
-      <span class="card-desc">Jerarquies de classes amb <code>extends</code> i <code>super()</code>, sobreescriptura amb <code>@Override</code>, polimorfisme dinàmic, <code>instanceof</code> i documentació Javadoc.</span>
+      <span class="card-title">Arrays i cadenes de caràcters</span>
+      <span class="card-desc">Declaració, inicialització i recorregut d'arrays unidimensionals i multidimensionals. Mètodes principals de la classe <code>String</code>.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 7.1 · 7.2 · 7.3 · 7.4 · 7.5 · 7.6 · 7.7 · 7.8</span>
+        <span class="card-criteri">RA6 · CA 6.1 · 6.2</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
-    <a class="card" href="aea3/A2_abstractes_interficies_composicio.html">
+
+    <a class="card" href="aea3/A2_excepcions.html">
       <span class="card-badge">A2</span>
-      <span class="card-title">Classes abstractes, interfícies i composició</span>
-      <span class="card-desc">Classes i mètodes abstractes, definició i implementació d'interfícies, mètodes <code>default</code> i composició com a alternativa a l'herència.</span>
+      <span class="card-title">Control d'excepcions</span>
+      <span class="card-desc">Captura amb <code>try-catch-finally</code>, jerarquia de <code>Throwable</code>, llançament amb <code>throw</code> i creació d'excepcions personalitzades.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 7.2 · 7.4 · 7.5 · 7.7 · 7.9 · 7.10</span>
+        <span class="card-criteri">Reforç RA3 · CA 3.4 · 3.8</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
-    <a class="card" href="aea3/A3_practica_guiada.html">
+
+    <a class="card" href="aea3/A3_col_leccions_generics.html">
       <span class="card-badge">A3</span>
-      <span class="card-title">Pràctica guiada: sistema bancari pas a pas</span>
-      <span class="card-desc">Construïm junts un sistema de comptes bancaris en 5 passos progressius, aplicant tots els conceptes de l'AEA3. Activitat de consolidació, no avaluable.</span>
+      <span class="card-title">Col·leccions, genericitat i Streams</span>
+      <span class="card-desc">Framework de col·leccions: <code>List</code>, <code>Set</code>, <code>Map</code> i iteradors. Classes i mètodes genèrics. Stream API: <code>filter</code>, <code>map</code>, <code>sorted</code>, <code>collect</code>.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 7.1 &mdash; 7.10</span>
+        <span class="card-criteri">RA6 · CA 6.2 · 6.3 · 6.4 · 6.5 · 6.6 · 6.10</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
+
+    <a class="card" href="aea3/A4_expressions_regulars.html">
+      <span class="card-badge">A4</span>
+      <span class="card-title">Expressions regulars i JSON</span>
+      <span class="card-desc">Patrons amb <code>Pattern</code> i <code>Matcher</code>, metacaracters, quantificadors. Introducció al tractament de documents JSON amb Java.</span>
+      <div class="card-footer">
+        <span class="card-criteri">RA6 · CA 6.7 · 6.8 · 6.9</span>
+        <span class="card-link">Obrir &rarr;</span>
+      </div>
+    </a>
+
   </div>
 </main>
 <footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>

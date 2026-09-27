@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AEA5 &mdash; Entrada/Sortida i Interfícies Gràfiques &middot; M0485</title>
+  <title>AEA5 &mdash; Gestió de bases de dades relacionals &middot; M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -29,7 +29,6 @@
     .section-intro { margin-bottom:1.5rem; }
     .section-intro h2 { font-family:'Playfair Display',Georgia,serif; font-size:1.6rem; font-weight:700; color:var(--text); margin-bottom:.4rem; }
     .section-intro p { font-size:.92rem; color:var(--text-soft); max-width:680px; }
-    .divider { border:none; border-top:2px solid var(--border); margin:3rem 0 2.5rem; }
     .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
     .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
     .card:hover { box-shadow:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10); transform:translateY(-3px); }
@@ -46,104 +45,62 @@
 <body>
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW &middot; Desenvolupament d&rsquo;Aplicacions Web</p>
-  <h1>AEA5 &mdash; Entrada/Sortida i Interfícies Gràfiques</h1>
-  <p>Operacions d'entrada i sortida amb fitxers de text i binaris, gestió del sistema de fitxers i construcció d'interfícies gràfiques d'usuari amb Swing. Dos blocs que tanquen el RA5.</p>
+  <h1>AEA5 &mdash; Gestió de bases de dades relacionals</h1>
+  <p>Connexió a bases de dades MySQL amb JDBC, consultes SELECT, operacions d'inserció, modificació i eliminació, i construcció d'una aplicació CRUD completa.</p>
 </header>
 <nav class="breadcrumb">
-  <a href="../index.html">M0485 Programació</a>
+  <a href="index.html">M0485 Programació</a>
   <span>&rsaquo;</span>
-  AEA5 &mdash; Entrada/Sortida i Interfícies Gràfiques
+  AEA5 &mdash; Gestió de bases de dades relacionals
 </nav>
 <main>
-
   <div class="section-intro">
-    <h2>Bloc 1 &mdash; Entrada/Sortida</h2>
-    <p>Consola, formats de visualització, sistema de fitxers i lectura/escriptura de fitxers de text i binaris amb les classes de <code style="background:#f0f0f0;border-radius:4px;padding:.1rem .35rem;font-size:.82rem;font-family:monospace;color:#c0392b">java.io</code>. Cobreix els CA 5.1 a 5.5.</p>
+    <h2>AEA5 — Gestió de bases de dades relacionals</h2>
+    <p>Quatre activitats progressives que cobreixen tot el RA9: des de la connexió i l'arquitectura JDBC fins a la construcció d'una aplicació de gestió completa sobre la base de dades d'un gimnàs.</p>
   </div>
   <div class="cards">
 
-    <a class="card" href="entrada-sortida/A1 — Consola, formats i classe File.html">
+    <a class="card" href="aea5/A1_connexio_jdbc.html">
       <span class="card-badge">A1</span>
-      <span class="card-title">Consola, formats i classe File</span>
-      <span class="card-desc">Entrada per teclat amb <code>Scanner</code>, sortida formatada amb <code>printf</code> i <code>String.format</code>. Gestió del sistema de fitxers amb la classe <code>File</code>: crear, esborrar, llistar.</span>
+      <span class="card-title">Introducció a JDBC. Connexió i arquitectura</span>
+      <span class="card-desc">Arquitectura JDBC, tipus de drivers, configuració de XAMPP i NetBeans. Primera connexió a MySQL amb <code>DriverManager</code> i <code>Connection</code>.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 5.1 &middot; 5.2 &middot; 5.3</span>
+        <span class="card-criteri">RA9 · CA 9.1 &middot; 9.2</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
-    <a class="card" href="entrada-sortida/A2 — Fitxers de text.html">
+    <a class="card" href="aea5/A2_consultes_select.html">
       <span class="card-badge">A2</span>
-      <span class="card-title">Fitxers de text</span>
-      <span class="card-desc">Lectura i escriptura amb <code>FileReader</code>, <code>FileWriter</code>, <code>PrintWriter</code>, <code>Scanner</code> sobre fitxer i buffers (<code>BufferedReader</code> / <code>BufferedWriter</code>).</span>
+      <span class="card-title">Consultes SELECT i ResultSet</span>
+      <span class="card-desc">Execució de sentències <code>SELECT</code>, recorregut del <code>ResultSet</code> i visualització de dades de la base de dades del Gimnàs.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 5.3 &middot; 5.4 &middot; 5.5</span>
+        <span class="card-criteri">RA9 · CA 9.4 &middot; 9.6</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
-    <a class="card" href="entrada-sortida/A3 — Fitxers binaris i serialització.html">
+    <a class="card" href="aea5/A3_insert_update_delete.html">
       <span class="card-badge">A3</span>
-      <span class="card-title">Fitxers binaris i serialització</span>
-      <span class="card-desc">Fitxers binaris amb <code>DataInputStream</code> / <code>DataOutputStream</code>. Serialització d'objectes amb <code>ObjectOutputStream</code> i la interfície <code>Serializable</code>.</span>
+      <span class="card-title">INSERT, UPDATE, DELETE i PreparedStatement</span>
+      <span class="card-desc">Modificació de dades amb sentències parametritzades. Inserció de nous clients i activitats, actualització de places i eliminació d'inscripcions al Gimnàs.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 5.4 &middot; 5.5</span>
+        <span class="card-criteri">RA9 · CA 9.3 &middot; 9.5</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
-    <a class="card" href="entrada-sortida/A4 — Pràctica integradora ES.html">
+    <a class="card" href="aea5/A4_crud_complet.html">
       <span class="card-badge">A4</span>
-      <span class="card-title">Pràctica integradora E/S</span>
-      <span class="card-desc">Aplicació de consola que combina lectura de teclat, gestió de directoris i persistència en fitxers de text i binaris. Exercicis de nivell bàsic, mitjà i avançat.</span>
+      <span class="card-title">Aplicació CRUD completa</span>
+      <span class="card-desc">Disseny i implementació d'una aplicació de gestió del Gimnàs que integra totes les operacions: connexió, consulta, inserció, modificació i eliminació.</span>
       <div class="card-footer">
-        <span class="card-criteri">CA 5.1 &middot; 5.2 &middot; 5.3 &middot; 5.4 &middot; 5.5</span>
+        <span class="card-criteri">RA9 · CA 9.6 &middot; 9.7</span>
         <span class="card-link">Obrir &rarr;</span>
       </div>
     </a>
 
   </div>
-
-  <hr class="divider">
-
-  <div class="section-intro">
-    <h2>Bloc 2 &mdash; Interfícies Gràfiques</h2>
-    <p>Creació d'aplicacions d'escriptori amb Java Swing: finestres, controls, gestió d'esdeveniments i aplicació completa amb taules i persistència. Cobreix els CA 5.6 a 5.8.</p>
-  </div>
-  <div class="cards">
-
-    <a class="card" href="gui/A1 — Components gràfics bàsics.html">
-      <span class="card-badge">A1</span>
-      <span class="card-title">Components gràfics bàsics</span>
-      <span class="card-desc">Introducció a Swing. <code>JFrame</code>, <code>JPanel</code>, <code>JLabel</code>, <code>JTextField</code>, <code>JButton</code>, <code>JComboBox</code>, <code>JRadioButton</code>. Layout managers: <code>FlowLayout</code>, <code>BorderLayout</code>, <code>GridLayout</code>.</span>
-      <div class="card-footer">
-        <span class="card-criteri">CA 5.6</span>
-        <span class="card-link">Obrir &rarr;</span>
-      </div>
-    </a>
-
-    <a class="card" href="gui/A2 — Gestió d'esdeveniments.html">
-      <span class="card-badge">A2</span>
-      <span class="card-title">Gestió d'esdeveniments</span>
-      <span class="card-desc">Controladors amb <code>ActionListener</code>, <code>KeyListener</code> i <code>MouseListener</code>. <code>JList</code>, <code>JTabbedPane</code>, <code>JMenuBar</code>, <code>JFileChooser</code>. Aplicació Login completa.</span>
-      <div class="card-footer">
-        <span class="card-criteri">CA 5.7 &middot; 5.8</span>
-        <span class="card-link">Obrir &rarr;</span>
-      </div>
-    </a>
-
-    <a class="card" href="gui/A3 — Aplicació GUI completa amb JTable.html">
-      <span class="card-badge">A3</span>
-      <span class="card-title">Aplicació GUI completa amb JTable</span>
-      <span class="card-desc">Gestió de dades amb <code>JTable</code> i <code>DefaultTableModel</code>. CRUD complet: afegir, modificar i eliminar files. Pràctica integradora amb persistència en fitxer.</span>
-      <div class="card-footer">
-        <span class="card-criteri">CA 5.6 &middot; 5.7 &middot; 5.8</span>
-        <span class="card-link">Obrir &rarr;</span>
-      </div>
-    </a>
-
-  </div>
-
 </main>
 <footer>Institut La Mercè &middot; Formació Professional &nbsp;&middot;&nbsp; Cicle DAW &middot; Mòdul M0485 Programació</footer>
 </body>
