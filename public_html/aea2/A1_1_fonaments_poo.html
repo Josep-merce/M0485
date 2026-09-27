@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A1 — Introducció a la POO · AEA2 · M0485</title>
+  <title>1.1 — Fonaments de la POO · AEA2 · M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -112,20 +112,19 @@
 <body>
 
 <header class="hero">
-  <p class="hero-eyebrow">AEA2 · POO. Fonaments</p>
-  <h1>A1 — Introducció a la POO i primers objectes</h1>
-  <p>Descobrir els principis de la Programació Orientada a Objectes, entendre la diferència entre classe i objecte, instanciar objectes i aprendre a usar mètodes i propietats.</p>
+  <p class="hero-eyebrow">AEA2 · Programació orientada a objectes · A1 — Classes i objectes</p>
+  <h1>1.1 — Fonaments de la POO</h1>
+  <p>Descobrir els principis de la Programació Orientada a Objectes, entendre la diferència entre classe i objecte, instanciar objectes i aprendre a usar mètodes i propietats de classes predefinides.</p>
   <div class="hero-pills">
     <span class="pill">RA2</span>
     <span class="pill">CA 2.1 · 2.2 · 2.3 · 2.4 · 2.9</span>
-    <span class="pill">3 hores</span>
   </div>
 </header>
 
 <nav class="breadcrumb">
-  <a href="../index.html">M0485</a><span>›</span>
-  <a href="../aea2.html">AEA2</a><span>›</span>
-  A1 — Introducció a la POO i primers objectes
+  <a href="../index.html">M0485 Programació</a><span>›</span>
+  <a href="../aea2.html">AEA2 — Programació orientada a objectes</a><span>›</span>
+  1.1 — Fonaments de la POO
 </nav>
 
 <main>
@@ -149,7 +148,7 @@
   </table>
 </div>
 
-<div class="info-box">💡 <strong>Java és orientat a objectes per disseny:</strong> gairebé tot el codi s'escriu dins de classes. Fins i tot el <code>main()</code> que has estat usant fins ara és un mètode dins d'una classe. A partir d'ara entendràs per què.</div>
+<div class="info-box">📌 <strong>Java és orientat a objectes per disseny:</strong> gairebé tot el codi s'escriu dins de classes. Fins i tot el <code>main()</code> que has estat usant fins ara és un mètode dins d'una classe. A partir d'ara entendràs per què.</div>
 
 <!-- ══════════════════════════════════════════════════
      BLOC 2 — CLASSE vs OBJECTE
@@ -343,7 +342,7 @@
 }</div>
 </div>
 
-<div class="info-box">💡 <strong>La paraula clau <code>this</code>:</strong> quan el nom d'un paràmetre coincideix amb el d'un atribut (tots dos es diuen <code>nom</code>), Java no sap a quin et refereixes. <code>this.nom</code> és l'atribut de l'objecte actual; <code>nom</code> sol és el paràmetre. Sense <code>this</code>, l'atribut mai s'actualitzaria i l'objecte quedaria amb el valor inicial per defecte.</div>
+<div class="info-box">📌 <strong>La paraula clau <code>this</code>:</strong> quan el nom d'un paràmetre coincideix amb el d'un atribut (tots dos es diuen <code>nom</code>), Java no sap a quin et refereixes. <code>this.nom</code> és l'atribut de l'objecte actual; <code>nom</code> sol és el paràmetre. Sense <code>this</code>, l'atribut mai s'actualitzaria i l'objecte quedaria amb el valor inicial per defecte.</div>
 
 <div class="sub-title">4.2 Exemple complet: classe Temperatura</div>
 
@@ -503,7 +502,7 @@
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Major d'edat: "</span> + p1.<span class="fn">esMajorEdat</span>());
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n--- Persones aleatòries ---"</span>);
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; <span class="num">3</span>; i++) {
             <span class="cls">Persona</span> p = <span class="cls">Persona</span>.<span class="fn">generarAleatoria</span>();  <span class="cmt">// cridem mètode estàtic</span>
             <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">salutacio</span>());
         }
@@ -690,7 +689,7 @@
     }
 
     <span class="kw">void</span> <span class="fn">ingressar</span>(<span class="kw">double</span> impo) {
-        <span class="kw">if</span> (impo <= <span class="num">0</span>) {
+        <span class="kw">if</span> (impo &lt;= <span class="num">0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: l'import ha de ser positiu."</span>);
             <span class="kw">return</span>;
         }
@@ -699,7 +698,7 @@
     }
 
     <span class="kw">void</span> <span class="fn">retirar</span>(<span class="kw">double</span> impo) {
-        <span class="kw">if</span> (impo <= <span class="num">0</span>) {
+        <span class="kw">if</span> (impo &lt;= <span class="num">0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: l'import ha de ser positiu."</span>);
             <span class="kw">return</span>;
         }
@@ -789,7 +788,7 @@
         <span class="cls">Jugador</span> j1 = <span class="kw">new</span> <span class="cls">Jugador</span>(<span class="str">"Laia"</span>);
         <span class="cls">Jugador</span> j2 = <span class="kw">new</span> <span class="cls">Jugador</span>(<span class="str">"Marc"</span>);
 
-        <span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">1</span>; r <= <span class="num">5</span>; r++) {
+        <span class="kw">for</span> (<span class="kw">int</span> r = <span class="num">1</span>; r &lt;= <span class="num">5</span>; r++) {
             <span class="kw">int</span> v1 = j1.<span class="fn">tirarDau</span>();
             <span class="kw">int</span> v2 = j2.<span class="fn">tirarDau</span>();
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ronda "</span> + r + <span class="str">": "</span>
@@ -816,30 +815,7 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     BLOC 7 — CRITERIS D'AVALUACIÓ
-═══════════════════════════════════════════════════ -->
-<h2 class="block-title">7. Resum: criteris d'avaluació treballats</h2>
-<div class="ca-grid">
-  <div class="ca-item"><span class="ca-badge">CA 2.1</span><span class="ca-text">Identifica els fonaments de la programació orientada a objectes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 2.2</span><span class="ca-text">Escriu programes simples organitzats en classes i objectes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 2.3</span><span class="ca-text">Instancia objectes a partir de classes predefinides (String, Random).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 2.4</span><span class="ca-text">Utilitza mètodes i propietats dels objectes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 2.9</span><span class="ca-text">Utilitza l'entorn integrat de desenvolupament per crear i compilar programes simples.</span></div>
-</div>
 
-<!-- ══════════════════════════════════════════════════
-     BLOC 8 — FONTS I RECURSOS
-═══════════════════════════════════════════════════ -->
-<h2 class="block-title" style="margin-top:3rem;">8. Fonts i recursos complementaris</h2>
-<div class="fonts-box">
-  <h3>📚 Material de referència usat en aquesta activitat</h3>
-  <ul>
-    <li><strong>Material del professor (Drive):</strong> POO. Classes i objectes. Conceptes bàsics (Albert Canela) — Estructura de classe, mètodes, constructors, encapsulació, this, paquets.</li>
-    <li><strong>Material del professor (Drive):</strong> TeoriaMetodes.pdf (Albert Canela) — Tipus de mètodes, retorn, paràmetres, crida dins d'altres mètodes.</li>
-    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> POO en JAVA.pdf — Introducció a la POO, UML, classes/objectes, constructors, static, ArrayList. Repositori a <a href="https://github.com/aulaenlanube" style="color:var(--accent)">github.com/aulaenlanube</a>.</li>
-  </ul>
-</div>
 
 </main>
 

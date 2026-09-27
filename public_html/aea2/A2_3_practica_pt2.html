@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pt2 — Jocs de números · AEA2 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; }
+    .exemple-header span { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA2 · Programació orientada a objectes · A2 — Herència i interfícies · Pràctica</p>
+  <h1>Pt2 — Jocs de números</h1>
+  <p>Construirem pas a pas una col·lecció de jocs d'endevinar números organitzada en una jerarquia de classes, amb una classe abstracta, una interfície i paquets. Al final, una aplicació deixarà triar a quin joc vols jugar.</p>
+  <div class="hero-pills">
+    <span class="pill">RA7</span>
+    <span class="pill">CA 7.1 — 7.9</span>
+    <span class="pill">Pràctica</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a><span>›</span>
+  <a href="../aea2.html">AEA2 — Programació orientada a objectes</a><span>›</span>
+  Pt2 — Jocs de números
+</nav>
+
+<main>
+
+<h2 class="block-title">1. Què construirem</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Una aplicació amb diversos jocs d'endevinar números. Tots els jocs tenen vides i un rècord comú, però cadascun té les seves pròpies regles: quins números es poden dir i quan s'ha guanyat. Aprofitarem l'herència perquè cada joc només hagi d'escriure el que el fa diferent, i una interfície perquè l'aplicació pugui tractar tots els jocs igual.</p>
+
+<h2 class="block-title">2. Construcció pas a pas</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Fes cada pas en ordre. Intenta escriure el codi tu abans d'obrir la solució, i no passis al pas següent fins que la prova del pas actual funcioni.</p>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 1</span>
+    <span class="exercici-title">Anàlisi: la jerarquia de jocs</span>
+  </div>
+  <div class="exercici-body">
+    <p>Abans de programar, mirem com s'organitzen les classes. Cada joc concret hereta el que necessita de les classes que té per sobre.</p>
+    <div class="info-box">📌 <strong>Jerarquia de classes al final de la pràctica:</strong><br>
+      <strong>Joc</strong> (abstracta) — vides, vides inicials, rècord (<code>static</code>)<br>
+      &nbsp;&nbsp;&nbsp;└── <strong>JocNumeros</strong> (abstracta, implementa <code>Jugable</code>) — la partida: demanar números, validar-los i restar vides<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <strong>JocEndevinaNumero</strong> — cal endevinar un número entre 0 i 10<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── <strong>JocEndevinaParell</strong> — només accepta números parells<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <strong>JocEndevinaSenar</strong> — només accepta números senars<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <strong>JocEndevinaMultiplicacio</strong> — cal endevinar el resultat d'una multiplicació<br><br>
+      <strong>Jugable</strong> (interfície) — <code>juga()</code>, <code>mostraNom()</code>, <code>mostraInfo()</code>
+    </div>
+    <p>Crea a NetBeans el projecte <code>Jocs</code> amb aquests paquets:</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Paquet</th><th>Classes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>jocs</code></td><td><code>Joc</code> i la classe d'utilitat <code>Teclat</code></td></tr>
+        <tr><td><code>jocs.interficies</code></td><td><code>Jugable</code> (la crearem al pas 7)</td></tr>
+        <tr><td><code>jocs.numeros</code></td><td><code>JocNumeros</code>, <code>JocEndevinaNumero</code>, <code>JocEndevinaParell</code>, <code>JocEndevinaSenar</code>, <code>JocEndevinaMultiplicacio</code></td></tr>
+        <tr><td><code>jocs.aplicacio</code></td><td><code>Aplicacio</code> i les classes de prova</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.1 · 7.5</span>
+  </div>
+
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 2</span>
+    <span class="exercici-title">La classe d'utilitat <code>Teclat</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>Els jocs han de llegir números del teclat. Fem una classe d'utilitat amb mètodes estàtics perquè tot el programa comparteixi <strong>un sol</strong> <code>Scanner</code>. Aquesta classe ja te la donem feta: copia-la al paquet <code>jocs</code>.</p>
+    <div class="ra5-box">📌 La lectura de teclat amb <code>Scanner</code> s'estudia a fons a l'RA5. Aquí només cal saber fer servir els dos mètodes d'aquesta classe: <code>Teclat.llegirEnter(missatge)</code> i <code>Teclat.llegirText(missatge)</code>.</div>
+    <div class="code-block"><span class="kw">package</span> jocs;
+
+<span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">/**
+ * Classe d'utilitat per llegir del teclat. Tots els jocs i l'aplicació
+ * comparteixen el mateix Scanner (no n'hem de crear més d'un sobre System.in).
+ */</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Teclat</span> {
+
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">final</span> <span class="cls">Scanner</span> ENTRADA = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+    <span class="kw">private</span> <span class="cls">Teclat</span>() { }   <span class="cmt">// no s'han de crear objectes Teclat</span>
+
+    <span class="cmt">/** Mostra el missatge i llegeix un enter. Si no és un número, el torna a demanar. */</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">int</span> <span class="fn">llegirEnter</span>(<span class="cls">String</span> missatge) {
+        <span class="kw">while</span> (<span class="kw">true</span>) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(missatge);
+            <span class="cls">String</span> linia = ENTRADA.<span class="fn">nextLine</span>().<span class="fn">trim</span>();
+            <span class="kw">try</span> {
+                <span class="kw">return</span> <span class="cls">Integer</span>.<span class="fn">parseInt</span>(linia);
+            } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Això no és un número. Torna-ho a provar."</span>);
+            }
+        }
+    }
+
+    <span class="cmt">/** Mostra el missatge i llegeix una línia de text. */</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="cls">String</span> <span class="fn">llegirText</span>(<span class="cls">String</span> missatge) {
+        <span class="cls">System</span>.out.<span class="fn">print</span>(missatge);
+        <span class="kw">return</span> ENTRADA.<span class="fn">nextLine</span>().<span class="fn">trim</span>();
+    }
+}</div>
+    <div class="info-box">📌 <code>llegirEnter</code> fa servir el control d'excepcions que vas veure a l'AEA1: si l'usuari escriu una cosa que no és un número, <code>Integer.parseInt</code> llança una <code>NumberFormatException</code> i el mètode torna a demanar el valor.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.7</span>
+  </div>
+
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 3</span>
+    <span class="exercici-title">La classe abstracta <code>Joc</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>La classe <code>Joc</code> conté el que tenen en comú tots els jocs. És <strong>abstracta</strong>: sabem que tots els jocs es juguen i que en tots es pot guanyar, però no sabem com. Això ho decidirà cada subclasse.</p>    <ul class="exercici-tasques">
+      <li>Atributs <code>private</code>: <code>vides</code> (les que queden) i <code>videsInicials</code> (<code>final</code>, per poder reiniciar).</li>
+      <li>Atribut de classe <code>private static int record = 0</code>: és comú a <strong>tots</strong> els jocs.</li>
+      <li>Constructor amb el nombre de vides inicials, com a màxim 10.</li>
+      <li><code>mostraVidesRestants()</code>, <code>treuVida()</code> (retorna si encara queden vides) i <code>reiniciaPartida()</code>.</li>
+      <li><code>actualitzaRecord()</code>: la puntuació és <code>10 - vides gastades</code>. Si iguala el rècord, ho diu; si el supera, l'actualitza i mostra el nou valor; si és menor, no fa res.</li>
+      <li>Mètodes abstractes <code>juga()</code> i <code>heGuanyat()</code>.</li>
+    </ul>
+    <div class="warn-box">⚠️ <strong>Comprova-ho:</strong> si escrius <code>Joc j = new Joc(3);</code> el compilador dona l'error <em>"Joc is abstract; cannot be instantiated"</em>. És el que volem: no existeix un "joc en general".</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.1 · 7.2</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> jocs;
+
+<span class="cmt">/** Classe base de tots els jocs. És abstracta: no es poden crear objectes Joc. */</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> <span class="cls">Joc</span> {
+
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">final</span> <span class="kw">int</span> MAX_VIDES = <span class="num">10</span>;
+
+    <span class="kw">private</span> <span class="kw">int</span> vides;                 <span class="cmt">// vides que queden a la partida actual</span>
+    <span class="kw">private</span> <span class="kw">final</span> <span class="kw">int</span> videsInicials;   <span class="cmt">// per poder reiniciar la partida</span>
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">int</span> <span class="kw">record</span> = <span class="num">0</span>;     <span class="cmt">// atribut de classe: comú a tots els jocs</span>
+
+    <span class="kw">public</span> <span class="cls">Joc</span>(<span class="kw">int</span> vides) {
+        <span class="kw">if</span> (vides &gt; MAX_VIDES) vides = MAX_VIDES;
+        <span class="kw">if</span> (vides &lt; <span class="num">1</span>) vides = <span class="num">1</span>;
+        <span class="kw">this</span>.vides         = vides;
+        <span class="kw">this</span>.videsInicials = vides;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraVidesRestants</span>() {
+        <span class="kw">if</span> (vides == <span class="num">1</span>) <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Et queda 1 vida."</span>);
+        <span class="kw">else</span>            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Et queden "</span> + vides + <span class="str">" vides."</span>);
+    }
+
+    <span class="cmt">/** Treu una vida i retorna si encara en queden. */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">treuVida</span>() {
+        vides--;
+        <span class="kw">return</span> vides &gt; <span class="num">0</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">reiniciaPartida</span>() {
+        vides = videsInicials;
+    }
+
+    <span class="cmt">/** Només s'ha de cridar quan el jugador ha guanyat. */</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">actualitzaRecord</span>() {
+        <span class="kw">int</span> videsGastades = videsInicials - vides;
+        <span class="kw">int</span> puntuacio = <span class="num">10</span> - videsGastades;
+
+        <span class="kw">if</span> (puntuacio == <span class="kw">record</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has igualat el rècord: "</span> + <span class="kw">record</span> + <span class="str">" punts."</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (puntuacio &gt; <span class="kw">record</span>) {
+            <span class="kw">record</span> = puntuacio;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has batut el rècord! Nou rècord: "</span> + <span class="kw">record</span> + <span class="str">" punts."</span>);
+        }
+        <span class="cmt">// si és menor, no fem res</span>
+    }
+
+    <span class="cmt">/** Aquí no sabem com es juga: ho decidirà cada subclasse. */</span>
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">void</span> <span class="fn">juga</span>();
+
+    <span class="cmt">/** Tampoc sabem quan s'ha guanyat. */</span>
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">boolean</span> <span class="fn">heGuanyat</span>();
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 4</span>
+    <span class="exercici-title"><code>JocNumeros</code> i <code>JocEndevinaNumero</code></span>
+  </div>
+  <div class="exercici-body">
+    <p><code>JocNumeros</code> generalitza tots els jocs en què s'ha d'endevinar un número. Encara no sap quin número és el correcte, per això també és abstracta. <code>JocEndevinaNumero</code> ja és un joc concret.</p>    <ul class="exercici-tasques">
+      <li><code>JocNumeros</code> (abstracta, filla de <code>Joc</code>): atribut <code>protected int numeroUsuari</code> i constructor que rep les vides.</li>
+      <li>Implementa <code>juga()</code>: reinicia la partida i, en bucle, demana un número. Si <code>validaNumero()</code> retorna fals, el torna a demanar <strong>sense restar vida</strong>. Si <code>heGuanyat()</code> és cert, mostra un missatge, crida <code>actualitzaRecord()</code> i acaba. Si no, crida <code>treuVida()</code>: si encara queden vides, deixa tornar-ho a intentar; si no, acaba.</li>
+      <li><code>validaNumero(int)</code>: en aquesta classe sempre retorna cert.</li>
+      <li><code>JocEndevinaNumero</code> (filla de <code>JocNumeros</code>): constructor amb les vides i el número secret (entre 0 i 10). Sobreescriu <code>heGuanyat()</code>.</li>
+    </ul>
+    <div class="info-box">📌 <strong>Fixa't:</strong> <code>juga()</code> crida <code>heGuanyat()</code>, que a <code>JocNumeros</code> encara no està escrit. Quan el joc sigui un <code>JocEndevinaNumero</code>, Java executarà la versió de <code>JocEndevinaNumero</code>. Això és <strong>polimorfisme</strong>.</div>
+    <div class="tip-box">✅ <strong>Prova-ho:</strong> crea <code>ProvaPas4</code> al paquet <code>jocs.aplicacio</code>.</div>
+    <div class="code-block"><span class="kw">package</span> jocs.aplicacio;
+
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaNumero</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaPas4</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">JocEndevinaNumero</span> joc = <span class="kw">new</span> <span class="cls">JocEndevinaNumero</span>(<span class="num">3</span>, <span class="num">7</span>);   <span class="cmt">// 3 vides, secret 7</span>
+        joc.<span class="fn">juga</span>();
+        joc.<span class="fn">juga</span>();   <span class="cmt">// segona partida: el rècord es compara amb l'anterior</span>
+    }
+}</div>
+    <p>Exemple d'execució (el que escriu l'usuari surt després de cada <code>Introdueix un número:</code>):</p>
+    <div class="code-block">Introdueix un número: 2
+No és correcte.
+Et queden 2 vides.
+Introdueix un número: hola
+Això no és un número. Torna-ho a provar.
+Introdueix un número: 7
+Encertat! Has guanyat.
+Has batut el rècord! Nou rècord: 9 punts.
+Introdueix un número: 1
+No és correcte.
+Et queden 2 vides.
+Introdueix un número: 2
+No és correcte.
+Et queda 1 vida.
+Introdueix un número: 3
+No et queden vides. Has perdut.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.1 · 7.3 · 7.4 · 7.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">import</span> jocs.<span class="cls">Joc</span>;
+<span class="kw">import</span> jocs.<span class="cls">Teclat</span>;
+
+<span class="cmt">/** Generalitza els jocs en què cal endevinar un número. No s'instancia. */</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> <span class="cls">JocNumeros</span> <span class="kw">extends</span> <span class="cls">Joc</span> {
+
+    <span class="kw">protected</span> <span class="kw">int</span> numeroUsuari;   <span class="cmt">// l'últim número vàlid introduït</span>
+
+    <span class="kw">public</span> <span class="cls">JocNumeros</span>(<span class="kw">int</span> vides) {
+        <span class="kw">super</span>(vides);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">juga</span>() {
+        <span class="fn">reiniciaPartida</span>();
+        <span class="kw">while</span> (<span class="kw">true</span>) {
+            <span class="kw">int</span> numero = <span class="cls">Teclat</span>.<span class="fn">llegirEnter</span>(<span class="str">"Introdueix un número: "</span>);
+
+            <span class="kw">if</span> (!<span class="fn">validaNumero</span>(numero)) {
+                <span class="kw">continue</span>;               <span class="cmt">// número no vàlid: no es resta vida</span>
+            }
+            numeroUsuari = numero;
+
+            <span class="kw">if</span> (<span class="fn">heGuanyat</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Encertat! Has guanyat."</span>);
+                <span class="fn">actualitzaRecord</span>();
+                <span class="kw">return</span>;
+            }
+            <span class="kw">if</span> (<span class="fn">treuVida</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No és correcte."</span>);
+                <span class="fn">mostraVidesRestants</span>();
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No et queden vides. Has perdut."</span>);
+                <span class="kw">return</span>;
+            }
+        }
+    }
+
+    <span class="cmt">/** Per defecte qualsevol número és vàlid. Les subclasses ho poden canviar. */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">validaNumero</span>(<span class="kw">int</span> numero) {
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaNumero</span> <span class="kw">extends</span> <span class="cls">JocNumeros</span> {
+
+    <span class="kw">protected</span> <span class="kw">int</span> numeroSecret;   <span class="cmt">// entre 0 i 10</span>
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaNumero</span>(<span class="kw">int</span> vides, <span class="kw">int</span> numeroSecret) {
+        <span class="kw">super</span>(vides);
+        <span class="kw">if</span> (numeroSecret &lt; <span class="num">0</span>)  numeroSecret = <span class="num">0</span>;
+        <span class="kw">if</span> (numeroSecret &gt; <span class="num">10</span>) numeroSecret = <span class="num">10</span>;
+        <span class="kw">this</span>.numeroSecret = numeroSecret;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">heGuanyat</span>() {
+        <span class="kw">return</span> numeroUsuari == numeroSecret;
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 5</span>
+    <span class="exercici-title"><code>JocEndevinaParell</code> i <code>JocEndevinaSenar</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>Dues variants que només canvien una regla: quins números són vàlids.</p>    <ul class="exercici-tasques">
+      <li><code>JocEndevinaParell</code> (filla de <code>JocEndevinaNumero</code>): sobreescriu <code>validaNumero()</code>. Retorna cert si el número és parell; si no, mostra un missatge i retorna fals.</li>
+      <li><code>JocEndevinaSenar</code>: igual, però per als números senars.</li>
+      <li>Tots dos constructors reben les vides i el número secret, i criden <code>super(...)</code>.</li>
+    </ul>
+    <div class="warn-box">⚠️ El número secret d'un <code>JocEndevinaParell</code> ha de ser parell (i el d'un <code>JocEndevinaSenar</code>, senar). Si no, el jugador no podria guanyar mai.</div>
+    <div class="tip-box">✅ <strong>Prova-ho:</strong></div>
+    <div class="code-block"><span class="kw">package</span> jocs.aplicacio;
+
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaParell</span>;
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaSenar</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaPas5</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"--- Parell (secret 4) ---"</span>);
+        <span class="kw">new</span> <span class="cls">JocEndevinaParell</span>(<span class="num">3</span>, <span class="num">4</span>).<span class="fn">juga</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"--- Senar (secret 9) ---"</span>);
+        <span class="kw">new</span> <span class="cls">JocEndevinaSenar</span>(<span class="num">3</span>, <span class="num">9</span>).<span class="fn">juga</span>();
+    }
+}</div><div class="code-block">--- Parell (secret 4) ---
+Introdueix un número: 3
+El número ha de ser parell.
+Introdueix un número: 2
+No és correcte.
+Et queden 2 vides.
+Introdueix un número: 4
+Encertat! Has guanyat.
+Has batut el rècord! Nou rècord: 9 punts.
+--- Senar (secret 9) ---
+Introdueix un número: 6
+El número ha de ser senar.
+Introdueix un número: 9
+Encertat! Has guanyat.
+Has batut el rècord! Nou rècord: 10 punts.</div>
+    <div class="info-box">📌 <strong>El rècord és compartit:</strong> al joc parell s'ha fet un rècord de 9 punts i al senar s'ha batut amb 10. Són objectes diferents, però <code>record</code> és <code>static</code>: només n'hi ha un per a tota la classe <code>Joc</code>.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.4 · 7.5 · 7.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaParell</span> <span class="kw">extends</span> <span class="cls">JocEndevinaNumero</span> {
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaParell</span>(<span class="kw">int</span> vides, <span class="kw">int</span> numeroSecret) {
+        <span class="kw">super</span>(vides, numeroSecret);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">validaNumero</span>(<span class="kw">int</span> numero) {
+        <span class="kw">if</span> (numero % <span class="num">2</span> == <span class="num">0</span>) <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El número ha de ser parell."</span>);
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaSenar</span> <span class="kw">extends</span> <span class="cls">JocEndevinaNumero</span> {
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaSenar</span>(<span class="kw">int</span> vides, <span class="kw">int</span> numeroSecret) {
+        <span class="kw">super</span>(vides, numeroSecret);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">validaNumero</span>(<span class="kw">int</span> numero) {
+        <span class="kw">if</span> (numero % <span class="num">2</span> != <span class="num">0</span>) <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El número ha de ser senar."</span>);
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 6</span>
+    <span class="exercici-title"><code>JocEndevinaMultiplicacio</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>Aquest joc consisteix a endevinar el resultat de multiplicar dos números aleatoris que no coneixem.</p>    <ul class="exercici-tasques">
+      <li><code>JocEndevinaMultiplicacio</code> és filla de <code>JocNumeros</code> (no de <code>JocEndevinaNumero</code>: no hi ha cap número secret entre 0 i 10).</li>
+      <li>Atributs <code>nombre1</code>, <code>nombre2</code> i <code>resultat</code>.</li>
+      <li>El constructor rep les vides i el nivell de dificultat. Te'l donem fet:</li>
+    </ul>
+    <div class="code-block"><span class="kw">public</span> <span class="cls">JocEndevinaMultiplicacio</span>(<span class="kw">int</span> vides, <span class="kw">int</span> nivell) {
+    <span class="kw">super</span>(vides);
+    <span class="kw">int</span> max;
+    <span class="kw">switch</span> (nivell) {
+        <span class="kw">case</span> <span class="num">1</span> -&gt; max = <span class="num">5</span>;    <span class="cmt">// Fàcil</span>
+        <span class="kw">case</span> <span class="num">2</span> -&gt; max = <span class="num">10</span>;   <span class="cmt">// Mitjà</span>
+        <span class="kw">default</span> -&gt; max = <span class="num">15</span>;  <span class="cmt">// Difícil</span>
+    }
+    <span class="kw">this</span>.nombre1  = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * max) + <span class="num">1</span>;
+    <span class="kw">this</span>.nombre2  = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * max) + <span class="num">1</span>;
+    <span class="kw">this</span>.resultat = nombre1 * nombre2;
+}</div>    <ul class="exercici-tasques">
+      <li>Sobreescriu <code>heGuanyat()</code>: s'ha guanyat si el número de l'usuari és igual al resultat.</li>
+    </ul>
+    <div class="info-box">📌 <code>Math.random()</code> retorna un <code>double</code> entre 0 (inclòs) i 1 (no inclòs). En multiplicar-lo per <code>max</code>, convertir-lo a <code>int</code> i sumar-hi 1, obtenim un enter entre 1 i <code>max</code>.</div>
+    <div class="tip-box">✅ <strong>Prova-ho:</strong></div>
+    <div class="code-block"><span class="kw">package</span> jocs.aplicacio;
+
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaMultiplicacio</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaPas6</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cmt">// Nivell 1: els dos números són entre 1 i 5, el resultat entre 1 i 25</span>
+        <span class="kw">new</span> <span class="cls">JocEndevinaMultiplicacio</span>(<span class="num">5</span>, <span class="num">1</span>).<span class="fn">juga</span>();
+    }
+}</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.3 · 7.4 · 7.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaMultiplicacio</span> <span class="kw">extends</span> <span class="cls">JocNumeros</span> {
+
+    <span class="kw">private</span> <span class="kw">int</span> nombre1;
+    <span class="kw">private</span> <span class="kw">int</span> nombre2;
+    <span class="kw">private</span> <span class="kw">int</span> resultat;
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaMultiplicacio</span>(<span class="kw">int</span> vides, <span class="kw">int</span> nivell) {
+        <span class="kw">super</span>(vides);
+        <span class="kw">int</span> max;
+        <span class="kw">switch</span> (nivell) {
+            <span class="kw">case</span> <span class="num">1</span> -&gt; max = <span class="num">5</span>;    <span class="cmt">// Fàcil</span>
+            <span class="kw">case</span> <span class="num">2</span> -&gt; max = <span class="num">10</span>;   <span class="cmt">// Mitjà</span>
+            <span class="kw">default</span> -&gt; max = <span class="num">15</span>;  <span class="cmt">// Difícil</span>
+        }
+        <span class="kw">this</span>.nombre1  = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * max) + <span class="num">1</span>;
+        <span class="kw">this</span>.nombre2  = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * max) + <span class="num">1</span>;
+        <span class="kw">this</span>.resultat = nombre1 * nombre2;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">heGuanyat</span>() {
+        <span class="kw">return</span> numeroUsuari == resultat;
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 7</span>
+    <span class="exercici-title">La interfície <code>Jugable</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>Volem poder tractar tots els jocs de la mateixa manera, siguin de números o d'un altre tipus que fem més endavant. Definim un <strong>contracte</strong> comú: la interfície <code>Jugable</code>.</p>    <ul class="exercici-tasques">
+      <li>Crea el paquet <code>jocs.interficies</code> i, a dins, la interfície <code>Jugable</code> amb els mètodes <code>juga()</code>, <code>mostraNom()</code> (mostra el nom del joc) i <code>mostraInfo()</code> (explica com es juga).</li>
+      <li>Treu el mètode abstracte <code>juga()</code> de <code>Joc</code>. La classe continua sent <strong>abstracta</strong>: no volem que se'n creïn objectes.</li>
+      <li><code>JocNumeros</code> declara <code>implements Jugable</code>. El seu <code>juga()</code> ara compleix el contracte de la interfície.</li>
+      <li>Els quatre jocs concrets implementen <code>mostraNom()</code> i <code>mostraInfo()</code>.</li>
+      <li>Comenta amb Javadoc la interfície i les classes.</li>
+    </ul>
+    <div class="info-box">📌 <strong>Per què <code>JocNumeros</code> no ha d'implementar <code>mostraNom()</code>?</strong> Perquè és abstracta: una classe abstracta pot deixar mètodes de la interfície sense implementar. Els han d'implementar obligatòriament les seves subclasses concretes.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.2 · 7.8 · 7.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> jocs.interficies;
+
+<span class="cmt">/** Operacions comunes que ha d'oferir qualsevol joc de l'aplicació. */</span>
+<span class="kw">public</span> <span class="kw">interface</span> <span class="cls">Jugable</span> {
+
+    <span class="cmt">/** Comença una partida nova. */</span>
+    <span class="kw">void</span> <span class="fn">juga</span>();
+
+    <span class="cmt">/** Mostra per pantalla el nom del joc. */</span>
+    <span class="kw">void</span> <span class="fn">mostraNom</span>();
+
+    <span class="cmt">/** Mostra per pantalla com es juga. */</span>
+    <span class="kw">void</span> <span class="fn">mostraInfo</span>();
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs;
+
+<span class="cmt">/**
+ * Classe base de tots els jocs. Continua sent abstracta: no volem que es
+ * creïn objectes Joc directament. El mètode juga() ara és a la interfície Jugable.
+ */</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> <span class="cls">Joc</span> {
+
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">final</span> <span class="kw">int</span> MAX_VIDES = <span class="num">10</span>;
+
+    <span class="kw">private</span> <span class="kw">int</span> vides;                 <span class="cmt">// vides que queden a la partida actual</span>
+    <span class="kw">private</span> <span class="kw">final</span> <span class="kw">int</span> videsInicials;   <span class="cmt">// per poder reiniciar la partida</span>
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">int</span> <span class="kw">record</span> = <span class="num">0</span>;     <span class="cmt">// atribut de classe: comú a tots els jocs</span>
+
+    <span class="kw">public</span> <span class="cls">Joc</span>(<span class="kw">int</span> vides) {
+        <span class="kw">if</span> (vides &gt; MAX_VIDES) vides = MAX_VIDES;
+        <span class="kw">if</span> (vides &lt; <span class="num">1</span>) vides = <span class="num">1</span>;
+        <span class="kw">this</span>.vides         = vides;
+        <span class="kw">this</span>.videsInicials = vides;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraVidesRestants</span>() {
+        <span class="kw">if</span> (vides == <span class="num">1</span>) <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Et queda 1 vida."</span>);
+        <span class="kw">else</span>            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Et queden "</span> + vides + <span class="str">" vides."</span>);
+    }
+
+    <span class="cmt">/** Treu una vida i retorna si encara en queden. */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">treuVida</span>() {
+        vides--;
+        <span class="kw">return</span> vides &gt; <span class="num">0</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">reiniciaPartida</span>() {
+        vides = videsInicials;
+    }
+
+    <span class="cmt">/** Només s'ha de cridar quan el jugador ha guanyat. */</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">actualitzaRecord</span>() {
+        <span class="kw">int</span> videsGastades = videsInicials - vides;
+        <span class="kw">int</span> puntuacio = <span class="num">10</span> - videsGastades;
+
+        <span class="kw">if</span> (puntuacio == <span class="kw">record</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has igualat el rècord: "</span> + <span class="kw">record</span> + <span class="str">" punts."</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (puntuacio &gt; <span class="kw">record</span>) {
+            <span class="kw">record</span> = puntuacio;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has batut el rècord! Nou rècord: "</span> + <span class="kw">record</span> + <span class="str">" punts."</span>);
+        }
+        <span class="cmt">// si és menor, no fem res</span>
+    }
+
+    <span class="cmt">/** Tampoc sabem quan s'ha guanyat. */</span>
+    <span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">boolean</span> <span class="fn">heGuanyat</span>();
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">import</span> jocs.<span class="cls">Joc</span>;
+<span class="kw">import</span> jocs.<span class="cls">Teclat</span>;
+<span class="kw">import</span> jocs.interficies.<span class="cls">Jugable</span>;
+
+<span class="cmt">/** Generalitza els jocs en què cal endevinar un número. No s'instancia. */</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> <span class="cls">JocNumeros</span> <span class="kw">extends</span> <span class="cls">Joc</span> <span class="kw">implements</span> <span class="cls">Jugable</span> {
+
+    <span class="kw">protected</span> <span class="kw">int</span> numeroUsuari;   <span class="cmt">// l'últim número vàlid introduït</span>
+
+    <span class="kw">public</span> <span class="cls">JocNumeros</span>(<span class="kw">int</span> vides) {
+        <span class="kw">super</span>(vides);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">juga</span>() {
+        <span class="fn">reiniciaPartida</span>();
+        <span class="kw">while</span> (<span class="kw">true</span>) {
+            <span class="kw">int</span> numero = <span class="cls">Teclat</span>.<span class="fn">llegirEnter</span>(<span class="str">"Introdueix un número: "</span>);
+
+            <span class="kw">if</span> (!<span class="fn">validaNumero</span>(numero)) {
+                <span class="kw">continue</span>;               <span class="cmt">// número no vàlid: no es resta vida</span>
+            }
+            numeroUsuari = numero;
+
+            <span class="kw">if</span> (<span class="fn">heGuanyat</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Encertat! Has guanyat."</span>);
+                <span class="fn">actualitzaRecord</span>();
+                <span class="kw">return</span>;
+            }
+            <span class="kw">if</span> (<span class="fn">treuVida</span>()) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No és correcte."</span>);
+                <span class="fn">mostraVidesRestants</span>();
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No et queden vides. Has perdut."</span>);
+                <span class="kw">return</span>;
+            }
+        }
+    }
+
+    <span class="cmt">/** Per defecte qualsevol número és vàlid. Les subclasses ho poden canviar. */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">validaNumero</span>(<span class="kw">int</span> numero) {
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaNumero</span> <span class="kw">extends</span> <span class="cls">JocNumeros</span> {
+
+    <span class="kw">protected</span> <span class="kw">int</span> numeroSecret;   <span class="cmt">// entre 0 i 10</span>
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaNumero</span>(<span class="kw">int</span> vides, <span class="kw">int</span> numeroSecret) {
+        <span class="kw">super</span>(vides);
+        <span class="kw">if</span> (numeroSecret &lt; <span class="num">0</span>)  numeroSecret = <span class="num">0</span>;
+        <span class="kw">if</span> (numeroSecret &gt; <span class="num">10</span>) numeroSecret = <span class="num">10</span>;
+        <span class="kw">this</span>.numeroSecret = numeroSecret;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">heGuanyat</span>() {
+        <span class="kw">return</span> numeroUsuari == numeroSecret;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraNom</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Endevina el número"</span>);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"He pensat un número entre 0 i 10. Tens unes quantes vides per endevinar-lo."</span>);
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaParell</span> <span class="kw">extends</span> <span class="cls">JocEndevinaNumero</span> {
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaParell</span>(<span class="kw">int</span> vides, <span class="kw">int</span> numeroSecret) {
+        <span class="kw">super</span>(vides, numeroSecret);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">validaNumero</span>(<span class="kw">int</span> numero) {
+        <span class="kw">if</span> (numero % <span class="num">2</span> == <span class="num">0</span>) <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El número ha de ser parell."</span>);
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraNom</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Endevina el número parell"</span>);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"He pensat un número parell entre 0 i 10. Només pots dir números parells: els senars no compten."</span>);
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaSenar</span> <span class="kw">extends</span> <span class="cls">JocEndevinaNumero</span> {
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaSenar</span>(<span class="kw">int</span> vides, <span class="kw">int</span> numeroSecret) {
+        <span class="kw">super</span>(vides, numeroSecret);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">validaNumero</span>(<span class="kw">int</span> numero) {
+        <span class="kw">if</span> (numero % <span class="num">2</span> != <span class="num">0</span>) <span class="kw">return</span> <span class="kw">true</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El número ha de ser senar."</span>);
+        <span class="kw">return</span> <span class="kw">false</span>;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraNom</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Endevina el número senar"</span>);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"He pensat un número senar entre 0 i 10. Només pots dir números senars: els parells no compten."</span>);
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> jocs.numeros;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">JocEndevinaMultiplicacio</span> <span class="kw">extends</span> <span class="cls">JocNumeros</span> {
+
+    <span class="kw">private</span> <span class="kw">int</span> nombre1;
+    <span class="kw">private</span> <span class="kw">int</span> nombre2;
+    <span class="kw">private</span> <span class="kw">int</span> resultat;
+
+    <span class="kw">public</span> <span class="cls">JocEndevinaMultiplicacio</span>(<span class="kw">int</span> vides, <span class="kw">int</span> nivell) {
+        <span class="kw">super</span>(vides);
+        <span class="kw">int</span> max;
+        <span class="kw">switch</span> (nivell) {
+            <span class="kw">case</span> <span class="num">1</span> -&gt; max = <span class="num">5</span>;    <span class="cmt">// Fàcil</span>
+            <span class="kw">case</span> <span class="num">2</span> -&gt; max = <span class="num">10</span>;   <span class="cmt">// Mitjà</span>
+            <span class="kw">default</span> -&gt; max = <span class="num">15</span>;  <span class="cmt">// Difícil</span>
+        }
+        <span class="kw">this</span>.nombre1  = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * max) + <span class="num">1</span>;
+        <span class="kw">this</span>.nombre2  = (<span class="kw">int</span>) (<span class="cls">Math</span>.<span class="fn">random</span>() * max) + <span class="num">1</span>;
+        <span class="kw">this</span>.resultat = nombre1 * nombre2;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">heGuanyat</span>() {
+        <span class="kw">return</span> numeroUsuari == resultat;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraNom</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Endevina la multiplicació"</span>);
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostraInfo</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"He multiplicat dos números a l'atzar que no coneixes. Endevina el resultat!"</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 8</span>
+    <span class="exercici-title">L'aplicació</span>
+  </div>
+  <div class="exercici-body">
+    <p>Per acabar, la classe <code>Aplicacio</code> al paquet <code>jocs.aplicacio</code>.</p>    <ul class="exercici-tasques">
+      <li><code>public static Jugable triaJoc()</code>: crea un objecte de cadascun dels quatre jocs i una <code>ArrayList&lt;Jugable&gt;</code> amb tots quatre. A partir d'aquí només treballa amb la llista.</li>
+      <li>Mostra un menú amb el nom dels jocs i demana un número entre 0 i 3. Si no és vàlid, el torna a demanar.</li>
+      <li>Retorna el joc triat.</li>
+      <li><code>main</code>: crida <code>triaJoc()</code>, després <code>mostraNom()</code>, <code>mostraInfo()</code> i <code>juga()</code>. Quan acaba la partida, pregunta si es vol tornar a jugar i, si la resposta és afirmativa, ho repeteix tot.</li>
+    </ul>
+    <div class="info-box">📌 <strong>La clau de la interfície:</strong> <code>Aplicacio</code> no sap de quina classe és cada joc. Només sap que tots són <code>Jugable</code>. Si demà afegim un joc de paraules que implementi <code>Jugable</code>, el <code>main</code> no canvia gens.</div>
+    <div class="tip-box">✅ <strong>Pista:</strong> per obtenir números secrets parells entre 0 i 10 pots fer <code>2 * r.nextInt(6)</code>; per als senars, <code>2 * r.nextInt(5) + 1</code>.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 7.7 · 7.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> jocs.aplicacio;
+
+<span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+<span class="kw">import</span> java.util.<span class="cls">Random</span>;
+<span class="kw">import</span> jocs.<span class="cls">Teclat</span>;
+<span class="kw">import</span> jocs.interficies.<span class="cls">Jugable</span>;
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaMultiplicacio</span>;
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaNumero</span>;
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaParell</span>;
+<span class="kw">import</span> jocs.numeros.<span class="cls">JocEndevinaSenar</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Aplicacio</span> {
+
+    <span class="cmt">/** Mostra el menú i retorna el joc triat per l'usuari. */</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="cls">Jugable</span> <span class="fn">triaJoc</span>() {
+        <span class="cls">Random</span> r = <span class="kw">new</span> <span class="cls">Random</span>();
+
+        <span class="cmt">// Un objecte de cada joc</span>
+        <span class="cls">JocEndevinaNumero</span>        j0 = <span class="kw">new</span> <span class="cls">JocEndevinaNumero</span>(<span class="num">5</span>, r.<span class="fn">nextInt</span>(<span class="num">11</span>));          <span class="cmt">// 0..10</span>
+        <span class="cls">JocEndevinaParell</span>        j1 = <span class="kw">new</span> <span class="cls">JocEndevinaParell</span>(<span class="num">5</span>, <span class="num">2</span> * r.<span class="fn">nextInt</span>(<span class="num">6</span>));       <span class="cmt">// 0, 2, ..., 10</span>
+        <span class="cls">JocEndevinaSenar</span>         j2 = <span class="kw">new</span> <span class="cls">JocEndevinaSenar</span>(<span class="num">5</span>, <span class="num">2</span> * r.<span class="fn">nextInt</span>(<span class="num">5</span>) + <span class="num">1</span>);    <span class="cmt">// 1, 3, ..., 9</span>
+        <span class="cls">JocEndevinaMultiplicacio</span> j3 = <span class="kw">new</span> <span class="cls">JocEndevinaMultiplicacio</span>(<span class="num">5</span>, <span class="num">1</span>);
+
+        <span class="cmt">// A partir d'aquí només treballem amb la llista de Jugable</span>
+        <span class="cls">ArrayList</span>&lt;<span class="cls">Jugable</span>&gt; jocs = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(<span class="num">4</span>);
+        jocs.<span class="fn">add</span>(j0);
+        jocs.<span class="fn">add</span>(j1);
+        jocs.<span class="fn">add</span>(j2);
+        jocs.<span class="fn">add</span>(j3);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n===== JOCS ====="</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; jocs.<span class="fn">size</span>(); i++) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" - "</span>);
+            jocs.<span class="fn">get</span>(i).<span class="fn">mostraNom</span>();
+        }
+
+        <span class="kw">int</span> opcio = <span class="cls">Teclat</span>.<span class="fn">llegirEnter</span>(<span class="str">"Tria un joc (0-3): "</span>);
+        <span class="kw">while</span> (opcio &lt; <span class="num">0</span> || opcio &gt; <span class="num">3</span>) {
+            opcio = <span class="cls">Teclat</span>.<span class="fn">llegirEnter</span>(<span class="str">"Opció no vàlida. Tria un joc (0-3): "</span>);
+        }
+        <span class="kw">return</span> jocs.<span class="fn">get</span>(opcio);
+    }
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">String</span> resposta;
+        <span class="kw">do</span> {
+            <span class="cls">Jugable</span> joc = <span class="fn">triaJoc</span>();
+            joc.<span class="fn">mostraNom</span>();
+            joc.<span class="fn">mostraInfo</span>();
+            joc.<span class="fn">juga</span>();
+            resposta = <span class="cls">Teclat</span>.<span class="fn">llegirText</span>(<span class="str">"Vols jugar de nou? (s/n): "</span>);
+        } <span class="kw">while</span> (resposta.<span class="fn">equalsIgnoreCase</span>(<span class="str">"s"</span>));
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fins aviat!"</span>);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">3. Exemple d'execució</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Una sessió completa amb l'<code>Aplicacio</code>. Els números secrets són aleatoris, així que a tu et sortiran uns altres. Fixa't que el rècord es manté d'una partida a l'altra, encara que canviï el joc.</p>
+<div class="code-block">===== JOCS =====
+0 - Endevina el número
+1 - Endevina el número parell
+2 - Endevina el número senar
+3 - Endevina la multiplicació
+Tria un joc (0-3): 5
+Opció no vàlida. Tria un joc (0-3): 1
+Endevina el número parell
+He pensat un número parell entre 0 i 10. Només pots dir números parells: els senars no compten.
+Introdueix un número: 3
+El número ha de ser parell.
+Introdueix un número: 4
+No és correcte.
+Et queden 4 vides.
+Introdueix un número: 6
+Encertat! Has guanyat.
+Has batut el rècord! Nou rècord: 9 punts.
+Vols jugar de nou? (s/n): s
+
+===== JOCS =====
+0 - Endevina el número
+1 - Endevina el número parell
+2 - Endevina el número senar
+3 - Endevina la multiplicació
+Tria un joc (0-3): 0
+Endevina el número
+He pensat un número entre 0 i 10. Tens unes quantes vides per endevinar-lo.
+Introdueix un número: 7
+Encertat! Has guanyat.
+Has batut el rècord! Nou rècord: 10 punts.
+Vols jugar de nou? (s/n): n
+Fins aviat!</div>
+
+</main>
+<footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

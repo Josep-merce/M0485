@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1 — Estructura del programa informàtic · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:600px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .intro { font-size:.93rem; color:var(--text-soft); margin-bottom:1.25rem; max-width:720px; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:720px; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.75rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); scroll-margin-top:1rem; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    /* Índex */
+    .toc { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:2rem; box-shadow:var(--shadow); }
+    .toc strong { font-size:.85rem; }
+    .toc ol { columns:2; column-gap:2rem; font-size:.84rem; padding-left:1.3rem; margin-top:.4rem; }
+    .toc a { color:var(--accent); text-decoration:none; }
+    .toc a:hover { text-decoration:underline; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block {
+      background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius);
+      padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace;
+      font-size:.84rem; line-height:1.75; overflow-x:auto;
+      margin:1rem 0 1.5rem; white-space:pre;
+    }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.5rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1.5rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; margin-top:-1rem; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; }
+    .code-block code, pre code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exercicis */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--hero-bg); color:var(--text-hero);
+      border:none; border-radius:8px; padding:.5rem 1rem;
+      font-size:.82rem; font-weight:600; cursor:pointer;
+      transition:background .15s, transform .1s;
+      font-family:'Inter',system-ui,sans-serif;
+    }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    /* Graella de criteris */
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    /* Fonts i recursos */
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    .fonts-box a { color:var(--accent); }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.5rem 1.5rem 2rem; }
+      main  { padding:2rem 1rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .ca-grid { grid-template-columns:1fr; }
+      .toc ol { columns:1; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · Programació estructurada</p>
+  <h1>A1 — Estructura del programa informàtic</h1>
+  <p>Del problema al primer programa: l'entorn de desenvolupament, l'estructura d'un programa Java, les variables, els tipus de dades, els operadors i les conversions.</p>
+  <div class="hero-pills">
+    <span class="pill">RA1</span>
+    <span class="pill">CA 1.1 a 1.9</span>
+    <span class="pill">12 hores</span>
+  </div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  A1 — Estructura del programa informàtic
+</nav>
+<main>
+<div class="ra5-box">📌 <strong>Nota sobre l'entrada de dades:</strong> en aquesta activitat tots els valors s'escriuen directament al codi (<code>int edat = 25;</code>). Llegir dades del teclat amb <code>Scanner</code> s'estudiarà a l'<strong>RA5</strong>; de moment no el necessitem.</div>
+<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#proces">Com es construeix un programa</a></li><li><a href="#java">Java: JDK, JRE i JVM</a></li><li><a href="#installacio">Instal·lació del JDK i NetBeans</a></li><li><a href="#hola">Primer projecte: Hola Món</a></li><li><a href="#estructura">Estructura d'un programa Java</a></li><li><a href="#ide">L'entorn de desenvolupament</a></li><li><a href="#comentaris">Comentaris</a></li><li><a href="#tipus">Tipus de dades</a></li><li><a href="#literals">Literals</a></li><li><a href="#variables">Variables</a></li><li><a href="#constants">Constants</a></li><li><a href="#operadors">Operadors i expressions</a></li><li><a href="#conversions">Conversions de tipus</a></li><li><a href="#exercicis">Exercicis pràctics</a></li></ol></nav>
+<h2 class="block-title" id="proces">1. Com es construeix un programa</h2>
+<p class="intro">Un <strong>programa</strong> és una seqüència d'instruccions que un ordinador executa per resoldre un problema. Abans d'escriure codi cal entendre bé el problema i dissenyar-ne la solució: <strong>primer es pensa, després es programa</strong>.</p>
+<div class="cards">
+  <div class="card"><span class="card-num">1</span><span class="card-title">Anàlisi</span><span class="card-desc">Què ens demanen? Quines dades tenim (entrada) i quin resultat volem (sortida)?</span></div>
+  <div class="card"><span class="card-num">2</span><span class="card-title">Disseny de l'algorisme</span><span class="card-desc">Escrivim els passos en <strong>pseudocodi</strong> o amb un diagrama, amb paper i llapis, sense pensar encara en Java.</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Codificació</span><span class="card-desc">Traduïm l'algorisme al llenguatge de programació (Java) dins de l'entorn de desenvolupament.</span></div>
+  <div class="card"><span class="card-num">4</span><span class="card-title">Compilació</span><span class="card-desc">El compilador revisa que el codi estigui ben escrit i el tradueix a un format executable.</span></div>
+  <div class="card"><span class="card-num">5</span><span class="card-title">Prova i depuració</span><span class="card-desc">Executem el programa amb diferents valors i comprovem que el resultat és correcte. Si no ho és, busquem l'error.</span></div>
+</div>
+<div class="sub-title">Exemple: calcular l'àrea i el perímetre d'un rectangle</div>
+<p class="text">Primer escrivim l'algorisme en <strong>pseudocodi</strong> (llenguatge natural estructurat):</p>
+<div class="pseudo">ALGORISME Rectangle
+  DADES: base = 8, altura = 5
+  àrea      ← base × altura
+  perímetre ← 2 × (base + altura)
+  ESCRIURE àrea, perímetre
+FI ALGORISME</div>
+<p class="text">Després el traduïm a Java. Aquest tipus d'algorisme, en què les instruccions s'executen una rere l'altra de dalt a baix, s'anomena <strong>composició seqüencial</strong>.</p>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>De l'algorisme al codi Java</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Rectangle</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Dades d'entrada</span>
+        <span class="kw">int</span> base = <span class="num">8</span>;
+        <span class="kw">int</span> altura = <span class="num">5</span>;
+
+        <span class="cmt">// Càlculs</span>
+        <span class="kw">int</span> area = base * altura;
+        <span class="kw">int</span> perimetre = <span class="num">2</span> * (base + altura);
+
+        <span class="cmt">// Sortida</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Perímetre: "</span> + perimetre);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Àrea: 40
+Perímetre: 26</pre></div>
+</div>
+<h2 class="block-title" id="java">2. Java: JDK, JRE i JVM</h2>
+<p class="intro">Java és un llenguatge de programació d'alt nivell i d'ús general creat el 1995 per James Gosling a Sun Microsystems. El seu lema és <strong>"Escriu una vegada, executa a qualsevol lloc"</strong>: el codi compilat funciona a qualsevol sistema que tingui una màquina virtual Java instal·lada.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Característica</th><th>Descripció</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Portabilitat</strong></td><td>El mateix programa compilat s'executa a Windows, macOS i Linux sense canvis.</td></tr>
+      <tr><td><strong>Orientat a objectes</strong></td><td>Els programes s'organitzen en classes i objectes (ho treballarem a partir de l'AEA2).</td></tr>
+      <tr><td><strong>Gestió automàtica de memòria</strong></td><td>El <em>Garbage Collector</em> allibera la memòria que ja no s'usa.</td></tr>
+      <tr><td><strong>Àmplia comunitat</strong></td><td>Un dels llenguatges més demandats al mercat laboral, amb molts frameworks i llibreries.</td></tr>
+      <tr><td><strong>Versió del curs</strong></td><td><strong>JDK 21 (LTS)</strong>: versió de suport a llarg termini, estable i recomanada.</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Component</th><th>Nom complet</th><th>Per a què serveix</th></tr></thead>
+    <tbody>
+      <tr><td><code>JDK</code></td><td>Java Development Kit</td><td>Eines per <strong>desenvolupar</strong>: compilador (<code>javac</code>), JRE i eines de depuració.</td></tr>
+      <tr><td><code>JRE</code></td><td>Java Runtime Environment</td><td>Entorn per <strong>executar</strong> programes Java. Inclou la JVM i les llibreries estàndard.</td></tr>
+      <tr><td><code>JVM</code></td><td>Java Virtual Machine</td><td>Màquina virtual que <strong>executa el bytecode</strong> traduint-lo a instruccions del sistema operatiu.</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="info-box">📌 <strong>Procés de compilació i execució:</strong><br>Codi font (<code>Rectangle.java</code>) → <strong>javac</strong> (compilador) → Bytecode (<code>Rectangle.class</code>) → <strong>JVM</strong> → Execució</div>
+<h2 class="block-title" id="installacio">3. Instal·lació del JDK i NetBeans</h2>
+<div class="cards">
+  <div class="card"><span class="card-num">1</span><span class="card-title">Descarregar el JDK 21</span><span class="card-desc">Des de la web d'Oracle (<strong>oracle.com/java/technologies/downloads</strong>) o d'Eclipse Adoptium, tria l'instal·lador del teu sistema operatiu.</span></div>
+  <div class="card"><span class="card-num">2</span><span class="card-title">Instal·lar i verificar</span><span class="card-desc">Executa l'instal·lador amb les opcions per defecte. Obre una terminal i escriu <code>java -version</code>: ha d'aparèixer la versió 21.</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Instal·lar Apache NetBeans</span><span class="card-desc">Descarrega la darrera versió des de <strong>netbeans.apache.org</strong> i instal·la-la. Detectarà automàticament el JDK.</span></div>
+  <div class="card"><span class="card-num">4</span><span class="card-title">Configuració opcional</span><span class="card-desc">Tools → Options → Appearance → Look and Feel → <strong>FlatLaf Dark</strong> per a un tema fosc, i Fonts &amp; Colors per augmentar la mida de la lletra.</span></div>
+</div>
+<h2 class="block-title" id="hola">4. Primer projecte: Hola Món</h2>
+<p class="intro">Crear projectes és el primer pas per desenvolupar qualsevol aplicació. Segueix aquests passos a NetBeans:</p>
+<div class="cards">
+  <div class="card"><span class="card-num">1</span><span class="card-title">Crear el projecte</span><span class="card-desc">File → New Project → <strong>Java with Ant</strong> → Java Application. Nom: <code>IntroduccioJava</code>. Desmarca <em>Create Main Class</em>.</span></div>
+  <div class="card"><span class="card-num">2</span><span class="card-title">Crear la classe</span><span class="card-desc">Clic dret a <em>Source Packages</em> → New → Java Class. Nom: <code>HolaMon</code>. NetBeans crea el fitxer <code>HolaMon.java</code>.</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota. Fixa't en l'estructura: classe, mètode <code>main</code> i instruccions.</span></div>
+  <div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>.</span></div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Mostra dos missatges per pantalla</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola Món amb Java"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguts al curs!"</span>);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Hola Món amb Java
+Benvinguts al curs!</pre></div>
+</div>
+<div class="info-box">📌 <strong>Per què <em>Java with Ant</em>?</strong> És el tipus de projecte més senzill: no cal configurar res més. Els projectes <em>Maven</em> (opció per defecte en versions recents de NetBeans) també funcionen, però afegeixen un fitxer de configuració que ara no necessitem.</div>
+<h2 class="block-title" id="estructura">5. Estructura d'un programa Java</h2>
+<p class="intro">Tot programa Java està format per uns <strong>blocs</strong> que sempre apareixen en el mateix ordre. Identificar-los és el primer pas per llegir i entendre qualsevol codi.</p>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Els blocs d'un programa, comentats</span></div>
+  <div class="code-block"><span class="cmt">// ① Importacions: classes d'altres paquets que farem servir (opcional)</span>
+<span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
+
+<span class="cmt">// ② Declaració de la classe: el nom ha de coincidir amb el del fitxer</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Estructura</span> {
+
+    <span class="cmt">// ③ Mètode main: punt d'entrada. L'execució sempre comença aquí</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// ④ Declaració de variables</span>
+        <span class="cls">String</span> nom = <span class="str">"Laia"</span>;
+        <span class="kw">int</span> any = <span class="cls">LocalDate</span>.<span class="fn">now</span>().<span class="fn">getYear</span>();
+
+        <span class="cmt">// ⑤ Instruccions: cadascuna acaba amb punt i coma</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola, "</span> + nom + <span class="str">"!"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Som a l'any "</span> + any);
+
+    }   <span class="cmt">// ← fi del mètode main</span>
+
+}   <span class="cmt">// ← fi de la classe</span></div>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Bloc</th><th>Obligatori?</th><th>Funció</th></tr></thead>
+    <tbody>
+      <tr><td><code>import</code></td><td>No</td><td>Permet usar classes de llibreries de Java (<code>java.time</code>, <code>java.util</code>…).</td></tr>
+      <tr><td><code>public class Nom { }</code></td><td>Sí</td><td>Conté tot el programa. El fitxer s'ha de dir exactament <code>Nom.java</code> (majúscules incloses).</td></tr>
+      <tr><td><code>public static void main(String[] args)</code></td><td>Sí (per executar)</td><td>Punt d'inici. Java executa les instruccions del <code>main</code> de dalt a baix.</td></tr>
+      <tr><td>Claus <code>{ }</code></td><td>Sí</td><td>Delimiten blocs de codi. Cada <code>{</code> ha de tenir el seu <code>}</code>.</td></tr>
+      <tr><td>Instruccions</td><td>Sí</td><td>Ordres que fa el programa. Totes acaben en <code>;</code>.</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="warn-box">⚠️ <strong>Java distingeix majúscules i minúscules:</strong> <code>System</code> i <code>system</code> no són el mateix. <code>String</code> va amb majúscula; <code>int</code> i <code>double</code>, en minúscula.</div>
+<div class="sub-title">Imprimir per pantalla</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Instrucció</th><th>Què fa</th></tr></thead>
+    <tbody>
+      <tr><td><code>System.out.println(x)</code></td><td>Mostra <code>x</code> i fa un salt de línia.</td></tr>
+      <tr><td><code>System.out.print(x)</code></td><td>Mostra <code>x</code> sense saltar de línia.</td></tr>
+      <tr><td><code>"\n"</code> dins un text</td><td>Salt de línia dins d'una cadena.</td></tr>
+      <tr><td><code>"\t"</code> dins un text</td><td>Tabulació.</td></tr>
+    </tbody>
+  </table>
+</div>
+<h2 class="block-title" id="ide">6. L'entorn de desenvolupament (IDE)</h2>
+<p class="intro">Un <strong>IDE</strong> (Entorn de Desenvolupament Integrat) reuneix en una sola aplicació l'editor, el compilador, l'executor i el depurador.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Eina</th><th>Descripció</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Editor de codi</strong></td><td>Ressaltat de sintaxi i autocompletat (<kbd>Ctrl</kbd>+<kbd>Espai</kbd>). Escriu <code>sout</code> + <kbd>Tab</kbd> per obtenir <code>System.out.println("")</code>.</td></tr>
+      <tr><td><strong>Compilador integrat</strong></td><td>Els errors de compilació apareixen subratllats en vermell abans d'executar.</td></tr>
+      <tr><td><strong>Finestra Output</strong></td><td>Mostra la sortida del programa i els errors d'execució.</td></tr>
+      <tr><td><strong>Depurador</strong></td><td>Executa el programa pas a pas i permet veure el valor de les variables (el farem servir a l'A2 i l'A3).</td></tr>
+      <tr><td><strong>Formatar el codi</strong></td><td><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd> ordena el sagnat automàticament.</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipus d'error</th><th>Quan apareix</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><strong>De compilació</strong></td><td>Abans d'executar. El programa no arrenca.</td><td>Oblidar un <code>;</code>, escriure <code>Sytem</code>, assignar text a un <code>int</code>.</td></tr>
+      <tr><td><strong>D'execució</strong></td><td>Mentre s'executa. El programa s'atura.</td><td>Dividir un enter per zero.</td></tr>
+      <tr><td><strong>De lògica</strong></td><td>El programa funciona però el resultat és incorrecte.</td><td>Escriure <code>+</code> on calia <code>*</code>.</td></tr>
+    </tbody>
+  </table>
+</div>
+<h2 class="block-title" id="comentaris">7. Comentaris</h2>
+<p class="intro">Els comentaris són text que el compilador <strong>ignora</strong>. Serveixen per explicar el codi a les persones: companys, professorat o tu mateix d'aquí a uns mesos. Un bon comentari explica el <strong>per què</strong>, no el que ja es veu llegint el codi.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipus</th><th>Sintaxi</th><th>Quan usar-lo</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Una línia</strong></td><td><code>// text</code></td><td>Notes curtes sobre una instrucció.</td></tr>
+      <tr><td><strong>Diverses línies</strong></td><td><code>/* text */</code></td><td>Explicar un bloc de codi o desactivar codi temporalment.</td></tr>
+      <tr><td><strong>Javadoc</strong></td><td><code>/** text */</code></td><td>Documentar classes i mètodes. L'eina <code>javadoc</code> genera pàgines web a partir d'aquests comentaris.</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comentari de línia i de final de línia</span></div>
+  <div class="code-block"><span class="cmt">// Programa que saluda l'usuari per pantalla</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola, món!"</span>); <span class="cmt">// missatge de benvinguda</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Comentari de bloc per explicar un càlcul</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CalcularPreu</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">/* Calculem el preu final d'un article:
+           primer apliquem un descompte del 10 %
+           i després hi afegim el 21 % d'IVA */</span>
+        <span class="kw">double</span> preuBase = <span class="num">40.0</span>;
+        <span class="kw">double</span> descompte = preuBase * <span class="num">0.10</span>;
+        <span class="kw">double</span> preuFinal = (preuBase - descompte) * <span class="num">1.21</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu final: "</span> + preuFinal + <span class="str">" €"</span>); <span class="cmt">// 43.56</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Comentari Javadoc per documentar una classe</span></div>
+  <div class="code-block"><span class="cmt">/**
+ * Mostra per pantalla la fitxa d'un alumne del cicle DAW.
+ *
+ * @author Laia Puig
+ * @version 1.0
+ */</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">FitxaAlumne</span> {
+
+    <span class="cmt">/**
+     * Punt d'entrada del programa.
+     *
+     * @param args arguments de la línia d'ordres (no s'utilitzen)
+     */</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> nom = <span class="str">"Laia Puig"</span>;
+        <span class="kw">int</span> curs = <span class="num">1</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" - "</span> + curs + <span class="str">"r DAW"</span>);
+
+    }
+
+}</div>
+</div>
+<div class="tip-box">💡 <strong>Bon comentari vs mal comentari:</strong> <code>// multipliquem per 1.8</code> no aporta res (ja es veu al codi). <code>// convertim de Celsius a Fahrenheit</code> sí que ajuda. A NetBeans, <kbd>Ctrl</kbd>+<kbd>/</kbd> comenta o descomenta les línies seleccionades.</div>
+<h2 class="block-title" id="tipus">8. Tipus de dades</h2>
+<p class="intro">Java és un llenguatge <strong>fortament tipat</strong>: cada variable té un tipus que determina quins valors pot guardar i quines operacions s'hi poden fer. Hi ha dos grans grups: els tipus <strong>primitius</strong> (valors simples) i els tipus <strong>de referència</strong> (objectes, com <code>String</code>).</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipus primitiu</th><th>Mida</th><th>Valors possibles</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><code>byte</code></td><td>8 bits</td><td>−128 a 127</td><td><code>byte b = 100;</code></td></tr>
+      <tr><td><code>short</code></td><td>16 bits</td><td>−32.768 a 32.767</td><td><code>short s = 30000;</code></td></tr>
+      <tr><td><code>int</code></td><td>32 bits</td><td>−2.147.483.648 a 2.147.483.647</td><td><code>int edat = 25;</code></td></tr>
+      <tr><td><code>long</code></td><td>64 bits</td><td>aprox. ±9,2 × 10<sup>18</sup></td><td><code>long poblacio = 8_000_000_000L;</code></td></tr>
+      <tr><td><code>float</code></td><td>32 bits</td><td>decimal, uns 7 dígits de precisió</td><td><code>float alcada = 1.75f;</code></td></tr>
+      <tr><td><code>double</code></td><td>64 bits</td><td>decimal, uns 15 dígits de precisió</td><td><code>double pi = 3.14159;</code></td></tr>
+      <tr><td><code>char</code></td><td>16 bits</td><td>un caràcter Unicode</td><td><code>char inicial = 'A';</code></td></tr>
+      <tr><td><code>boolean</code></td><td>—</td><td><code>true</code> o <code>false</code></td><td><code>boolean aprovat = true;</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="tip-box">💡 <strong>Quin triar?</strong> Per a enters, usa <code>int</code> (i <code>long</code> si el número és molt gran). Per a decimals, usa <code>double</code>. Els altres tipus numèrics es fan servir en casos molt concrets.</div>
+<div class="info-box">📌 <strong>El tipus <code>String</code></strong> guarda text: <code>String nom = "Anna";</code>. S'escriu amb majúscula perquè no és un tipus primitiu sinó una <strong>classe</strong>. Treballarem les classes i els objectes a l'AEA2.</div>
+<div class="sub-title">Classes envoltants (wrapper)</div>
+<p class="text">Cada tipus primitiu té una classe associada amb utilitats. Ara les farem servir per consultar límits i per convertir text a número.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Primitiu</th><th>Classe envoltant</th><th>Utilitat</th></tr></thead>
+    <tbody>
+      <tr><td><code>int</code></td><td><code>Integer</code></td><td><code>Integer.parseInt("42")</code>, <code>Integer.MAX_VALUE</code></td></tr>
+      <tr><td><code>double</code></td><td><code>Double</code></td><td><code>Double.parseDouble("3.14")</code></td></tr>
+      <tr><td><code>boolean</code></td><td><code>Boolean</code></td><td><code>Boolean.parseBoolean("true")</code></td></tr>
+      <tr><td><code>char</code></td><td><code>Character</code></td><td><code>Character.isDigit('7')</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Consultar els límits dels tipus numèrics</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">LimitsTipus</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"int màxim:  "</span> + <span class="cls">Integer</span>.MAX_VALUE);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"int mínim:  "</span> + <span class="cls">Integer</span>.MIN_VALUE);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"long màxim: "</span> + <span class="cls">Long</span>.MAX_VALUE);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"byte màxim: "</span> + <span class="cls">Byte</span>.MAX_VALUE);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>int màxim:  2147483647
+int mínim:  -2147483648
+long màxim: 9223372036854775807
+byte màxim: 127</pre></div>
+</div>
+<h2 class="block-title" id="literals">9. Literals</h2>
+<p class="intro">Un <strong>literal</strong> és un valor escrit directament al codi: <code>42</code>, <code>3.14</code>, <code>'A'</code>, <code>true</code> o <code>"Hola"</code>. El tipus del literal depèn de com l'escrivim.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Literal</th><th>Tipus</th><th>Exemples</th><th>Observacions</th></tr></thead>
+    <tbody>
+      <tr><td>Enter</td><td><code>int</code></td><td><code>42</code> · <code>-7</code> · <code>1_000_000</code></td><td>El <code>_</code> només serveix per llegir millor.</td></tr>
+      <tr><td>Enter llarg</td><td><code>long</code></td><td><code>9_000_000_000L</code></td><td>Cal la <code>L</code> final si supera el rang d'<code>int</code>.</td></tr>
+      <tr><td>Decimal</td><td><code>double</code></td><td><code>3.14</code> · <code>1.5e3</code></td><td>Punt decimal, mai coma. <code>1.5e3</code> = 1500.0</td></tr>
+      <tr><td>Decimal curt</td><td><code>float</code></td><td><code>9.99f</code></td><td>Cal la <code>f</code> final.</td></tr>
+      <tr><td>Caràcter</td><td><code>char</code></td><td><code>'A'</code> · <code>'7'</code> · <code>'@'</code></td><td>Cometes <strong>simples</strong> i un sol caràcter.</td></tr>
+      <tr><td>Booleà</td><td><code>boolean</code></td><td><code>true</code> · <code>false</code></td><td>Sempre en minúscula.</td></tr>
+      <tr><td>Cadena</td><td><code>String</code></td><td><code>"Joan"</code> · <code>""</code></td><td>Cometes <strong>dobles</strong>. <code>"42"</code> és text, no un número.</td></tr>
+      <tr><td>Nul</td><td>referència</td><td><code>null</code></td><td>Indica "cap objecte". No es pot assignar a primitius.</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Literals de tots els tipus</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Literals</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> vides = <span class="num">3</span>;
+        <span class="kw">long</span> habitants = <span class="num">8_000_000_000L</span>;
+        <span class="kw">double</span> preu = <span class="num">19.99</span>;
+        <span class="kw">char</span> inicial = <span class="str">'J'</span>;
+        <span class="kw">boolean</span> obert = <span class="kw">true</span>;
+        <span class="cls">String</span> botiga = <span class="str">"La Mercè Market"</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(vides);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(habitants);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(preu);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(inicial);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(obert);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(botiga);
+
+    }
+
+}</div>
+</div>
+<div class="warn-box">⚠️ <strong>Trampes freqüents:</strong> <code>float f = 3.14;</code> no compila (cal <code>3.14f</code>); <code>boolean b = True;</code> tampoc (és <code>true</code>); i <code>char c = "A";</code> és un error perquè les cometes dobles són per a <code>String</code>.</div>
+<h2 class="block-title" id="variables">10. Variables</h2>
+<p class="intro">Una <strong>variable</strong> és un espai de memòria amb un nom on guardem un valor que pot canviar durant l'execució. Té tres elements: <strong>tipus</strong>, <strong>nom</strong> i <strong>valor</strong>.</p>
+<div class="info-box">📌 <strong>Sintaxi:</strong><br><code>tipus nom;</code> → declaració<br><code>tipus nom = valor;</code> → declaració i inicialització<br><code>nom = nouValor;</code> → assignació d'un nou valor (sense repetir el tipus)</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Declarar, inicialitzar i modificar variables</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Variables</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Declaració i inicialització alhora</span>
+        <span class="kw">int</span> edat = <span class="num">25</span>;
+        <span class="kw">double</span> salari = <span class="num">1500.50</span>;
+        <span class="kw">boolean</span> esActiu = <span class="kw">true</span>;
+        <span class="cls">String</span> nom = <span class="str">"Anna"</span>;
+
+        <span class="cmt">// Declaració i inicialització per separat</span>
+        <span class="kw">char</span> grup;
+        grup = <span class="str">'B'</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" té "</span> + edat + <span class="str">" anys"</span>);
+
+        <span class="cmt">// Modifiquem el valor (sense tornar a escriure el tipus)</span>
+        edat = <span class="num">26</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Any següent: "</span> + edat + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Grup "</span> + grup + <span class="str">", actiu: "</span> + esActiu + <span class="str">", salari: "</span> + salari);
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Variables per a una reserva de vol</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ReservaVol</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> desti = <span class="str">"Barcelona - Tòquio"</span>;
+        <span class="kw">int</span> numPassatgers = <span class="num">2</span>;
+        <span class="kw">double</span> preuPerPersona = <span class="num">874.50</span>;
+        <span class="kw">char</span> classe = <span class="str">'E'</span>; <span class="cmt">// E = econòmica, B = business</span>
+
+        <span class="kw">double</span> totalReserva = numPassatgers * preuPerPersona;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Destinació: "</span> + desti);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Classe: "</span> + classe);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + totalReserva + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+</div>
+<div class="sub-title">Normes i bones pràctiques per als noms</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Regla</th><th>Correcte ✔</th><th>Incorrecte ✘</th></tr></thead>
+    <tbody>
+      <tr><td>No pot començar per un número ni contenir espais</td><td><code>nota1</code></td><td><code>1nota</code>, <code>nota final</code></td></tr>
+      <tr><td>No pot ser una paraula reservada</td><td><code>numero</code></td><td><code>int</code>, <code>class</code></td></tr>
+      <tr><td>Comença en minúscula i usa <em>camelCase</em></td><td><code>nomComplet</code></td><td><code>NomComplet</code>, <code>nom_complet</code></td></tr>
+      <tr><td>Nom descriptiu</td><td><code>preuFinal</code></td><td><code>x</code>, <code>aux2</code></td></tr>
+      <tr><td>Evita accents i caràcters especials</td><td><code>area</code>, <code>desti</code></td><td><code>àrea</code>, <code>destí</code></td></tr>
+      <tr><td>Booleans amb prefix <code>es</code>/<code>te</code>/<code>ha</code></td><td><code>esSoci</code>, <code>teStock</code></td><td><code>soci</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="sub-title">Inferència de tipus amb <code>var</code></div>
+<p class="text">Des de Java 10 podem escriure <code>var</code> en lloc del tipus i el compilador el dedueix del valor inicial. El tipus queda fixat: no és una variable "sense tipus".</p>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Ús de var</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">TipusVar</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">var</span> nom = <span class="str">"Laia"</span>;    <span class="cmt">// String</span>
+        <span class="kw">var</span> edat = <span class="num">22</span>;       <span class="cmt">// int</span>
+        <span class="kw">var</span> preu = <span class="num">9.99</span>;     <span class="cmt">// double</span>
+
+        <span class="cmt">// var x;           → error: sense valor inicial no es pot deduir el tipus</span>
+        <span class="cmt">// edat = "vint";   → error: edat és int i no pot guardar text</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" ("</span> + edat + <span class="str">") ha pagat "</span> + preu + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+</div>
+<div class="warn-box">⚠️ <strong>Una variable local s'ha d'inicialitzar abans d'usar-la.</strong> Si declares <code>int total;</code> i després fas <code>System.out.println(total);</code> sense haver-li donat cap valor, el compilador mostra l'error <em>variable total might not have been initialized</em>.</div>
+<h2 class="block-title" id="constants">11. Constants</h2>
+<p class="intro">Una <strong>constant</strong> és un valor que no pot canviar un cop assignat. Es declara amb la paraula clau <code>final</code> i, per convenció, el nom s'escriu en <strong>MAJÚSCULES</strong> separant les paraules amb guió baix.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Característica</th><th>Variable</th><th>Constant</th></tr></thead>
+    <tbody>
+      <tr><td>Paraula clau</td><td>—</td><td><code>final</code></td></tr>
+      <tr><td>Pot canviar de valor</td><td>✔ Sí</td><td>✘ No (error de compilació)</td></tr>
+      <tr><td>Nomenclatura</td><td><code>preuFinal</code></td><td><code>IVA_GENERAL</code></td></tr>
+      <tr><td>Exemples</td><td>edat, comptador, total</td><td>IVA, dies de la setmana, nota mínima per aprovar</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Constants per a una botiga en línia</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Botiga</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Constants: valors fixos del negoci</span>
+        <span class="kw">final</span> <span class="kw">double</span> IVA = <span class="num">0.21</span>;
+        <span class="kw">final</span> <span class="kw">double</span> DESCOMPTE_SOCI = <span class="num">0.10</span>;
+        <span class="kw">final</span> <span class="kw">int</span> DIES_DEVOLUCIO = <span class="num">30</span>;
+
+        <span class="cmt">// Variables: valors d'aquesta compra</span>
+        <span class="kw">double</span> preuBase = <span class="num">80.0</span>;
+
+        <span class="kw">double</span> preuSoci = preuBase - preuBase * DESCOMPTE_SOCI;  <span class="cmt">// 72.0</span>
+        <span class="kw">double</span> preuFinal = preuSoci * (<span class="num">1</span> + IVA);                  <span class="cmt">// 87.12</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu final: "</span> + preuFinal + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Termini de devolució: "</span> + DIES_DEVOLUCIO + <span class="str">" dies"</span>);
+
+        <span class="cmt">// IVA = 0.18;   → error de compilació: no es pot reassignar una constant</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Constants per configurar un joc</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConfiguracioJoc</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="cls">String</span> NOM_JOC = <span class="str">"SpaceQuest"</span>;
+        <span class="kw">final</span> <span class="kw">int</span> VIDES_INICIALS = <span class="num">3</span>;
+        <span class="kw">final</span> <span class="kw">int</span> PUNTS_PER_NIVELL = <span class="num">100</span>;
+
+        <span class="kw">int</span> vides = VIDES_INICIALS;
+        <span class="kw">int</span> punts = <span class="num">0</span>;
+        <span class="kw">int</span> nivell = <span class="num">1</span>;
+
+        <span class="cmt">// El jugador supera dos nivells i perd una vida</span>
+        punts = punts + <span class="num">2</span> * PUNTS_PER_NIVELL;
+        nivell = nivell + <span class="num">2</span>;
+        vides = vides - <span class="num">1</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(NOM_JOC + <span class="str">" | Nivell: "</span> + nivell + <span class="str">" | Punts: "</span> + punts + <span class="str">" | Vides: "</span> + vides);
+
+    }
+
+}</div>
+</div>
+<div class="tip-box">💡 <strong>Per què usar constants?</strong> Si l'IVA canvia, només cal modificar-lo en un lloc. A més, <code>preu * IVA</code> s'entén molt millor que <code>preu * 0.21</code> (un "número màgic" sense explicació).</div>
+<h2 class="block-title" id="operadors">12. Operadors i expressions</h2>
+<p class="intro">Un <strong>operador</strong> és un símbol que fa una operació sobre un o més valors (<em>operands</em>). Una <strong>expressió</strong> és una combinació d'operands i operadors que produeix un resultat.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Categoria</th><th>Operadors</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Aritmètics</strong></td><td><code>+ - * / %</code></td><td><code>7 % 3</code></td><td><code>1</code></td></tr>
+      <tr><td><strong>Assignació</strong></td><td><code>= += -= *= /= %=</code></td><td><code>a += 5</code></td><td>a = a + 5</td></tr>
+      <tr><td><strong>Increment / decrement</strong></td><td><code>++ --</code></td><td><code>a++</code></td><td>a = a + 1</td></tr>
+      <tr><td><strong>Relacionals</strong></td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr>
+      <tr><td><strong>Lògics</strong></td><td><code>&amp;&amp; || !</code></td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td></tr>
+      <tr><td><strong>Concatenació</strong></td><td><code>+</code> amb <code>String</code></td><td><code>"Nota: " + 8</code></td><td><code>"Nota: 8"</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="sub-title">12.1 Operadors aritmètics</div>
+<div class="warn-box">⚠️ <strong>Divisió entera:</strong> si els dos operands són enters, <code>/</code> descarta els decimals: <code>10 / 3</code> dona <code>3</code>. Perquè doni <code>3.333…</code> cal que almenys un sigui decimal: <code>10.0 / 3</code>.</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Operadors aritmètics bàsics</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsAritmetics</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">10</span>;
+        <span class="kw">int</span> b = <span class="num">3</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a + b);     <span class="cmt">// 13  suma</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a - b);     <span class="cmt">// 7   resta</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a * b);     <span class="cmt">// 30  multiplicació</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a / b);     <span class="cmt">// 3   divisió ENTERA</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a % b);     <span class="cmt">// 1   residu de 10 / 3</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">10.0</span> / b);  <span class="cmt">// 3.3333333333333335  divisió decimal</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Divisió entera i residu: minuts a hores</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConvertirMinuts</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> minutsTotals = <span class="num">137</span>;
+
+        <span class="kw">int</span> hores = minutsTotals / <span class="num">60</span>;   <span class="cmt">// 2</span>
+        <span class="kw">int</span> minuts = minutsTotals % <span class="num">60</span>;  <span class="cmt">// 17</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(minutsTotals + <span class="str">" minuts = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min"</span>);
+
+        <span class="cmt">// El residu també serveix per saber si un número és parell</span>
+        <span class="kw">int</span> numero = <span class="num">14</span>;
+        <span class="kw">boolean</span> esParell = numero % <span class="num">2</span> == <span class="num">0</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és parell: "</span> + esParell);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>137 minuts = 2 h 17 min
+14 és parell: true</pre></div>
+</div>
+<div class="sub-title">12.2 Increment, decrement i assignació composta</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Pre-increment i post-increment</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsUnaris</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">5</span>;
+        <span class="kw">int</span> resultat;
+
+        resultat = ++a;   <span class="cmt">// primer incrementa (a = 6), després assigna</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + a);  <span class="cmt">// 6 6</span>
+
+        a = <span class="num">5</span>;
+        resultat = a++;   <span class="cmt">// primer assigna (5), després incrementa (a = 6)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + a);  <span class="cmt">// 5 6</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Assignació composta: puntuació d'un joc</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AssignacioComposta</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> punts = <span class="num">100</span>;
+
+        punts += <span class="num">50</span>;   <span class="cmt">// punts = punts + 50  → 150</span>
+        punts -= <span class="num">30</span>;   <span class="cmt">// punts = punts - 30  → 120</span>
+        punts *= <span class="num">2</span>;    <span class="cmt">// punts = punts * 2   → 240</span>
+        punts /= <span class="num">4</span>;    <span class="cmt">// punts = punts / 4   → 60</span>
+        punts %= <span class="num">7</span>;    <span class="cmt">// punts = punts % 7   → 4</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts finals: "</span> + punts);
+
+    }
+
+}</div>
+</div>
+<div class="sub-title">12.3 Operadors relacionals</div>
+<p class="text">Comparen dos valors i sempre retornen un <code>boolean</code>. Són la base de les decisions que prendrem a l'A2.</p>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comparar valors</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Comparacions</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">17</span>;
+        <span class="kw">double</span> nota = <span class="num">4.8</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(edat &gt;= <span class="num">18</span>);    <span class="cmt">// false</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nota &lt; <span class="num">5.0</span>);    <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nota == <span class="num">5.0</span>);   <span class="cmt">// false</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(edat != <span class="num">18</span>);    <span class="cmt">// true</span>
+
+    }
+
+}</div>
+</div>
+<div class="warn-box">⚠️ <strong>No confonguis <code>==</code> amb <code>=</code>:</strong> <code>edat == 18</code> <em>pregunta</em> si val 18 i retorna <code>true</code> o <code>false</code>. <code>edat = 18</code> <em>assigna</em> el valor 18. Per comparar textos (<code>String</code>) no s'usa <code>==</code> sinó <code>.equals()</code>, com veurem a l'A2.</div>
+<div class="sub-title">12.4 Operadors lògics</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Operador</th><th>Nom</th><th>Retorna <code>true</code> quan…</th></tr></thead>
+    <tbody>
+      <tr><td><code>&amp;&amp;</code></td><td>I (AND)</td><td>els <strong>dos</strong> operands són <code>true</code></td></tr>
+      <tr><td><code>||</code></td><td>O (OR)</td><td><strong>almenys un</strong> operand és <code>true</code></td></tr>
+      <tr><td><code>!</code></td><td>NO (NOT)</td><td>l'operand és <code>false</code> (l'inverteix)</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Condicions d'accés a una plataforma</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AccesPlataforma</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">boolean</span> teCompte = <span class="kw">true</span>;
+        <span class="kw">boolean</span> contrasenyaOk = <span class="kw">false</span>;
+        <span class="kw">boolean</span> estaBloquejat = <span class="kw">false</span>;
+        <span class="kw">int</span> intentsFallits = <span class="num">2</span>;
+
+        <span class="cmt">// Pot entrar si té compte, la contrasenya és correcta i no està bloquejat</span>
+        <span class="kw">boolean</span> potEntrar = teCompte &amp;&amp; contrasenyaOk &amp;&amp; !estaBloquejat;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);  <span class="cmt">// false</span>
+
+        <span class="cmt">// Mostrem un avís si la contrasenya és incorrecta o ja porta 2 intents fallits</span>
+        <span class="kw">boolean</span> mostrarAvis = !contrasenyaOk || intentsFallits &gt;= <span class="num">2</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mostrar avís: "</span> + mostrarAvis);  <span class="cmt">// true</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Any de traspàs amb una expressió lògica</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnyTraspas</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Un any és de traspàs si és divisible per 4 i no per 100,</span>
+        <span class="cmt">// o bé si és divisible per 400</span>
+        <span class="kw">int</span> any = <span class="num">1900</span>;
+
+        <span class="kw">boolean</span> esTraspas = (any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(any + <span class="str">" és de traspàs: "</span> + esTraspas);  <span class="cmt">// false</span>
+
+    }
+
+}</div>
+</div>
+<div class="sub-title">12.5 Concatenació de cadenes</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>La trampa de l'ordre: suma o concatenació?</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OrdreConcatenacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">5</span>;
+        <span class="kw">int</span> b = <span class="num">3</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resultat: "</span> + a + b);    <span class="cmt">// Resultat: 53  ← s'enganxen com a text!</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resultat: "</span> + (a + b));  <span class="cmt">// Resultat: 8   ← correcte</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a + b + <span class="str">" és la suma"</span>);   <span class="cmt">// 8 és la suma  (s'avalua d'esquerra a dreta)</span>
+
+    }
+
+}</div>
+</div>
+<div class="sub-title">12.6 La classe Math</div>
+<p class="text">Java inclou la classe <code>Math</code> amb operacions matemàtiques habituals. No cal cap <code>import</code>.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Expressió</th><th>Què calcula</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <tbody>
+      <tr><td><code>Math.pow(b, e)</code></td><td>potència b<sup>e</sup></td><td><code>Math.pow(2, 10)</code></td><td><code>1024.0</code></td></tr>
+      <tr><td><code>Math.sqrt(x)</code></td><td>arrel quadrada</td><td><code>Math.sqrt(81)</code></td><td><code>9.0</code></td></tr>
+      <tr><td><code>Math.abs(x)</code></td><td>valor absolut</td><td><code>Math.abs(-7)</code></td><td><code>7</code></td></tr>
+      <tr><td><code>Math.round(x)</code></td><td>arrodoneix a l'enter més proper</td><td><code>Math.round(8.5)</code></td><td><code>9</code></td></tr>
+      <tr><td><code>Math.max(a, b)</code></td><td>el més gran de dos</td><td><code>Math.max(4, 9)</code></td><td><code>9</code></td></tr>
+      <tr><td><code>Math.PI</code></td><td>constant π</td><td><code>Math.PI</code></td><td><code>3.141592653589793</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="tip-box">💡 <strong>Precedència (de més a menys):</strong> <code>!</code> i <code>++ --</code> → <code>* / %</code> → <code>+ -</code> → <code>&lt; &gt; &lt;= &gt;=</code> → <code>== !=</code> → <code>&amp;&amp;</code> → <code>||</code> → <code>= += -=</code>… Quan tinguis dubtes, fes servir <strong>parèntesis</strong>: fan el codi més clar.</div>
+<h2 class="block-title" id="conversions">13. Conversions de tipus</h2>
+<p class="intro">Sovint cal passar un valor d'un tipus a un altre. Hi ha tres situacions: la conversió <strong>implícita</strong> (automàtica), la <strong>explícita</strong> (<em>casting</em>) i la conversió entre <strong>text i números</strong>.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Tipus</th><th>Cal escriure res?</th><th>Pot perdre informació?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Implícita</strong> (de petit a gran)</td><td>No, Java la fa sola</td><td>No</td></tr>
+      <tr><td><strong>Explícita / casting</strong> (de gran a petit)</td><td>Sí: <code>(tipus) valor</code></td><td>Sí: decimals o desbordament</td></tr>
+      <tr><td><strong>Text ↔ número</strong></td><td>Sí: <code>Integer.parseInt()</code>, <code>String.valueOf()</code>…</td><td>Pot fallar si el text no és un número</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="info-box">📌 <strong>Sentit de la conversió implícita:</strong> <code>byte → short → int → long → float → double</code>. En sentit contrari cal fer <em>casting</em>.</div>
+<div class="sub-title">13.1 Conversió implícita</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Conversions automàtiques</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConversioImplicita</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> alumnes = <span class="num">30</span>;
+        <span class="kw">double</span> mitjana = <span class="num">7.5</span>;
+
+        <span class="kw">double</span> suma = alumnes * mitjana;  <span class="cmt">// alumnes es converteix a double</span>
+        <span class="kw">long</span> gran = alumnes;               <span class="cmt">// int → long, automàtic</span>
+
+        <span class="kw">char</span> lletra = <span class="str">'A'</span>;
+        <span class="kw">int</span> codi = lletra;                 <span class="cmt">// char → int: codi Unicode</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(suma);   <span class="cmt">// 225.0</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(gran);   <span class="cmt">// 30</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(codi);   <span class="cmt">// 65</span>
+
+    }
+
+}</div>
+</div>
+<div class="sub-title">13.2 Conversió explícita (casting)</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Casting: truncament i desbordament</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Casting</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> preu = <span class="num">19.99</span>;
+        <span class="kw">int</span> preuEnter = (<span class="kw">int</span>) preu;       <span class="cmt">// cal indicar (int)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(preuEnter);    <span class="cmt">// 19 → trunca, NO arrodoneix</span>
+
+        <span class="kw">long</span> arrodonit = <span class="cls">Math</span>.<span class="fn">round</span>(preu);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(arrodonit);    <span class="cmt">// 20 → arrodoneix</span>
+
+        <span class="kw">int</span> gran = <span class="num">130</span>;
+        <span class="kw">byte</span> petit = (<span class="kw">byte</span>) gran;         <span class="cmt">// byte només arriba a 127</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(petit);        <span class="cmt">// -126 → desbordament!</span>
+
+        <span class="kw">int</span> codi = <span class="num">66</span>;
+        <span class="kw">char</span> lletra = (<span class="kw">char</span>) codi;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(lletra);       <span class="cmt">// B</span>
+
+    }
+
+}</div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Obtenir una mitjana decimal a partir d'enters</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaEnters</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> suma = <span class="num">17</span>;
+        <span class="kw">int</span> quantitat = <span class="num">2</span>;
+
+        <span class="kw">double</span> malament = suma / quantitat;          <span class="cmt">// 8.0 → la divisió ja és entera!</span>
+        <span class="kw">double</span> be = (<span class="kw">double</span>) suma / quantitat;       <span class="cmt">// 8.5 → convertim abans de dividir</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Malament: "</span> + malament);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bé: "</span> + be);
+
+        <span class="cmt">// Arrodonir a 2 decimals: multipliquem, arrodonim i tornem a dividir</span>
+        <span class="kw">double</span> preu = <span class="num">10.0</span> / <span class="num">3</span>;                      <span class="cmt">// 3.3333333333333335</span>
+        <span class="kw">double</span> preu2 = <span class="cls">Math</span>.<span class="fn">round</span>(preu * <span class="num">100</span>) / <span class="num">100.0</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu: "</span> + preu2);        <span class="cmt">// 3.33</span>
+
+    }
+
+}</div>
+</div>
+<div class="warn-box">⚠️ <strong>El casting trunca:</strong> <code>(int) 9.99</code> dona <code>9</code>. Per arrodonir usa <code>Math.round()</code>. I compte amb l'ordre: <code>(double) (17 / 2)</code> dona <code>8.0</code> perquè la divisió entera es fa abans del casting.</div>
+<div class="info-box">📌 <strong>Els decimals no sempre són exactes.</strong> Els tipus <code>double</code> i <code>float</code> guarden els números en binari i alguns valors no es poden representar exactament: <code>0.1 + 0.2</code> dona <code>0.30000000000000004</code>. Per això arrodonim els imports amb <code>Math.round(x * 100) / 100.0</code>.</div>
+<div class="sub-title">13.3 Conversió entre text i números</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Conversió</th><th>Com es fa</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <tbody>
+      <tr><td><code>String</code> → <code>int</code></td><td><code>Integer.parseInt(text)</code></td><td><code>Integer.parseInt("42")</code></td><td><code>42</code></td></tr>
+      <tr><td><code>String</code> → <code>double</code></td><td><code>Double.parseDouble(text)</code></td><td><code>Double.parseDouble("3.5")</code></td><td><code>3.5</code></td></tr>
+      <tr><td><code>String</code> → <code>boolean</code></td><td><code>Boolean.parseBoolean(text)</code></td><td><code>Boolean.parseBoolean("true")</code></td><td><code>true</code></td></tr>
+      <tr><td>número → <code>String</code></td><td><code>String.valueOf(n)</code></td><td><code>String.valueOf(42)</code></td><td><code>"42"</code></td></tr>
+      <tr><td>número → <code>String</code></td><td>concatenar amb <code>""</code></td><td><code>"" + 3.5</code></td><td><code>"3.5"</code></td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Convertir text a número per poder operar</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">TextANumero</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> textQuantitat = <span class="str">"3"</span>;
+        <span class="cls">String</span> textPreu = <span class="str">"12.5"</span>;
+
+        <span class="cmt">// "3" + "12.5" seria "312.5": cal convertir-los abans d'operar</span>
+        <span class="kw">int</span> quantitat = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textQuantitat);
+        <span class="kw">double</span> preu = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(textPreu);
+
+        <span class="kw">double</span> total = quantitat * preu;
+        <span class="cls">String</span> missatge = <span class="str">"Total: "</span> + <span class="cls">String</span>.<span class="fn">valueOf</span>(total);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(textQuantitat + textPreu);  <span class="cmt">// 312.5 (concatenació)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(missatge);                  <span class="cmt">// Total: 37.5</span>
+
+    }
+
+}</div>
+</div>
+<div class="info-box">📌 Si el text no representa un número (per exemple <code>Integer.parseInt("hola")</code>), el programa s'atura amb una <code>NumberFormatException</code>. A l'<strong>A3</strong> aprendrem a controlar aquests errors amb <code>try-catch</code>.</div>
+<h2 class="block-title" id="exercicis">14. Exercicis pràctics</h2>
+<p class="intro">Exercicis ordenats de menys a més dificultat. Abans de programar, escriu l'algorisme en paper (dades, càlculs, sortida). Quan acabis, compara la sortida del teu programa amb la <strong>sortida esperada</strong> i, finalment, consulta la solució.</p>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">El meu primer projecte</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea a NetBeans un projecte nou anomenat <code>AEA1_A1</code> i, dins, una classe <code>Presentacio</code> que mostri la teva fitxa personal fent servir variables.</p>
+    <ul class="exercici-tasques">
+      <li>Crea el projecte (<em>Java with Ant</em>) i la classe seguint els passos de l'apartat 4.</li>
+      <li>Declara les variables <code>nom</code> (<code>String</code>), <code>edat</code> (<code>int</code>), <code>alcada</code> (<code>double</code>), <code>grup</code> (<code>char</code>) i <code>teOrdinador</code> (<code>boolean</code>).</li>
+      <li>Mostra-les per pantalla, una per línia, amb un text descriptiu.</li>
+      <li>Afegeix un comentari Javadoc a la classe amb <code>@author</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nom: Marc Soler
+Edat: 19 anys
+Alçada: 1.78 m
+Grup: A
+Té ordinador: true</pre></div><p class="nota-sortida">Amb les teves dades, evidentment.</p>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.1 · 1.2 · 1.3 · 1.4 · 1.5 · 1.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="cmt">/**
+ * Mostra la fitxa personal d'un alumne.
+ *
+ * @author Marc Soler
+ */</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Presentacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Dades personals</span>
+        <span class="cls">String</span> nom = <span class="str">"Marc Soler"</span>;
+        <span class="kw">int</span> edat = <span class="num">19</span>;
+        <span class="kw">double</span> alcada = <span class="num">1.78</span>;
+        <span class="kw">char</span> grup = <span class="str">'A'</span>;
+        <span class="kw">boolean</span> teOrdinador = <span class="kw">true</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nom: "</span> + nom);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Alçada: "</span> + alcada + <span class="str">" m"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Grup: "</span> + grup);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té ordinador: "</span> + teOrdinador);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte i la classe tenen el nom demanat i el fitxer coincideix amb la classe.</li><li>Cada dada té el tipus adequat (text, enter, decimal, caràcter, booleà).</li><li>Hi ha comentari Javadoc amb <code>@author</code>.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">Cercle: àrea i circumferència</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Calcula l'àrea i la longitud de la circumferència d'un cercle de radi 5.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>double radi = 5;</code></li>
+      <li>Usa la constant <code>Math.PI</code>. Àrea = π · r²; circumferència = 2 · π · r.</li>
+      <li>Mostra els dos resultats arrodonits a 2 decimals (mira l'exemple de l'apartat 13.2).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Radi: 5.0
+Àrea: 78.54
+Circumferència: 31.42</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.5 · 1.7 · 1.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cercle</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> radi = <span class="num">5</span>;
+
+        <span class="kw">double</span> area = <span class="cls">Math</span>.PI * radi * radi;
+        <span class="kw">double</span> circumferencia = <span class="num">2</span> * <span class="cls">Math</span>.PI * radi;
+
+        <span class="cmt">// Arrodonim a 2 decimals</span>
+        area = <span class="cls">Math</span>.<span class="fn">round</span>(area * <span class="num">100</span>) / <span class="num">100.0</span>;
+        circumferencia = <span class="cls">Math</span>.<span class="fn">round</span>(circumferencia * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Radi: "</span> + radi);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Circumferència: "</span> + circumferencia);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>Math.PI</code> en lloc de 3.14.</li><li>L'arrodoniment divideix per <code>100.0</code> (decimal) i no per <code>100</code>.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Conversor de temperatures</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Converteix una temperatura de graus Celsius a Fahrenheit i a Kelvin.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>double celsius = 25;</code></li>
+      <li>Fórmules: F = C · 9 / 5 + 32; K = C + 273.15.</li>
+      <li>Declara 273.15 com a constant <code>final</code> amb un nom adequat.</li>
+      <li>Arrodoneix els resultats a 2 decimals (apartat 13.2).</li>
+      <li>Prova també amb 0 i amb −40 (−40 °C són exactament −40 °F!). Sense arrodonir, amb −40 obtindries 233.14999999999998 K.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>25.0 °C = 77.0 °F
+25.0 °C = 298.15 K</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.5 · 1.6 · 1.7 · 1.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConversorTemperatura</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">double</span> ZERO_ABSOLUT = <span class="num">273.15</span>;
+
+        <span class="kw">double</span> celsius = <span class="num">25</span>;
+
+        <span class="kw">double</span> fahrenheit = celsius * <span class="num">9</span> / <span class="num">5</span> + <span class="num">32</span>;
+        <span class="kw">double</span> kelvin = celsius + ZERO_ABSOLUT;
+
+        <span class="cmt">// Arrodonim a 2 decimals per evitar resultats com 233.14999999999998</span>
+        fahrenheit = <span class="cls">Math</span>.<span class="fn">round</span>(fahrenheit * <span class="num">100</span>) / <span class="num">100.0</span>;
+        kelvin = <span class="cls">Math</span>.<span class="fn">round</span>(kelvin * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(celsius + <span class="str">" °C = "</span> + fahrenheit + <span class="str">" °F"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(celsius + <span class="str">" °C = "</span> + kelvin + <span class="str">" K"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Usa una constant per a 273.15.</li><li>La variable <code>celsius</code> és <code>double</code>: si fos <code>int</code>, <code>celsius * 9 / 5</code> podria perdre decimals.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Descompondre segons</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un cronòmetre marca 4.000 segons. Mostra quantes hores, minuts i segons són.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int segonsTotals = 4000;</code></li>
+      <li>Usa només la divisió entera <code>/</code> i el residu <code>%</code>.</li>
+      <li>Declara les constants <code>SEGONS_HORA = 3600</code> i <code>SEGONS_MINUT = 60</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>4000 s = 1 h 6 min 40 s</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.6 · 1.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DescompondreSegons</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SEGONS_HORA = <span class="num">3600</span>;
+        <span class="kw">final</span> <span class="kw">int</span> SEGONS_MINUT = <span class="num">60</span>;
+
+        <span class="kw">int</span> segonsTotals = <span class="num">4000</span>;
+
+        <span class="kw">int</span> hores = segonsTotals / SEGONS_HORA;          <span class="cmt">// 1</span>
+        <span class="kw">int</span> restants = segonsTotals % SEGONS_HORA;       <span class="cmt">// 400</span>
+        <span class="kw">int</span> minuts = restants / SEGONS_MINUT;            <span class="cmt">// 6</span>
+        <span class="kw">int</span> segons = restants % SEGONS_MINUT;            <span class="cmt">// 40</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(segonsTotals + <span class="str">" s = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min "</span> + segons + <span class="str">" s"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>%</code> per obtenir el que sobra després de treure les hores.</li><li>No hi ha números màgics: 3600 i 60 són constants.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Tiquet de compra amb IVA</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Genera el tiquet d'una compra de 3 llibretes a 2,40 € i 2 bolígrafs a 1,15 €, amb un 21 % d'IVA.</p>
+    <ul class="exercici-tasques">
+      <li>Declara les quantitats i els preus en variables, i l'IVA com a constant.</li>
+      <li>Calcula la base imposable (sense IVA), l'import de l'IVA i el total.</li>
+      <li>Arrodoneix els imports a 2 decimals amb <code>Math.round</code>.</li>
+      <li>Separa les parts del tiquet amb línies de guions.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>-----------------------
+3 x Llibreta  2.4 €
+2 x Bolígraf  1.15 €
+-----------------------
+Base:  9.5 €
+IVA:   2.0 €
+TOTAL: 11.5 €
+-----------------------</pre></div><p class="nota-sortida">Fixa't que Java mostra 2.4 i no 2.40: els zeros de la dreta no es mostren. Aprendrem a donar format als números a l'RA5.</p>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.5 · 1.6 · 1.7 · 1.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Tiquet</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">double</span> IVA = <span class="num">0.21</span>;
+
+        <span class="kw">int</span> llibretes = <span class="num">3</span>;
+        <span class="kw">double</span> preuLlibreta = <span class="num">2.40</span>;
+        <span class="kw">int</span> boligrafs = <span class="num">2</span>;
+        <span class="kw">double</span> preuBoligraf = <span class="num">1.15</span>;
+
+        <span class="kw">double</span> base = llibretes * preuLlibreta + boligrafs * preuBoligraf;
+        base = <span class="cls">Math</span>.<span class="fn">round</span>(base * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="kw">double</span> importIva = <span class="cls">Math</span>.<span class="fn">round</span>(base * IVA * <span class="num">100</span>) / <span class="num">100.0</span>;
+        <span class="kw">double</span> total = <span class="cls">Math</span>.<span class="fn">round</span>((base + importIva) * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(llibretes + <span class="str">" x Llibreta  "</span> + preuLlibreta + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(boligrafs + <span class="str">" x Bolígraf  "</span> + preuBoligraf + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base:  "</span> + base + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"IVA:   "</span> + importIva + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL: "</span> + total + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>L'IVA és una constant i els imports s'arrodoneixen correctament.</li><li>El total es calcula a partir de la base i l'IVA, no es torna a escriure a mà.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 6</span>
+    <span class="exercici-title">Mitjana de tres notes</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un alumne té tres notes enteres: 7, 8 i 8. Calcula'n la mitjana correctament i mostra també la nota final arrodonida.</p>
+    <ul class="exercici-tasques">
+      <li>Declara les tres notes com a <code>int</code>.</li>
+      <li>Calcula primer la mitjana <strong>malament</strong> (<code>suma / 3</code>, tot enters) i mostra-la per veure l'error.</li>
+      <li>Calcula-la <strong>bé</strong> fent casting a <code>double</code> i arrodoneix-la a 2 decimals.</li>
+      <li>Mostra la nota final arrodonida a l'enter més proper amb <code>Math.round</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Mitjana (malament): 7.0
+Mitjana (bé): 7.67
+Nota final: 8</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.7 · 1.8</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaNotes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> nota1 = <span class="num">7</span>;
+        <span class="kw">int</span> nota2 = <span class="num">8</span>;
+        <span class="kw">int</span> nota3 = <span class="num">8</span>;
+
+        <span class="kw">int</span> suma = nota1 + nota2 + nota3;              <span class="cmt">// 23</span>
+
+        <span class="cmt">// Malament: suma / 3 és una divisió entera (23 / 3 = 7)</span>
+        <span class="kw">double</span> mitjanaMalament = suma / <span class="num">3</span>;             <span class="cmt">// 7.0</span>
+
+        <span class="cmt">// Bé: convertim a double ABANS de dividir</span>
+        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / <span class="num">3</span>;            <span class="cmt">// 7.666666666666667</span>
+        mitjana = <span class="cls">Math</span>.<span class="fn">round</span>(mitjana * <span class="num">100</span>) / <span class="num">100.0</span>;   <span class="cmt">// 7.67</span>
+
+        <span class="kw">long</span> notaFinal = <span class="cls">Math</span>.<span class="fn">round</span>(mitjana);          <span class="cmt">// 8</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana (malament): "</span> + mitjanaMalament);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana (bé): "</span> + mitjana);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota final: "</span> + notaFinal);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Explica amb un comentari per què la primera mitjana és incorrecta.</li><li>El casting es fa <strong>abans</strong> de dividir: <code>(double) (suma / 3)</code> continuaria donant 7.0.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 7</span>
+    <span class="exercici-title">Condicions d'accés a un concert</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Calcula, només amb operadors relacionals i lògics, si una persona pot entrar a un concert i si té descompte.</p>
+    <ul class="exercici-tasques">
+      <li>Dades: <code>int edat = 17;</code>, <code>boolean teEntrada = true;</code>, <code>boolean acompanyadaAdult = true;</code>, <code>boolean esEstudiant = true;</code></li>
+      <li>Pot entrar si té entrada i, a més, és major d'edat o va acompanyada d'un adult.</li>
+      <li>Té descompte si és estudiant o té menys de 12 anys o 65 o més.</li>
+      <li>Mostra el resultat de les dues expressions (<code>true</code>/<code>false</code>). Encara no cal <code>if</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Pot entrar: true
+Té descompte: true</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.4 · 1.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AccesConcert</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">17</span>;
+        <span class="kw">boolean</span> teEntrada = <span class="kw">true</span>;
+        <span class="kw">boolean</span> acompanyadaAdult = <span class="kw">true</span>;
+        <span class="kw">boolean</span> esEstudiant = <span class="kw">true</span>;
+
+        <span class="kw">boolean</span> potEntrar = teEntrada &amp;&amp; (edat &gt;= <span class="num">18</span> || acompanyadaAdult);
+        <span class="kw">boolean</span> teDescompte = esEstudiant || edat &lt; <span class="num">12</span> || edat &gt;= <span class="num">65</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té descompte: "</span> + teDescompte);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els parèntesis de <code>(edat &gt;= 18 || acompanyadaAdult)</code> són imprescindibles: sense ells, algú sense entrada però major d'edat podria entrar.</li><li>Prova-ho canviant els valors: <code>teEntrada = false</code> ha de donar <code>false</code>.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 8</span>
+    <span class="exercici-title">Les xifres d'un número</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un número de 4 xifres, mostra cadascuna de les xifres per separat, la seva suma i el número escrit al revés.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int numero = 2745;</code></li>
+      <li>Obtén les unitats, desenes, centenes i milers combinant <code>/</code> i <code>%</code> amb 10, 100 i 1000.</li>
+      <li>Calcula la suma de les xifres i el número invertit (5472) <strong>com a enter</strong>, no com a text.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Milers: 2, centenes: 7, desenes: 4, unitats: 5
+Suma de xifres: 18
+Invertit: 5472</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.5 · 1.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">XifresNumero</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">2745</span>;
+
+        <span class="kw">int</span> unitats = numero % <span class="num">10</span>;           <span class="cmt">// 5</span>
+        <span class="kw">int</span> desenes = numero / <span class="num">10</span> % <span class="num">10</span>;      <span class="cmt">// 4</span>
+        <span class="kw">int</span> centenes = numero / <span class="num">100</span> % <span class="num">10</span>;    <span class="cmt">// 7</span>
+        <span class="kw">int</span> milers = numero / <span class="num">1000</span>;          <span class="cmt">// 2</span>
+
+        <span class="kw">int</span> suma = unitats + desenes + centenes + milers;
+        <span class="kw">int</span> invertit = unitats * <span class="num">1000</span> + desenes * <span class="num">100</span> + centenes * <span class="num">10</span> + milers;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Milers: "</span> + milers + <span class="str">", centenes: "</span> + centenes
+                + <span class="str">", desenes: "</span> + desenes + <span class="str">", unitats: "</span> + unitats);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma de xifres: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Entén que <code>numero / 10 % 10</code> s'avalua d'esquerra a dreta: primer <code>/</code> i després <code>%</code>.</li><li>El número invertit es construeix amb operacions aritmètiques.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 9</span>
+    <span class="exercici-title">Caixer automàtic: bitllets i monedes</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un caixer ha de lliurar 187 €. Calcula quants bitllets de 50, 20, 10 i 5 € i quantes monedes de 2 i 1 € cal donar, fent servir el mínim nombre de peces.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int import = 187;</code> (pista: <code>import</code> és paraula reservada, tria un altre nom!).</li>
+      <li>Per a cada valor: quantes peces = restant / valor; restant = restant % valor.</li>
+      <li>Mostra només el resultat final de cada tipus de peça.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Import: 187 €
+Bitllets de 50: 3
+Bitllets de 20: 1
+Bitllets de 10: 1
+Bitllets de 5: 1
+Monedes de 2: 1
+Monedes d&#x27;1: 0</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.4 · 1.5 · 1.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Caixer</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> quantitat = <span class="num">187</span>;        <span class="cmt">// "import" és una paraula reservada de Java</span>
+        <span class="kw">int</span> restant = quantitat;
+
+        <span class="kw">int</span> b50 = restant / <span class="num">50</span>;   restant = restant % <span class="num">50</span>;
+        <span class="kw">int</span> b20 = restant / <span class="num">20</span>;   restant = restant % <span class="num">20</span>;
+        <span class="kw">int</span> b10 = restant / <span class="num">10</span>;   restant = restant % <span class="num">10</span>;
+        <span class="kw">int</span> b5 = restant / <span class="num">5</span>;     restant = restant % <span class="num">5</span>;
+        <span class="kw">int</span> m2 = restant / <span class="num">2</span>;     restant = restant % <span class="num">2</span>;
+        <span class="kw">int</span> m1 = restant;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Import: "</span> + quantitat + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 50: "</span> + b50);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 20: "</span> + b20);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 10: "</span> + b10);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 5: "</span> + b5);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Monedes de 2: "</span> + m2);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Monedes d'1: "</span> + m1);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la variable <code>restant</code> en cada pas.</li><li>Detecta que <code>import</code> no es pot usar com a nom de variable.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 10</span>
+    <span class="exercici-title">Troba i corregeix els errors</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>El programa següent hauria de calcular el preu d'una entrada de cinema amb un 15 % de descompte, però té <strong>errors de compilació i de lògica</strong>. Copia'l a NetBeans, localitza'ls i corregeix-los.</p>
+    <ul class="exercici-tasques">
+      <li><code>public class entradaCinema {</code><br><code>&nbsp;&nbsp;public static void main(String[] args) {</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;final double DESCOMPTE = 15;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;int preu = 8.50;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;String sala = '3';</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;double preuFinal = preu - preu * DESCOMPTE</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;DESCOMPTE = 20;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Sala " + sala + ": " + preufinal + " €");</code><br><code>&nbsp;&nbsp;}</code><br><code>}</code></li>
+      <li>Hi ha <strong>6 errors</strong> (de compilació i de lògica) i <strong>1 mala pràctica</strong> de nomenclatura. Per a cadascun, afegeix un comentari explicant què passava.</li>
+      <li>Compte: el compilador de vegades mostra primer només l'error del punt i coma. Quan el corregeixes, apareixen els altres. Corregeix-los un a un.</li>
+      <li>Recorda: el nom del fitxer ha de coincidir amb el de la classe.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Sala 3: 7.23 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.3 · 1.4 · 1.5 · 1.6 · 1.8 · 1.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="cmt">// 1. Mala pràctica: el nom de la classe comença en majúscula (fitxer EntradaCinema.java)</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">EntradaCinema</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// 2. El descompte és un percentatge: 15 % = 0.15 (error de lògica)</span>
+        <span class="kw">final</span> <span class="kw">double</span> DESCOMPTE = <span class="num">0.15</span>;
+
+        <span class="cmt">// 3. Un preu amb decimals ha de ser double, no int</span>
+        <span class="kw">double</span> preu = <span class="num">8.50</span>;
+
+        <span class="cmt">// 4. Un String va entre cometes dobles</span>
+        <span class="cls">String</span> sala = <span class="str">"3"</span>;
+
+        <span class="cmt">// 5. Faltava el punt i coma</span>
+        <span class="kw">double</span> preuFinal = preu - preu * DESCOMPTE;
+        preuFinal = <span class="cls">Math</span>.<span class="fn">round</span>(preuFinal * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cmt">// 6. Eliminada la línia DESCOMPTE = 20; → una constant no es pot reassignar</span>
+
+        <span class="cmt">// 7. preufinal → preuFinal (Java distingeix majúscules i minúscules)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sala "</span> + sala + <span class="str">": "</span> + preuFinal + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Distingeix errors de compilació (sintaxi, tipus) d'errors de lògica (el 15 en lloc de 0.15).</li><li>Cada correcció està justificada amb un comentari.</li></ul></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

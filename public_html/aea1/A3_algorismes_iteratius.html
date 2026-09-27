@@ -153,7 +153,7 @@
 </nav>
 <main>
 <div class="ra5-box">📌 <strong>Nota sobre Scanner:</strong> alguns exemples i exercicis d'aquesta activitat llegeixen dades del teclat amb la classe <code>Scanner</code>. L'entrada i sortida de dades s'estudiarà a fons a l'<strong>RA5</strong>; per ara n'hi ha prou amb aquest patró:<br><code>import java.util.Scanner;</code> (a dalt de tot del fitxer) · <code>Scanner sc = new Scanner(System.in);</code> · <code>String text = sc.nextLine();</code> (llegeix una línia) · <code>sc.close();</code> (en acabar).</div>
-<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#concepte">La composició iterativa</a></li><li><a href="#while">El bucle while</a></li><li><a href="#dowhile">El bucle do-while</a></li><li><a href="#for">El bucle for</a></li><li><a href="#esquemes">Esquemes de recorregut i de cerca</a></li><li><a href="#imbricats">Bucles imbricats</a></li><li><a href="#salt">Sentències de salt</a></li><li><a href="#aleatoris">Valors aleatoris</a></li><li><a href="#excepcions">Control d'excepcions</a></li><li><a href="#propies">Crear excepcions pròpies</a></li><li><a href="#assercions">Assercions</a></li><li><a href="#depuracio">Prova, depuració i documentació</a></li><li><a href="#exercicis">Exercicis pràctics</a></li><li><a href="#criteris">Criteris d'avaluació</a></li><li><a href="#fonts">Fonts i recursos</a></li></ol></nav>
+<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#concepte">La composició iterativa</a></li><li><a href="#while">El bucle while</a></li><li><a href="#dowhile">El bucle do-while</a></li><li><a href="#for">El bucle for</a></li><li><a href="#esquemes">Esquemes de recorregut i de cerca</a></li><li><a href="#imbricats">Bucles imbricats</a></li><li><a href="#salt">Sentències de salt</a></li><li><a href="#aleatoris">Valors aleatoris</a></li><li><a href="#excepcions">Control d'excepcions</a></li><li><a href="#propies">Crear excepcions pròpies</a></li><li><a href="#assercions">Assercions</a></li><li><a href="#depuracio">Prova, depuració i documentació</a></li><li><a href="#exercicis">Exercicis pràctics</a></li></ol></nav>
 <h2 class="block-title" id="concepte">1. La composició iterativa</h2>
 <p class="intro">La <strong>composició iterativa</strong> (o <em>bucle</em>) permet <strong>repetir</strong> un bloc d'instruccions mentre es compleixi una condició. Cada repetició s'anomena <strong>iteració</strong>. Sense bucles, per mostrar els números de l'1 al 1000 hauríem d'escriure mil instruccions.</p>
 <div class="pseudo">comptador ← 1
@@ -1765,28 +1765,6 @@ Operacions correctes: 1</pre></div>
       <div class="claus"><strong>✔ Què es valora</strong><ul><li>Cap entrada incorrecta atura el programa.</li><li>Hi ha un <code>catch</code> específic per a cada tipus d'error.</li><li>L'excepció pròpia es llança des del <code>default</code> del <code>switch</code>.</li><li>El codi està comentat i és llegible.</li></ul></div>
     </div>
   </div>
-</div>
-<h2 class="block-title" id="criteris">14. Resum: criteris d'avaluació treballats</h2>
-<div class="ca-grid">
-  <div class="ca-item"><span class="ca-badge">CA 3.2</span><span class="ca-text">Utilitza estructures de repetició (<code>while</code>, <code>do-while</code>, <code>for</code>).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.3</span><span class="ca-text">Reconeix les possibilitats de les sentències de salt (<code>break</code>, <code>continue</code>).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.4</span><span class="ca-text">Escriu codi fent servir control d'excepcions (<code>try-catch-finally</code>, <code>throw</code>).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.5</span><span class="ca-text">Crea programes executables fent servir diferents estructures de control.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.6</span><span class="ca-text">Prova i depura els programes (traces, depurador, casos de prova).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.7</span><span class="ca-text">Comenta i documenta el codi.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.8</span><span class="ca-text">Crea excepcions.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 3.9</span><span class="ca-text">Utilitza assercions per detectar i corregir errors durant la fase de desenvolupament.</span></div>
-</div>
-<div class="info-box">📌 El criteri <strong>3.1</strong> (estructures de selecció) es treballa a l'<strong>A2 — La composició alternativa</strong> i es reutilitza en tots els exercicis d'aquesta activitat.</div>
-<h2 class="block-title" id="fonts">15. Fonts i recursos complementaris</h2>
-<div class="fonts-box">
-  <h3>📚 Material de referència usat en aquesta activitat</h3>
-  <ul>
-    <li><strong>Material del professor (Drive):</strong> El bucle while, La sentència for, Bucles imbricats, Generació de valors aleatoris, Tractament d'excepcions i exercicis d'algorismes iteratius.</li>
-    <li><strong>Universidad Java — Ubaldo Acosta (Udemy):</strong> cicles en Java (while, do-while, for), break i continue, gestió d'excepcions i exemples com el caixer o el joc d'endevinar.</li>
-    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> exemples de bucles i figures amb bucles imbricats. Repositori a <a href="https://github.com/aulaenlanube">github.com/aulaenlanube</a>.</li>
-    <li><strong>Documentació oficial:</strong> <a href="https://dev.java/learn/exceptions/">dev.java — Exceptions</a> i <a href="https://dev.java/learn/language-basics/controlling-flow/">dev.java — Controlling the Flow</a>.</li>
-  </ul>
 </div>
 
 </main>

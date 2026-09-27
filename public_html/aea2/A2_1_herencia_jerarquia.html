@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A1 — Herència, sobreescriptura i polimorfisme · AEA3 · M0485</title>
+  <title>2.1 — Herència i jerarquia de classes · AEA2 · M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -91,30 +91,26 @@
 <body>
 
 <header class="hero">
-  <p class="hero-eyebrow">AEA3 &middot; POO. Avançada</p>
-  <h1>A1 — Herència, sobreescriptura i polimorfisme</h1>
-  <p>Crear jerarquies de classes amb <code>extends</code> i <code>super()</code>, sobreescriure mètodes amb <code>@Override</code>, entendre el polimorfisme dinàmic i usar <code>instanceof</code>.</p>
+  <p class="hero-eyebrow">AEA2 · Programació orientada a objectes · A2 — Herència i interfícies</p>
+  <h1>2.1 — Herència i jerarquia de classes</h1>
+  <p>Crear jerarquies de classes amb <code>extends</code> i <code>super()</code>, sobreescriure mètodes amb <code>@Override</code>, bloquejar l'herència amb <code>final</code>, entendre el polimorfisme dinàmic i documentar el codi amb Javadoc.</p>
   <div class="hero-pills">
-    <span class="pill">6 hores</span>
-    <span class="pill">RA7 — CA 7.1 a 7.8</span>
-    <span class="pill">Java</span>
-    <span class="pill">Bàsic · Mitjà</span>
+    <span class="pill">RA7</span>
+    <span class="pill">CA 7.1 — 7.8</span>
   </div>
 </header>
 
 <nav class="breadcrumb">
-  <a href="../index.html">M0485 Programació</a>
-  <span>&rsaquo;</span>
-  <a href="../aea3.html">AEA3 — POO. Avançada</a>
-  <span>&rsaquo;</span>
-  A1 — Herència, sobreescriptura i polimorfisme
+  <a href="../index.html">M0485 Programació</a><span>›</span>
+  <a href="../aea2.html">AEA2 — Programació orientada a objectes</a><span>›</span>
+  2.1 — Herència i jerarquia de classes
 </nav>
 
 <main>
 
 <h2 class="block-title">1. Herència: la paraula clau <code>extends</code></h2>
 <p>L'herència permet crear una classe nova basada en una d'existent, reutilitzant el seu codi i afegint noves característiques. La classe de la qual s'hereta s'anomena <strong>superclasse</strong>; la que hereta, <strong>subclasse</strong>.</p>
-<div class="info-box"><strong>Regla "és un":</strong> Usa herència quan pots dir que la subclasse "és un" tipus de la superclasse. Un <em>Gos</em> és un <em>Animal</em>. Un <em>Cotxe</em> és un <em>Vehicle</em>. Si no pots dir "és un", probablement cal composició (que veurem a A2).</div>
+<div class="info-box">📌 <strong>Regla "és un":</strong> Usa herència quan pots dir que la subclasse "és un" tipus de la superclasse. Un <em>Gos</em> és un <em>Animal</em>. Un <em>Cotxe</em> és un <em>Vehicle</em>. Si no pots dir "és un", probablement cal composició (que veurem a la 2.2).</div>
 <div class="code-block"><span class="kw">public class</span> <span class="cls">Animal</span> {
 
     <span class="cls">String</span> nom;
@@ -146,7 +142,7 @@
 
 <h2 class="block-title">2. La paraula clau <code>super()</code></h2>
 <p><code>super()</code> crida el constructor de la superclasse des del constructor de la subclasse. <strong>Ha de ser sempre la primera instrucció</strong> del constructor. Si la superclasse no té constructor sense paràmetres, és obligatori cridar <code>super(...)</code> explícitament.</p>
-<div class="warn-box"><strong>Error típic:</strong> Oblidar <code>super()</code> quan la superclasse té constructor amb paràmetres. El compilador donarà error: <em>"There is no default constructor available in [superclasse]"</em>.</div>
+<div class="warn-box">⚠️ <strong>Error típic:</strong> Oblidar <code>super()</code> quan la superclasse té constructor amb paràmetres. El compilador donarà error: <em>"There is no default constructor available in [superclasse]"</em>.</div>
 
 <h2 class="block-title">3. Modificador <code>final</code></h2>
 <p>La paraula clau <code>final</code> permet bloquejar l'herència o la sobreescriptura de mètodes i classes:</p>
@@ -181,7 +177,7 @@
         <span class="kw">return</span> base * altura;
     }
 }</div>
-<div class="tip-box"><strong>Bona pràctica:</strong> Usa sempre <code>@Override</code>. Si la signatura no coincideix exactament amb cap mètode de la superclasse, el compilador t'avisarà en lloc de crear un mètode nou per error.</div>
+<div class="tip-box">✅ <strong>Bona pràctica:</strong> Usa sempre <code>@Override</code>. Si la signatura no coincideix exactament amb cap mètode de la superclasse, el compilador t'avisarà en lloc de crear un mètode nou per error.</div>
 
 <h2 class="block-title">5. Polimorfisme dinàmic</h2>
 <p>El polimorfisme permet que una variable de tipus superclasse apunti a un objecte d'una subclasse. En temps d'execució, Java executa el mètode de <strong>la classe real de l'objecte</strong>, no el de la variable de referència.</p>
@@ -204,7 +200,7 @@
     <span class="cls">Rectangle</span> r = (<span class="cls">Rectangle</span>) f;   <span class="cmt">// càsting explícit</span>
     <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base: "</span> + r.base);
 }</div>
-<div class="warn-box"><strong>Atenció:</strong> Un càsting incorrecte llança <code>ClassCastException</code> en temps d'execució. Comprova sempre amb <code>instanceof</code> abans de fer el càsting.</div>
+<div class="warn-box">⚠️ <strong>Atenció:</strong> Un càsting incorrecte llança <code>ClassCastException</code> en temps d'execució. Comprova sempre amb <code>instanceof</code> abans de fer el càsting.</div>
 
 <h2 class="block-title">7. Documentació amb Javadoc</h2>
 <p>Javadoc és l'estàndard de Java per documentar classes i mètodes. S'escriu amb comentaris <code>/** ... */</code> just abans de la classe o mètode. <strong>A partir d'ara és obligatori en tots els exercicis.</strong></p>
@@ -506,29 +502,7 @@
   </div>
 </div>
 
-<h2 class="block-title">9. Criteris d'avaluació treballats</h2>
-<div class="ca-grid">
-  <div class="ca-item"><span class="ca-badge">CA 7.1</span><span class="ca-text">Identifica els conceptes d'herència, superclasse i subclasse.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.2</span><span class="ca-text">Utilitza <code>final</code> per bloquejar l'herència de classes i mètodes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.3</span><span class="ca-text">Reconeix la incidència dels constructors a l'herència (<code>super()</code>).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.4</span><span class="ca-text">Crea classes heretades que sobreescriuen mètodes de la superclasse.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.5</span><span class="ca-text">Dissenya i aplica jerarquies de classes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.6</span><span class="ca-text">Prova i depura les jerarquies de classes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.7</span><span class="ca-text">Realitza programes que implementin i utilitzin jerarquies de classes.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 7.8</span><span class="ca-text">Comenta i documenta el codi amb Javadoc.</span></div>
-</div>
 
-<h2 class="block-title" style="margin-top:3rem">Fonts i recursos complementaris</h2>
-<div class="fonts-box">
-  <h3>📚 Material de referència usat en aquesta activitat</h3>
-  <ul>
-    <li><strong>Material del professor (Drive):</strong> Herència (Resum) — Albert Canela. <code>extends</code>, <code>super()</code>, sobreescriptura, <code>instanceof</code>, paquets i visibilitat.</li>
-    <li><strong>Material del professor (Drive):</strong> POO. Altres temes — Albert Canela. Classe Object, <code>equals</code>, <code>toString</code>, <code>getClass</code>, paraula clau <code>final</code>.</li>
-    <li><strong>Material del professor (Drive):</strong> Exercici Gestió d'empleats i projectes — Albert Canela.</li>
-    <li><strong>Universidad Java (UJB) — Ubaldo Acosta:</strong> ClasesAbstractas-UJB.java — exemples de codi pràctics.</li>
-    <li><strong>aulaenlanube — Edu Torregrosa (CC BY-NC-SA):</strong> tema7 — exercicis Deportista/Futbolista. <a href="https://github.com/aulaenlanube" style="color:#e74c3c">github.com/aulaenlanube</a>.</li>
-  </ul>
-</div>
 
 </main>
 

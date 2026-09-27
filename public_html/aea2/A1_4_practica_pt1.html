@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pt1 — Sistema de subhastes · AEA2 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:580px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.5rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); }
+    .block-title:first-child { margin-top:0; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:1rem 0 1.5rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; }
+    .exemple-header span { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    td code, p code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:monospace; color:#c0392b; }
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .solucio-wrap { margin-top:.75rem; padding:0 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.9rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){ .hero{padding:2.5rem 1.5rem 2rem;} main{padding:2rem 1rem;} .breadcrumb{padding:.6rem 1rem;} .ca-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="hero-eyebrow">AEA2 · Programació orientada a objectes · A1 — Classes i objectes · Pràctica</p>
+  <h1>Pt1 — Sistema de subhastes</h1>
+  <p>Construirem pas a pas una aplicació de subhastes organitzada en classes: usuaris que liciten, subhastes que accepten o rebutgen licitacions i l'execució final que transfereix el crèdit.</p>
+  <div class="hero-pills">
+    <span class="pill">RA2 · RA4</span>
+    <span class="pill">CA 2.2 · 2.3 · 2.4 · 2.6 · 2.8 · 2.9 · 4.1 — 4.6</span>
+    <span class="pill">Pràctica</span>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <a href="../index.html">M0485 Programació</a><span>›</span>
+  <a href="../aea2.html">AEA2 — Programació orientada a objectes</a><span>›</span>
+  Pt1 — Sistema de subhastes
+</nav>
+
+<main>
+
+<h2 class="block-title">1. L'enunciat</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Volem un sistema de subhastes on els usuaris puguin licitar per un producte o servei. Aquestes són les regles:</p>
+<ul class="exercici-tasques" style="margin-bottom:1.5rem;">
+  <li>Un <strong>usuari</strong> té un identificador, que no pot canviar, i un crèdit per licitar, que es pot incrementar i decrementar.</li>
+  <li>Una <strong>subhasta</strong> té un propietari (l'usuari que la crea) i la descripció del producte. Tots dos valors són fixos.</li>
+  <li>Per <strong>licitar</strong> cal indicar l'usuari i la quantitat. La licitació s'accepta si l'usuari té prou crèdit, no és el propietari i la quantitat supera la licitació major, si n'hi ha. L'operació indica si s'ha acceptat.</li>
+  <li>També es pot licitar <strong>sense indicar la quantitat</strong>: serà 1 € més que l'última licitació, o 1 € si no n'hi ha cap.</li>
+  <li>Una subhasta recorda totes les licitacions acceptades i es poden consultar. La <strong>licitació major</strong> és l'última acceptada; si no n'hi ha cap, la consulta retorna <code>null</code>.</li>
+  <li>Una <strong>licitació</strong> té la subhasta a la qual pertany, la quantitat i l'usuari que l'ha feta. No canvien un cop establertes.</li>
+  <li>Una subhasta es pot <strong>tancar</strong>: ja no accepta noves licitacions. Una subhasta tancada es pot <strong>executar</strong>: es resta l'import al guanyador i se suma al propietari. Es pot consultar si està tancada i si s'ha executat.</li>
+  <li>Cada usuari coneix les subhastes de les quals és propietari, les licitacions que li han acceptat i les subhastes que ha guanyat, i les pot consultar.</li>
+</ul>
+
+<h2 class="block-title">2. Construcció pas a pas</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Fes cada pas en ordre. Intenta escriure el codi tu abans d'obrir la solució, i no passis al pas següent fins que la prova del pas actual doni la sortida esperada.</p>
+
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 1</span>
+    <span class="exercici-title">Anàlisi: quines classes necessitem?</span>
+  </div>
+  <div class="exercici-body">
+    <p>Abans d'escriure codi, llegim l'enunciat i decidim quines classes necessitem, què guarda cadascuna i quines dades poden canviar. Omple la taula al paper i després compara-la amb aquesta.</p>
+    <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Classe</th><th>Dades fixes (<code>final</code>)</th><th>Dades que canvien</th><th>Operacions</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>Usuari</code></td><td>identificador</td><td>crèdit; subhastes pròpies, licitacions acceptades i subhastes guanyades</td><td>incrementar i decrementar el crèdit; consultar les seves subhastes i licitacions</td></tr>
+        <tr><td><code>Subhasta</code></td><td>propietari, producte</td><td>llista de licitacions, tancada, executada</td><td>licitar (amb quantitat o sense), consultar la licitació major, tancar, executar</td></tr>
+        <tr><td><code>Licitacio</code></td><td>subhasta, usuari, quantitat</td><td>(cap)</td><td>només consultes</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="info-box">📌 <strong>Relacions entre objectes:</strong> una <code>Subhasta</code> <em>té</em> un propietari (un <code>Usuari</code>) i una llista de <code>Licitacio</code>. Cada <code>Licitacio</code> <em>coneix</em> la seva subhasta i el seu usuari. Els objectes es relacionen guardant referències els uns dels altres.</div>
+    <div class="info-box">📌 <strong>Llistes:</strong> per guardar les licitacions farem servir <code>ArrayList</code>, del paquet <code>java.util</code>. L'estudiarem a fons a l'AEA3; aquí només necessitem <code>add()</code>, <code>get()</code>, <code>size()</code>, <code>isEmpty()</code> i el recorregut amb <code>for</code>.</div>
+    <div class="ra5-box">📌 Tots els valors es declaren directament al codi. Quan arribi l'RA5 podràs llegir-los del teclat amb <code>Scanner</code>.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1 · 4.2</span>
+  </div>
+
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 2</span>
+    <span class="exercici-title">La classe <code>Usuari</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea el projecte <code>Subhastes</code> a NetBeans amb un paquet <code>subhastes</code>. Hi farem totes les classes.</p>    <ul class="exercici-tasques">
+      <li>Classe <code>Usuari</code> amb els atributs <code>private</code> <code>id</code> (<code>final</code>) i <code>credit</code>.</li>
+      <li>Constructor que rebi l'identificador i el crèdit inicial.</li>
+      <li>Getters <code>getId()</code> i <code>getCredit()</code>. No hi ha <code>setId()</code>: l'identificador no pot canviar.</li>
+      <li>Mètodes <code>incrementarCredit(double)</code> i <code>decrementarCredit(double)</code>.</li>
+    </ul>
+    <div class="tip-box">✅ <strong>Prova-ho:</strong> crea una classe <code>ProvaPas2</code> i comprova la sortida.</div>
+    <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaPas2</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Usuari</span> joan = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Joan"</span>, <span class="num">100</span>);
+
+        joan.<span class="fn">incrementarCredit</span>(<span class="num">50</span>);
+        joan.<span class="fn">decrementarCredit</span>(<span class="num">30</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(joan.<span class="fn">getId</span>() + <span class="str">" té "</span> + joan.<span class="fn">getCredit</span>() + <span class="str">" €"</span>);   <span class="cmt">// Joan té 120.0 €</span>
+    }
+}</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.8 · 4.2 · 4.3 · 4.4 · 4.6</span>
+  </div>
+<div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Usuari</span> {
+
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">String</span> id;     <span class="cmt">// final: l'identificador no pot canviar</span>
+    <span class="kw">private</span> <span class="kw">double</span> credit;       <span class="cmt">// el crèdit sí que pot variar</span>
+
+    <span class="kw">public</span> <span class="cls">Usuari</span>(<span class="cls">String</span> id, <span class="kw">double</span> creditInicial) {
+        <span class="kw">this</span>.id     = id;
+        <span class="kw">this</span>.credit = creditInicial;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getId</span>()     { <span class="kw">return</span> id; }
+    <span class="kw">public</span> <span class="kw">double</span> <span class="fn">getCredit</span>() { <span class="kw">return</span> credit; }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">incrementarCredit</span>(<span class="kw">double</span> quantitat) {
+        credit += quantitat;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">decrementarCredit</span>(<span class="kw">double</span> quantitat) {
+        credit -= quantitat;
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 3</span>
+    <span class="exercici-title">Les classes <code>Licitacio</code> i <code>Subhasta</code></span>
+  </div>
+  <div class="exercici-body">
+    <p>Ara les dues classes centrals. <code>Licitacio</code> només guarda dades fixes. <code>Subhasta</code> conté les regles per acceptar o rebutjar una licitació.</p>    <ul class="exercici-tasques">
+      <li><code>Licitacio</code>: atributs <code>final</code> <code>subhasta</code>, <code>usuari</code> i <code>quantitat</code>, un constructor i els tres getters.</li>
+      <li><code>Subhasta</code>: atributs <code>final</code> <code>propietari</code> i <code>producte</code>, i una <code>ArrayList&lt;Licitacio&gt;</code>.</li>
+      <li><code>getLicitacioMajor()</code>: retorna l'última licitació acceptada o <code>null</code> si no n'hi ha cap.</li>
+      <li><code>licitar(Usuari, double)</code>: retorna <code>true</code> només si l'usuari té prou crèdit, no és el propietari i la quantitat supera la licitació major (si n'hi ha). Si s'accepta, crea la <code>Licitacio</code> i la guarda.</li>
+      <li><code>licitar(Usuari)</code> sense quantitat: licita 1 € més que la licitació major, o 1 € si no n'hi ha cap. Fes que cridi l'altre <code>licitar</code> per no repetir codi.</li>
+      <li><code>getLicitacions()</code>: retorna una còpia de la llista.</li>
+    </ul>
+    <div class="info-box">📌 <strong>Sobrecàrrega:</strong> tenim dos mètodes <code>licitar</code> amb el mateix nom i paràmetres diferents. Java tria quin cridar segons els arguments.</div>
+    <div class="info-box">📌 <strong><code>usuari == propietari</code></strong> compara si les dues variables apunten al <strong>mateix objecte</strong>. Aquí és exactament el que volem: saber si qui licita és la mateixa persona que ha creat la subhasta.</div>
+    <div class="tip-box">✅ <strong>Prova-ho:</strong></div>
+    <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaPas3</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Usuari</span> joan  = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Joan"</span>, <span class="num">100</span>);
+        <span class="cls">Usuari</span> pere  = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Pere"</span>, <span class="num">150</span>);
+        <span class="cls">Usuari</span> enric = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Enric"</span>, <span class="num">300</span>);
+
+        <span class="cls">Subhasta</span> s = <span class="kw">new</span> <span class="cls">Subhasta</span>(joan, <span class="str">"Bicicleta"</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">licitar</span>(joan, <span class="num">20</span>));    <span class="cmt">// false: és el propietari</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">licitar</span>(pere, <span class="num">500</span>));   <span class="cmt">// false: no té prou crèdit</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">licitar</span>(pere, <span class="num">40</span>));    <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">licitar</span>(enric, <span class="num">30</span>));   <span class="cmt">// false: no supera els 40 €</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">licitar</span>(enric));       <span class="cmt">// true: licita 41 €</span>
+
+        <span class="cls">Licitacio</span> major = s.<span class="fn">getLicitacioMajor</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(major.<span class="fn">getUsuari</span>().<span class="fn">getId</span>() + <span class="str">": "</span> + major.<span class="fn">getQuantitat</span>());   <span class="cmt">// Enric: 41.0</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Licitacions acceptades: "</span> + s.<span class="fn">getLicitacions</span>().<span class="fn">size</span>());   <span class="cmt">// 2</span>
+    }
+}</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.4 · 2.6 · 4.3 · 4.5</span>
+  </div>
+<div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Licitacio</span> {
+
+    <span class="cmt">// Cap d'aquestes propietats pot canviar un cop establerta la licitació</span>
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">Subhasta</span> subhasta;
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">Usuari</span> usuari;
+    <span class="kw">private</span> <span class="kw">final</span> <span class="kw">double</span> quantitat;
+
+    <span class="kw">public</span> <span class="cls">Licitacio</span>(<span class="cls">Subhasta</span> subhasta, <span class="cls">Usuari</span> usuari, <span class="kw">double</span> quantitat) {
+        <span class="kw">this</span>.subhasta  = subhasta;
+        <span class="kw">this</span>.usuari    = usuari;
+        <span class="kw">this</span>.quantitat = quantitat;
+    }
+
+    <span class="kw">public</span> <span class="cls">Subhasta</span> <span class="fn">getSubhasta</span>()  { <span class="kw">return</span> subhasta; }
+    <span class="kw">public</span> <span class="cls">Usuari</span>   <span class="fn">getUsuari</span>()    { <span class="kw">return</span> usuari; }
+    <span class="kw">public</span> <span class="kw">double</span>   <span class="fn">getQuantitat</span>() { <span class="kw">return</span> quantitat; }
+}</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Subhasta</span> {
+
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">Usuari</span> propietari;
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">String</span> producte;
+    <span class="kw">private</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; licitacions = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public</span> <span class="cls">Subhasta</span>(<span class="cls">Usuari</span> propietari, <span class="cls">String</span> producte) {
+        <span class="kw">this</span>.propietari = propietari;
+        <span class="kw">this</span>.producte   = producte;
+    }
+
+    <span class="kw">public</span> <span class="cls">Usuari</span> <span class="fn">getPropietari</span>() { <span class="kw">return</span> propietari; }
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getProducte</span>()   { <span class="kw">return</span> producte; }
+
+    <span class="cmt">/** La licitació major és l'última acceptada (o null si no n'hi ha cap). */</span>
+    <span class="kw">public</span> <span class="cls">Licitacio</span> <span class="fn">getLicitacioMajor</span>() {
+        <span class="kw">if</span> (licitacions.<span class="fn">isEmpty</span>()) <span class="kw">return</span> <span class="kw">null</span>;
+        <span class="kw">return</span> licitacions.<span class="fn">get</span>(licitacions.<span class="fn">size</span>() - <span class="num">1</span>);
+    }
+
+    <span class="cmt">/** Intenta licitar. Retorna true si la licitació s'accepta. */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">licitar</span>(<span class="cls">Usuari</span> usuari, <span class="kw">double</span> quantitat) {
+        <span class="cmt">// a) l'usuari ha de tenir prou crèdit</span>
+        <span class="kw">if</span> (usuari.<span class="fn">getCredit</span>() &lt; quantitat) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="cmt">// b) el propietari no pot licitar a la seva pròpia subhasta</span>
+        <span class="kw">if</span> (usuari == propietari) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="cmt">// c) ha de superar la licitació major, si n'hi ha</span>
+        <span class="cls">Licitacio</span> major = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">if</span> (major != <span class="kw">null</span> &amp;&amp; quantitat &lt;= major.<span class="fn">getQuantitat</span>()) <span class="kw">return</span> <span class="kw">false</span>;
+
+        licitacions.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Licitacio</span>(<span class="kw">this</span>, usuari, quantitat));
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+
+    <span class="cmt">/** Licitar sense quantitat: 1 € més que l'última, o 1 € si no n'hi ha cap. */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">licitar</span>(<span class="cls">Usuari</span> usuari) {
+        <span class="cls">Licitacio</span> major = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">double</span> quantitat = (major == <span class="kw">null</span>) ? <span class="num">1</span> : major.<span class="fn">getQuantitat</span>() + <span class="num">1</span>;
+        <span class="kw">return</span> <span class="fn">licitar</span>(usuari, quantitat);
+    }
+
+    <span class="cmt">/** Retorna una còpia de la llista perquè ningú la pugui modificar des de fora. */</span>
+    <span class="kw">public</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; <span class="fn">getLicitacions</span>() {
+        <span class="kw">return</span> <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(licitacions);
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 4</span>
+    <span class="exercici-title">Tancar i executar una subhasta</span>
+  </div>
+  <div class="exercici-body">
+    <p>Una subhasta es pot tancar i, un cop tancada, executar.</p>    <ul class="exercici-tasques">
+      <li>Afegeix a <code>Subhasta</code> els atributs <code>tancada</code> i <code>executada</code> (inicialment <code>false</code>) amb els seus mètodes de consulta <code>isTancada()</code> i <code>isExecutada()</code>.</li>
+      <li><code>tancar()</code>: a partir d'aquest moment <code>licitar</code> ha de retornar sempre <code>false</code>.</li>
+      <li><code>executar()</code>: només si la subhasta està tancada, no s'ha executat abans i té alguna licitació. Resta l'import al guanyador, el suma al propietari i marca la subhasta com a executada. Retorna si s'ha pogut executar.</li>
+    </ul>
+    <div class="tip-box">✅ <strong>Prova-ho:</strong></div>
+    <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaPas4</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Usuari</span> joan = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Joan"</span>, <span class="num">100</span>);
+        <span class="cls">Usuari</span> pere = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Pere"</span>, <span class="num">150</span>);
+
+        <span class="cls">Subhasta</span> s = <span class="kw">new</span> <span class="cls">Subhasta</span>(joan, <span class="str">"Bicicleta"</span>);
+        s.<span class="fn">licitar</span>(pere, <span class="num">60</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">executar</span>());         <span class="cmt">// false: encara no està tancada</span>
+        s.<span class="fn">tancar</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">licitar</span>(pere, <span class="num">80</span>));  <span class="cmt">// false: la subhasta està tancada</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">executar</span>());         <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(s.<span class="fn">executar</span>());         <span class="cmt">// false: ja s'havia executat</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Joan: "</span> + joan.<span class="fn">getCredit</span>());   <span class="cmt">// Joan: 160.0</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pere: "</span> + pere.<span class="fn">getCredit</span>());   <span class="cmt">// Pere: 90.0</span>
+    }
+}</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.3 · 4.5</span>
+  </div>
+<div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Subhasta</span> {
+
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">Usuari</span> propietari;
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">String</span> producte;
+    <span class="kw">private</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; licitacions = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+    <span class="kw">private</span> <span class="kw">boolean</span> tancada   = <span class="kw">false</span>;   <span class="cmt">// NOU</span>
+    <span class="kw">private</span> <span class="kw">boolean</span> executada = <span class="kw">false</span>;   <span class="cmt">// NOU</span>
+
+    <span class="kw">public</span> <span class="cls">Subhasta</span>(<span class="cls">Usuari</span> propietari, <span class="cls">String</span> producte) {
+        <span class="kw">this</span>.propietari = propietari;
+        <span class="kw">this</span>.producte   = producte;
+    }
+
+    <span class="kw">public</span> <span class="cls">Usuari</span>  <span class="fn">getPropietari</span>() { <span class="kw">return</span> propietari; }
+    <span class="kw">public</span> <span class="cls">String</span>  <span class="fn">getProducte</span>()   { <span class="kw">return</span> producte; }
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">isTancada</span>()     { <span class="kw">return</span> tancada; }     <span class="cmt">// NOU</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">isExecutada</span>()   { <span class="kw">return</span> executada; }   <span class="cmt">// NOU</span>
+
+    <span class="kw">public</span> <span class="cls">Licitacio</span> <span class="fn">getLicitacioMajor</span>() {
+        <span class="kw">if</span> (licitacions.<span class="fn">isEmpty</span>()) <span class="kw">return</span> <span class="kw">null</span>;
+        <span class="kw">return</span> licitacions.<span class="fn">get</span>(licitacions.<span class="fn">size</span>() - <span class="num">1</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">licitar</span>(<span class="cls">Usuari</span> usuari, <span class="kw">double</span> quantitat) {
+        <span class="kw">if</span> (tancada) <span class="kw">return</span> <span class="kw">false</span>;                          <span class="cmt">// NOU: tancada, no s'accepta res</span>
+        <span class="kw">if</span> (usuari.<span class="fn">getCredit</span>() &lt; quantitat) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="kw">if</span> (usuari == propietari) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="cls">Licitacio</span> major = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">if</span> (major != <span class="kw">null</span> &amp;&amp; quantitat &lt;= major.<span class="fn">getQuantitat</span>()) <span class="kw">return</span> <span class="kw">false</span>;
+
+        licitacions.<span class="fn">add</span>(<span class="kw">new</span> <span class="cls">Licitacio</span>(<span class="kw">this</span>, usuari, quantitat));
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">licitar</span>(<span class="cls">Usuari</span> usuari) {
+        <span class="cls">Licitacio</span> major = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">double</span> quantitat = (major == <span class="kw">null</span>) ? <span class="num">1</span> : major.<span class="fn">getQuantitat</span>() + <span class="num">1</span>;
+        <span class="kw">return</span> <span class="fn">licitar</span>(usuari, quantitat);
+    }
+
+    <span class="kw">public</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; <span class="fn">getLicitacions</span>() {
+        <span class="kw">return</span> <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(licitacions);
+    }
+
+    <span class="cmt">/** NOU: a partir d'ara no s'accepten més licitacions. */</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">tancar</span>() {
+        tancada = <span class="kw">true</span>;
+    }
+
+    <span class="cmt">/**
+     * NOU: només es pot executar una subhasta tancada, no executada abans
+     * i amb alguna licitació. Retorna true si s'ha executat.
+     */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">executar</span>() {
+        <span class="cls">Licitacio</span> guanyadora = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">if</span> (!tancada || executada || guanyadora == <span class="kw">null</span>) <span class="kw">return</span> <span class="kw">false</span>;
+
+        guanyadora.<span class="fn">getUsuari</span>().<span class="fn">decrementarCredit</span>(guanyadora.<span class="fn">getQuantitat</span>());
+        propietari.<span class="fn">incrementarCredit</span>(guanyadora.<span class="fn">getQuantitat</span>());
+        executada = <span class="kw">true</span>;
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 5</span>
+    <span class="exercici-title">Associacions: què coneix cada usuari</span>
+  </div>
+  <div class="exercici-body">
+    <p>L'enunciat diu que els usuaris coneixen les seves subhastes, les seves licitacions acceptades i les subhastes que han guanyat. Afegim aquestes associacions.</p>    <ul class="exercici-tasques">
+      <li>A <code>Usuari</code>, tres llistes: subhastes pròpies, licitacions acceptades i subhastes guanyades, amb els seus getters (que retornin còpies).</li>
+      <li>Tres mètodes per afegir-hi elements, <strong>sense modificador de visibilitat</strong>: així només els poden cridar les classes del paquet <code>subhastes</code>.</li>
+      <li>A <code>Subhasta</code>: el constructor registra la subhasta al propietari, <code>licitar</code> registra la licitació acceptada a l'usuari i <code>executar</code> registra la subhasta guanyada al guanyador.</li>
+    </ul>
+    <div class="warn-box">⚠️ <strong>Per què no fem públics els mètodes d'afegir?</strong> Si ho fossin, des del <code>main</code> es podria fer <code>pere.afegirSubhastaGuanyada(s)</code> sense haver guanyat res. Amb la visibilitat de paquet, només <code>Subhasta</code> pot establir aquestes associacions, en el moment correcte.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.5 · 4.6</span>
+  </div>
+<div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Usuari</span> {
+
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">String</span> id;
+    <span class="kw">private</span> <span class="kw">double</span> credit;
+
+    <span class="cmt">// Associacions: el que l'usuari "coneix"</span>
+    <span class="kw">private</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Subhasta</span>&gt;  subhastesPropies   = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+    <span class="kw">private</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; licitacions        = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+    <span class="kw">private</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Subhasta</span>&gt;  subhastesGuanyades = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+    <span class="kw">public</span> <span class="cls">Usuari</span>(<span class="cls">String</span> id, <span class="kw">double</span> creditInicial) {
+        <span class="kw">this</span>.id     = id;
+        <span class="kw">this</span>.credit = creditInicial;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getId</span>()     { <span class="kw">return</span> id; }
+    <span class="kw">public</span> <span class="kw">double</span> <span class="fn">getCredit</span>() { <span class="kw">return</span> credit; }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">incrementarCredit</span>(<span class="kw">double</span> quantitat) { credit += quantitat; }
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">decrementarCredit</span>(<span class="kw">double</span> quantitat) { credit -= quantitat; }
+
+    <span class="cmt">// Sense modificador (visibilitat de paquet): només les classes del paquet</span>
+    <span class="cmt">// subhastes poden establir les associacions. Des de fora no es poden falsejar.</span>
+    <span class="kw">void</span> <span class="fn">afegirSubhasta</span>(<span class="cls">Subhasta</span> s)          { subhastesPropies.<span class="fn">add</span>(s); }
+    <span class="kw">void</span> <span class="fn">afegirLicitacio</span>(<span class="cls">Licitacio</span> l)        { licitacions.<span class="fn">add</span>(l); }
+    <span class="kw">void</span> <span class="fn">afegirSubhastaGuanyada</span>(<span class="cls">Subhasta</span> s)  { subhastesGuanyades.<span class="fn">add</span>(s); }
+
+    <span class="cmt">// Consultes: retornem còpies perquè ningú modifiqui les llistes des de fora</span>
+    <span class="kw">public</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Subhasta</span>&gt;  <span class="fn">getSubhastesPropies</span>()   { <span class="kw">return</span> <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(subhastesPropies); }
+    <span class="kw">public</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; <span class="fn">getLicitacions</span>()        { <span class="kw">return</span> <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(licitacions); }
+    <span class="kw">public</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Subhasta</span>&gt;  <span class="fn">getSubhastesGuanyades</span>() { <span class="kw">return</span> <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(subhastesGuanyades); }
+}</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">import</span> java.util.<span class="cls">ArrayList</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Subhasta</span> {
+
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">Usuari</span> propietari;
+    <span class="kw">private</span> <span class="kw">final</span> <span class="cls">String</span> producte;
+    <span class="kw">private</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; licitacions = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+    <span class="kw">private</span> <span class="kw">boolean</span> tancada   = <span class="kw">false</span>;
+    <span class="kw">private</span> <span class="kw">boolean</span> executada = <span class="kw">false</span>;
+
+    <span class="kw">public</span> <span class="cls">Subhasta</span>(<span class="cls">Usuari</span> propietari, <span class="cls">String</span> producte) {
+        <span class="kw">this</span>.propietari = propietari;
+        <span class="kw">this</span>.producte   = producte;
+        propietari.<span class="fn">afegirSubhasta</span>(<span class="kw">this</span>);              <span class="cmt">// NOU (pas 5)</span>
+    }
+
+    <span class="kw">public</span> <span class="cls">Usuari</span>  <span class="fn">getPropietari</span>() { <span class="kw">return</span> propietari; }
+    <span class="kw">public</span> <span class="cls">String</span>  <span class="fn">getProducte</span>()   { <span class="kw">return</span> producte; }
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">isTancada</span>()     { <span class="kw">return</span> tancada; }
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">isExecutada</span>()   { <span class="kw">return</span> executada; }
+
+    <span class="kw">public</span> <span class="cls">Licitacio</span> <span class="fn">getLicitacioMajor</span>() {
+        <span class="kw">if</span> (licitacions.<span class="fn">isEmpty</span>()) <span class="kw">return</span> <span class="kw">null</span>;
+        <span class="kw">return</span> licitacions.<span class="fn">get</span>(licitacions.<span class="fn">size</span>() - <span class="num">1</span>);
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">licitar</span>(<span class="cls">Usuari</span> usuari, <span class="kw">double</span> quantitat) {
+        <span class="kw">if</span> (tancada) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="kw">if</span> (usuari.<span class="fn">getCredit</span>() &lt; quantitat) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="kw">if</span> (usuari == propietari) <span class="kw">return</span> <span class="kw">false</span>;
+        <span class="cls">Licitacio</span> major = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">if</span> (major != <span class="kw">null</span> &amp;&amp; quantitat &lt;= major.<span class="fn">getQuantitat</span>()) <span class="kw">return</span> <span class="kw">false</span>;
+
+        <span class="cls">Licitacio</span> nova = <span class="kw">new</span> <span class="cls">Licitacio</span>(<span class="kw">this</span>, usuari, quantitat);
+        licitacions.<span class="fn">add</span>(nova);
+        usuari.<span class="fn">afegirLicitacio</span>(nova);                 <span class="cmt">// NOU (pas 5)</span>
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">licitar</span>(<span class="cls">Usuari</span> usuari) {
+        <span class="cls">Licitacio</span> major = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">double</span> quantitat = (major == <span class="kw">null</span>) ? <span class="num">1</span> : major.<span class="fn">getQuantitat</span>() + <span class="num">1</span>;
+        <span class="kw">return</span> <span class="fn">licitar</span>(usuari, quantitat);
+    }
+
+    <span class="kw">public</span> <span class="cls">ArrayList</span>&lt;<span class="cls">Licitacio</span>&gt; <span class="fn">getLicitacions</span>() {
+        <span class="kw">return</span> <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;(licitacions);
+    }
+
+    <span class="cmt">/** A partir d'ara no s'accepten més licitacions. */</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">tancar</span>() {
+        tancada = <span class="kw">true</span>;
+    }
+
+    <span class="cmt">/**
+     * Només es pot executar una subhasta tancada, no executada abans
+     * i amb alguna licitació. Retorna true si s'ha executat.
+     */</span>
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">executar</span>() {
+        <span class="cls">Licitacio</span> guanyadora = <span class="fn">getLicitacioMajor</span>();
+        <span class="kw">if</span> (!tancada || executada || guanyadora == <span class="kw">null</span>) <span class="kw">return</span> <span class="kw">false</span>;
+
+        guanyadora.<span class="fn">getUsuari</span>().<span class="fn">decrementarCredit</span>(guanyadora.<span class="fn">getQuantitat</span>());
+        propietari.<span class="fn">incrementarCredit</span>(guanyadora.<span class="fn">getQuantitat</span>());
+        guanyadora.<span class="fn">getUsuari</span>().<span class="fn">afegirSubhastaGuanyada</span>(<span class="kw">this</span>);   <span class="cmt">// NOU (pas 5)</span>
+        executada = <span class="kw">true</span>;
+        <span class="kw">return</span> <span class="kw">true</span>;
+    }
+}</div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas 6</span>
+    <span class="exercici-title">Programa principal</span>
+  </div>
+  <div class="exercici-body">
+    <p>Escriu la classe <code>Main</code> amb el programa de l'enunciat:</p>    <ul class="exercici-tasques">
+      <li>Crea els usuaris Joan, Pere i Enric amb 100, 150 i 300 € de crèdit.</li>
+      <li>Crea una subhasta de Joan per a un "Telèfon Mòbil".</li>
+      <li>Pere licita 100 €. Mostra la licitació major (producte, usuari i quantitat).</li>
+      <li>Enric licita 50 €. Mostra la licitació major i comprova que no s'ha acceptat.</li>
+      <li>Tanca la subhasta. Enric licita 200 € i comprova que no s'accepta.</li>
+      <li>Executa la subhasta i mostra el crèdit dels tres usuaris.</li>
+      <li>Per a cada usuari, mostra les subhastes pròpies, les guanyades (només el producte) i les licitacions acceptades (producte i quantitat).</li>
+    </ul>
+    <div class="tip-box">✅ <strong>Pista:</strong> crea mètodes <code>static</code> auxiliars al <code>Main</code> (per exemple <code>mostrarInfo(Usuari u)</code>) per no repetir el mateix codi tres vegades.</div>
+  </div>
+  <div class="exercici-footer">
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 2.2 · 2.3 · 2.5 · 2.9 · 4.5</span>
+  </div>
+<div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure el codi</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> subhastes;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// 1. Usuaris</span>
+        <span class="cls">Usuari</span> joan  = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Joan"</span>, <span class="num">100</span>);
+        <span class="cls">Usuari</span> pere  = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Pere"</span>, <span class="num">150</span>);
+        <span class="cls">Usuari</span> enric = <span class="kw">new</span> <span class="cls">Usuari</span>(<span class="str">"Enric"</span>, <span class="num">300</span>);
+
+        <span class="cmt">// 2. Subhasta de Joan</span>
+        <span class="cls">Subhasta</span> mobil = <span class="kw">new</span> <span class="cls">Subhasta</span>(joan, <span class="str">"Telèfon Mòbil"</span>);
+
+        <span class="cmt">// 3. Pere licita 100 €</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pere licita 100 €: "</span> + mobil.<span class="fn">licitar</span>(pere, <span class="num">100</span>));
+        <span class="fn">mostrarLicitacioMajor</span>(mobil);
+
+        <span class="cmt">// 4. Enric licita 50 €: no s'accepta perquè és menor que 100 €</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Enric licita 50 €: "</span> + mobil.<span class="fn">licitar</span>(enric, <span class="num">50</span>));
+        <span class="fn">mostrarLicitacioMajor</span>(mobil);
+
+        <span class="cmt">// 5. Tanquem la subhasta i Enric torna a licitar</span>
+        mobil.<span class="fn">tancar</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Enric licita 200 € amb la subhasta tancada: "</span>
+                           + mobil.<span class="fn">licitar</span>(enric, <span class="num">200</span>));
+
+        <span class="cmt">// 6. Executem la subhasta</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Subhasta executada: "</span> + mobil.<span class="fn">executar</span>());
+
+        <span class="cmt">// 7. Crèdits</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n--- Crèdits ---"</span>);
+        <span class="fn">mostrarCredit</span>(joan);
+        <span class="fn">mostrarCredit</span>(pere);
+        <span class="fn">mostrarCredit</span>(enric);
+
+        <span class="cmt">// 8. Informació de cada usuari</span>
+        <span class="fn">mostrarInfo</span>(joan);
+        <span class="fn">mostrarInfo</span>(pere);
+        <span class="fn">mostrarInfo</span>(enric);
+    }
+
+    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">mostrarLicitacioMajor</span>(<span class="cls">Subhasta</span> s) {
+        <span class="cls">Licitacio</span> major = s.<span class="fn">getLicitacioMajor</span>();
+        <span class="kw">if</span> (major == <span class="kw">null</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Encara no hi ha cap licitació."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Licitació major: "</span> + s.<span class="fn">getProducte</span>() + <span class="str">" | "</span>
+                               + major.<span class="fn">getUsuari</span>().<span class="fn">getId</span>() + <span class="str">" | "</span>
+                               + major.<span class="fn">getQuantitat</span>() + <span class="str">" €"</span>);
+        }
+    }
+
+    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">mostrarCredit</span>(<span class="cls">Usuari</span> u) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(u.<span class="fn">getId</span>() + <span class="str">": "</span> + u.<span class="fn">getCredit</span>() + <span class="str">" €"</span>);
+    }
+
+    <span class="kw">static</span> <span class="kw">void</span> <span class="fn">mostrarInfo</span>(<span class="cls">Usuari</span> u) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\n--- "</span> + u.<span class="fn">getId</span>() + <span class="str">" ---"</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Subhastes pròpies:"</span>);
+        <span class="kw">for</span> (<span class="cls">Subhasta</span> s : u.<span class="fn">getSubhastesPropies</span>()) <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span> + s.<span class="fn">getProducte</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Subhastes guanyades:"</span>);
+        <span class="kw">for</span> (<span class="cls">Subhasta</span> s : u.<span class="fn">getSubhastesGuanyades</span>()) <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span> + s.<span class="fn">getProducte</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Licitacions acceptades:"</span>);
+        <span class="kw">for</span> (<span class="cls">Licitacio</span> l : u.<span class="fn">getLicitacions</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  "</span> + l.<span class="fn">getSubhasta</span>().<span class="fn">getProducte</span>() + <span class="str">" - "</span> + l.<span class="fn">getQuantitat</span>() + <span class="str">" €"</span>);
+        }
+    }
+}</div>
+    </div>
+  </div>
+</div>
+
+<h2 class="block-title">3. Sortida esperada</h2>
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Quan executis el <code>Main</code>, la consola ha de mostrar això. Fixa't que el crèdit de Joan i de Pere ha canviat: Pere ha pagat 100 € i Joan els ha cobrat.</p>
+<div class="code-block">Pere licita 100 €: true
+  Licitació major: Telèfon Mòbil | Pere | 100.0 €
+Enric licita 50 €: false
+  Licitació major: Telèfon Mòbil | Pere | 100.0 €
+Enric licita 200 € amb la subhasta tancada: false
+Subhasta executada: true
+
+--- Crèdits ---
+Joan: 200.0 €
+Pere: 50.0 €
+Enric: 300.0 €
+
+--- Joan ---
+Subhastes pròpies: Telèfon Mòbil
+Subhastes guanyades:
+Licitacions acceptades:
+
+--- Pere ---
+Subhastes pròpies:
+Subhastes guanyades: Telèfon Mòbil
+Licitacions acceptades:
+  Telèfon Mòbil - 100.0 €
+
+--- Enric ---
+Subhastes pròpies:
+Subhastes guanyades:
+Licitacions acceptades:</div>
+
+</main>
+<footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A3 — Disseny de classes: encapsulament i visibilitat · AEA2 · M0485</title>
+  <title>1.3 — Creació de programes organitzats en classes · AEA2 · M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -90,20 +90,19 @@
 <body>
 
 <header class="hero">
-  <p class="hero-eyebrow">AEA2 · POO. Fonaments</p>
-  <h1>A3 — Disseny de classes: encapsulament i visibilitat</h1>
-  <p>Aprendre a dissenyar classes ben estructurades: atributs privats, getters i setters, control de visibilitat i interacció entre objectes.</p>
+  <p class="hero-eyebrow">AEA2 · Programació orientada a objectes · A1 — Classes i objectes</p>
+  <h1>1.3 — Creació de programes organitzats en classes</h1>
+  <p>Dissenyar classes pròpies ben estructurades: atributs privats, getters i setters, visibilitat, interacció entre objectes, mètodes estàtics propis, una primera aproximació a l'herència i l'organització del codi en paquets.</p>
   <div class="hero-pills">
     <span class="pill">RA4</span>
-    <span class="pill">CA 4.1 · 4.2 · 4.3 · 4.4 · 4.5 · 4.6</span>
-    <span class="pill">6 hores</span>
+    <span class="pill">CA 4.1 — 4.9</span>
   </div>
 </header>
 
 <nav class="breadcrumb">
-  <a href="../index.html">M0485</a><span>›</span>
-  <a href="../aea2.html">AEA2</a><span>›</span>
-  A3 — Disseny de classes: encapsulament i visibilitat
+  <a href="../index.html">M0485 Programació</a><span>›</span>
+  <a href="../aea2.html">AEA2 — Programació orientada a objectes</a><span>›</span>
+  1.3 — Creació de programes organitzats en classes
 </nav>
 
 <main>
@@ -199,7 +198,7 @@
 
     <span class="kw">public int</span>  <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
     <span class="kw">public void</span> <span class="fn">setEdat</span>(<span class="kw">int</span> edat) {
-        <span class="kw">if</span> (edat < <span class="num">0</span> || edat > <span class="num">150</span>) {
+        <span class="kw">if</span> (edat &lt; <span class="num">0</span> || edat > <span class="num">150</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: edat no vàlida ("</span> + edat + <span class="str">")"</span>);
             <span class="kw">return</span>;
         }
@@ -240,7 +239,7 @@
   </table>
 </div>
 
-<div class="info-box">💡 <strong>Regla d'or:</strong> fes els atributs <code>private</code> i els mètodes que han de ser accessibles des de fora, <code>public</code>. Si en el futur necessites que una subclasse accedeixi a un atribut directament, pots canviar a <code>protected</code>. Mai facis els atributs <code>public</code>.</div>
+<div class="info-box">📌 <strong>Regla d'or:</strong> fes els atributs <code>private</code> i els mètodes que han de ser accessibles des de fora, <code>public</code>. Si en el futur necessites que una subclasse accedeixi a un atribut directament, pots canviar a <code>protected</code>. Mai facis els atributs <code>public</code>.</div>
 
 <!-- ══ BLOC 4 — CLASSE COMPLETA ══ -->
 <h2 class="block-title">4. Exemple complet: classe Producte ben dissenyada</h2>
@@ -276,13 +275,13 @@
 
     <span class="kw">public double</span> <span class="fn">getPreu</span>() { <span class="kw">return</span> preu; }
     <span class="kw">public void</span>   <span class="fn">setPreu</span>(<span class="kw">double</span> preu) {
-        <span class="kw">if</span> (preu < <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: preu negatiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">if</span> (preu &lt; <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: preu negatiu"</span>); <span class="kw">return</span>; }
         <span class="kw">this</span>.preu = preu;
     }
 
     <span class="kw">public int</span>  <span class="fn">getEstoc</span>() { <span class="kw">return</span> estoc; }
     <span class="kw">public void</span> <span class="fn">setEstoc</span>(<span class="kw">int</span> estoc) {
-        <span class="kw">if</span> (estoc < <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: estoc negatiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">if</span> (estoc &lt; <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: estoc negatiu"</span>); <span class="kw">return</span>; }
         <span class="kw">this</span>.estoc = estoc;
     }
 
@@ -419,8 +418,227 @@
 
 <div class="ra5-box">📌 En tots els exercicis, els valors estan declarats al codi. Quan arribi l'RA5 podràs llegir-los del teclat amb <code>Scanner</code>.</div>
 
+<!-- ══ BLOC 7 — MÈTODES ESTÀTICS PROPIS ══ -->
+<h2 class="block-title">7. Mètodes estàtics a les nostres classes</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">A la 1.2 hem cridat mètodes estàtics de classes de Java (<code>Math.sqrt()</code>, <code>Arrays.sort()</code>). Ara en crearem de propis. Un membre <code>static</code> pertany a la <strong>classe</strong>, no a cada objecte: és útil per a comptadors compartits i per a càlculs que no depenen de cap objecte concret.</p>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Comptador de classe i mètode d'utilitat</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Comanda</span> {
+
+    <span class="cmt">// Comptador de classe: genera números de comanda consecutius</span>
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">int</span> seguentNumero = <span class="num">1</span>;
+
+    <span class="kw">private</span> <span class="kw">final</span> <span class="kw">int</span> numero;     <span class="cmt">// final: un cop assignat, no canvia</span>
+    <span class="kw">private</span> <span class="cls">String</span> client;
+    <span class="kw">private</span> <span class="kw">double</span> importBase;
+
+    <span class="kw">public</span> <span class="cls">Comanda</span>(<span class="cls">String</span> client, <span class="kw">double</span> importTotal) {
+        <span class="kw">this</span>.numero  = seguentNumero++;   <span class="cmt">// assigna i després incrementa</span>
+        <span class="kw">this</span>.client  = client;
+        <span class="kw">this</span>.importBase = importTotal;
+    }
+
+    <span class="cmt">// Mètode estàtic propi: informació de la classe, no d'un objecte</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">int</span> <span class="fn">getTotalComandes</span>() {
+        <span class="kw">return</span> seguentNumero - <span class="num">1</span>;
+    }
+
+    <span class="cmt">// Mètode estàtic d'utilitat: no necessita cap atribut de l'objecte</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">double</span> <span class="fn">aplicarIva</span>(<span class="kw">double</span> preu) {
+        <span class="kw">return</span> preu * <span class="num">1.21</span>;
+    }
+
+    <span class="kw">@Override</span>
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">toString</span>() {
+        <span class="kw">return</span> <span class="str">"Comanda #"</span> + numero + <span class="str">" ("</span> + client + <span class="str">"): "</span>
+             + <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%.2f"</span>, <span class="fn">aplicarIva</span>(importBase)) + <span class="str">" € amb IVA"</span>;
+    }
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Els mètodes estàtics es criden amb el nom de la classe</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaComandes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Comanda</span> c1 = <span class="kw">new</span> <span class="cls">Comanda</span>(<span class="str">"Marta"</span>, <span class="num">50.0</span>);
+        <span class="cls">Comanda</span> c2 = <span class="kw">new</span> <span class="cls">Comanda</span>(<span class="str">"Joan"</span>, <span class="num">120.0</span>);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(c1);   <span class="cmt">// Comanda #1 (Marta): 60,50 € amb IVA</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(c2);   <span class="cmt">// Comanda #2 (Joan): 145,20 € amb IVA</span>
+
+        <span class="cmt">// Els mètodes estàtics es criden amb el NOM DE LA CLASSE</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total comandes: "</span> + <span class="cls">Comanda</span>.<span class="fn">getTotalComandes</span>());
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"10 € amb IVA: "</span> + <span class="cls">Comanda</span>.<span class="fn">aplicarIva</span>(<span class="num">10</span>));
+    }
+}</div>
+</div>
+
+<div class="info-box">📌 <strong>Separador decimal:</strong> <code>String.format("%.2f", ...)</code> fa servir la configuració regional de l'ordinador. Amb la configuració catalana o espanyola veuràs <code>60,50</code>; amb l'anglesa, <code>60.50</code>.</div>
+
+<div class="warn-box">⚠️ <strong>Error típic:</strong> dins d'un mètode <code>static</code> no es pot fer servir <code>this</code> ni cap atribut d'instància, perquè el mètode no treballa sobre cap objecte. Si ho proves, el compilador dirà <em>"non-static variable cannot be referenced from a static context"</em>.</div>
+
+<!-- ══ BLOC 8 — HERÈNCIA BÀSICA ══ -->
+<h2 class="block-title">8. Herència: primera aproximació</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Quan diverses classes comparteixen atributs i mètodes, podem posar el que tenen en comú en una <strong>superclasse</strong> i fer que les altres en <strong>heretin</strong> amb <code>extends</code>. La subclasse rep tot el que té la superclasse i hi afegeix el que li és propi. Un <code>Alumne</code> <em>és una</em> <code>Persona</code>; un <code>Professor</code> també.</p>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>La superclasse Persona</span></div>
+  <div class="code-block"><span class="cmt">// Superclasse: el que tenen en comú totes les persones del centre</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Persona</span> {
+
+    <span class="kw">protected</span> <span class="cls">String</span> nom;   <span class="cmt">// protected: visible a les subclasses</span>
+    <span class="kw">protected</span> <span class="kw">int</span> edat;
+
+    <span class="kw">public</span> <span class="cls">Persona</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat) {
+        <span class="kw">this</span>.nom  = nom;
+        <span class="kw">this</span>.edat = edat;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">presentar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Soc "</span> + nom + <span class="str">" i tinc "</span> + edat + <span class="str">" anys."</span>);
+    }
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Dues subclasses: Alumne i Professor</span></div>
+  <div class="code-block"><span class="cmt">// Subclasse: un Alumne ÉS UNA Persona i afegeix el curs</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Alumne</span> <span class="kw">extends</span> <span class="cls">Persona</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> curs;
+
+    <span class="kw">public</span> <span class="cls">Alumne</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> curs) {
+        <span class="kw">super</span>(nom, edat);     <span class="cmt">// crida el constructor de Persona</span>
+        <span class="kw">this</span>.curs = curs;
+    }
+
+    <span class="cmt">// Mètode nou, només dels alumnes</span>
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">estudiar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" estudia "</span> + curs + <span class="str">"."</span>);
+    }
+}</div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Professor</span> <span class="kw">extends</span> <span class="cls">Persona</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> modul;
+
+    <span class="kw">public</span> <span class="cls">Professor</span>(<span class="cls">String</span> nom, <span class="kw">int</span> edat, <span class="cls">String</span> modul) {
+        <span class="kw">super</span>(nom, edat);
+        <span class="kw">this</span>.modul = modul;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">ferClasse</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" fa classe de "</span> + modul + <span class="str">"."</span>);
+    }
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fem servir les classes heretades</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ProvaCentre</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Alumne</span> a    = <span class="kw">new</span> <span class="cls">Alumne</span>(<span class="str">"Nil"</span>, <span class="num">19</span>, <span class="str">"DAW1"</span>);
+        <span class="cls">Professor</span> p = <span class="kw">new</span> <span class="cls">Professor</span>(<span class="str">"Josep"</span>, <span class="num">45</span>, <span class="str">"Programació"</span>);
+
+        <span class="cmt">// presentar() és heretat de Persona: no l'hem escrit a les subclasses</span>
+        a.<span class="fn">presentar</span>();    <span class="cmt">// Soc Nil i tinc 19 anys.</span>
+        p.<span class="fn">presentar</span>();    <span class="cmt">// Soc Josep i tinc 45 anys.</span>
+
+        <span class="cmt">// Cada subclasse té també els seus mètodes propis</span>
+        a.<span class="fn">estudiar</span>();     <span class="cmt">// Nil estudia DAW1.</span>
+        p.<span class="fn">ferClasse</span>();    <span class="cmt">// Josep fa classe de Programació.</span>
+    }
+}</div>
+</div>
+
+<div class="tip-box">✅ <strong>Recorda:</strong> <code>super(...)</code> ha de ser la primera instrucció del constructor de la subclasse. Primer es construeix la part de la superclasse i després la de la subclasse.</div>
+
+<div class="info-box">📌 Aquí només fem servir l'herència per reaprofitar codi. A la <strong>2.1</strong> l'estudiarem a fons: sobreescriptura de mètodes, polimorfisme, <code>final</code> i jerarquies completes.</div>
+
+<!-- ══ BLOC 9 — PAQUETS I LLIBRERIES ══ -->
+<h2 class="block-title">9. Paquets i llibreries de classes</h2>
+
+<p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.25rem;max-width:720px;">Quan un programa té moltes classes, les agrupem en <strong>paquets</strong> (carpetes) segons la seva funció. Un conjunt de paquets empaquetat en un fitxer <code>.jar</code> és una <strong>llibreria de classes</strong> que es pot reutilitzar en altres projectes.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Paquet</th><th>Què hi posem</th><th>Classe d'exemple</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>botiga.model</code></td><td>Les classes que representen les dades del problema</td><td><code>Producte</code></td></tr>
+    <tr><td><code>botiga.util</code></td><td>Classes d'utilitat amb mètodes estàtics</td><td><code>Format</code></td></tr>
+    <tr><td><code>botiga.app</code></td><td>El programa principal</td><td><code>Main</code></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Fitxer botiga/model/Producte.java</span></div>
+  <div class="code-block"><span class="kw">package</span> botiga.model;               <span class="cmt">// aquesta classe pertany al paquet botiga.model</span>
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Producte</span> {
+
+    <span class="kw">private</span> <span class="cls">String</span> nom;
+    <span class="kw">private</span> <span class="kw">double</span> preu;
+
+    <span class="kw">public</span> <span class="cls">Producte</span>(<span class="cls">String</span> nom, <span class="kw">double</span> preu) {
+        <span class="kw">this</span>.nom  = nom;
+        <span class="kw">this</span>.preu = preu;
+    }
+
+    <span class="kw">public</span> <span class="cls">String</span> <span class="fn">getNom</span>()  { <span class="kw">return</span> nom; }
+    <span class="kw">public</span> <span class="kw">double</span> <span class="fn">getPreu</span>() { <span class="kw">return</span> preu; }
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Fitxer botiga/util/Format.java</span></div>
+  <div class="code-block"><span class="kw">package</span> botiga.util;
+
+<span class="cmt">// Classe d'utilitat: només té mètodes estàtics</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Format</span> {
+
+    <span class="kw">private</span> <span class="cls">Format</span>() { }    <span class="cmt">// constructor privat: no té sentit crear objectes Format</span>
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="cls">String</span> <span class="fn">euros</span>(<span class="kw">double</span> quantitat) {
+        <span class="kw">return</span> <span class="cls">String</span>.<span class="fn">format</span>(<span class="str">"%.2f €"</span>, quantitat);
+    }
+}</div>
+</div>
+
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Fitxer botiga/app/Main.java: importem les classes que necessitem</span></div>
+  <div class="code-block"><span class="kw">package</span> botiga.app;
+
+<span class="kw">import</span> botiga.model.<span class="cls">Producte</span>;   <span class="cmt">// importem classes d'altres paquets</span>
+<span class="kw">import</span> botiga.util.<span class="cls">Format</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Main</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Producte</span> p = <span class="kw">new</span> <span class="cls">Producte</span>(<span class="str">"Auriculars"</span>, <span class="num">24.9</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(p.<span class="fn">getNom</span>() + <span class="str">": "</span> + <span class="cls">Format</span>.<span class="fn">euros</span>(p.<span class="fn">getPreu</span>()));
+    }
+}</div>
+</div>
+
+<div class="sub-title">Com es fa a NetBeans</div>
+<ul class="exercici-tasques" style="margin-bottom:1.25rem;">
+  <li><strong>Crear un paquet:</strong> botó dret sobre <em>Source Packages</em> → <em>New</em> → <em>Java Package</em> → escriu <code>botiga.model</code>.</li>
+  <li><strong>Crear una classe dins del paquet:</strong> botó dret sobre el paquet → <em>New</em> → <em>Java Class</em>. NetBeans hi escriu la línia <code>package</code> automàticament.</li>
+  <li><strong>Generar la llibreria:</strong> <em>Run</em> → <em>Clean and Build Project</em>. El fitxer <code>.jar</code> apareix a la carpeta <code>dist</code> del projecte.</li>
+  <li><strong>Fer servir la llibreria en un altre projecte:</strong> botó dret sobre <em>Libraries</em> → <em>Add JAR/Folder</em> → tria el <code>.jar</code> i importa les classes amb <code>import</code>.</li>
+</ul>
+
+<div class="warn-box">⚠️ <strong>Visibilitat entre paquets:</strong> un membre sense modificador (visibilitat <em>de paquet</em>) només es veu des de classes del mateix paquet. Per això <code>Producte</code>, el seu constructor i els seus getters són <code>public</code>: <code>Main</code> és en un altre paquet.</div>
+
 <!-- ══ BLOC 7 — EXERCICIS ══ -->
-<h2 class="block-title">7. Exercicis pràctics</h2>
+<h2 class="block-title">10. Exercicis pràctics</h2>
 
 <p style="font-size:.93rem;color:var(--text-soft);margin-bottom:1.5rem;max-width:720px;">Exercicis individuals progressius. Dissenya primer el diagrama UML en paper (nom, atributs privats, mètodes públics) i comprova que els setters validen correctament.</p>
 
@@ -432,7 +650,7 @@
     <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
   </div>
   <div class="exercici-body">
-    <p>Redissenya la classe <code>Alumne</code> de l'A1 seguint ara les bones pràctiques d'encapsulament: atributs privats, getters, setters amb validació i <code>toString()</code>.</p>
+    <p>Redissenya la classe <code>Alumne</code> de la 1.1 seguint ara les bones pràctiques d'encapsulament: atributs privats, getters, setters amb validació i <code>toString()</code>.</p>
     <ul class="exercici-tasques">
       <li>Atributs <code>private</code>: <code>nom</code> (String), <code>edat</code> (int), <code>notaMitjana</code> (double).</li>
       <li>Constructor complet que usi els setters per validar.</li>
@@ -467,7 +685,7 @@
 
     <span class="kw">public int</span>  <span class="fn">getEdat</span>() { <span class="kw">return</span> edat; }
     <span class="kw">public void</span> <span class="fn">setEdat</span>(<span class="kw">int</span> edat) {
-        <span class="kw">if</span> (edat < <span class="num">0</span> || edat > <span class="num">120</span>) {
+        <span class="kw">if</span> (edat &lt; <span class="num">0</span> || edat > <span class="num">120</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: edat no vàlida ("</span> + edat + <span class="str">")"</span>);
             <span class="kw">return</span>;
         }
@@ -476,7 +694,7 @@
 
     <span class="kw">public double</span> <span class="fn">getNotaMitjana</span>() { <span class="kw">return</span> notaMitjana; }
     <span class="kw">public void</span>   <span class="fn">setNotaMitjana</span>(<span class="kw">double</span> nota) {
-        <span class="kw">if</span> (nota < <span class="num">0.0</span> || nota > <span class="num">10.0</span>) {
+        <span class="kw">if</span> (nota &lt; <span class="num">0.0</span> || nota > <span class="num">10.0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: nota no vàlida ("</span> + nota + <span class="str">")"</span>);
             <span class="kw">return</span>;
         }
@@ -511,7 +729,7 @@
     <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
   </div>
   <div class="exercici-body">
-    <p>Redissenya la classe <code>Compte</code> de l'A1 seguint encapsulament complet. Ara el saldo <strong>no ha de tenir setter públic</strong>: s'ha de modificar únicament a través dels mètodes <code>ingressar</code> i <code>retirar</code>.</p>
+    <p>Redissenya la classe <code>Compte</code> de la 1.1 seguint encapsulament complet. Ara el saldo <strong>no ha de tenir setter públic</strong>: s'ha de modificar únicament a través dels mètodes <code>ingressar</code> i <code>retirar</code>.</p>
     <ul class="exercici-tasques">
       <li>Atributs <code>private</code>: <code>titular</code> (String), <code>numeroCom</code> (String), <code>saldo</code> (double).</li>
       <li>Constructor complet. El saldo inicial ha de ser ≥ 0.</li>
@@ -548,13 +766,13 @@
     <span class="cmt">// No hi ha setSaldo() — el saldo és de lectura des de fora</span>
 
     <span class="kw">public void</span> <span class="fn">ingressar</span>(<span class="kw">double</span> impo) {
-        <span class="kw">if</span> (impo <= <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: import ha de ser positiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">if</span> (impo &lt;= <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: import ha de ser positiu"</span>); <span class="kw">return</span>; }
         saldo += impo;
         <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Ingrés %.2f €. Saldo: %.2f €%n"</span>, impo, saldo);
     }
 
     <span class="kw">public void</span> <span class="fn">retirar</span>(<span class="kw">double</span> impo) {
-        <span class="kw">if</span> (impo <= <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: import ha de ser positiu"</span>); <span class="kw">return</span>; }
+        <span class="kw">if</span> (impo &lt;= <span class="num">0</span>) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: import ha de ser positiu"</span>); <span class="kw">return</span>; }
         <span class="kw">if</span> (impo > saldo) { <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: saldo insuficient"</span>); <span class="kw">return</span>; }
         saldo -= impo;
         <span class="cls">System</span>.out.<span class="fn">printf</span>(<span class="str">"Retirada %.2f €. Saldo: %.2f €%n"</span>, impo, saldo);
@@ -692,7 +910,7 @@
     <ul class="exercici-tasques">
       <li>Atributs <code>private</code>: <code>titol</code>, <code>autor</code> (String); <code>anyPublicacio</code> (int); <code>enPrestec</code> (boolean, per defecte <code>false</code>); <code>valoracioMitjana</code> (double); <code>nombreValoracions</code> (int).</li>
       <li>Constructor: titol, autor, any. La resta d'atributs s'inicialitzen als valors lògics.</li>
-      <li>Getters per a tots. Setters only per a titol i autor.</li>
+      <li>Getters per a tots. Setters només per a titol i autor.</li>
       <li>Mètode <code>prestar()</code>: si no està en préstec, el marca com a prestat. Si ja ho està, informa.</li>
       <li>Mètode <code>retornar()</code>: marca el llibre com a disponible.</li>
       <li>Mètode <code>afegirValoracio(int nova)</code>: valida [1,5], actualitza la mitjana (<code>(valoracioMitjana * nombreValoracions + nova) / (nombreValoracions + 1)</code>).</li>
@@ -701,7 +919,7 @@
   </div>
   <div class="exercici-footer">
     <span class="badge badge-avançat">Avançat</span>
-    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1–4.6 · Font: Exercici Biblioteca.pdf (Canela)</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.1–4.6</span>
   </div>
   <div class="solucio-wrap">
     <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
@@ -746,7 +964,7 @@
     }
 
     <span class="kw">public void</span> <span class="fn">afegirValoracio</span>(<span class="kw">int</span> nova) {
-        <span class="kw">if</span> (nova < <span class="num">1</span> || nova > <span class="num">5</span>) {
+        <span class="kw">if</span> (nova &lt; <span class="num">1</span> || nova > <span class="num">5</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: valoració ha d'estar entre 1 i 5"</span>);
             <span class="kw">return</span>;
         }
@@ -783,27 +1001,108 @@
   </div>
 </div>
 
-<!-- ══ BLOC 8 — CA ══ -->
-<h2 class="block-title">8. Resum: criteris d'avaluació treballats</h2>
-<div class="ca-grid">
-  <div class="ca-item"><span class="ca-badge">CA 4.1</span><span class="ca-text">Reconeix la sintaxi, l'estructura i els components típics d'una classe.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 4.2</span><span class="ca-text">Defineix classes amb els seus atributs i modificadors de visibilitat.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 4.3</span><span class="ca-text">Defineix propietats (atributs privats + getters/setters amb validació).</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 4.4</span><span class="ca-text">Defineix mètodes de negoci i <code>toString()</code>.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 4.5</span><span class="ca-text">Crea constructors que usen els setters per validar l'estat inicial.</span></div>
-  <div class="ca-item"><span class="ca-badge">CA 4.6</span><span class="ca-text">Desenvolupa programes que instancien i fan interaccionar objectes.</span></div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Flota de vehicles en paquets</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Crea un projecte amb dos paquets: <code>flota.model</code> i <code>flota.app</code>. Hi aplicaràs l'herència bàsica, un mètode estàtic propi i la importació entre paquets.</p>
+    <ul class="exercici-tasques">
+      <li>A <code>flota.model</code>, classe <code>Vehicle</code> amb atributs <code>protected</code> <code>matricula</code> i <code>marca</code>, un constructor i el mètode <code>mostrar()</code>.</li>
+      <li>A <code>Vehicle</code>, un comptador <code>private static int totalVehicles</code> que s'incrementi a cada constructor i un mètode <code>public static int getTotalVehicles()</code>.</li>
+      <li>Subclasse <code>Cotxe</code> (atribut <code>places</code>, mètode <code>potPortar(int persones)</code>) i subclasse <code>Furgoneta</code> (atribut <code>carregaMaxKg</code>, mètode <code>potCarregar(double kg)</code>). Totes dues fan servir <code>super(...)</code>.</li>
+      <li>A <code>flota.app</code>, classe <code>GestioFlota</code> amb el <code>main</code>: crea un cotxe i una furgoneta, crida <code>mostrar()</code> i els mètodes propis, i mostra el total de vehicles creats.</li>
+    </ul>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 4.7 · 4.8 · 4.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)"><span class="icon">▶</span><span class="label">Veure solució</span></button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">package</span> flota.model;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Vehicle</span> {
+
+    <span class="kw">private</span> <span class="kw">static</span> <span class="kw">int</span> totalVehicles = <span class="num">0</span>;   <span class="cmt">// comptador de classe</span>
+
+    <span class="kw">protected</span> <span class="cls">String</span> matricula;
+    <span class="kw">protected</span> <span class="cls">String</span> marca;
+
+    <span class="kw">public</span> <span class="cls">Vehicle</span>(<span class="cls">String</span> matricula, <span class="cls">String</span> marca) {
+        <span class="kw">this</span>.matricula = matricula;
+        <span class="kw">this</span>.marca     = marca;
+        totalVehicles++;
+    }
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">int</span> <span class="fn">getTotalVehicles</span>() {
+        <span class="kw">return</span> totalVehicles;
+    }
+
+    <span class="kw">public</span> <span class="kw">void</span> <span class="fn">mostrar</span>() {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(marca + <span class="str">" ["</span> + matricula + <span class="str">"]"</span>);
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> flota.model;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cotxe</span> <span class="kw">extends</span> <span class="cls">Vehicle</span> {
+
+    <span class="kw">private</span> <span class="kw">int</span> places;
+
+    <span class="kw">public</span> <span class="cls">Cotxe</span>(<span class="cls">String</span> matricula, <span class="cls">String</span> marca, <span class="kw">int</span> places) {
+        <span class="kw">super</span>(matricula, marca);            <span class="cmt">// primer s'inicialitza la part de Vehicle</span>
+        <span class="kw">this</span>.places = places;
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">potPortar</span>(<span class="kw">int</span> persones) {
+        <span class="kw">return</span> persones &lt;= places;
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> flota.model;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Furgoneta</span> <span class="kw">extends</span> <span class="cls">Vehicle</span> {
+
+    <span class="kw">private</span> <span class="kw">double</span> carregaMaxKg;
+
+    <span class="kw">public</span> <span class="cls">Furgoneta</span>(<span class="cls">String</span> matricula, <span class="cls">String</span> marca, <span class="kw">double</span> carregaMaxKg) {
+        <span class="kw">super</span>(matricula, marca);
+        <span class="kw">this</span>.carregaMaxKg = carregaMaxKg;
+    }
+
+    <span class="kw">public</span> <span class="kw">boolean</span> <span class="fn">potCarregar</span>(<span class="kw">double</span> kg) {
+        <span class="kw">return</span> kg &lt;= carregaMaxKg;
+    }
+}</div>
+      <div class="code-block"><span class="kw">package</span> flota.app;
+
+<span class="kw">import</span> flota.model.<span class="cls">Cotxe</span>;
+<span class="kw">import</span> flota.model.<span class="cls">Furgoneta</span>;
+<span class="kw">import</span> flota.model.<span class="cls">Vehicle</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">GestioFlota</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Cotxe</span> c     = <span class="kw">new</span> <span class="cls">Cotxe</span>(<span class="str">"1234-KLM"</span>, <span class="str">"Seat"</span>, <span class="num">5</span>);
+        <span class="cls">Furgoneta</span> f = <span class="kw">new</span> <span class="cls">Furgoneta</span>(<span class="str">"5678-XYZ"</span>, <span class="str">"Renault"</span>, <span class="num">800</span>);
+
+        c.<span class="fn">mostrar</span>();                                   <span class="cmt">// mètode heretat</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Porta 7 persones? "</span> + c.<span class="fn">potPortar</span>(<span class="num">7</span>));
+
+        f.<span class="fn">mostrar</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Carrega 650 kg? "</span> + f.<span class="fn">potCarregar</span>(<span class="num">650</span>));
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vehicles creats: "</span> + <span class="cls">Vehicle</span>.<span class="fn">getTotalVehicles</span>());
+    }
+}</div>
+    </div>
+  </div>
 </div>
 
-<h2 class="block-title" style="margin-top:3rem;">9. Fonts i recursos</h2>
-<div class="fonts-box">
-  <h3>📚 Material usat en aquesta activitat</h3>
-  <ul>
-    <li><strong>Drive Canela:</strong> POO. Classes i objectes. Conceptes bàsics.pdf — Seccions 7 (encapsulació) i 10 (paquets).</li>
-    <li><strong>Drive Canela:</strong> Exercici Biblioteca.pdf — Base per a l'exercici 4 (Classe Llibre).</li>
-    <li><strong>Drive UJB:</strong> 10-05-00-JavaBeans-UJB.java — Patró JavaBeans amb getters/setters i <code>toString()</code>.</li>
-    <li><strong>Drive UJB:</strong> 09-10-00-EjemploEncapsulamiento.zip — Exemple d'encapsulament complet.</li>
-  </ul>
-</div>
+
 
 </main>
 <footer>Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació</footer>
