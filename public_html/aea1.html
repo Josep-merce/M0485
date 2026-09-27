@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AEA1 — Fonaments de la programació · M0485</title>
+  <title>AEA1 — Programació estructurada · M0485</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -49,6 +49,7 @@
     .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.1rem; }
     .card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem 1.4rem 1.1rem; display:flex; flex-direction:column; gap:.4rem; text-decoration:none; color:inherit; box-shadow:var(--shadow); transition:box-shadow .18s,transform .18s; }
     .card:hover { box-shadow:var(--shadow-h); transform:translateY(-3px); }
+    .card:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
     .card-badge { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; background:var(--accent-bg); color:var(--accent); border-radius:8px; font-size:.78rem; font-weight:700; margin-bottom:.3rem; }
     .card-title { font-size:1rem; font-weight:700; color:var(--text); line-height:1.3; }
     .card-desc  { font-size:.84rem; color:var(--text-soft); line-height:1.55; flex:1; }
@@ -66,51 +67,51 @@
 
 <header class="hero">
   <p class="hero-eyebrow">Cicle DAW · Desenvolupament d'Aplicacions Web</p>
-  <h1>AEA1 — Fonaments de la programació</h1>
-  <p>De l'estructura d'un programa als primers algorismes: variables, operadors, estructures de control i tractament d'excepcions en Java.</p>
+  <h1>AEA1 — Programació estructurada</h1>
+  <p>De l'estructura d'un programa als primers algorismes: variables, operadors, composició alternativa, bucles i tractament d'excepcions en Java.</p>
 </header>
 
-<nav class="breadcrumb">
+<nav class="breadcrumb" aria-label="Ruta de navegació">
   <a href="index.html">M0485 Programació</a>
   <span>›</span>
-  AEA1 — Fonaments de la programació
+  AEA1 — Programació estructurada
 </nav>
 
 <main>
 
   <div class="section-intro">
-    <h2>AEA1 — Fonaments de la programació</h2>
-    <p>Tres blocs progressius, de la configuració de l'entorn fins a les estructures de control avançades.</p>
+    <h2>Activitats de l'AEA1</h2>
+    <p>Tres activitats progressives que treballen els resultats d'aprenentatge RA1 (5&nbsp;%) i RA3 (15&nbsp;%). L'AEA es tanca amb una prova escrita (A4, 3 hores).</p>
   </div>
 
   <div class="cards">
 
-    <a class="card" href="aea1/A0_introduccio_netbeans.html">
-      <span class="card-badge">A0</span>
-      <span class="card-title">Introducció i NetBeans</span>
-      <span class="card-desc">Instal·lació del JDK, configuració de NetBeans, primer projecte i programa Hola Món. Estructura bàsica d'un fitxer Java.</span>
-      <div class="card-footer">
-        <span class="card-criteri">Criteri 1.2 · 1.3</span>
-        <span class="card-link">Obrir →</span>
-      </div>
-    </a>
-
-    <a class="card" href="aea1/A1_elements_programa.html">
+    <a class="card" href="aea1/A1_estructura_programa.html">
       <span class="card-badge">A1</span>
-      <span class="card-title">Elements d'un programa informàtic</span>
-      <span class="card-desc">Variables, tipus de dades, literals, constants, operadors aritmètics, relacionals i lògics, conversions de tipus i comentaris.</span>
+      <span class="card-title">Estructura del programa informàtic</span>
+      <span class="card-desc">Procés d'elaboració d'un programa, JDK i NetBeans, primer projecte, estructura d'un programa Java, comentaris, tipus de dades, literals, variables, constants, operadors i conversions.</span>
       <div class="card-footer">
-        <span class="card-criteri">Criteri 1.1 a 1.9</span>
+        <span class="card-criteri">RA1 · CA 1.1 a 1.9 · 12 h</span>
         <span class="card-link">Obrir →</span>
       </div>
     </a>
 
-    <a class="card" href="aea1/A2_estructures_control.html">
+    <a class="card" href="aea1/A2_composicio_alternativa.html">
       <span class="card-badge">A2</span>
-      <span class="card-title">Estructures de control</span>
-      <span class="card-desc">Selecció (if/else, switch), repetició (while, for), salt (break, continue), esquemes de recorregut i cerca, excepcions i assercions.</span>
+      <span class="card-title">La composició alternativa</span>
+      <span class="card-desc">Alternatives simples, dobles, múltiples i niades, comparació de textos, operador ternari, switch clàssic i amb fletxa, casos de prova i depurador.</span>
       <div class="card-footer">
-        <span class="card-criteri">Criteri 3.1 a 3.9</span>
+        <span class="card-criteri">RA3 · CA 3.1, 3.5–3.7 · 9 h</span>
+        <span class="card-link">Obrir →</span>
+      </div>
+    </a>
+
+    <a class="card" href="aea1/A3_algorismes_iteratius.html">
+      <span class="card-badge">A3</span>
+      <span class="card-title">Disseny d'algorismes iteratius</span>
+      <span class="card-desc">Bucles while, do-while i for, esquemes de recorregut i cerca, bucles imbricats, break i continue, valors aleatoris, excepcions (també pròpies) i assercions.</span>
+      <div class="card-footer">
+        <span class="card-criteri">RA3 · CA 3.2 a 3.9 · 15 h</span>
         <span class="card-link">Obrir →</span>
       </div>
     </a>
