@@ -143,7 +143,6 @@
   <div class="hero-pills">
     <span class="pill">RA1</span>
     <span class="pill">CA 1.1 a 1.9</span>
-    <span class="pill">12 hores</span>
   </div>
 </header>
 <nav class="breadcrumb" aria-label="Ruta de navegació">
@@ -153,7 +152,7 @@
 </nav>
 <main>
 <div class="ra5-box">📌 <strong>Nota sobre l'entrada de dades:</strong> en aquesta activitat tots els valors s'escriuen directament al codi (<code>int edat = 25;</code>). Llegir dades del teclat amb <code>Scanner</code> s'estudiarà a l'<strong>RA5</strong>; de moment no el necessitem.</div>
-<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#proces">Com es construeix un programa</a></li><li><a href="#java">Java: JDK, JRE i JVM</a></li><li><a href="#installacio">Instal·lació del JDK i NetBeans</a></li><li><a href="#hola">Primer projecte: Hola Món</a></li><li><a href="#estructura">Estructura d'un programa Java</a></li><li><a href="#ide">L'entorn de desenvolupament</a></li><li><a href="#comentaris">Comentaris</a></li><li><a href="#tipus">Tipus de dades</a></li><li><a href="#literals">Literals</a></li><li><a href="#variables">Variables</a></li><li><a href="#constants">Constants</a></li><li><a href="#operadors">Operadors i expressions</a></li><li><a href="#conversions">Conversions de tipus</a></li><li><a href="#exercicis">Exercicis pràctics</a></li></ol></nav>
+<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#proces">Com es construeix un programa</a></li><li><a href="#java">Java: JDK, JRE i JVM</a></li><li><a href="#installacio">Instal·lació del JDK i NetBeans</a></li><li><a href="#hola">Primer projecte: Hola Món</a></li><li><a href="#estructura">Estructura d'un programa Java</a></li><li><a href="#ide">L'entorn de desenvolupament</a></li><li><a href="#comentaris">Comentaris</a></li><li><a href="#tipus">Tipus de dades</a></li><li><a href="#literals">Literals</a></li><li><a href="#variables">Variables</a></li><li><a href="#constants">Constants</a></li><li><a href="#operadors">Operadors i expressions</a></li><li><a href="#conversions">Conversions de tipus</a></li><li><a href="#sequencial">Composició seqüencial d'instruccions</a></li><li><a href="#exercicis">Exercicis pràctics</a></li></ol></nav>
 <h2 class="block-title" id="proces">1. Com es construeix un programa</h2>
 <p class="intro">Un <strong>programa</strong> és una seqüència d'instruccions que un ordinador executa per resoldre un problema. Abans d'escriure codi cal entendre bé el problema i dissenyar-ne la solució: <strong>primer es pensa, després es programa</strong>.</p>
 <div class="cards">
@@ -978,7 +977,84 @@ byte màxim: 127</pre></div>
 }</div>
 </div>
 <div class="info-box">📌 Si el text no representa un número (per exemple <code>Integer.parseInt("hola")</code>), el programa s'atura amb una <code>NumberFormatException</code>. A l'<strong>A3</strong> aprendrem a controlar aquests errors amb <code>try-catch</code>.</div>
-<h2 class="block-title" id="exercicis">14. Exercicis pràctics</h2>
+<h2 class="block-title" id="sequencial">14. Composició seqüencial d'instruccions</h2>
+<p class="intro">La <strong>composició seqüencial</strong> és l'estructura més simple: les instruccions s'executen <strong>una rere l'altra</strong>, de dalt a baix, cadascuna una sola vegada. Tots els programes que hem fet fins ara són seqüencials. Tenen sempre tres parts: <strong>dades d'entrada → procés → sortida</strong>.</p>
+<div class="pseudo">ALGORISME PreuAmbIva
+  DADES:    preu = 25, IVA = 0.21        ← entrada
+  CÀLCUL:   total ← preu × (1 + IVA)     ← procés
+  ESCRIURE  "Total: ", total            ← sortida
+FI ALGORISME</div>
+<div class="sub-title">14.1 L'ordre de les instruccions importa</div>
+<p class="text">En un algorisme seqüencial, cada instrucció fa servir els valors que han deixat les anteriors. Si canviem l'ordre, el resultat canvia. L'exemple clàssic és <strong>intercanviar</strong> el valor de dues variables: cal una variable auxiliar.</p>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Intercanviar dues variables</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Intercanvi</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">5</span>;
+        <span class="kw">int</span> b = <span class="num">9</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Abans:   a = "</span> + a + <span class="str">", b = "</span> + b);
+
+        <span class="cmt">// Malament: a = b; b = a;  → les dues acabarien valent 9</span>
+        <span class="kw">int</span> aux = a;   <span class="cmt">// 1. guardem el valor d'a</span>
+        a = b;         <span class="cmt">// 2. a rep el valor de b</span>
+        b = aux;       <span class="cmt">// 3. b rep el valor original d'a</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Després: a = "</span> + a + <span class="str">", b = "</span> + b);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Abans:   a = 5, b = 9
+Després: a = 9, b = 5</pre></div>
+</div>
+<div class="sub-title">14.2 Sortida per pantalla i seqüències d'escapament</div>
+<p class="text"><code>print</code> i <code>println</code> accepten qualsevol expressió i la converteixen automàticament a text. Cada instrucció escriu just on s'ha quedat l'anterior. Dins d'un text, la contrabarra <code>\</code> introdueix una <strong>seqüència d'escapament</strong>:</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Seqüència</th><th>Què representa</th></tr></thead>
+    <tbody>
+      <tr><td><code>\n</code></td><td>Salt de línia</td></tr>
+      <tr><td><code>\t</code></td><td>Tabulació</td></tr>
+      <tr><td><code>\'</code></td><td>Cometa simple (<code>'</code>)</td></tr>
+      <tr><td><code>\"</code></td><td>Cometes dobles (<code>"</code>) dins d'un text</td></tr>
+      <tr><td><code>\\</code></td><td>Contrabarra (<code>\</code>)</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>print, println i seqüències d'escapament</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">SortidaPantalla</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Hola "</span>);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"a tothom"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>();                         <span class="cmt">// només salta de línia</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte\tPreu"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Llibreta\t2.4 €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Diu: \"Aprendre Java és divertit\""</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ruta: C:\\Usuaris\\alumne"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Línia 1\nLínia 2"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">3</span> + <span class="num">4</span>);                     <span class="cmt">// expressió numèrica: 7</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">'a'</span>);                       <span class="cmt">// caràcter</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Hola a tothom
+Producte	Preu
+Llibreta	2.4 €
+Diu: &quot;Aprendre Java és divertit&quot;
+Ruta: C:\Usuaris\alumne
+Línia 1
+Línia 2
+7
+a</pre></div>
+</div>
+<h2 class="block-title" id="exercicis">15. Exercicis pràctics</h2>
 <p class="intro">Exercicis ordenats de menys a més dificultat. Abans de programar, escriu l'algorisme en paper (dades, càlculs, sortida). Quan acabis, compara la sortida del teu programa amb la <strong>sortida esperada</strong> i, finalment, consulta la solució.</p>
 <div class="exercici-card">
   <div class="exercici-header">
@@ -1367,6 +1443,67 @@ Té descompte: true</pre></div>
 <div class="exercici-card">
   <div class="exercici-header">
     <span class="exercici-num">Ex. 8</span>
+    <span class="exercici-title">Les edats de la família</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Una família té 6 membres: dos germans (Joan i Marta), els dos pares i els dos avis materns. Sabem que:</p>
+    <ul class="exercici-tasques">
+      <li>L'avi té sis vegades l'edat de la Marta.</li>
+      <li>L'àvia té la suma de les edats dels pares menys l'edat de la Marta.</li>
+      <li>L'edat del Joan és el residu (mòdul) de dividir l'edat del pare entre la de la Marta.</li>
+      <li>L'edat de la mare és el triple de l'edat de la Marta més l'edat del Joan.</li>
+      <li>L'edat del pare és el resultat de multiplicar per 6 la divisió entera entre l'edat de l'avi i la de la Marta.</li>
+      <li>La Marta té 10 anys.</li>
+      <li>Calcula i mostra totes les edats. <strong>Pensa en quin ordre</strong> has de fer els càlculs: no és el mateix ordre de l'enunciat.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Marta: 10 anys
+Joan: 6 anys
+Pare: 36 anys
+Mare: 36 anys
+Avi: 60 anys
+Àvia: 62 anys</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 1.5 · 1.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EdatsFamilia</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Només coneixem l'edat de la Marta: la resta depèn d'altres edats,</span>
+        <span class="cmt">// així que cal calcular-les en l'ordre en què es necessiten</span>
+        <span class="kw">int</span> marta = <span class="num">10</span>;
+        <span class="kw">int</span> avi = <span class="num">6</span> * marta;               <span class="cmt">// 60</span>
+        <span class="kw">int</span> pare = <span class="num">6</span> * (avi / marta);      <span class="cmt">// 36 (necessita l'avi)</span>
+        <span class="kw">int</span> joan = pare % marta;           <span class="cmt">// 6  (necessita el pare)</span>
+        <span class="kw">int</span> mare = <span class="num">3</span> * marta + joan;       <span class="cmt">// 36 (necessita el Joan)</span>
+        <span class="kw">int</span> avia = pare + mare - marta;    <span class="cmt">// 62 (necessita pare i mare)</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Marta: "</span> + marta + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Joan: "</span> + joan + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pare: "</span> + pare + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mare: "</span> + mare + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Avi: "</span> + avi + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àvia: "</span> + avia + <span class="str">" anys"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els càlculs segueixen l'ordre de dependències (avi → pare → Joan → mare → àvia).</li><li>Es fan servir la divisió entera <code>/</code> i el residu <code>%</code> com demana l'enunciat.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 9</span>
     <span class="exercici-title">Les xifres d'un número</span>
     <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
   </div>
@@ -1419,7 +1556,7 @@ Invertit: 5472</pre></div>
 </div>
 <div class="exercici-card">
   <div class="exercici-header">
-    <span class="exercici-num">Ex. 9</span>
+    <span class="exercici-num">Ex. 10</span>
     <span class="exercici-title">Caixer automàtic: bitllets i monedes</span>
     <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
   </div>
@@ -1479,7 +1616,7 @@ Monedes d&#x27;1: 0</pre></div>
 </div>
 <div class="exercici-card">
   <div class="exercici-header">
-    <span class="exercici-num">Ex. 10</span>
+    <span class="exercici-num">Ex. 11</span>
     <span class="exercici-title">Troba i corregeix els errors</span>
     <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
   </div>

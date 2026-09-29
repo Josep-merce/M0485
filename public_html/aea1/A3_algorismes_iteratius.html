@@ -143,7 +143,6 @@
   <div class="hero-pills">
     <span class="pill">RA3</span>
     <span class="pill">CA 3.2 a 3.9</span>
-    <span class="pill">15 hores</span>
   </div>
 </header>
 <nav class="breadcrumb" aria-label="Ruta de navegació">
@@ -461,6 +460,103 @@ SI trobat LLAVORS ... SINÓ ... FI SI</div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>El divisor més petit de 391 és 17</pre></div>
 </div>
 <div class="tip-box">💡 La diferència clau: un <strong>recorregut</strong> sempre arriba al final; una <strong>cerca</strong> s'atura tan bon punt troba el que busca. La variable booleana <code>trobat</code> fa que la condició del bucle ho reflecteixi de manera clara.</div>
+<div class="sub-title">5.3 Seqüències acabades en un valor sentinella</div>
+<p class="text">Sovint les dades arriben <strong>una a una</strong> i no sabem quantes n'hi haurà. Llavors es fa servir un <strong>valor sentinella</strong>: un valor especial (per exemple <code>-1</code>) que indica que la seqüència s'ha acabat i que <strong>no s'ha de tractar</strong> com una dada més. L'esquema fa una <strong>lectura avançada</strong>: es llegeix el primer valor abans del bucle i el següent al final de cada iteració.</p>
+<div class="pseudo">LLEGIR x                              ← lectura avançada
+MENTRE x ≠ -1 FER
+    tractar x                         ← sumar, comptar, comparar…
+    LLEGIR x                          ← llegim el següent al final
+FI MENTRE</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Recorregut d'una seqüència: quantitat, suma, màxim i mínim</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaRecorregut</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> maxim = <span class="cls">Integer</span>.MIN_VALUE;   <span class="cmt">// qualsevol valor serà més gran</span>
+        <span class="kw">int</span> minim = <span class="cls">Integer</span>.MAX_VALUE;   <span class="cmt">// qualsevol valor serà més petit</span>
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());          <span class="cmt">// lectura avançada</span>
+
+        <span class="kw">while</span> (x != SENTINELLA) {
+            quantitat++;
+            suma += x;
+            <span class="kw">if</span> (x &gt; maxim) {
+                maxim = x;
+            }
+            <span class="kw">if</span> (x &lt; minim) {
+                minim = x;
+            }
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+            x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());          <span class="cmt">// següent valor</span>
+        }
+
+        <span class="kw">if</span> (quantitat == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No s'ha introduït cap número."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quantitat: "</span> + quantitat + <span class="str">" · Suma: "</span> + suma
+                    + <span class="str">" · Màxim: "</span> + maxim + <span class="str">" · Mínim: "</span> + minim);
+        }
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (-1 per acabar): 7
+Número (-1 per acabar): 12
+Número (-1 per acabar): 3
+Número (-1 per acabar): -1
+Quantitat: 3 · Suma: 22 · Màxim: 12 · Mínim: 3</pre></div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Cerca en una seqüència: hi ha algun múltiple de 5?</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaCerca</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+
+        <span class="cmt">// Ens aturem si arriba el sentinella O si ja l'hem trobat</span>
+        <span class="kw">while</span> (x != SENTINELLA &amp;&amp; !trobat) {
+            <span class="kw">if</span> (x % <span class="num">5</span> == <span class="num">0</span>) {
+                trobat = <span class="kw">true</span>;
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+                x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            }
+        }
+
+        <span class="kw">if</span> (trobat) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sí: el "</span> + x + <span class="str">" és múltiple de 5."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha cap múltiple de 5."</span>);
+        }
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (-1 per acabar): 8
+Número (-1 per acabar): 13
+Número (-1 per acabar): 25
+Sí: el 25 és múltiple de 5.</pre></div>
+</div>
+<div class="warn-box">⚠️ <strong>Errors típics amb sentinelles:</strong> tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div>
 <h2 class="block-title" id="imbricats">6. Bucles imbricats</h2>
 <p class="intro">Un bucle pot contenir un altre bucle. El bucle intern es fa <strong>complet</strong> a cada iteració de l'extern: si l'extern fa 5 voltes i l'intern 4, el cos intern s'executa 20 vegades.</p>
 <div class="exemple">

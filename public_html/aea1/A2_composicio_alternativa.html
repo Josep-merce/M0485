@@ -143,7 +143,6 @@
   <div class="hero-pills">
     <span class="pill">RA3</span>
     <span class="pill">CA 3.1 · 3.5 · 3.6 · 3.7</span>
-    <span class="pill">9 hores</span>
   </div>
 </header>
 <nav class="breadcrumb" aria-label="Ruta de navegació">
@@ -997,6 +996,258 @@ Amb ternaris: 27</pre></div>
 <div class="exercici-card">
   <div class="exercici-header">
     <span class="exercici-num">Ex. 8</span>
+    <span class="exercici-title">Salari diari per torns</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Els treballadors d'una fàbrica fan torn diürn o nocturn. L'hora diürna es paga a 4 € i la nocturna a 6 €. Si el dia és diumenge, la tarifa s'incrementa 2 € per hora en el torn diürn i 3 € en el nocturn. Calcula el salari d'un dia.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int hores = 8;</code>, <code>char torn = 'N';</code> (<code>'D'</code> diürn, <code>'N'</code> nocturn) i <code>String dia = "diumenge";</code></li>
+      <li>Les tarifes i els increments han de ser constants.</li>
+      <li>Usa un <code>switch</code> per al torn i un <code>if</code> per al diumenge (compara el text amb <code>equalsIgnoreCase</code>).</li>
+      <li>Si el torn no és vàlid, mostra un missatge d'error.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>8 h en torn N (diumenge) a 9 €/h
+Salari del dia: 72 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">SalariTorns</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> TARIFA_DIURNA = <span class="num">4</span>;
+        <span class="kw">final</span> <span class="kw">int</span> TARIFA_NOCTURNA = <span class="num">6</span>;
+        <span class="kw">final</span> <span class="kw">int</span> PLUS_DIUMENGE_DIURN = <span class="num">2</span>;
+        <span class="kw">final</span> <span class="kw">int</span> PLUS_DIUMENGE_NOCTURN = <span class="num">3</span>;
+
+        <span class="kw">int</span> hores = <span class="num">8</span>;
+        <span class="kw">char</span> torn = <span class="str">'N'</span>;
+        <span class="cls">String</span> dia = <span class="str">"diumenge"</span>;
+
+        <span class="kw">boolean</span> esDiumenge = dia.<span class="fn">equalsIgnoreCase</span>(<span class="str">"diumenge"</span>);
+        <span class="kw">int</span> tarifa = <span class="num">0</span>;
+
+        <span class="kw">switch</span> (torn) {
+            <span class="kw">case</span> <span class="str">'D'</span>, <span class="str">'d'</span> -&gt; {
+                tarifa = TARIFA_DIURNA;
+                <span class="kw">if</span> (esDiumenge) {
+                    tarifa += PLUS_DIUMENGE_DIURN;
+                }
+            }
+            <span class="kw">case</span> <span class="str">'N'</span>, <span class="str">'n'</span> -&gt; {
+                tarifa = TARIFA_NOCTURNA;
+                <span class="kw">if</span> (esDiumenge) {
+                    tarifa += PLUS_DIUMENGE_NOCTURN;
+                }
+            }
+            <span class="kw">default</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn no vàlid: "</span> + torn);
+        }
+
+        <span class="kw">if</span> (tarifa &gt; <span class="num">0</span>) {
+            <span class="kw">int</span> salari = hores * tarifa;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(hores + <span class="str">" h en torn "</span> + torn + <span class="str">" ("</span> + dia + <span class="str">") a "</span> + tarifa + <span class="str">" €/h"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Salari del dia: "</span> + salari + <span class="str">" €"</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les tarifes són constants i l'increment de diumenge depèn del torn.</li><li>Es controla un torn no vàlid.</li><li>Proves: 8 h diürn dilluns → 32 €; 8 h diürn diumenge → 48 €.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 9</span>
+    <span class="exercici-title">Bits necessaris per escriure un número</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un enter entre 0 i 64 (inclosos), indica quants bits calen per escriure'l en binari. No es pot fer servir cap funció: només <code>if / else</code>, recordant que a cada potència de 2 cal un bit més.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int numero = 45;</code></li>
+      <li>Si el número és fora de l'interval 0–64, mostra un error.</li>
+      <li>Pista: el 0 i l'1 necessiten 1 bit; del 2 al 3, 2 bits; del 4 al 7, 3 bits…</li>
+      <li>Prova els valors frontera: 0, 1, 2, 3, 4, 31, 32, 63 i 64.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Per escriure el 45 en binari calen 6 bits</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">BitsNecessaris</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">45</span>;
+
+        <span class="kw">if</span> (numero &lt; <span class="num">0</span> || numero &gt; <span class="num">64</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: el número ha de ser entre 0 i 64."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="kw">int</span> bits;
+
+            <span class="cmt">// Cada potència de 2 (2, 4, 8, 16, 32, 64) necessita un bit més</span>
+            <span class="kw">if</span> (numero &lt; <span class="num">2</span>) {
+                bits = <span class="num">1</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">4</span>) {
+                bits = <span class="num">2</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">8</span>) {
+                bits = <span class="num">3</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">16</span>) {
+                bits = <span class="num">4</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">32</span>) {
+                bits = <span class="num">5</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">64</span>) {
+                bits = <span class="num">6</span>;
+            } <span class="kw">else</span> {
+                bits = <span class="num">7</span>;       <span class="cmt">// només el 64 (1000000)</span>
+            }
+
+            <span class="cls">String</span> unitat = (bits == <span class="num">1</span>) ? <span class="str">" bit"</span> : <span class="str">" bits"</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Per escriure el "</span> + numero + <span class="str">" en binari calen "</span> + bits + unitat);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les condicions aprofiten l'ordre de l'<code>else if</code> (no cal repetir el límit inferior).</li><li>S'han provat els valors frontera (sobretot 1–2, 31–32 i 63–64).</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 10</span>
+    <span class="exercici-title">El diumenge de Pasqua</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Calcula la data del diumenge de Pasqua d'un any amb aquest mètode:</p>
+    <ul class="exercici-tasques">
+      <li>a = any % 19; b = any % 4; c = any % 7</li>
+      <li>d = (19 · a + 24) % 30; e = (2 · b + 4 · c + 6 · d + 5) % 7</li>
+      <li>Si d + e &lt; 10, la Pasqua és el (22 + d + e) de març; si no, és el (d + e − 9) d'abril.</li>
+      <li>Declara <code>int any = 2026;</code> i comprova-ho també amb 2025 (20 d'abril) i 2027 (28 de març).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Pasqua 2026: 5 d&#x27;abril</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Pasqua</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> any = <span class="num">2026</span>;
+
+        <span class="kw">int</span> a = any % <span class="num">19</span>;
+        <span class="kw">int</span> b = any % <span class="num">4</span>;
+        <span class="kw">int</span> c = any % <span class="num">7</span>;
+        <span class="kw">int</span> d = (<span class="num">19</span> * a + <span class="num">24</span>) % <span class="num">30</span>;
+        <span class="kw">int</span> e = (<span class="num">2</span> * b + <span class="num">4</span> * c + <span class="num">6</span> * d + <span class="num">5</span>) % <span class="num">7</span>;
+
+        <span class="kw">if</span> (d + e &lt; <span class="num">10</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pasqua "</span> + any + <span class="str">": "</span> + (<span class="num">22</span> + d + e) + <span class="str">" de març"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pasqua "</span> + any + <span class="str">": "</span> + (d + e - <span class="num">9</span>) + <span class="str">" d'abril"</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les expressions reprodueixen exactament les fórmules (atenció als parèntesis).</li><li>Els parèntesis de <code>(22 + d + e)</code> eviten que es concateni com a text.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 11</span>
+    <span class="exercici-title">Major d'edat a partir de dues dates</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>A partir de la data de naixement d'una persona i de la data actual (dia, mes, any), calcula quants anys té i indica si és major d'edat.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int diaNaix = 15, mesNaix = 10, anyNaix = 2008;</code> i <code>int diaAct = 29, mesAct = 9, anyAct = 2026;</code></li>
+      <li>L'edat és la diferència d'anys, <strong>menys 1</strong> si aquest any encara no ha fet anys (el mes actual és anterior al de naixement, o és el mateix mes però el dia és anterior).</li>
+      <li>Prova-ho també amb l'aniversari just avui (15/10/2026).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 17 anys
+És menor d&#x27;edat.</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MajorEdat</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> MAJORIA_EDAT = <span class="num">18</span>;
+
+        <span class="kw">int</span> diaNaix = <span class="num">15</span>;
+        <span class="kw">int</span> mesNaix = <span class="num">10</span>;
+        <span class="kw">int</span> anyNaix = <span class="num">2008</span>;
+
+        <span class="kw">int</span> diaAct = <span class="num">29</span>;
+        <span class="kw">int</span> mesAct = <span class="num">9</span>;
+        <span class="kw">int</span> anyAct = <span class="num">2026</span>;
+
+        <span class="kw">int</span> edat = anyAct - anyNaix;
+
+        <span class="cmt">// Encara no ha fet anys aquest any?</span>
+        <span class="kw">boolean</span> noHaFetAnys = mesAct &lt; mesNaix || (mesAct == mesNaix &amp;&amp; diaAct &lt; diaNaix);
+        <span class="kw">if</span> (noHaFetAnys) {
+            edat--;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat + <span class="str">" anys"</span>);
+        <span class="kw">if</span> (edat &gt;= MAJORIA_EDAT) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És major d'edat."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És menor d'edat."</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es té en compte el mes i el dia, no només l'any.</li><li>El dia de l'aniversari ja compta com a any complert.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 12</span>
     <span class="exercici-title">Equació de segon grau</span>
     <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
   </div>
@@ -1061,7 +1312,7 @@ Amb ternaris: 27</pre></div>
 </div>
 <div class="exercici-card">
   <div class="exercici-header">
-    <span class="exercici-num">Ex. 9</span>
+    <span class="exercici-num">Ex. 13</span>
     <span class="exercici-title">Validar una data</span>
     <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
   </div>
@@ -1125,7 +1376,70 @@ Amb ternaris: 27</pre></div>
 </div>
 <div class="exercici-card">
   <div class="exercici-header">
-    <span class="exercici-num">Ex. 10</span>
+    <span class="exercici-num">Ex. 14</span>
+    <span class="exercici-title">La data del dia següent</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>A partir d'una data correcta (dia, mes, any), mostra la data del dia següent en format <code>dd/mm/aaaa</code>.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int dia = 28, mes = 2, any = 2028;</code></li>
+      <li>Calcula els dies del mes amb un <code>switch</code> (tenint en compte els anys de traspàs).</li>
+      <li>Si el dia és l'últim del mes, passa al dia 1 del mes següent; si és el 31 de desembre, a l'1 de gener de l'any següent.</li>
+      <li>Prova: 28/2/2028 → 29/02/2028; 28/2/2027 → 01/03/2027; 31/12/2026 → 01/01/2027; 15/6/2026 → 16/06/2026.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia següent: 29/02/2028</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiaSeguent</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> dia = <span class="num">28</span>;
+        <span class="kw">int</span> mes = <span class="num">2</span>;
+        <span class="kw">int</span> any = <span class="num">2028</span>;
+
+        <span class="kw">int</span> diesMes = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -&gt; <span class="num">30</span>;
+            <span class="kw">case</span> <span class="num">2</span> -&gt; ((any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>) ? <span class="num">29</span> : <span class="num">28</span>;
+            <span class="kw">default</span> -&gt; <span class="num">31</span>;
+        };
+
+        <span class="kw">if</span> (dia &lt; diesMes) {
+            dia++;                     <span class="cmt">// cas normal</span>
+        } <span class="kw">else</span> {
+            dia = <span class="num">1</span>;                   <span class="cmt">// era l'últim dia del mes</span>
+            <span class="kw">if</span> (mes &lt; <span class="num">12</span>) {
+                mes++;
+            } <span class="kw">else</span> {
+                mes = <span class="num">1</span>;               <span class="cmt">// era el 31 de desembre</span>
+                any++;
+            }
+        }
+
+        <span class="cls">String</span> dd = (dia &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + dia;
+        <span class="cls">String</span> mm = (mes &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + mes;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dia següent: "</span> + dd + <span class="str">"/"</span> + mm + <span class="str">"/"</span> + any);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es tracten els tres casos: dins del mes, canvi de mes i canvi d'any.</li><li>Febrer té en compte els anys de traspàs.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 15</span>
     <span class="exercici-title">Factura de la llum per trams</span>
     <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
   </div>
@@ -1198,6 +1512,182 @@ TOTAL: 80.85 €</pre></div>
 
 }</div>
       <div class="claus"><strong>✔ Què es valora</strong><ul><li>El càlcul per trams és correcte (no s'aplica el preu més car a tot el consum).</li><li>El recàrrec només apareix quan correspon.</li><li>Tots els valors fixos són constants documentades.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 16</span>
+    <span class="exercici-title">Classificador de notes amb conducta</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un programa rep la nota d'un alumne (0–10), si té conducta negativa i si ha fet recuperació, i mostra el resultat final segons aquestes regles:</p>
+    <ul class="exercici-tasques">
+      <li>Nota inferior a 0 o superior a 10 → missatge d'error.</li>
+      <li>Nota inferior a 5 → Suspès; però si ha fet recuperació i la nota és ≥ 4 → "Aprovat per recuperació".</li>
+      <li>De 5 a 6,9 → Aprovat; de 7 a 8,9 → Notable; 9 o més → Excel·lent.</li>
+      <li>Si la conducta és negativa, el resultat baixa un nivell: Excel·lent → Notable, Notable → Aprovat, Aprovat → "Suspès (per conducta)". Si ja era Suspès, es manté.</li>
+      <li>Declara <code>double nota = 9.1;</code>, <code>boolean conductaNegativa = true;</code>, <code>boolean recuperacio = false;</code> i comprova les cinc files de la taula de sota.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nota 9.1 → Notable</pre></div><p class="nota-sortida">Taula de proves: 4.2 / false / false → Suspès · 4.2 / false / true → Aprovat per recuperació · 6.5 / true / false → Suspès (per conducta) · 9.1 / false / false → Excel·lent · 9.1 / true / false → Notable.</p>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ClassificadorNotes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> nota = <span class="num">9.1</span>;
+        <span class="kw">boolean</span> conductaNegativa = <span class="kw">true</span>;
+        <span class="kw">boolean</span> recuperacio = <span class="kw">false</span>;
+
+        <span class="kw">if</span> (nota &lt; <span class="num">0</span> || nota &gt; <span class="num">10</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: la nota ha de ser entre 0 i 10."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="cmt">// 1. Nivell segons la nota: 0 = Suspès, 1 = Aprovat, 2 = Notable, 3 = Excel·lent</span>
+            <span class="kw">int</span> nivell;
+            <span class="kw">if</span> (nota &gt;= <span class="num">9</span>) {
+                nivell = <span class="num">3</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (nota &gt;= <span class="num">7</span>) {
+                nivell = <span class="num">2</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (nota &gt;= <span class="num">5</span>) {
+                nivell = <span class="num">1</span>;
+            } <span class="kw">else</span> {
+                nivell = <span class="num">0</span>;
+            }
+
+            <span class="cmt">// 2. La recuperació aprova les notes entre 4 i 5</span>
+            <span class="kw">boolean</span> perRecuperacio = nivell == <span class="num">0</span> &amp;&amp; recuperacio &amp;&amp; nota &gt;= <span class="num">4</span>;
+            <span class="kw">if</span> (perRecuperacio) {
+                nivell = <span class="num">1</span>;
+            }
+
+            <span class="cmt">// 3. La conducta negativa baixa un nivell (mínim Suspès)</span>
+            <span class="kw">boolean</span> baixaPerConducta = conductaNegativa &amp;&amp; nivell &gt; <span class="num">0</span>;
+            <span class="kw">if</span> (baixaPerConducta) {
+                nivell--;
+            }
+
+            <span class="cls">String</span> resultat = <span class="kw">switch</span> (nivell) {
+                <span class="kw">case</span> <span class="num">3</span> -&gt; <span class="str">"Excel·lent"</span>;
+                <span class="kw">case</span> <span class="num">2</span> -&gt; <span class="str">"Notable"</span>;
+                <span class="kw">case</span> <span class="num">1</span> -&gt; perRecuperacio ? <span class="str">"Aprovat per recuperació"</span> : <span class="str">"Aprovat"</span>;
+                <span class="kw">default</span> -&gt; baixaPerConducta ? <span class="str">"Suspès (per conducta)"</span> : <span class="str">"Suspès"</span>;
+            };
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota "</span> + nota + <span class="str">" → "</span> + resultat);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Convertir la qualificació en un nivell numèric simplifica "baixar un nivell".</li><li>Les regles s'apliquen en l'ordre correcte: nota → recuperació → conducta.</li><li>Es comproven les cinc files de la taula.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 17</span>
+    <span class="exercici-title">Signe del zodíac i estació de l'any</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un dia i un mes, valida la data i mostra el signe del zodíac, l'estació de l'any (hemisferi nord) i si la data és cúspide, és a dir, si és a ±1 dia d'un canvi de signe.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int dia = 20, mes = 4;</code>. Febrer admet fins al 29 (no hi ha any).</li>
+      <li>Signes (data d'inici): Aquari 20/1, Peixos 19/2, Àries 21/3, Taure 20/4, Bessons 21/5, Cranc 21/6, Lleó 23/7, Verge 23/8, Balança 23/9, Escorpí 23/10, Sagitari 22/11, Capricorn 22/12.</li>
+      <li>Estacions: Primavera des del 21/3, Estiu des del 21/6, Tardor des del 23/9, Hivern des del 21/12.</li>
+      <li>Pista: cada mes hi ha exactament un canvi de signe. Amb un <code>switch</code>, obtén el dia del canvi, el signe anterior i el signe nou d'aquell mes; després, compara el dia.</li>
+      <li>Prova: 20/4 (Taure, cúspide), 15/8 (Lleó), 31/4 (invàlida), 1/1 (Capricorn, Hivern).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Data: 20/4
+Signe: Taure (cúspide)
+Estació: Primavera</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ZodiacEstacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> dia = <span class="num">20</span>;
+        <span class="kw">int</span> mes = <span class="num">4</span>;
+
+        <span class="cmt">// 1. Validació (febrer admet el 29 perquè no sabem l'any)</span>
+        <span class="kw">int</span> diesMes = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">10</span>, <span class="num">12</span> -&gt; <span class="num">31</span>;
+            <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -&gt; <span class="num">30</span>;
+            <span class="kw">case</span> <span class="num">2</span> -&gt; <span class="num">29</span>;
+            <span class="kw">default</span> -&gt; <span class="num">0</span>;
+        };
+
+        <span class="kw">if</span> (diesMes == <span class="num">0</span> || dia &lt; <span class="num">1</span> || dia &gt; diesMes) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data no vàlida: "</span> + dia + <span class="str">"/"</span> + mes);
+        } <span class="kw">else</span> {
+
+            <span class="cmt">// 2. Cada mes té un canvi de signe: dia del canvi, signe abans i signe després</span>
+            <span class="kw">int</span> diaCanvi;
+            <span class="cls">String</span> signeAbans;
+            <span class="cls">String</span> signeDespres;
+            <span class="kw">switch</span> (mes) {
+                <span class="kw">case</span> <span class="num">1</span> -&gt; { diaCanvi = <span class="num">20</span>; signeAbans = <span class="str">"Capricorn"</span>; signeDespres = <span class="str">"Aquari"</span>; }
+                <span class="kw">case</span> <span class="num">2</span> -&gt; { diaCanvi = <span class="num">19</span>; signeAbans = <span class="str">"Aquari"</span>; signeDespres = <span class="str">"Peixos"</span>; }
+                <span class="kw">case</span> <span class="num">3</span> -&gt; { diaCanvi = <span class="num">21</span>; signeAbans = <span class="str">"Peixos"</span>; signeDespres = <span class="str">"Àries"</span>; }
+                <span class="kw">case</span> <span class="num">4</span> -&gt; { diaCanvi = <span class="num">20</span>; signeAbans = <span class="str">"Àries"</span>; signeDespres = <span class="str">"Taure"</span>; }
+                <span class="kw">case</span> <span class="num">5</span> -&gt; { diaCanvi = <span class="num">21</span>; signeAbans = <span class="str">"Taure"</span>; signeDespres = <span class="str">"Bessons"</span>; }
+                <span class="kw">case</span> <span class="num">6</span> -&gt; { diaCanvi = <span class="num">21</span>; signeAbans = <span class="str">"Bessons"</span>; signeDespres = <span class="str">"Cranc"</span>; }
+                <span class="kw">case</span> <span class="num">7</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Cranc"</span>; signeDespres = <span class="str">"Lleó"</span>; }
+                <span class="kw">case</span> <span class="num">8</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Lleó"</span>; signeDespres = <span class="str">"Verge"</span>; }
+                <span class="kw">case</span> <span class="num">9</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Verge"</span>; signeDespres = <span class="str">"Balança"</span>; }
+                <span class="kw">case</span> <span class="num">10</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Balança"</span>; signeDespres = <span class="str">"Escorpí"</span>; }
+                <span class="kw">case</span> <span class="num">11</span> -&gt; { diaCanvi = <span class="num">22</span>; signeAbans = <span class="str">"Escorpí"</span>; signeDespres = <span class="str">"Sagitari"</span>; }
+                <span class="kw">default</span> -&gt; { diaCanvi = <span class="num">22</span>; signeAbans = <span class="str">"Sagitari"</span>; signeDespres = <span class="str">"Capricorn"</span>; }
+            }
+
+            <span class="cls">String</span> signe = (dia &gt;= diaCanvi) ? signeDespres : signeAbans;
+            <span class="kw">boolean</span> cuspide = <span class="cls">Math</span>.<span class="fn">abs</span>(dia - diaCanvi) &lt;= <span class="num">1</span>;
+
+            <span class="cmt">// 3. Estació: comparem el mes i el dia amb l'inici de cada estació</span>
+            <span class="cls">String</span> estacio;
+            <span class="kw">if</span> ((mes == <span class="num">3</span> &amp;&amp; dia &gt;= <span class="num">21</span>) || mes == <span class="num">4</span> || mes == <span class="num">5</span> || (mes == <span class="num">6</span> &amp;&amp; dia &lt; <span class="num">21</span>)) {
+                estacio = <span class="str">"Primavera"</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> ((mes == <span class="num">6</span> &amp;&amp; dia &gt;= <span class="num">21</span>) || mes == <span class="num">7</span> || mes == <span class="num">8</span> || (mes == <span class="num">9</span> &amp;&amp; dia &lt; <span class="num">23</span>)) {
+                estacio = <span class="str">"Estiu"</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> ((mes == <span class="num">9</span> &amp;&amp; dia &gt;= <span class="num">23</span>) || mes == <span class="num">10</span> || mes == <span class="num">11</span> || (mes == <span class="num">12</span> &amp;&amp; dia &lt; <span class="num">21</span>)) {
+                estacio = <span class="str">"Tardor"</span>;
+            } <span class="kw">else</span> {
+                estacio = <span class="str">"Hivern"</span>;
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data: "</span> + dia + <span class="str">"/"</span> + mes);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Signe: "</span> + signe + (cuspide ? <span class="str">" (cúspide)"</span> : <span class="str">""</span>));
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Estació: "</span> + estacio);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans de qualsevol altre càlcul.</li><li>El <code>switch</code> evita escriure 12 intervals de dates amb <code>if</code>.</li><li>La cúspide es detecta amb el valor absolut de la diferència amb el dia del canvi.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
     </div>
   </div>
 </div>

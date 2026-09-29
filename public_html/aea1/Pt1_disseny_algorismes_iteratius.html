@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pt1 — Disseny d'algorismes iteratius · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:600px; line-height:1.65; }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:3rem 2rem; }
+    .intro { font-size:.93rem; color:var(--text-soft); margin-bottom:1.25rem; max-width:720px; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:720px; }
+    .block-title { font-family:'Playfair Display',Georgia,serif; font-size:1.3rem; font-weight:700; color:var(--text); margin:2.75rem 0 1rem; padding-bottom:.5rem; border-bottom:2px solid var(--border); scroll-margin-top:1rem; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    /* Índex */
+    .toc { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:2rem; box-shadow:var(--shadow); }
+    .toc strong { font-size:.85rem; }
+    .toc ol { columns:2; column-gap:2rem; font-size:.84rem; padding-left:1.3rem; margin-top:.4rem; }
+    .toc a { color:var(--accent); text-decoration:none; }
+    .toc a:hover { text-decoration:underline; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avançat { background:#fee2e2; color:#991b1b; }
+    .code-block {
+      background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius);
+      padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace;
+      font-size:.84rem; line-height:1.75; overflow-x:auto;
+      margin:1rem 0 1.5rem; white-space:pre;
+    }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.5rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1.5rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; margin-top:-1rem; }
+    .exemple { margin:1.25rem 0 .25rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.83rem; font-weight:600; color:var(--text-soft); }
+    .info-box  { background:#eef6ff; border-left:4px solid #3b82f6; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#1e3a5f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
+    .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.65rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    tr:hover td { background:#fafafa; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; }
+    .code-block code, pre code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exercicis */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .btn-solucio {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--hero-bg); color:var(--text-hero);
+      border:none; border-radius:8px; padding:.5rem 1rem;
+      font-size:.82rem; font-weight:600; cursor:pointer;
+      transition:background .15s, transform .1s;
+      font-family:'Inter',system-ui,sans-serif;
+    }
+    .btn-solucio:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    /* Graella de criteris */
+    .ca-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem; margin-top:1rem; }
+    .ca-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); display:flex; gap:.75rem; align-items:flex-start; }
+    .ca-badge { background:var(--accent-bg); color:var(--accent); border-radius:6px; padding:.2rem .5rem; font-size:.72rem; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .ca-text { font-size:.82rem; color:var(--text-soft); line-height:1.45; }
+    /* Fonts i recursos */
+    .fonts-box { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); padding:1.25rem; margin-top:1rem; }
+    .fonts-box h3 { font-size:.95rem; font-weight:700; color:#6b21a8; margin-bottom:.75rem; }
+    .fonts-box ul { font-size:.85rem; color:var(--text-soft); padding-left:1.2rem; }
+    .fonts-box li { margin-bottom:.35rem; }
+    .fonts-box a { color:var(--accent); }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.5rem 1.5rem 2rem; }
+      main  { padding:2rem 1rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .ca-grid { grid-template-columns:1fr; }
+      .toc ol { columns:1; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · Programació estructurada</p>
+  <h1>Pt1 — Disseny d'algorismes iteratius</h1>
+  <p>Pràctica guiada de bucles imbricats: del diamant de mida n als diamants concatenats per nivells.</p>
+  <div class="hero-pills">
+    <span class="pill">RA3</span>
+    <span class="pill">CA 3.2 · 3.5 · 3.6 · 3.7</span>
+  </div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  Pt1 — Disseny d'algorismes iteratius
+</nav>
+<main>
+<div class="ra5-box">📌 <strong>Nota sobre Scanner:</strong> aquesta pràctica demana les dades a l'usuari amb <code>Scanner</code>, tal com a l'A3. L'entrada i sortida de dades s'estudiarà a fons a l'<strong>RA5</strong>.</div>
+<p class="intro">Pràctica guiada per posar en joc bucles imbricats, comptadors i variables que controlen altres bucles. Abans de programar, dibuixa les figures en paper quadriculat i busca la relació entre el número de fila i les posicions dels asteriscos.</p>
+<h2 class="block-title" id="pas-previ">1. Pas previ: el diamant</h2>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pas previ</span>
+    <span class="exercici-title">El diamant de mida n</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Dibuixa un diamant buit de mida <code>n</code> per a qualsevol valor de <code>n</code>. El valor s'ha de demanar a l'usuari.</p>
+    <ul class="exercici-tasques">
+      <li>El diamant té <code>2n − 1</code> files i <code>2n − 1</code> columnes.</li>
+      <li>Pensa cada fila segons la seva <strong>distància</strong> <code>d</code> a la punta: a la meitat superior <code>d</code> creix de 0 a <code>n − 1</code> i a la inferior decreix.</li>
+      <li>A cada fila hi ha <code>n − 1 − d</code> espais, un asterisc i, si <code>d &gt; 0</code>, <code>2d − 1</code> espais i un altre asterisc.</li>
+      <li>Exemple d'execució amb n = 4 (a sota de la targeta en tens un altre amb n = 3):</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Introdueix la mida del diamant: 4
+   *
+  * *
+ *   *
+*     *
+ *   *
+  * *
+   *</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.2 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Diamant</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la mida del diamant: "</span>);
+        <span class="kw">int</span> n = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+
+        <span class="cmt">// El diamant té 2n - 1 files</span>
+        <span class="kw">for</span> (<span class="kw">int</span> fila = <span class="num">0</span>; fila &lt; <span class="num">2</span> * n - <span class="num">1</span>; fila++) {
+
+            <span class="cmt">// Distància a la punta: creix fins a la fila central i després decreix</span>
+            <span class="kw">int</span> d = (fila &lt; n) ? fila : <span class="num">2</span> * n - <span class="num">2</span> - fila;
+
+            <span class="kw">for</span> (<span class="kw">int</span> e = <span class="num">0</span>; e &lt; n - <span class="num">1</span> - d; e++) {     <span class="cmt">// espais de l'esquerra</span>
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span>);
+            }
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"*"</span>);
+            <span class="kw">if</span> (d &gt; <span class="num">0</span>) {                               <span class="cmt">// les puntes només tenen un asterisc</span>
+                <span class="kw">for</span> (<span class="kw">int</span> e = <span class="num">0</span>; e &lt; <span class="num">2</span> * d - <span class="num">1</span>; e++) {  <span class="cmt">// espais interiors</span>
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span>);
+                }
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"*"</span>);
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        }
+
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El nombre de files i els espais depenen només de <code>n</code> i de la fila.</li><li>Les puntes (d = 0) tenen un sol asterisc.</li><li>Prova-ho amb n = 1, 2, 3 i 4.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="console"><div class="console-header">🖥️ Exemple d'execució amb n = 3</div><pre>Introdueix la mida del diamant: 3
+  *
+ * *
+*   *
+ * *
+  *</pre></div><h2 class="block-title" id="pt1">2. Exercici pràctic: diamants per nivells</h2>
+<div class="exercici-card">
+  <div class="exercici-header">
+    <span class="exercici-num">Pt1</span>
+    <span class="exercici-title">Diamants concatenats per nivells</span>
+    <span class="badge badge-avançat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Genera un patró de diamants concatenats verticalment, on cada nivell <strong>duplica</strong> el nombre de diamants del nivell anterior (1, 2, 4, 8…). Si només hi ha un nivell, el resultat és el del pas previ. El programa ha de demanar la mida del diamant i el nombre de nivells.</p>
+    <ul class="exercici-tasques">
+      <li>Reaprofita el codi del pas previ: ara cada fila d'un nivell repeteix el mateix tros de diamant tantes vegades com diamants té el nivell.</li>
+      <li>Els diamants d'una mateixa fila se separen amb <strong>un espai</strong>, de manera que cada diamant ocupa <code>2n</code> columnes (2n − 1 del diamant + 1 de separació).</li>
+      <li>Fes servir una variable <code>diamants</code> que comenci a 1 i es multipliqui per 2 en acabar cada nivell.</li>
+      <li>Estructura: bucle de nivells → bucle de files → bucle de diamants → bucles d'espais i asteriscos.</li>
+      <li>Exemple d'execució amb mida 4 i 2 nivells (a sota de la targeta en tens un altre amb mida 3 i 3 nivells):</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Introdueix la mida del diamant: 4
+Introdueix el nombre de nivells: 2
+   *
+  * *
+ *   *
+*     *
+ *   *
+  * *
+   *
+   *       *
+  * *     * *
+ *   *   *   *
+*     * *     *
+ *   *   *   *
+  * *     * *
+   *       *</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avançat">Avançat</span>
+    <span style="font-size:.82rem;color:var(--text-soft);">CA: 3.2 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiamantsNivells</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la mida del diamant: "</span>);
+        <span class="kw">int</span> n = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix el nombre de nivells: "</span>);
+        <span class="kw">int</span> nivells = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+
+        <span class="kw">int</span> diamants = <span class="num">1</span>;                               <span class="cmt">// diamants del nivell actual</span>
+
+        <span class="kw">for</span> (<span class="kw">int</span> nivell = <span class="num">1</span>; nivell &lt;= nivells; nivell++) {
+
+            <span class="kw">for</span> (<span class="kw">int</span> fila = <span class="num">0</span>; fila &lt; <span class="num">2</span> * n - <span class="num">1</span>; fila++) {
+
+                <span class="kw">int</span> d = (fila &lt; n) ? fila : <span class="num">2</span> * n - <span class="num">2</span> - fila;
+
+                <span class="cmt">// Repetim el tros de diamant d'aquesta fila per a cada diamant del nivell</span>
+                <span class="kw">for</span> (<span class="kw">int</span> k = <span class="num">1</span>; k &lt;= diamants; k++) {
+
+                    <span class="kw">for</span> (<span class="kw">int</span> e = <span class="num">0</span>; e &lt; n - <span class="num">1</span> - d; e++) {        <span class="cmt">// espais de l'esquerra</span>
+                        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span>);
+                    }
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"*"</span>);
+                    <span class="kw">if</span> (d &gt; <span class="num">0</span>) {
+                        <span class="kw">for</span> (<span class="kw">int</span> e = <span class="num">0</span>; e &lt; <span class="num">2</span> * d - <span class="num">1</span>; e++) {    <span class="cmt">// espais interiors</span>
+                            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span>);
+                        }
+                        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"*"</span>);
+                    }
+
+                    <span class="cmt">// Si no és l'últim diamant: espais de la dreta + 1 de separació</span>
+                    <span class="kw">if</span> (k &lt; diamants) {
+                        <span class="kw">for</span> (<span class="kw">int</span> e = <span class="num">0</span>; e &lt; n - <span class="num">1</span> - d + <span class="num">1</span>; e++) {
+                            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span>);
+                        }
+                    }
+
+                }
+                <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+            }
+
+            diamants *= <span class="num">2</span>;                              <span class="cmt">// el nivell següent en té el doble</span>
+
+        }
+
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El pas previ s'ha reutilitzat sense duplicar la lògica del diamant.</li><li>El nombre de diamants es dobla a cada nivell.</li><li>La separació entre diamants és d'un sol espai.</li><li>El codi està sagnat i comentat: amb quatre bucles imbricats, és imprescindible.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="console"><div class="console-header">🖥️ Exemple d'execució amb mida 3 i 3 nivells</div><pre>Introdueix la mida del diamant: 3
+Introdueix el nombre de nivells: 3
+  *
+ * *
+*   *
+ * *
+  *
+  *     *
+ * *   * *
+*   * *   *
+ * *   * *
+  *     *
+  *     *     *     *
+ * *   * *   * *   * *
+*   * *   * *   * *   *
+ * *   * *   * *   * *
+  *     *     *     *</pre></div>
+</main>
+
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+
+<script>
+  function toggleSolucio(btn) {
+    const wrap = btn.closest('.solucio-wrap');
+    const body = wrap.querySelector('.solucio-body');
+    const isOpen = body.classList.contains('visible');
+    body.classList.toggle('visible', !isOpen);
+    btn.classList.toggle('obert', !isOpen);
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    btn.querySelector('.label').textContent = isOpen ? 'Veure solució' : 'Amagar solució';
+  }
+</script>
+</body>
+</html>
