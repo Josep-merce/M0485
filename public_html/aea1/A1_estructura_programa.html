@@ -204,6 +204,8 @@ FinAlgoritmo</div>
         <span class="kw">int</span> perimetre = <span class="num">2</span> * (base + altura);
 
         <span class="cmt">// Sortida</span>
+        <span class="cmt">// System.out.println: escriu per pantalla el que hi ha entre parèntesis i després salta de línia</span>
+        <span class="cmt">// El + uneix el text entre cometes amb el valor de la variable</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Perímetre: "</span> + perimetre);
 
@@ -307,6 +309,21 @@ Benvinguts al curs!</pre></div>
     </tbody>
   </table>
 </div>
+<div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte.</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Nivell</th><th>On és</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Paquet</strong></td><td><code>java.time</code>, l'API de dates i hores (existeix des de Java 8).</td></tr>
+      <tr><td><strong>Mòdul</strong></td><td><code>java.base</code>, el mòdul bàsic que tot programa Java té disponible.</td></tr>
+      <tr><td><strong>Fitxer físic</strong></td><td>Dins el JDK, compilada al fitxer <code>lib/modules</code> de la carpeta d'instal·lació (per exemple <code>C:\Program Files\Java\jdk-21\lib\modules</code>).</td></tr>
+      <tr><td><strong>Documentació oficial</strong></td><td><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/LocalDate.html" target="_blank" rel="noopener">docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/LocalDate.html</a></td></tr>
+    </tbody>
+  </table>
+</div>
+<p class="text">L'<code>import java.time.LocalDate;</code> només diu al compilador <strong>en quin paquet ha de buscar la classe</strong>. Sense aquest <code>import</code> el programa també compilaria si s'escrivís el nom complet: <code>java.time.LocalDate.now()</code>.</p>
+<div class="info-box">📌 <strong>Excepció: el paquet <code>java.lang</code>.</strong> Les classes d'aquest paquet (<code>String</code>, <code>System</code>, <code>Math</code>, <code>Integer</code>…) no necessiten <code>import</code> perquè Java les importa automàticament. Per això <code>System.out.println</code> funciona sense cap <code>import</code>.</div>
+<div class="tip-box">💡 <strong>Per veure-ho a NetBeans:</strong> fes <kbd>Ctrl</kbd> + clic sobre <code>LocalDate</code> i s'obrirà el codi font de la classe. Amb <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>Espai</kbd> sobre el nom en veuràs la documentació.</div>
 <div class="warn-box">⚠️ <strong>Java distingeix majúscules i minúscules:</strong> <code>System</code> i <code>system</code> no són el mateix. <code>String</code> va amb majúscula; <code>int</code> i <code>double</code>, en minúscula.</div>
 <div class="sub-title">Imprimir per pantalla</div>
 <div class="table-wrap">
