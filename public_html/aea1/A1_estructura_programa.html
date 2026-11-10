@@ -163,18 +163,30 @@
   <div class="card"><span class="card-num">5</span><span class="card-title">Prova i depuració</span><span class="card-desc">Executem el programa amb diferents valors i comprovem que el resultat és correcte. Si no ho és, busquem l'error.</span></div>
 </div>
 <div class="sub-title">Exemple: calcular l'àrea i el perímetre d'un rectangle</div>
-<p class="text">Primer escrivim l'algorisme en <strong>pseudocodi</strong> (llenguatge natural estructurat):</p>
-<div class="pseudo">ALGORISME Rectangle
-  DADES: base = 8, altura = 5
-  àrea      ← base × altura
-  perímetre ← 2 × (base + altura)
-  ESCRIURE àrea, perímetre
-FI ALGORISME</div>
+<p class="text">Primer escrivim l'algorisme en <strong>pseudocodi</strong> (llenguatge natural estructurat) amb <strong>PSeInt</strong>:</p>
+<div class="pseudo">Algoritmo Rectangle
+    // Declaració de variables
+    Definir base, altura, area, perimetre Como Entero
+
+    // Dades d'entrada
+    base &lt;- 8
+    altura &lt;- 5
+
+    // Càlculs
+    area &lt;- base * altura
+    perimetre &lt;- 2 * (base + altura)
+
+    // Sortida
+    Escribir "Àrea: ", area
+    Escribir "Perímetre: ", perimetre
+FinAlgoritmo</div>
 <p class="text">Després el traduïm a Java. Aquest tipus d'algorisme, en què les instruccions s'executen una rere l'altra de dalt a baix, s'anomena <strong>composició seqüencial</strong>.</p>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>De l'algorisme al codi Java</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Rectangle</span> {
+  <div class="code-block"><span class="cmt">// Classe Rectangle: el nom ha de coincidir amb el del fitxer (Rectangle.java)</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Rectangle</span> {
 
+    <span class="cmt">// Mètode main: punt d'entrada, és el primer que s'executa en arrencar el programa</span>
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="cmt">// Dades d'entrada</span>
