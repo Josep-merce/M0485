@@ -75,6 +75,10 @@
     .tip-box   { background:#fefce8; border-left:4px solid #f59e0b; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#78350f; margin:1rem 0 1.5rem; line-height:1.6; }
     .warn-box  { background:#fff7ed; border-left:4px solid #ef4444; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#7f1d1d; margin:1rem 0 1.5rem; line-height:1.6; }
     .ra5-box   { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; line-height:1.6; }
+    th.ps { background:#5b4334; }
+    td.ps { background:#fbf7f2; }
+    td.ps code { color:#7c4a1e; background:#f1e6d8; }
+    .ps-no { color:#a89f9a; }
     .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
     table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
     th { background:var(--hero-bg); color:var(--text-hero); padding:.7rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
@@ -152,7 +156,7 @@
 </nav>
 <main>
 <div class="ra5-box">📌 <strong>Nota sobre l'entrada de dades:</strong> en aquesta activitat tots els valors s'escriuen directament al codi (<code>int edat = 25;</code>). Llegir dades del teclat amb <code>Scanner</code> s'estudiarà a l'<strong>RA5</strong>; de moment no el necessitem.</div>
-<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#proces">Com es construeix un programa</a></li><li><a href="#java">Java: JDK, JRE i JVM</a></li><li><a href="#installacio">Instal·lació del JDK i NetBeans</a></li><li><a href="#hola">Primer projecte: Hola Món</a></li><li><a href="#estructura">Estructura d'un programa Java</a></li><li><a href="#ide">L'entorn de desenvolupament</a></li><li><a href="#comentaris">Comentaris</a></li><li><a href="#tipus">Tipus de dades</a></li><li><a href="#literals">Literals</a></li><li><a href="#variables">Variables</a></li><li><a href="#constants">Constants</a></li><li><a href="#operadors">Operadors i expressions</a></li><li><a href="#conversions">Conversions de tipus</a></li><li><a href="#sequencial">Composició seqüencial d'instruccions</a></li><li><a href="#exercicis">Exercicis pràctics</a></li></ol></nav>
+<nav class="toc" aria-label="Índex de l'activitat"><strong>Continguts</strong><ol><li><a href="#proces">Com es construeix un programa</a></li><li><a href="#java">Java: JDK, JRE i JVM</a></li><li><a href="#installacio">Instal·lació del JDK i NetBeans</a></li><li><a href="#hola">Primer projecte: Hola Món</a></li><li><a href="#estructura">Estructura d'un programa Java</a></li><li><a href="#comentaris">Comentaris</a></li><li><a href="#tipus">Tipus de dades</a></li><li><a href="#literals">Literals</a></li><li><a href="#variables">Variables</a></li><li><a href="#constants">Constants</a></li><li><a href="#operadors">Operadors i expressions</a></li><li><a href="#conversions">Conversions de tipus</a></li><li><a href="#sequencial">Composició seqüencial d'instruccions</a></li><li><a href="#exercicis">Exercicis pràctics</a></li></ol></nav>
 <h2 class="block-title" id="proces">1. Com es construeix un programa</h2>
 <p class="intro">Un <strong>programa</strong> és una seqüència d'instruccions que un ordinador executa per resoldre un problema. Abans d'escriure codi cal entendre bé el problema i dissenyar-ne la solució: <strong>primer es pensa, després es programa</strong>.</p>
 <div class="cards">
@@ -296,80 +300,43 @@ Benvinguts al curs!</pre></div>
     }   <span class="cmt">// ← fi del mètode main</span>
 
 }   <span class="cmt">// ← fi de la classe</span></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Hola, Laia!
+Som a l'any 2026</pre></div>
+  <p class="nota-sortida">L'any surt de la data de l'ordinador: canvia segons quan executis el programa.</p>
 </div>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Bloc</th><th>Obligatori?</th><th>Funció</th></tr></thead>
+    <thead><tr><th>Bloc</th><th>Obligatori?</th><th>Funció</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>import</code></td><td>No</td><td>Permet usar classes de llibreries de Java (<code>java.time</code>, <code>java.util</code>…).</td></tr>
-      <tr><td><code>public class Nom { }</code></td><td>Sí</td><td>Conté tot el programa. El fitxer s'ha de dir exactament <code>Nom.java</code> (majúscules incloses).</td></tr>
-      <tr><td><code>public static void main(String[] args)</code></td><td>Sí (per executar)</td><td>Punt d'inici. Java executa les instruccions del <code>main</code> de dalt a baix.</td></tr>
-      <tr><td>Claus <code>{ }</code></td><td>Sí</td><td>Delimiten blocs de codi. Cada <code>{</code> ha de tenir el seu <code>}</code>.</td></tr>
-      <tr><td>Instruccions</td><td>Sí</td><td>Ordres que fa el programa. Totes acaben en <code>;</code>.</td></tr>
+      <tr><td><code>import</code></td><td>No</td><td>Permet usar classes de llibreries de Java (<code>java.time</code>, <code>java.util</code>…).</td><td class="ps"><span class="ps-no">—</span> (no existeix)</td></tr>
+      <tr><td><code>public class Nom { }</code></td><td>Sí</td><td>Conté tot el programa. El fitxer s'ha de dir exactament <code>Nom.java</code> (majúscules incloses).</td><td class="ps"><code>Algoritmo Nom</code></td></tr>
+      <tr><td><code>public static void main(String[] args)</code></td><td>Sí (per executar)</td><td>Punt d'inici. Java executa les instruccions del <code>main</code> de dalt a baix.</td><td class="ps">El cos de l'<code>Algoritmo</code></td></tr>
+      <tr><td>Claus <code>{ }</code></td><td>Sí</td><td>Delimiten blocs de codi. Cada <code>{</code> ha de tenir el seu <code>}</code>.</td><td class="ps"><code>Algoritmo … FinAlgoritmo</code></td></tr>
+      <tr><td>Instruccions</td><td>Sí</td><td>Ordres que fa el programa. Totes acaben en <code>;</code>.</td><td class="ps">El <code>;</code> final és opcional</td></tr>
     </tbody>
   </table>
 </div>
 <div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte.</div>
-<div class="table-wrap">
-  <table>
-    <thead><tr><th>Nivell</th><th>On és</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Paquet</strong></td><td><code>java.time</code>, l'API de dates i hores (existeix des de Java 8).</td></tr>
-      <tr><td><strong>Mòdul</strong></td><td><code>java.base</code>, el mòdul bàsic que tot programa Java té disponible.</td></tr>
-      <tr><td><strong>Fitxer físic</strong></td><td>Dins el JDK, compilada al fitxer <code>lib/modules</code> de la carpeta d'instal·lació (per exemple <code>C:\Program Files\Java\jdk-21\lib\modules</code>).</td></tr>
-      <tr><td><strong>Documentació oficial</strong></td><td><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/LocalDate.html" target="_blank" rel="noopener" style="word-break:break-all">docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/LocalDate.html</a></td></tr>
-    </tbody>
-  </table>
-</div>
-<p class="text">L'<code>import java.time.LocalDate;</code> només diu al compilador <strong>en quin paquet ha de buscar la classe</strong>. Sense aquest <code>import</code> el programa també compilaria si s'escrivís el nom complet: <code>java.time.LocalDate.now()</code>.</p>
-<div class="info-box">📌 <strong>Excepció: el paquet <code>java.lang</code>.</strong> Les classes d'aquest paquet (<code>String</code>, <code>System</code>, <code>Math</code>, <code>Integer</code>…) no necessiten <code>import</code> perquè Java les importa automàticament. Per això <code>System.out.println</code> funciona sense cap <code>import</code>.</div>
-<div class="tip-box">💡 <strong>Per veure-ho a NetBeans:</strong> fes <kbd>Ctrl</kbd> + clic sobre <code>LocalDate</code> i s'obrirà el codi font de la classe. Amb <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>Espai</kbd> sobre el nom en veuràs la documentació.</div>
-<div class="warn-box">⚠️ <strong>Java distingeix majúscules i minúscules:</strong> <code>System</code> i <code>system</code> no són el mateix. <code>String</code> va amb majúscula; <code>int</code> i <code>double</code>, en minúscula.</div>
 <div class="sub-title">Imprimir per pantalla</div>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Instrucció</th><th>Què fa</th></tr></thead>
+    <thead><tr><th>Instrucció</th><th>Què fa</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>System.out.println(x)</code></td><td>Mostra <code>x</code> i fa un salt de línia.</td></tr>
-      <tr><td><code>System.out.print(x)</code></td><td>Mostra <code>x</code> sense saltar de línia.</td></tr>
-      <tr><td><code>"\n"</code> dins un text</td><td>Salt de línia dins d'una cadena.</td></tr>
-      <tr><td><code>"\t"</code> dins un text</td><td>Tabulació.</td></tr>
+      <tr><td><code>System.out.println(x)</code></td><td>Mostra <code>x</code> i fa un salt de línia.</td><td class="ps"><code>Escribir x</code></td></tr>
+      <tr><td><code>System.out.print(x)</code></td><td>Mostra <code>x</code> sense saltar de línia.</td><td class="ps"><code>Escribir Sin Saltar x</code></td></tr>
+      <tr><td><code>"\n"</code> dins un text</td><td>Salt de línia dins d'una cadena.</td><td class="ps"><span class="ps-no">—</span> (un altre <code>Escribir</code>)</td></tr>
+      <tr><td><code>"\t"</code> dins un text</td><td>Tabulació.</td><td class="ps"><span class="ps-no">—</span></td></tr>
     </tbody>
   </table>
 </div>
-<h2 class="block-title" id="ide">6. L'entorn de desenvolupament (IDE)</h2>
-<p class="intro">Un <strong>IDE</strong> (Entorn de Desenvolupament Integrat) reuneix en una sola aplicació l'editor, el compilador, l'executor i el depurador.</p>
-<div class="table-wrap">
-  <table>
-    <thead><tr><th>Eina</th><th>Descripció</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Editor de codi</strong></td><td>Ressaltat de sintaxi i autocompletat (<kbd>Ctrl</kbd>+<kbd>Espai</kbd>). Escriu <code>sout</code> + <kbd>Tab</kbd> per obtenir <code>System.out.println("")</code>.</td></tr>
-      <tr><td><strong>Compilador integrat</strong></td><td>Els errors de compilació apareixen subratllats en vermell abans d'executar.</td></tr>
-      <tr><td><strong>Finestra Output</strong></td><td>Mostra la sortida del programa i els errors d'execució.</td></tr>
-      <tr><td><strong>Depurador</strong></td><td>Executa el programa pas a pas i permet veure el valor de les variables (el farem servir a l'A2 i l'A3).</td></tr>
-      <tr><td><strong>Formatar el codi</strong></td><td><kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd> ordena el sagnat automàticament.</td></tr>
-    </tbody>
-  </table>
-</div>
-<div class="table-wrap">
-  <table>
-    <thead><tr><th>Tipus d'error</th><th>Quan apareix</th><th>Exemple</th></tr></thead>
-    <tbody>
-      <tr><td><strong>De compilació</strong></td><td>Abans d'executar. El programa no arrenca.</td><td>Oblidar un <code>;</code>, escriure <code>Sytem</code>, assignar text a un <code>int</code>.</td></tr>
-      <tr><td><strong>D'execució</strong></td><td>Mentre s'executa. El programa s'atura.</td><td>Dividir un enter per zero.</td></tr>
-      <tr><td><strong>De lògica</strong></td><td>El programa funciona però el resultat és incorrecte.</td><td>Escriure <code>+</code> on calia <code>*</code>.</td></tr>
-    </tbody>
-  </table>
-</div>
-<h2 class="block-title" id="comentaris">7. Comentaris</h2>
+<h2 class="block-title" id="comentaris">6. Comentaris</h2>
 <p class="intro">Els comentaris són text que el compilador <strong>ignora</strong>. Serveixen per explicar el codi a les persones: companys, professorat o tu mateix d'aquí a uns mesos. Un bon comentari explica el <strong>per què</strong>, no el que ja es veu llegint el codi.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Tipus</th><th>Sintaxi</th><th>Quan usar-lo</th></tr></thead>
+    <thead><tr><th>Tipus</th><th>Sintaxi</th><th>Quan usar-lo</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><strong>Una línia</strong></td><td><code>// text</code></td><td>Notes curtes sobre una instrucció.</td></tr>
-      <tr><td><strong>Diverses línies</strong></td><td><code>/* text */</code></td><td>Explicar un bloc de codi o desactivar codi temporalment.</td></tr>
-      <tr><td><strong>Javadoc</strong></td><td><code>/** text */</code></td><td>Documentar classes i mètodes. L'eina <code>javadoc</code> genera pàgines web a partir d'aquests comentaris.</td></tr>
+      <tr><td><strong>Una línia</strong></td><td><code>// text</code></td><td>Notes curtes sobre una instrucció.</td><td class="ps"><code>// text</code></td></tr>
+      <tr><td><strong>Diverses línies</strong></td><td><code>/* text */</code></td><td>Explicar un bloc de codi o desactivar codi temporalment.</td><td class="ps"><span class="ps-no">—</span> (només <code>//</code>)</td></tr>
     </tbody>
   </table>
 </div>
@@ -385,6 +352,7 @@ Benvinguts al curs!</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Hola, món!</pre></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Comentari de bloc per explicar un càlcul</span></div>
@@ -404,63 +372,38 @@ Benvinguts al curs!</pre></div>
     }
 
 }</div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Comentari Javadoc per documentar una classe</span></div>
-  <div class="code-block"><span class="cmt">/**
- * Mostra per pantalla la fitxa d'un alumne del cicle DAW.
- *
- * @author Laia Puig
- * @version 1.0
- */</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">FitxaAlumne</span> {
-
-    <span class="cmt">/**
-     * Punt d'entrada del programa.
-     *
-     * @param args arguments de la línia d'ordres (no s'utilitzen)
-     */</span>
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">String</span> nom = <span class="str">"Laia Puig"</span>;
-        <span class="kw">int</span> curs = <span class="num">1</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" - "</span> + curs + <span class="str">"r DAW"</span>);
-
-    }
-
-}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Preu final: 43.56 €</pre></div>
 </div>
 <div class="tip-box">💡 <strong>Bon comentari vs mal comentari:</strong> <code>// multipliquem per 1.8</code> no aporta res (ja es veu al codi). <code>// convertim de Celsius a Fahrenheit</code> sí que ajuda. A NetBeans, <kbd>Ctrl</kbd>+<kbd>/</kbd> comenta o descomenta les línies seleccionades.</div>
-<h2 class="block-title" id="tipus">8. Tipus de dades</h2>
+<h2 class="block-title" id="tipus">7. Tipus de dades</h2>
 <p class="intro">Java és un llenguatge <strong>fortament tipat</strong>: cada variable té un tipus que determina quins valors pot guardar i quines operacions s'hi poden fer. Hi ha dos grans grups: els tipus <strong>primitius</strong> (valors simples) i els tipus <strong>de referència</strong> (objectes, com <code>String</code>).</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Tipus primitiu</th><th>Mida</th><th>Valors possibles</th><th>Exemple</th></tr></thead>
+    <thead><tr><th>Tipus primitiu</th><th>Mida</th><th>Valors possibles</th><th>Exemple</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>byte</code></td><td>8 bits</td><td>−128 a 127</td><td><code>byte b = 100;</code></td></tr>
-      <tr><td><code>short</code></td><td>16 bits</td><td>−32.768 a 32.767</td><td><code>short s = 30000;</code></td></tr>
-      <tr><td><code>int</code></td><td>32 bits</td><td>−2.147.483.648 a 2.147.483.647</td><td><code>int edat = 25;</code></td></tr>
-      <tr><td><code>long</code></td><td>64 bits</td><td>aprox. ±9,2 × 10<sup>18</sup></td><td><code>long poblacio = 8_000_000_000L;</code></td></tr>
-      <tr><td><code>float</code></td><td>32 bits</td><td>decimal, uns 7 dígits de precisió</td><td><code>float alcada = 1.75f;</code></td></tr>
-      <tr><td><code>double</code></td><td>64 bits</td><td>decimal, uns 15 dígits de precisió</td><td><code>double pi = 3.14159;</code></td></tr>
-      <tr><td><code>char</code></td><td>16 bits</td><td>un caràcter Unicode</td><td><code>char inicial = 'A';</code></td></tr>
-      <tr><td><code>boolean</code></td><td>—</td><td><code>true</code> o <code>false</code></td><td><code>boolean aprovat = true;</code></td></tr>
+      <tr><td><code>byte</code></td><td>8 bits</td><td>−128 a 127</td><td><code>byte b = 100;</code></td><td class="ps"><code>Entero</code></td></tr>
+      <tr><td><code>short</code></td><td>16 bits</td><td>−32.768 a 32.767</td><td><code>short s = 30000;</code></td><td class="ps"><code>Entero</code></td></tr>
+      <tr><td><code>int</code></td><td>32 bits</td><td>−2.147.483.648 a 2.147.483.647</td><td><code>int edat = 25;</code></td><td class="ps"><code>Entero</code></td></tr>
+      <tr><td><code>long</code></td><td>64 bits</td><td>aprox. ±9,2 × 10<sup>18</sup></td><td><code>long poblacio = 8_000_000_000L;</code></td><td class="ps"><code>Entero</code></td></tr>
+      <tr><td><code>float</code></td><td>32 bits</td><td>decimal, uns 7 dígits de precisió</td><td><code>float alcada = 1.75f;</code></td><td class="ps"><code>Real</code></td></tr>
+      <tr><td><code>double</code></td><td>64 bits</td><td>decimal, uns 15 dígits de precisió</td><td><code>double pi = 3.14159;</code></td><td class="ps"><code>Real</code></td></tr>
+      <tr><td><code>char</code></td><td>16 bits</td><td>un caràcter Unicode</td><td><code>char inicial = 'A';</code></td><td class="ps"><code>Caracter</code></td></tr>
+      <tr><td><code>boolean</code></td><td>—</td><td><code>true</code> o <code>false</code></td><td><code>boolean aprovat = true;</code></td><td class="ps"><code>Logico</code></td></tr>
     </tbody>
   </table>
 </div>
 <div class="tip-box">💡 <strong>Quin triar?</strong> Per a enters, usa <code>int</code> (i <code>long</code> si el número és molt gran). Per a decimals, usa <code>double</code>. Els altres tipus numèrics es fan servir en casos molt concrets.</div>
-<div class="info-box">📌 <strong>El tipus <code>String</code></strong> guarda text: <code>String nom = "Anna";</code>. S'escriu amb majúscula perquè no és un tipus primitiu sinó una <strong>classe</strong>. Treballarem les classes i els objectes a l'AEA2.</div>
+<div class="info-box">📌 <strong>El tipus <code>String</code></strong> guarda text: <code>String nom = "Anna";</code> (a PSeInt: <code>Definir nom Como Cadena</code>). S'escriu amb majúscula perquè no és un tipus primitiu sinó una <strong>classe</strong>. Treballarem les classes i els objectes a l'AEA2.</div>
 <div class="sub-title">Classes envoltants (wrapper)</div>
 <p class="text">Cada tipus primitiu té una classe associada amb utilitats. Ara les farem servir per consultar límits i per convertir text a número.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Primitiu</th><th>Classe envoltant</th><th>Utilitat</th></tr></thead>
+    <thead><tr><th>Primitiu</th><th>Classe envoltant</th><th>Utilitat</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>int</code></td><td><code>Integer</code></td><td><code>Integer.parseInt("42")</code>, <code>Integer.MAX_VALUE</code></td></tr>
-      <tr><td><code>double</code></td><td><code>Double</code></td><td><code>Double.parseDouble("3.14")</code></td></tr>
-      <tr><td><code>boolean</code></td><td><code>Boolean</code></td><td><code>Boolean.parseBoolean("true")</code></td></tr>
-      <tr><td><code>char</code></td><td><code>Character</code></td><td><code>Character.isDigit('7')</code></td></tr>
+      <tr><td><code>int</code></td><td><code>Integer</code></td><td><code>Integer.parseInt("42")</code>, <code>Integer.MAX_VALUE</code></td><td class="ps"><code>ConvertirANumero("42")</code></td></tr>
+      <tr><td><code>double</code></td><td><code>Double</code></td><td><code>Double.parseDouble("3.14")</code></td><td class="ps"><code>ConvertirANumero("3.14")</code></td></tr>
+      <tr><td><code>boolean</code></td><td><code>Boolean</code></td><td><code>Boolean.parseBoolean("true")</code></td><td class="ps"><span class="ps-no">—</span></td></tr>
+      <tr><td><code>char</code></td><td><code>Character</code></td><td><code>Character.isDigit('7')</code></td><td class="ps"><span class="ps-no">—</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -483,20 +426,20 @@ int mínim:  -2147483648
 long màxim: 9223372036854775807
 byte màxim: 127</pre></div>
 </div>
-<h2 class="block-title" id="literals">9. Literals</h2>
+<h2 class="block-title" id="literals">8. Literals</h2>
 <p class="intro">Un <strong>literal</strong> és un valor escrit directament al codi: <code>42</code>, <code>3.14</code>, <code>'A'</code>, <code>true</code> o <code>"Hola"</code>. El tipus del literal depèn de com l'escrivim.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Literal</th><th>Tipus</th><th>Exemples</th><th>Observacions</th></tr></thead>
+    <thead><tr><th>Literal</th><th>Tipus</th><th>Exemples</th><th>Observacions</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td>Enter</td><td><code>int</code></td><td><code>42</code> · <code>-7</code> · <code>1_000_000</code></td><td>El <code>_</code> només serveix per llegir millor.</td></tr>
-      <tr><td>Enter llarg</td><td><code>long</code></td><td><code>9_000_000_000L</code></td><td>Cal la <code>L</code> final si supera el rang d'<code>int</code>.</td></tr>
-      <tr><td>Decimal</td><td><code>double</code></td><td><code>3.14</code> · <code>1.5e3</code></td><td>Punt decimal, mai coma. <code>1.5e3</code> = 1500.0</td></tr>
-      <tr><td>Decimal curt</td><td><code>float</code></td><td><code>9.99f</code></td><td>Cal la <code>f</code> final.</td></tr>
-      <tr><td>Caràcter</td><td><code>char</code></td><td><code>'A'</code> · <code>'7'</code> · <code>'@'</code></td><td>Cometes <strong>simples</strong> i un sol caràcter.</td></tr>
-      <tr><td>Booleà</td><td><code>boolean</code></td><td><code>true</code> · <code>false</code></td><td>Sempre en minúscula.</td></tr>
-      <tr><td>Cadena</td><td><code>String</code></td><td><code>"Joan"</code> · <code>""</code></td><td>Cometes <strong>dobles</strong>. <code>"42"</code> és text, no un número.</td></tr>
-      <tr><td>Nul</td><td>referència</td><td><code>null</code></td><td>Indica "cap objecte". No es pot assignar a primitius.</td></tr>
+      <tr><td>Enter</td><td><code>int</code></td><td><code>42</code> · <code>-7</code> · <code>1_000_000</code></td><td>El <code>_</code> només serveix per llegir millor.</td><td class="ps"><code>42</code> · <code>-7</code></td></tr>
+      <tr><td>Enter llarg</td><td><code>long</code></td><td><code>9_000_000_000L</code></td><td>Cal la <code>L</code> final si supera el rang d'<code>int</code>.</td><td class="ps"><code>9000000000</code></td></tr>
+      <tr><td>Decimal</td><td><code>double</code></td><td><code>3.14</code> · <code>1.5e3</code></td><td>Punt decimal, mai coma. <code>1.5e3</code> = 1500.0</td><td class="ps"><code>3.14</code></td></tr>
+      <tr><td>Decimal curt</td><td><code>float</code></td><td><code>9.99f</code></td><td>Cal la <code>f</code> final.</td><td class="ps"><code>9.99</code></td></tr>
+      <tr><td>Caràcter</td><td><code>char</code></td><td><code>'A'</code> · <code>'7'</code> · <code>'@'</code></td><td>Cometes <strong>simples</strong> i un sol caràcter.</td><td class="ps"><code>'A'</code> o <code>"A"</code></td></tr>
+      <tr><td>Booleà</td><td><code>boolean</code></td><td><code>true</code> · <code>false</code></td><td>Sempre en minúscula.</td><td class="ps"><code>Verdadero</code> · <code>Falso</code></td></tr>
+      <tr><td>Cadena</td><td><code>String</code></td><td><code>"Joan"</code> · <code>""</code></td><td>Cometes <strong>dobles</strong>. <code>"42"</code> és text, no un número.</td><td class="ps"><code>"Joan"</code> o <code>'Joan'</code></td></tr>
+      <tr><td>Nul</td><td>referència</td><td><code>null</code></td><td>Indica "cap objecte". No es pot assignar a primitius.</td><td class="ps"><span class="ps-no">—</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -523,11 +466,17 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>3
+8000000000
+19.99
+J
+true
+La Mercè Market</pre></div>
 </div>
 <div class="warn-box">⚠️ <strong>Trampes freqüents:</strong> <code>float f = 3.14;</code> no compila (cal <code>3.14f</code>); <code>boolean b = True;</code> tampoc (és <code>true</code>); i <code>char c = "A";</code> és un error perquè les cometes dobles són per a <code>String</code>.</div>
-<h2 class="block-title" id="variables">10. Variables</h2>
+<h2 class="block-title" id="variables">9. Variables</h2>
 <p class="intro">Una <strong>variable</strong> és un espai de memòria amb un nom on guardem un valor que pot canviar durant l'execució. Té tres elements: <strong>tipus</strong>, <strong>nom</strong> i <strong>valor</strong>.</p>
-<div class="info-box">📌 <strong>Sintaxi:</strong><br><code>tipus nom;</code> → declaració<br><code>tipus nom = valor;</code> → declaració i inicialització<br><code>nom = nouValor;</code> → assignació d'un nou valor (sense repetir el tipus)</div>
+<div class="info-box">📌 <strong>Sintaxi:</strong><br><code>tipus nom;</code> → declaració<br><code>tipus nom = valor;</code> → declaració i inicialització<br><code>nom = nouValor;</code> → assignació d'un nou valor (sense repetir el tipus)<br><br>A PSeInt: <code>Definir nom Como Entero</code> i <code>nom &lt;- valor</code>. A Java la declaració i la primera assignació es poden fer en una sola línia, i l'assignació s'escriu amb <code>=</code> en lloc de <code>&lt;-</code>.</div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Declarar, inicialitzar i modificar variables</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Variables</span> {
@@ -554,6 +503,10 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Anna té 25 anys
+Any següent: 26 anys
+Grup B, actiu: true, salari: 1500.5</pre></div>
+  <p class="nota-sortida">Fixa't que <code>1500.50</code> es mostra com a <code>1500.5</code>: els zeros de la dreta no es mostren.</p>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Variables per a una reserva de vol</span></div>
@@ -575,6 +528,9 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Destinació: Barcelona - Tòquio
+Classe: E
+Total: 1749.0 €</pre></div>
 </div>
 <div class="sub-title">Normes i bones pràctiques per als noms</div>
 <div class="table-wrap">
@@ -610,18 +566,19 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Laia (22) ha pagat 9.99 €</pre></div>
 </div>
 <div class="warn-box">⚠️ <strong>Una variable local s'ha d'inicialitzar abans d'usar-la.</strong> Si declares <code>int total;</code> i després fas <code>System.out.println(total);</code> sense haver-li donat cap valor, el compilador mostra l'error <em>variable total might not have been initialized</em>.</div>
-<h2 class="block-title" id="constants">11. Constants</h2>
+<h2 class="block-title" id="constants">10. Constants</h2>
 <p class="intro">Una <strong>constant</strong> és un valor que no pot canviar un cop assignat. Es declara amb la paraula clau <code>final</code> i, per convenció, el nom s'escriu en <strong>MAJÚSCULES</strong> separant les paraules amb guió baix.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Característica</th><th>Variable</th><th>Constant</th></tr></thead>
+    <thead><tr><th>Característica</th><th>Variable</th><th>Constant</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td>Paraula clau</td><td>—</td><td><code>final</code></td></tr>
-      <tr><td>Pot canviar de valor</td><td>✔ Sí</td><td>✘ No (error de compilació)</td></tr>
-      <tr><td>Nomenclatura</td><td><code>preuFinal</code></td><td><code>IVA_GENERAL</code></td></tr>
-      <tr><td>Exemples</td><td>edat, comptador, total</td><td>IVA, dies de la setmana, nota mínima per aprovar</td></tr>
+      <tr><td>Paraula clau</td><td>—</td><td><code>final</code></td><td class="ps"><span class="ps-no">—</span> (no hi ha constants)</td></tr>
+      <tr><td>Pot canviar de valor</td><td>✔ Sí</td><td>✘ No (error de compilació)</td><td class="ps">Sempre (tot són variables)</td></tr>
+      <tr><td>Nomenclatura</td><td><code>preuFinal</code></td><td><code>IVA_GENERAL</code></td><td class="ps"><code>preuFinal</code></td></tr>
+      <tr><td>Exemples</td><td>edat, comptador, total</td><td>IVA, dies de la setmana, nota mínima per aprovar</td><td class="ps"><span class="ps-no">—</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -650,6 +607,8 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Preu final: 87.12 €
+Termini de devolució: 30 dies</pre></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Constants per configurar un joc</span></div>
@@ -675,24 +634,25 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>SpaceQuest | Nivell: 3 | Punts: 200 | Vides: 2</pre></div>
 </div>
 <div class="tip-box">💡 <strong>Per què usar constants?</strong> Si l'IVA canvia, només cal modificar-lo en un lloc. A més, <code>preu * IVA</code> s'entén molt millor que <code>preu * 0.21</code> (un "número màgic" sense explicació).</div>
-<h2 class="block-title" id="operadors">12. Operadors i expressions</h2>
+<h2 class="block-title" id="operadors">11. Operadors i expressions</h2>
 <p class="intro">Un <strong>operador</strong> és un símbol que fa una operació sobre un o més valors (<em>operands</em>). Una <strong>expressió</strong> és una combinació d'operands i operadors que produeix un resultat.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Categoria</th><th>Operadors</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <thead><tr><th>Categoria</th><th>Operadors</th><th>Exemple</th><th>Resultat</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><strong>Aritmètics</strong></td><td><code>+ - * / %</code></td><td><code>7 % 3</code></td><td><code>1</code></td></tr>
-      <tr><td><strong>Assignació</strong></td><td><code>= += -= *= /= %=</code></td><td><code>a += 5</code></td><td>a = a + 5</td></tr>
-      <tr><td><strong>Increment / decrement</strong></td><td><code>++ --</code></td><td><code>a++</code></td><td>a = a + 1</td></tr>
-      <tr><td><strong>Relacionals</strong></td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr>
-      <tr><td><strong>Lògics</strong></td><td><code>&amp;&amp; || !</code></td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td></tr>
-      <tr><td><strong>Concatenació</strong></td><td><code>+</code> amb <code>String</code></td><td><code>"Nota: " + 8</code></td><td><code>"Nota: 8"</code></td></tr>
+      <tr><td><strong>Aritmètics</strong></td><td><code>+ - * / %</code></td><td><code>7 % 3</code></td><td><code>1</code></td><td class="ps"><code>+ - * /</code> i <code>MOD</code> (o <code>%</code>)</td></tr>
+      <tr><td><strong>Assignació</strong></td><td><code>= += -= *= /= %=</code></td><td><code>a += 5</code></td><td>a = a + 5</td><td class="ps"><code>&lt;-</code> (no hi ha <code>+=</code>…)</td></tr>
+      <tr><td><strong>Increment / decrement</strong></td><td><code>++ --</code></td><td><code>a++</code></td><td>a = a + 1</td><td class="ps"><span class="ps-no">—</span> (<code>a &lt;- a + 1</code>)</td></tr>
+      <tr><td><strong>Relacionals</strong></td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td><code>5 &gt; 3</code></td><td><code>true</code></td><td class="ps"><code>= &lt;&gt; &gt; &lt; &gt;= &lt;=</code></td></tr>
+      <tr><td><strong>Lògics</strong></td><td><code>&amp;&amp; || !</code></td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td><td class="ps"><code>Y O NO</code> (o <code>&amp; | ~</code>)</td></tr>
+      <tr><td><strong>Concatenació</strong></td><td><code>+</code> amb <code>String</code></td><td><code>"Nota: " + 8</code></td><td><code>"Nota: 8"</code></td><td class="ps"><code>Escribir "Nota: ", 8</code></td></tr>
     </tbody>
   </table>
 </div>
-<div class="sub-title">12.1 Operadors aritmètics</div>
+<div class="sub-title">11.1 Operadors aritmètics</div>
 <div class="warn-box">⚠️ <strong>Divisió entera:</strong> si els dos operands són enters, <code>/</code> descarta els decimals: <code>10 / 3</code> dona <code>3</code>. Perquè doni <code>3.333…</code> cal que almenys un sigui decimal: <code>10.0 / 3</code>.</div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Operadors aritmètics bàsics</span></div>
@@ -713,6 +673,12 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>13
+7
+30
+3
+1
+3.3333333333333335</pre></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Divisió entera i residu: minuts a hores</span></div>
@@ -738,7 +704,7 @@ byte màxim: 127</pre></div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>137 minuts = 2 h 17 min
 14 és parell: true</pre></div>
 </div>
-<div class="sub-title">12.2 Increment, decrement i assignació composta</div>
+<div class="sub-title">11.2 Increment, decrement i assignació composta</div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Pre-increment i post-increment</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsUnaris</span> {
@@ -758,6 +724,8 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>6 6
+5 6</pre></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Assignació composta: puntuació d'un joc</span></div>
@@ -778,8 +746,9 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Punts finals: 4</pre></div>
 </div>
-<div class="sub-title">12.3 Operadors relacionals</div>
+<div class="sub-title">11.3 Operadors relacionals</div>
 <p class="text">Comparen dos valors i sempre retornen un <code>boolean</code>. Són la base de les decisions que prendrem a l'A2.</p>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comparar valors</span></div>
@@ -798,16 +767,20 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>false
+true
+false
+true</pre></div>
 </div>
 <div class="warn-box">⚠️ <strong>No confonguis <code>==</code> amb <code>=</code>:</strong> <code>edat == 18</code> <em>pregunta</em> si val 18 i retorna <code>true</code> o <code>false</code>. <code>edat = 18</code> <em>assigna</em> el valor 18. Per comparar textos (<code>String</code>) no s'usa <code>==</code> sinó <code>.equals()</code>, com veurem a l'A2.</div>
-<div class="sub-title">12.4 Operadors lògics</div>
+<div class="sub-title">11.4 Operadors lògics</div>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Operador</th><th>Nom</th><th>Retorna <code>true</code> quan…</th></tr></thead>
+    <thead><tr><th>Operador</th><th>Nom</th><th>Retorna <code>true</code> quan…</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>&amp;&amp;</code></td><td>I (AND)</td><td>els <strong>dos</strong> operands són <code>true</code></td></tr>
-      <tr><td><code>||</code></td><td>O (OR)</td><td><strong>almenys un</strong> operand és <code>true</code></td></tr>
-      <tr><td><code>!</code></td><td>NO (NOT)</td><td>l'operand és <code>false</code> (l'inverteix)</td></tr>
+      <tr><td><code>&amp;&amp;</code></td><td>I (AND)</td><td>els <strong>dos</strong> operands són <code>true</code></td><td class="ps"><code>Y</code> / <code>&amp;</code></td></tr>
+      <tr><td><code>||</code></td><td>O (OR)</td><td><strong>almenys un</strong> operand és <code>true</code></td><td class="ps"><code>O</code> / <code>|</code></td></tr>
+      <tr><td><code>!</code></td><td>NO (NOT)</td><td>l'operand és <code>false</code> (l'inverteix)</td><td class="ps"><code>NO</code> / <code>~</code></td></tr>
     </tbody>
   </table>
 </div>
@@ -833,6 +806,8 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Pot entrar: false
+Mostrar avís: true</pre></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Any de traspàs amb una expressió lògica</span></div>
@@ -851,8 +826,9 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>1900 és de traspàs: false</pre></div>
 </div>
-<div class="sub-title">12.5 Concatenació de cadenes</div>
+<div class="sub-title">11.5 Concatenació de cadenes</div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>La trampa de l'ordre: suma o concatenació?</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OrdreConcatenacio</span> {
@@ -869,37 +845,40 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Resultat: 53
+Resultat: 8
+8 és la suma</pre></div>
 </div>
-<div class="sub-title">12.6 La classe Math</div>
+<div class="sub-title">11.6 La classe Math</div>
 <p class="text">Java inclou la classe <code>Math</code> amb operacions matemàtiques habituals. No cal cap <code>import</code>.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Expressió</th><th>Què calcula</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <thead><tr><th>Expressió</th><th>Què calcula</th><th>Exemple</th><th>Resultat</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>Math.pow(b, e)</code></td><td>potència b<sup>e</sup></td><td><code>Math.pow(2, 10)</code></td><td><code>1024.0</code></td></tr>
-      <tr><td><code>Math.sqrt(x)</code></td><td>arrel quadrada</td><td><code>Math.sqrt(81)</code></td><td><code>9.0</code></td></tr>
-      <tr><td><code>Math.abs(x)</code></td><td>valor absolut</td><td><code>Math.abs(-7)</code></td><td><code>7</code></td></tr>
-      <tr><td><code>Math.round(x)</code></td><td>arrodoneix a l'enter més proper</td><td><code>Math.round(8.5)</code></td><td><code>9</code></td></tr>
-      <tr><td><code>Math.max(a, b)</code></td><td>el més gran de dos</td><td><code>Math.max(4, 9)</code></td><td><code>9</code></td></tr>
-      <tr><td><code>Math.PI</code></td><td>constant π</td><td><code>Math.PI</code></td><td><code>3.141592653589793</code></td></tr>
+      <tr><td><code>Math.pow(b, e)</code></td><td>potència b<sup>e</sup></td><td><code>Math.pow(2, 10)</code></td><td><code>1024.0</code></td><td class="ps"><code>b ^ e</code></td></tr>
+      <tr><td><code>Math.sqrt(x)</code></td><td>arrel quadrada</td><td><code>Math.sqrt(81)</code></td><td><code>9.0</code></td><td class="ps"><code>RC(x)</code></td></tr>
+      <tr><td><code>Math.abs(x)</code></td><td>valor absolut</td><td><code>Math.abs(-7)</code></td><td><code>7</code></td><td class="ps"><code>ABS(x)</code></td></tr>
+      <tr><td><code>Math.round(x)</code></td><td>arrodoneix a l'enter més proper</td><td><code>Math.round(8.5)</code></td><td><code>9</code></td><td class="ps"><code>REDON(x)</code></td></tr>
+      <tr><td><code>Math.max(a, b)</code></td><td>el més gran de dos</td><td><code>Math.max(4, 9)</code></td><td><code>9</code></td><td class="ps"><span class="ps-no">—</span></td></tr>
+      <tr><td><code>Math.PI</code></td><td>constant π</td><td><code>Math.PI</code></td><td><code>3.141592653589793</code></td><td class="ps"><code>PI</code></td></tr>
     </tbody>
   </table>
 </div>
 <div class="tip-box">💡 <strong>Precedència (de més a menys):</strong> <code>!</code> i <code>++ --</code> → <code>* / %</code> → <code>+ -</code> → <code>&lt; &gt; &lt;= &gt;=</code> → <code>== !=</code> → <code>&amp;&amp;</code> → <code>||</code> → <code>= += -=</code>… Quan tinguis dubtes, fes servir <strong>parèntesis</strong>: fan el codi més clar.</div>
-<h2 class="block-title" id="conversions">13. Conversions de tipus</h2>
+<h2 class="block-title" id="conversions">12. Conversions de tipus</h2>
 <p class="intro">Sovint cal passar un valor d'un tipus a un altre. Hi ha tres situacions: la conversió <strong>implícita</strong> (automàtica), la <strong>explícita</strong> (<em>casting</em>) i la conversió entre <strong>text i números</strong>.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Tipus</th><th>Cal escriure res?</th><th>Pot perdre informació?</th></tr></thead>
+    <thead><tr><th>Tipus</th><th>Cal escriure res?</th><th>Pot perdre informació?</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><strong>Implícita</strong> (de petit a gran)</td><td>No, Java la fa sola</td><td>No</td></tr>
-      <tr><td><strong>Explícita / casting</strong> (de gran a petit)</td><td>Sí: <code>(tipus) valor</code></td><td>Sí: decimals o desbordament</td></tr>
-      <tr><td><strong>Text ↔ número</strong></td><td>Sí: <code>Integer.parseInt()</code>, <code>String.valueOf()</code>…</td><td>Pot fallar si el text no és un número</td></tr>
+      <tr><td><strong>Implícita</strong> (de petit a gran)</td><td>No, Java la fa sola</td><td>No</td><td class="ps">Automàtica (<code>Entero</code> → <code>Real</code>)</td></tr>
+      <tr><td><strong>Explícita / casting</strong> (de gran a petit)</td><td>Sí: <code>(tipus) valor</code></td><td>Sí: decimals o desbordament</td><td class="ps"><code>TRUNC(x)</code> per treure decimals</td></tr>
+      <tr><td><strong>Text ↔ número</strong></td><td>Sí: <code>Integer.parseInt()</code>, <code>String.valueOf()</code>…</td><td>Pot fallar si el text no és un número</td><td class="ps"><code>ConvertirANumero()</code>, <code>ConvertirATexto()</code></td></tr>
     </tbody>
   </table>
 </div>
 <div class="info-box">📌 <strong>Sentit de la conversió implícita:</strong> <code>byte → short → int → long → float → double</code>. En sentit contrari cal fer <em>casting</em>.</div>
-<div class="sub-title">13.1 Conversió implícita</div>
+<div class="sub-title">12.1 Conversió implícita</div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Conversions automàtiques</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConversioImplicita</span> {
@@ -922,8 +901,11 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>225.0
+30
+65</pre></div>
 </div>
-<div class="sub-title">13.2 Conversió explícita (casting)</div>
+<div class="sub-title">12.2 Conversió explícita (casting)</div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Casting: truncament i desbordament</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Casting</span> {
@@ -948,6 +930,10 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>19
+20
+-126
+B</pre></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-avançat">Avançat</span><span>Obtenir una mitjana decimal a partir d'enters</span></div>
@@ -972,19 +958,22 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Malament: 8.0
+Bé: 8.5
+Preu: 3.33</pre></div>
 </div>
 <div class="warn-box">⚠️ <strong>El casting trunca:</strong> <code>(int) 9.99</code> dona <code>9</code>. Per arrodonir usa <code>Math.round()</code>. I compte amb l'ordre: <code>(double) (17 / 2)</code> dona <code>8.0</code> perquè la divisió entera es fa abans del casting.</div>
 <div class="info-box">📌 <strong>Els decimals no sempre són exactes.</strong> Els tipus <code>double</code> i <code>float</code> guarden els números en binari i alguns valors no es poden representar exactament: <code>0.1 + 0.2</code> dona <code>0.30000000000000004</code>. Per això arrodonim els imports amb <code>Math.round(x * 100) / 100.0</code>.</div>
-<div class="sub-title">13.3 Conversió entre text i números</div>
+<div class="sub-title">12.3 Conversió entre text i números</div>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Conversió</th><th>Com es fa</th><th>Exemple</th><th>Resultat</th></tr></thead>
+    <thead><tr><th>Conversió</th><th>Com es fa</th><th>Exemple</th><th>Resultat</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>String</code> → <code>int</code></td><td><code>Integer.parseInt(text)</code></td><td><code>Integer.parseInt("42")</code></td><td><code>42</code></td></tr>
-      <tr><td><code>String</code> → <code>double</code></td><td><code>Double.parseDouble(text)</code></td><td><code>Double.parseDouble("3.5")</code></td><td><code>3.5</code></td></tr>
-      <tr><td><code>String</code> → <code>boolean</code></td><td><code>Boolean.parseBoolean(text)</code></td><td><code>Boolean.parseBoolean("true")</code></td><td><code>true</code></td></tr>
-      <tr><td>número → <code>String</code></td><td><code>String.valueOf(n)</code></td><td><code>String.valueOf(42)</code></td><td><code>"42"</code></td></tr>
-      <tr><td>número → <code>String</code></td><td>concatenar amb <code>""</code></td><td><code>"" + 3.5</code></td><td><code>"3.5"</code></td></tr>
+      <tr><td><code>String</code> → <code>int</code></td><td><code>Integer.parseInt(text)</code></td><td><code>Integer.parseInt("42")</code></td><td><code>42</code></td><td class="ps"><code>ConvertirANumero("42")</code></td></tr>
+      <tr><td><code>String</code> → <code>double</code></td><td><code>Double.parseDouble(text)</code></td><td><code>Double.parseDouble("3.5")</code></td><td><code>3.5</code></td><td class="ps"><code>ConvertirANumero("3.5")</code></td></tr>
+      <tr><td><code>String</code> → <code>boolean</code></td><td><code>Boolean.parseBoolean(text)</code></td><td><code>Boolean.parseBoolean("true")</code></td><td><code>true</code></td><td class="ps"><span class="ps-no">—</span></td></tr>
+      <tr><td>número → <code>String</code></td><td><code>String.valueOf(n)</code></td><td><code>String.valueOf(42)</code></td><td><code>"42"</code></td><td class="ps"><code>ConvertirATexto(42)</code></td></tr>
+      <tr><td>número → <code>String</code></td><td>concatenar amb <code>""</code></td><td><code>"" + 3.5</code></td><td><code>"3.5"</code></td><td class="ps"><span class="ps-no">—</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -1010,16 +999,18 @@ byte màxim: 127</pre></div>
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>312.5
+Total: 37.5</pre></div>
 </div>
 <div class="info-box">📌 Si el text no representa un número (per exemple <code>Integer.parseInt("hola")</code>), el programa s'atura amb una <code>NumberFormatException</code>. A l'<strong>A3</strong> aprendrem a controlar aquests errors amb <code>try-catch</code>.</div>
-<h2 class="block-title" id="sequencial">14. Composició seqüencial d'instruccions</h2>
+<h2 class="block-title" id="sequencial">13. Composició seqüencial d'instruccions</h2>
 <p class="intro">La <strong>composició seqüencial</strong> és l'estructura més simple: les instruccions s'executen <strong>una rere l'altra</strong>, de dalt a baix, cadascuna una sola vegada. Tots els programes que hem fet fins ara són seqüencials. Tenen sempre tres parts: <strong>dades d'entrada → procés → sortida</strong>.</p>
 <div class="pseudo">ALGORISME PreuAmbIva
   DADES:    preu = 25, IVA = 0.21        ← entrada
   CÀLCUL:   total ← preu × (1 + IVA)     ← procés
   ESCRIURE  "Total: ", total            ← sortida
 FI ALGORISME</div>
-<div class="sub-title">14.1 L'ordre de les instruccions importa</div>
+<div class="sub-title">13.1 L'ordre de les instruccions importa</div>
 <p class="text">En un algorisme seqüencial, cada instrucció fa servir els valors que han deixat les anteriors. Si canviem l'ordre, el resultat canvia. L'exemple clàssic és <strong>intercanviar</strong> el valor de dues variables: cal una variable auxiliar.</p>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Intercanviar dues variables</span></div>
@@ -1044,17 +1035,17 @@ FI ALGORISME</div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Abans:   a = 5, b = 9
 Després: a = 9, b = 5</pre></div>
 </div>
-<div class="sub-title">14.2 Sortida per pantalla i seqüències d'escapament</div>
+<div class="sub-title">13.2 Sortida per pantalla i seqüències d'escapament</div>
 <p class="text"><code>print</code> i <code>println</code> accepten qualsevol expressió i la converteixen automàticament a text. Cada instrucció escriu just on s'ha quedat l'anterior. Dins d'un text, la contrabarra <code>\</code> introdueix una <strong>seqüència d'escapament</strong>:</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Seqüència</th><th>Què representa</th></tr></thead>
+    <thead><tr><th>Seqüència</th><th>Què representa</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>\n</code></td><td>Salt de línia</td></tr>
-      <tr><td><code>\t</code></td><td>Tabulació</td></tr>
-      <tr><td><code>\'</code></td><td>Cometa simple (<code>'</code>)</td></tr>
-      <tr><td><code>\"</code></td><td>Cometes dobles (<code>"</code>) dins d'un text</td></tr>
-      <tr><td><code>\\</code></td><td>Contrabarra (<code>\</code>)</td></tr>
+      <tr><td><code>\n</code></td><td>Salt de línia</td><td class="ps"><span class="ps-no">—</span> (un altre <code>Escribir</code>)</td></tr>
+      <tr><td><code>\t</code></td><td>Tabulació</td><td class="ps"><span class="ps-no">—</span></td></tr>
+      <tr><td><code>\'</code></td><td>Cometa simple (<code>'</code>)</td><td class="ps"><code>"'"</code> (cometes dobles per fora)</td></tr>
+      <tr><td><code>\"</code></td><td>Cometes dobles (<code>"</code>) dins d'un text</td><td class="ps"><code>'"'</code> (cometes simples per fora)</td></tr>
+      <tr><td><code>\\</code></td><td>Contrabarra (<code>\</code>)</td><td class="ps"><code>"\"</code></td></tr>
     </tbody>
   </table>
 </div>
@@ -1089,7 +1080,7 @@ Línia 2
 7
 a</pre></div>
 </div>
-<h2 class="block-title" id="exercicis">15. Exercicis pràctics</h2>
+<h2 class="block-title" id="exercicis">14. Exercicis pràctics</h2>
 <p class="intro">Exercicis ordenats de menys a més dificultat. Abans de programar, escriu l'algorisme en paper (dades, càlculs, sortida). Quan acabis, compara la sortida del teu programa amb la <strong>sortida esperada</strong> i, finalment, consulta la solució.</p>
 <div class="exercici-card">
   <div class="exercici-header">
@@ -1103,7 +1094,7 @@ a</pre></div>
       <li>Crea el projecte (<em>Java with Ant</em>) i la classe seguint els passos de l'apartat 4.</li>
       <li>Declara les variables <code>nom</code> (<code>String</code>), <code>edat</code> (<code>int</code>), <code>alcada</code> (<code>double</code>), <code>grup</code> (<code>char</code>) i <code>teOrdinador</code> (<code>boolean</code>).</li>
       <li>Mostra-les per pantalla, una per línia, amb un text descriptiu.</li>
-      <li>Afegeix un comentari Javadoc a la classe amb <code>@author</code>.</li>
+      <li>Afegeix a l'inici un comentari que expliqui què fa el programa.</li>
     </ul>
     <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nom: Marc Soler
 Edat: 19 anys
@@ -1121,11 +1112,7 @@ Té ordinador: true</pre></div><p class="nota-sortida">Amb les teves dades, evid
     </button>
     <div class="solucio-body">
       <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="cmt">/**
- * Mostra la fitxa personal d'un alumne.
- *
- * @author Marc Soler
- */</span>
+      <div class="code-block"><span class="cmt">// Programa que mostra la fitxa personal d'un alumne</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Presentacio</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -1146,7 +1133,7 @@ Té ordinador: true</pre></div><p class="nota-sortida">Amb les teves dades, evid
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte i la classe tenen el nom demanat i el fitxer coincideix amb la classe.</li><li>Cada dada té el tipus adequat (text, enter, decimal, caràcter, booleà).</li><li>Hi ha comentari Javadoc amb <code>@author</code>.</li></ul></div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte i la classe tenen el nom demanat i el fitxer coincideix amb la classe.</li><li>Cada dada té el tipus adequat (text, enter, decimal, caràcter, booleà).</li><li>Hi ha un comentari inicial que explica què fa el programa.</li></ul></div>
     </div>
   </div>
 </div>
@@ -1161,7 +1148,7 @@ Té ordinador: true</pre></div><p class="nota-sortida">Amb les teves dades, evid
     <ul class="exercici-tasques">
       <li>Declara <code>double radi = 5;</code></li>
       <li>Usa la constant <code>Math.PI</code>. Àrea = π · r²; circumferència = 2 · π · r.</li>
-      <li>Mostra els dos resultats arrodonits a 2 decimals (mira l'exemple de l'apartat 13.2).</li>
+      <li>Mostra els dos resultats arrodonits a 2 decimals (mira l'exemple de l'apartat 12.2).</li>
     </ul>
     <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Radi: 5.0
 Àrea: 78.54
@@ -1213,7 +1200,7 @@ Circumferència: 31.42</pre></div>
       <li>Declara <code>double celsius = 25;</code></li>
       <li>Fórmules: F = C · 9 / 5 + 32; K = C + 273.15.</li>
       <li>Declara 273.15 com a constant <code>final</code> amb un nom adequat.</li>
-      <li>Arrodoneix els resultats a 2 decimals (apartat 13.2).</li>
+      <li>Arrodoneix els resultats a 2 decimals (apartat 12.2).</li>
       <li>Prova també amb 0 i amb −40 (−40 °C són exactament −40 °F!). Sense arrodonir, amb −40 obtindries 233.14999999999998 K.</li>
     </ul>
     <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>25.0 °C = 77.0 °F
