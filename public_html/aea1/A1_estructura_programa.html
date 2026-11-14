@@ -262,6 +262,8 @@ Perímetre: 26</pre></div>
   <div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota <strong>sense la línia <code>package</code></strong> i enganxa'l a sota de la que ja ha escrit NetBeans. Fixa't en l'estructura: paquet, classe, mètode <code>main</code> i instruccions.</span></div>
   <div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>, envoltat de les línies de Maven (<code>Building IntroduccioJava…</code>, <code>BUILD SUCCESS</code>).</span></div>
 </div>
+<div class="sub-title">Què és un projecte Maven?</div>
+<p class="text"><strong>Maven</strong> és l'eina estàndard per construir projectes Java. Organitza sempre els fitxers de la mateixa manera i guarda la configuració del projecte en un fitxer anomenat <code>pom.xml</code>. Qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar un projecte Maven sense canviar res.</p>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
   <div class="code-block"><span class="kw">package</span> cat.lamerce.introducciojava;
@@ -280,35 +282,6 @@ Perímetre: 26</pre></div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Hola Món amb Java
 Benvinguts al curs!</pre></div>
 </div>
-<div class="sub-title">Què és un projecte Maven?</div>
-<p class="text"><strong>Maven</strong> és l'eina estàndard per construir projectes Java. Organitza sempre els fitxers de la mateixa manera i guarda la configuració del projecte en un fitxer anomenat <code>pom.xml</code>. Qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar un projecte Maven sense canviar res.</p>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Estructura de carpetes del projecte</span></div>
-  <div class="code-block">IntroduccioJava/
-├── <span class="fn">pom.xml</span>                          <span class="cmt">← configuració del projecte</span>
-├── src/
-│   └── main/
-│       └── java/                    <span class="cmt">← "Source Packages" a NetBeans</span>
-│           └── cat/lamerce/introducciojava/   <span class="cmt">← el paquet són carpetes</span>
-│               └── <span class="cls">HolaMon.java</span>
-└── target/                          <span class="cmt">← es crea en compilar (.class)</span></div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Les línies importants del <code>pom.xml</code></span></div>
-  <div class="code-block"><span class="cmt">&lt;!-- Identificació del projecte --&gt;</span>
-&lt;<span class="kw">groupId</span>&gt;<span class="str">cat.lamerce</span>&lt;/<span class="kw">groupId</span>&gt;
-&lt;<span class="kw">artifactId</span>&gt;<span class="str">IntroduccioJava</span>&lt;/<span class="kw">artifactId</span>&gt;
-&lt;<span class="kw">version</span>&gt;<span class="str">1.0-SNAPSHOT</span>&lt;/<span class="kw">version</span>&gt;
-&lt;<span class="kw">packaging</span>&gt;<span class="str">jar</span>&lt;/<span class="kw">packaging</span>&gt;
-
-&lt;<span class="kw">properties</span>&gt;
-    &lt;<span class="kw">project.build.sourceEncoding</span>&gt;<span class="str">UTF-8</span>&lt;/<span class="kw">project.build.sourceEncoding</span>&gt;
-    <span class="cmt">&lt;!-- Versió de Java amb què es compila --&gt;</span>
-    &lt;<span class="kw">maven.compiler.release</span>&gt;<span class="num">21</span>&lt;/<span class="kw">maven.compiler.release</span>&gt;
-&lt;/<span class="kw">properties</span>&gt;</div>
-</div>
-<div class="info-box">📌 <strong>De moment no cal tocar el <code>pom.xml</code>.</strong> NetBeans el genera automàticament. Només comprova que la versió de Java sigui la <strong>21</strong> i que la codificació sigui <strong>UTF-8</strong> (així els accents es veuen bé a la consola). Més endavant hi afegirem <em>dependències</em>: llibreries externes que Maven descarrega soles.</div>
-<div class="tip-box">💡 <strong>Des de la terminal</strong> (opcional): dins la carpeta del projecte, <code>mvn compile</code> compila el codi i <code style="overflow-wrap:anywhere">mvn exec:java -Dexec.mainClass=cat.lamerce.introducciojava.HolaMon</code> l'executa. NetBeans fa exactament això quan prems <em>Run</em>.</div>
 <h2 class="block-title" id="estructura">5. Estructura d'un programa Java</h2>
 <p class="intro">Tot programa Java està format per uns <strong>blocs</strong> que sempre apareixen en el mateix ordre. Identificar-los és el primer pas per llegir i entendre qualsevol codi.</p>
 <div class="tip-box">💡 <strong>No cal crear un projecte nou.</strong> Fes servir el mateix projecte de l'apartat 4: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong> → nom <code>Estructura</code>. Deixa la línia <code>package</code> que escriu NetBeans, enganxa l'exemple a sota (a partir de l'<code>import</code>) i executa'l amb <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> executa només la que tries. Farem el mateix amb tots els exemples i exercicis: <strong>un projecte per activitat, una classe per exemple</strong>.</div>
