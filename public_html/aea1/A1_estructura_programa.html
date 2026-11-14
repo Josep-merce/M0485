@@ -243,25 +243,27 @@ Perímetre: 26</pre></div>
     </tbody>
   </table>
 </div>
-<div class="info-box">📌 <strong>Procés de compilació i execució:</strong><br>Codi font (<code>Rectangle.java</code>) → <strong>javac</strong> (compilador) → Bytecode (<code>Rectangle.class</code>) → <strong>JVM</strong> → Execució</div>
+<div class="info-box">📌 <strong>Procés de compilació i execució:</strong><br>Codi font (<code>Rectangle.java</code>) → <strong>javac</strong> (compilador) → Bytecode (<code>Rectangle.class</code>) → <strong>JVM</strong> → Execució<br><br>En aquest curs farem servir <strong>Maven</strong>, una eina que automatitza aquest procés: quan prems <em>Run</em>, Maven crida <code>javac</code>, deixa els <code>.class</code> a la carpeta <code>target/classes</code> i executa el programa amb la JVM.</div>
 <h2 class="block-title" id="installacio">3. Instal·lació del JDK i NetBeans</h2>
 <div class="cards">
   <div class="card"><span class="card-num">1</span><span class="card-title">Descarregar el JDK 21</span><span class="card-desc">Des de la web d'Oracle (<strong>oracle.com/java/technologies/downloads</strong>) o d'Eclipse Adoptium, tria l'instal·lador del teu sistema operatiu.</span></div>
   <div class="card"><span class="card-num">2</span><span class="card-title">Instal·lar i verificar</span><span class="card-desc">Executa l'instal·lador amb les opcions per defecte. Obre una terminal i escriu <code>java -version</code>: ha d'aparèixer la versió 21.</span></div>
-  <div class="card"><span class="card-num">3</span><span class="card-title">Instal·lar Apache NetBeans</span><span class="card-desc">Descarrega la darrera versió des de <strong>netbeans.apache.org</strong> i instal·la-la. Detectarà automàticament el JDK.</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Instal·lar Apache NetBeans</span><span class="card-desc">Descarrega la darrera versió des de <strong>netbeans.apache.org</strong> i instal·la-la. Detectarà automàticament el JDK i ja porta <strong>Maven</strong> integrat: no cal instal·lar-lo a part.</span></div>
   <div class="card"><span class="card-num">4</span><span class="card-title">Configuració opcional</span><span class="card-desc">Tools → Options → Appearance → Look and Feel → <strong>FlatLaf Dark</strong> per a un tema fosc, i Fonts &amp; Colors per augmentar la mida de la lletra.</span></div>
 </div>
 <h2 class="block-title" id="hola">4. Primer projecte: Hola Món</h2>
 <p class="intro">Crear projectes és el primer pas per desenvolupar qualsevol aplicació. Segueix aquests passos a NetBeans:</p>
 <div class="cards">
-  <div class="card"><span class="card-num">1</span><span class="card-title">Crear el projecte</span><span class="card-desc">File → New Project → <strong>Java with Ant</strong> → Java Application. Nom: <code>IntroduccioJava</code>. Desmarca <em>Create Main Class</em>.</span></div>
-  <div class="card"><span class="card-num">2</span><span class="card-title">Crear la classe</span><span class="card-desc">Clic dret a <em>Source Packages</em> → New → Java Class. Nom: <code>HolaMon</code>. NetBeans crea el fitxer <code>HolaMon.java</code>.</span></div>
-  <div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota. Fixa't en l'estructura: classe, mètode <code>main</code> i instruccions.</span></div>
-  <div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>.</span></div>
+  <div class="card"><span class="card-num">1</span><span class="card-title">Crear el projecte</span><span class="card-desc">File → New Project → <strong>Java with Maven</strong> → Java Application. <em>Project Name</em>: <code>IntroduccioJava</code>. <em>Group Id</em>: <code>cat.lamerce</code>. El paquet es crea sol: <code>cat.lamerce.introducciojava</code>.</span></div>
+  <div class="card"><span class="card-num">2</span><span class="card-title">Crear la classe</span><span class="card-desc">Dins de <em>Source Packages</em>, clic dret al paquet <code>cat.lamerce.introducciojava</code> → New → Java Class. Nom: <code>HolaMon</code>. NetBeans crea <code>HolaMon.java</code> amb la línia <code>package</code> ja escrita. (Pots esborrar la classe <code>IntroduccioJava</code> que genera l'assistent.)</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota. Fixa't en l'estructura: paquet, classe, mètode <code>main</code> i instruccions.</span></div>
+  <div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>, envoltat de les línies de Maven (<code>Building IntroduccioJava…</code>, <code>BUILD SUCCESS</code>).</span></div>
 </div>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
+  <div class="code-block"><span class="kw">package</span> cat.lamerce.introducciojava;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
@@ -275,12 +277,43 @@ Perímetre: 26</pre></div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Hola Món amb Java
 Benvinguts al curs!</pre></div>
 </div>
-<div class="info-box">📌 <strong>Per què <em>Java with Ant</em>?</strong> És el tipus de projecte més senzill: no cal configurar res més. Els projectes <em>Maven</em> (opció per defecte en versions recents de NetBeans) també funcionen, però afegeixen un fitxer de configuració que ara no necessitem.</div>
+<div class="sub-title">Què és un projecte Maven?</div>
+<p class="text"><strong>Maven</strong> és l'eina estàndard per construir projectes Java. Organitza sempre els fitxers de la mateixa manera i guarda la configuració del projecte en un fitxer anomenat <code>pom.xml</code>. Qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar un projecte Maven sense canviar res.</p>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Estructura de carpetes del projecte</span></div>
+  <div class="code-block">IntroduccioJava/
+├── <span class="fn">pom.xml</span>                          <span class="cmt">← configuració del projecte</span>
+├── src/
+│   └── main/
+│       └── java/                    <span class="cmt">← "Source Packages" a NetBeans</span>
+│           └── cat/lamerce/introducciojava/   <span class="cmt">← el paquet són carpetes</span>
+│               └── <span class="cls">HolaMon.java</span>
+└── target/                          <span class="cmt">← es crea en compilar (.class)</span></div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Les línies importants del <code>pom.xml</code></span></div>
+  <div class="code-block"><span class="cmt">&lt;!-- Identificació del projecte --&gt;</span>
+&lt;<span class="kw">groupId</span>&gt;<span class="str">cat.lamerce</span>&lt;/<span class="kw">groupId</span>&gt;
+&lt;<span class="kw">artifactId</span>&gt;<span class="str">IntroduccioJava</span>&lt;/<span class="kw">artifactId</span>&gt;
+&lt;<span class="kw">version</span>&gt;<span class="str">1.0-SNAPSHOT</span>&lt;/<span class="kw">version</span>&gt;
+&lt;<span class="kw">packaging</span>&gt;<span class="str">jar</span>&lt;/<span class="kw">packaging</span>&gt;
+
+&lt;<span class="kw">properties</span>&gt;
+    &lt;<span class="kw">project.build.sourceEncoding</span>&gt;<span class="str">UTF-8</span>&lt;/<span class="kw">project.build.sourceEncoding</span>&gt;
+    <span class="cmt">&lt;!-- Versió de Java amb què es compila --&gt;</span>
+    &lt;<span class="kw">maven.compiler.release</span>&gt;<span class="num">21</span>&lt;/<span class="kw">maven.compiler.release</span>&gt;
+&lt;/<span class="kw">properties</span>&gt;</div>
+</div>
+<div class="info-box">📌 <strong>De moment no cal tocar el <code>pom.xml</code>.</strong> NetBeans el genera automàticament. Només comprova que la versió de Java sigui la <strong>21</strong> i que la codificació sigui <strong>UTF-8</strong> (així els accents es veuen bé a la consola). Més endavant hi afegirem <em>dependències</em>: llibreries externes que Maven descarrega soles.</div>
+<div class="tip-box">💡 <strong>Des de la terminal</strong> (opcional): dins la carpeta del projecte, <code>mvn compile</code> compila el codi i <code style="overflow-wrap:anywhere">mvn exec:java -Dexec.mainClass=cat.lamerce.introducciojava.HolaMon</code> l'executa. NetBeans fa exactament això quan prems <em>Run</em>.</div>
 <h2 class="block-title" id="estructura">5. Estructura d'un programa Java</h2>
 <p class="intro">Tot programa Java està format per uns <strong>blocs</strong> que sempre apareixen en el mateix ordre. Identificar-los és el primer pas per llegir i entendre qualsevol codi.</p>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Els blocs d'un programa, comentats</span></div>
-  <div class="code-block"><span class="cmt">// ① Importacions: classes d'altres paquets que farem servir (opcional)</span>
+  <div class="code-block"><span class="cmt">// ⓪ Paquet: carpeta on és la classe. NetBeans l'escriu sol (ha de ser la primera línia)</span>
+<span class="kw">package</span> cat.lamerce.introducciojava;
+
+<span class="cmt">// ① Importacions: classes d'altres paquets que farem servir (opcional)</span>
 <span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
 
 <span class="cmt">// ② Declaració de la classe: el nom ha de coincidir amb el del fitxer</span>
@@ -308,6 +341,7 @@ Som a l'any 2026</pre></div>
   <table>
     <thead><tr><th>Bloc</th><th>Obligatori?</th><th>Funció</th><th class="ps">PSeInt</th></tr></thead>
     <tbody>
+      <tr><td><code>package nom.paquet;</code></td><td>Sí (a Maven)</td><td>Indica el paquet (carpeta) de la classe. Ha de ser la primera instrucció i coincidir amb les carpetes de <code>src/main/java</code>.</td><td class="ps"><span class="ps-no">—</span> (no existeix)</td></tr>
       <tr><td><code>import</code></td><td>No</td><td>Permet usar classes de llibreries de Java (<code>java.time</code>, <code>java.util</code>…).</td><td class="ps"><span class="ps-no">—</span> (no existeix)</td></tr>
       <tr><td><code>public class Nom { }</code></td><td>Sí</td><td>Conté tot el programa. El fitxer s'ha de dir exactament <code>Nom.java</code> (majúscules incloses).</td><td class="ps"><code>Algoritmo Nom</code></td></tr>
       <tr><td><code>public static void main(String[] args)</code></td><td>Sí (per executar)</td><td>Punt d'inici. Java executa les instruccions del <code>main</code> de dalt a baix.</td><td class="ps">El cos de l'<code>Algoritmo</code></td></tr>
@@ -316,7 +350,8 @@ Som a l'any 2026</pre></div>
     </tbody>
   </table>
 </div>
-<div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte.</div>
+<div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte (ni tocar el <code>pom.xml</code>).</div>
+<div class="tip-box">💡 <strong>Als exemples d'aquesta pàgina no hi posem la línia <code>package</code></strong> per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</div>
 <div class="sub-title">Imprimir per pantalla</div>
 <div class="table-wrap">
   <table>
@@ -1091,7 +1126,7 @@ a</pre></div>
   <div class="exercici-body">
     <p>Crea a NetBeans un projecte nou anomenat <code>AEA1_A1</code> i, dins, una classe <code>Presentacio</code> que mostri la teva fitxa personal fent servir variables.</p>
     <ul class="exercici-tasques">
-      <li>Crea el projecte (<em>Java with Ant</em>) i la classe seguint els passos de l'apartat 4.</li>
+      <li>Crea el projecte (<em>Java with Maven</em>, <em>Group Id</em> <code>cat.lamerce</code>) i la classe dins del paquet <code>cat.lamerce.aea1_a1</code>, seguint els passos de l'apartat 4.</li>
       <li>Declara les variables <code>nom</code> (<code>String</code>), <code>edat</code> (<code>int</code>), <code>alcada</code> (<code>double</code>), <code>grup</code> (<code>char</code>) i <code>teOrdinador</code> (<code>boolean</code>).</li>
       <li>Mostra-les per pantalla, una per línia, amb un text descriptiu.</li>
       <li>Afegeix a l'inici un comentari que expliqui què fa el programa.</li>
@@ -1133,7 +1168,7 @@ Té ordinador: true</pre></div><p class="nota-sortida">Amb les teves dades, evid
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte i la classe tenen el nom demanat i el fitxer coincideix amb la classe.</li><li>Cada dada té el tipus adequat (text, enter, decimal, caràcter, booleà).</li><li>Hi ha un comentari inicial que explica què fa el programa.</li></ul></div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte és Maven, la classe és al paquet correcte (amb la línia <code>package</code>) i el fitxer coincideix amb la classe.</li><li>Cada dada té el tipus adequat (text, enter, decimal, caràcter, booleà).</li><li>Hi ha un comentari inicial que explica què fa el programa.</li></ul></div>
     </div>
   </div>
 </div>
