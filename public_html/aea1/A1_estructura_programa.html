@@ -259,7 +259,7 @@ Perímetre: 26</pre></div>
 <div class="cards">
   <div class="card"><span class="card-num">1</span><span class="card-title">Crear el projecte</span><span class="card-desc">File → New Project → <strong>Java with Maven</strong> → Java Application. <em>Project Name</em>: <code>IntroduccioJava</code>. <em>Group Id</em>: <code>cat.lamerce</code>. El paquet es crea sol: <code>cat.lamerce.introducciojava</code>.</span></div>
   <div class="card"><span class="card-num">2</span><span class="card-title">Crear la classe</span><span class="card-desc">Dins de <em>Source Packages</em>, clic dret al paquet <code>cat.lamerce.introducciojava</code> → New → Java Class. Nom: <code>HolaMon</code>. NetBeans crea <code>HolaMon.java</code> amb la línia <code>package</code> ja escrita. (Pots esborrar la classe <code>IntroduccioJava</code> que genera l'assistent.)</span></div>
-  <div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota. Fixa't en l'estructura: paquet, classe, mètode <code>main</code> i instruccions.</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota <strong>sense la línia <code>package</code></strong> i enganxa'l a sota de la que ja ha escrit NetBeans. Fixa't en l'estructura: paquet, classe, mètode <code>main</code> i instruccions.</span></div>
   <div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>, envoltat de les línies de Maven (<code>Building IntroduccioJava…</code>, <code>BUILD SUCCESS</code>).</span></div>
 </div>
 <div class="exemple">
@@ -313,7 +313,7 @@ Benvinguts al curs!</pre></div>
 <p class="intro">Tot programa Java està format per uns <strong>blocs</strong> que sempre apareixen en el mateix ordre. Identificar-los és el primer pas per llegir i entendre qualsevol codi.</p>
 <div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Els blocs d'un programa, comentats</span></div>
-  <div class="code-block"><span class="cmt">// ⓪ Paquet: carpeta on és la classe. NetBeans l'escriu sol (ha de ser la primera línia)</span>
+  <div class="code-block"><span class="cmt">// ⓪ Paquet: NetBeans l'escriu sol. Deixa el TEU (el que surt a Source Packages)</span>
 <span class="kw">package</span> cat.lamerce.introducciojava;
 
 <span class="cmt">// ① Importacions: classes d'altres paquets que farem servir (opcional)</span>
@@ -353,6 +353,9 @@ Som a l'any 2026</pre></div>
     </tbody>
   </table>
 </div>
+<div class="warn-box">⚠️ <strong>Error <em>Incorrect package</em> (bombeta vermella a la línia 1).</strong> Apareix quan la línia <code>package</code> no coincideix amb el paquet on és el fitxer. Sol passar en enganxar un exemple i esborrar o canviar la línia <code>package</code> que havia escrit NetBeans.<br>
+<strong>Solució:</strong> mira el nom del paquet a <em>Source Packages</em> (per exemple <code>lamerce.estructura</code>) i escriu-lo a la primera línia: <code>package lamerce.estructura;</code>. També pots clicar la bombeta i triar <strong>Change package declaration to …</strong>. No triïs <em>Move class to correct folder</em>: mouria el fitxer a una carpeta nova.<br>
+<strong>Per evitar-ho:</strong> copia els exemples a partir de la línia <code>import</code> (o de <code>public class</code> si no n'hi ha) i enganxa'ls a sota del <code>package</code> que ja hi ha.</div>
 <div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte (ni tocar el <code>pom.xml</code>).</div>
 <div class="tip-box">💡 <strong>Als exemples d'aquesta pàgina no hi posem la línia <code>package</code></strong> per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</div>
 <div class="sub-title">Imprimir per pantalla</div>
