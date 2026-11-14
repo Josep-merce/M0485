@@ -46,6 +46,8 @@
     .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
     .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; }
     .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(0,0,0,.12); }
     .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
     .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; }
     .badge-basic   { background:#d1fae5; color:#065f46; }
@@ -250,6 +252,7 @@ Perímetre: 26</pre></div>
   <div class="card"><span class="card-num">2</span><span class="card-title">Instal·lar i verificar</span><span class="card-desc">Executa l'instal·lador amb les opcions per defecte. Obre una terminal i escriu <code>java -version</code>: ha d'aparèixer la versió 21.</span></div>
   <div class="card"><span class="card-num">3</span><span class="card-title">Instal·lar Apache NetBeans</span><span class="card-desc">Descarrega la darrera versió des de <strong>netbeans.apache.org</strong> i instal·la-la. Detectarà automàticament el JDK i ja porta <strong>Maven</strong> integrat: no cal instal·lar-lo a part.</span></div>
   <div class="card"><span class="card-num">4</span><span class="card-title">Configuració opcional</span><span class="card-desc">Tools → Options → Appearance → Look and Feel → <strong>FlatLaf Dark</strong> per a un tema fosc, i Fonts &amp; Colors per augmentar la mida de la lletra.</span></div>
+  <a class="card card-link" href="docs/installacio_JDK21_NetBeans.pdf" target="_blank" rel="noopener"><span class="card-num">PDF</span><span class="card-title">Guia pas a pas 📄</span><span class="card-desc">Instal·lació de l'entorn de treball (JDK 21 i NetBeans) explicada pas a pas. <strong>Obre la guia →</strong></span></a>
 </div>
 <h2 class="block-title" id="hola">4. Primer projecte: Hola Món</h2>
 <p class="intro">Crear projectes és el primer pas per desenvolupar qualsevol aplicació. Segueix aquests passos a NetBeans:</p>
