@@ -245,7 +245,7 @@ Perímetre: 26</pre></div>
     </tbody>
   </table>
 </div>
-<div class="info-box">📌 <strong>Procés de compilació i execució:</strong><br>Codi font (<code>Rectangle.java</code>) → <strong>javac</strong> (compilador) → Bytecode (<code>Rectangle.class</code>) → <strong>JVM</strong> → Execució<br><br>En aquest curs farem servir <strong>Maven</strong>, una eina que automatitza aquest procés: quan prems <em>Run</em>, Maven crida <code>javac</code>, deixa els <code>.class</code> a la carpeta <code>target/classes</code> i executa el programa amb la JVM.</div>
+<div class="info-box">📌 <strong>Procés de compilació i execució:</strong><br>Codi font (<code>Rectangle.java</code>) → <strong>javac</strong> (compilador) → Bytecode (<code>Rectangle.class</code>) → <strong>JVM</strong> → Execució</div>
 <h2 class="block-title" id="installacio">3. Instal·lació del JDK i NetBeans</h2>
 <div class="cards">
   <div class="card"><span class="card-num">1</span><span class="card-title">Descarregar el JDK 21</span><span class="card-desc">Des de la web d'Oracle (<strong>oracle.com/java/technologies/downloads</strong>) o d'Eclipse Adoptium, tria l'instal·lador del teu sistema operatiu.</span></div>
@@ -330,7 +330,7 @@ Som a l'any 2026</pre></div>
 <div class="warn-box">⚠️ <strong>Error <em>Incorrect package</em> (bombeta vermella a la línia 1).</strong> Apareix quan la línia <code>package</code> no coincideix amb el paquet on és el fitxer. Sol passar en enganxar un exemple i esborrar o canviar la línia <code>package</code> que havia escrit NetBeans.<br>
 <strong>Solució:</strong> mira el nom del paquet a <em>Source Packages</em> (per exemple <code>lamerce.estructura</code>) i escriu-lo a la primera línia: <code>package lamerce.estructura;</code>. També pots clicar la bombeta i triar <strong>Change package declaration to …</strong>. No triïs <em>Move class to correct folder</em>: mouria el fitxer a una carpeta nova.<br>
 <strong>Per evitar-ho:</strong> copia els exemples a partir de la línia <code>import</code> (o de <code>public class</code> si no n'hi ha) i enganxa'ls a sota del <code>package</code> que ja hi ha.</div>
-<div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte (ni tocar el <code>pom.xml</code>).</div>
+<div class="info-box">📌 <strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte.</div>
 <div class="tip-box">💡 <strong>Als exemples d'aquesta pàgina no hi posem la línia <code>package</code></strong> per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</div>
 <div class="sub-title">Imprimir per pantalla</div>
 <div class="table-wrap">
