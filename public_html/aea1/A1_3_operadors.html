@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1.3 — Operadors i expressions · A1 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A1 · Estructura del programa informàtic</p>
+  <h1>A1.3 — Operadors i expressions</h1>
+  <p>Operadors aritmètics, d'assignació, relacionals i lògics, la concatenació de textos, la classe <code>Math</code> i l'ordre en què Java avalua les expressions.</p>
+  <div class="hero-pills"><span class="pill">RA1</span><span class="pill">CA 1.7</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A1_estructura_programa.html">A1</a><span>›</span>
+  A1.3
+</nav>
+<main>
+<a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.7</div><div class="obj-text">Escriure expressions correctes amb tots els tipus d'operadors i predir-ne el resultat: tenir en compte la divisió entera, la precedència, la diferència entre <code>=</code> i <code>==</code> i quan el <code>+</code> suma o concatena.</div></div></div>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Operadors aritmètics</h2><p class="sec-sub">Fer càlculs amb números</p></div></div>
+  <p class="lead">Un <strong>operador</strong> és un símbol que fa una operació sobre un o més valors (<em>operands</em>). Una <strong>expressió</strong> és una combinació d'operands i operadors que produeix un resultat. Aquestes són les famílies d'operadors que veurem en aquesta subpàgina:</p><div class="table-wrap"><table><thead><tr><th>Categoria</th><th>Operadors</th><th>Exemple</th><th>Resultat</th></tr></thead><tbody><tr><td><strong>Aritmètics</strong></td><td><code>+ - * / %</code></td><td><code>7 % 3</code></td><td><code>1</code></td></tr><tr><td><strong>Assignació</strong></td><td><code>= += -= *= /= %=</code></td><td><code>a += 5</code></td><td>a = a + 5</td></tr><tr><td><strong>Increment / decrement</strong></td><td><code>++ --</code></td><td><code>a++</code></td><td>a = a + 1</td></tr><tr><td><strong>Relacionals</strong></td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr><tr><td><strong>Lògics</strong></td><td><code>&amp;&amp; || !</code></td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td></tr><tr><td><strong>Concatenació</strong></td><td><code>+</code> amb <code>String</code></td><td><code>"Nota: " + 8</code></td><td><code>"Nota: 8"</code></td></tr></tbody></table></div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Operadors aritmètics bàsics</span></div>
+  <div class="code-block" data-run="r1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsAritmetics</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">10</span>;
+        <span class="kw">int</span> b = <span class="num">3</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a + b);     <span class="cmt">// 13  suma</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a - b);     <span class="cmt">// 7   resta</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a * b);     <span class="cmt">// 30  multiplicació</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a / b);     <span class="cmt">// 3   divisió ENTERA</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a % b);     <span class="cmt">// 1   residu de 10 / 3</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">10.0</span> / b);  <span class="cmt">// 3.3333333333333335  divisió decimal</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r1">13
+7
+30
+3
+1
+3.3333333333333335</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Suma, resta i multiplicació funcionen com a matemàtiques. La divisió <code>a / b</code> dona <code>3</code> perquè <strong>els dos operands són enters</strong>: Java fa una divisió entera i descarta els decimals. L'operador <code>%</code> dona el <strong>residu</strong> d'aquesta divisió: 10 = 3 · 3 + <strong>1</strong>.</p><p>A la darrera línia, <code>10.0</code> és decimal, així que la divisió també ho és. L'últim dígit (<code>…35</code>) surt perquè els decimals es guarden en binari i no sempre són exactes.</p></div>
+</div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Divisió entera i residu: minuts a hores</span></div>
+  <div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConvertirMinuts</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> minutsTotals = <span class="num">137</span>;
+
+        <span class="kw">int</span> hores = minutsTotals / <span class="num">60</span>;   <span class="cmt">// 2</span>
+        <span class="kw">int</span> minuts = minutsTotals % <span class="num">60</span>;  <span class="cmt">// 17</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(minutsTotals + <span class="str">" minuts = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min"</span>);
+
+        <span class="cmt">// El residu també serveix per saber si un número és parell</span>
+        <span class="kw">int</span> numero = <span class="num">14</span>;
+        <span class="kw">boolean</span> esParell = numero % <span class="num">2</span> == <span class="num">0</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és parell: "</span> + esParell);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r2">137 minuts = 2 h 17 min
+14 és parell: true</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La divisió entera i el residu treballen en parella: <code>137 / 60</code> diu quantes hores <strong>senceres</strong> hi caben (2) i <code>137 % 60</code> quants minuts <strong>sobren</strong> (17). És la mateixa idea que farem servir per descompondre segons o per donar canvi.</p><p>Un número és parell quan el residu de dividir-lo entre 2 és 0. <code>numero % 2 == 0</code> fa primer el residu i després la comparació, i el resultat (<code>true</code>) es guarda en un <code>boolean</code>.</p></div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Divisió entera:</strong> si els dos operands són enters, <code>/</code> descarta els decimals: <code>10 / 3</code> dona <code>3</code>. Perquè doni <code>3.333…</code> cal que almenys un sigui decimal: <code>10.0 / 3</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>7 / 2</code> → <code>3.5</code> (sempre decimal)</td><td><code>7 / 2</code> → <code>3</code> (enters) · <code>7.0 / 2</code> → <code>3.5</code></td></tr><tr><td><code>MOD</code> o <code>%</code></td><td><code>%</code></td></tr><tr><td><code>2 ^ 3</code></td><td>No hi ha operador de potència: <code>Math.pow(2, 3)</code> (secció 6)</td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Increment, decrement i assignació composta</h2><p class="sec-sub">Dreceres per modificar variables</p></div></div>
+  <p class="lead">Modificar una variable a partir del seu propi valor és tan habitual que Java té operadors abreujats: <code>a++</code> suma 1, <code>a--</code> resta 1 i <code>a += 5</code> és el mateix que <code>a = a + 5</code>.</p><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Pre-increment i post-increment</span></div>
+  <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsUnaris</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">5</span>;
+        <span class="kw">int</span> resultat;
+
+        resultat = ++a;   <span class="cmt">// primer incrementa (a = 6), després assigna</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + a);  <span class="cmt">// 6 6</span>
+
+        a = <span class="num">5</span>;
+        resultat = a++;   <span class="cmt">// primer assigna (5), després incrementa (a = 6)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + a);  <span class="cmt">// 5 6</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">6 6
+5 6</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Totes dues formes deixen <code>a</code> valent 6. La diferència és <strong>quin valor fa servir l'expressió</strong>: amb <code>++a</code> (davant) primer s'incrementa i després s'usa el valor nou; amb <code>a++</code> (darrere) primer s'usa el valor antic i després s'incrementa.</p><p>Quan <code>a++</code> va sol en una línia (<code>a++;</code>), no hi ha cap diferència. Només importa si el fem servir dins d'una altra expressió.</p></div>
+</div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Assignació composta: puntuació d'un joc</span></div>
+  <div class="code-block" data-run="r4"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AssignacioComposta</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> punts = <span class="num">100</span>;
+
+        punts += <span class="num">50</span>;   <span class="cmt">// punts = punts + 50  → 150</span>
+        punts -= <span class="num">30</span>;   <span class="cmt">// punts = punts - 30  → 120</span>
+        punts *= <span class="num">2</span>;    <span class="cmt">// punts = punts * 2   → 240</span>
+        punts /= <span class="num">4</span>;    <span class="cmt">// punts = punts / 4   → 60</span>
+        punts %= <span class="num">7</span>;    <span class="cmt">// punts = punts % 7   → 4</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts finals: "</span> + punts);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Punts finals: 4</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada operador compost agafa el valor actual de <code>punts</code>, hi fa l'operació i hi guarda el resultat. Les instruccions s'executen en ordre, de manera que cada línia parteix del valor que ha deixat l'anterior: 100 → 150 → 120 → 240 → 60 → 4.</p></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Fes servir <code>++</code> i <code>--</code> en una línia pròpia (<code>comptador++;</code>). Posar-los dins d'expressions més llargues fa el codi difícil de llegir i és una font d'errors.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>a &lt;- a + 1</code></td><td><code>a++;</code> o <code>a += 1;</code></td></tr><tr><td><code>total &lt;- total + preu</code></td><td><code>total += preu;</code></td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Operadors relacionals</h2><p class="sec-sub">Comparar valors</p></div></div>
+  <p class="lead">Comparen dos valors i sempre retornen un <code>boolean</code>. Són la base de les decisions que prendrem a l'A2.</p><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comparar valors</span></div>
+  <div class="code-block" data-run="r5"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Comparacions</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">17</span>;
+        <span class="kw">double</span> nota = <span class="num">4.8</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(edat &gt;= <span class="num">18</span>);    <span class="cmt">// false</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nota &lt; <span class="num">5.0</span>);    <span class="cmt">// true</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(nota == <span class="num">5.0</span>);   <span class="cmt">// false</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(edat != <span class="num">18</span>);    <span class="cmt">// true</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">false
+true
+false
+true</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada comparació és una pregunta que té resposta de sí o no: <em>l'edat és més gran o igual que 18?</em> No, per tant <code>false</code>. El resultat es pot mostrar directament o guardar en una variable <code>boolean</code>.</p><p><code>==</code> pregunta si dos valors són iguals i <code>!=</code> si són diferents.</p></div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>No confonguis <code>==</code> amb <code>=</code>:</strong> <code>edat == 18</code> <em>pregunta</em> si val 18 i retorna <code>true</code> o <code>false</code>. <code>edat = 18</code> <em>assigna</em> el valor 18. Per comparar textos (<code>String</code>) no s'usa <code>==</code> sinó <code>.equals()</code>, com veurem a l'A2.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><p>Compte: a PSeInt <code>=</code> serveix per comparar; a Java <code>=</code> és l'assignació.</p><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>=</code> (comparar)</td><td><code>==</code></td></tr><tr><td><code>&lt;&gt;</code></td><td><code>!=</code></td></tr><tr><td><code>&gt; &lt; &gt;= &lt;=</code></td><td><code>&gt; &lt; &gt;= &lt;=</code> (iguals)</td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Operadors lògics</h2><p class="sec-sub">Combinar condicions</p></div></div>
+  <p class="lead">Els operadors lògics combinen valors <code>boolean</code>. Permeten expressar condicions compostes com «té compte <em>i</em> la contrasenya és correcta».</p><div class="table-wrap"><table><thead><tr><th>Operador</th><th>Nom</th><th>Retorna <code>true</code> quan…</th></tr></thead><tbody><tr><td><code>&amp;&amp;</code></td><td>I (AND)</td><td>els <strong>dos</strong> operands són <code>true</code></td></tr><tr><td><code>||</code></td><td>O (OR)</td><td><strong>almenys un</strong> operand és <code>true</code></td></tr><tr><td><code>!</code></td><td>NO (NOT)</td><td>l'operand és <code>false</code> (l'inverteix)</td></tr></tbody></table></div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Condicions d'accés a una plataforma</span></div>
+  <div class="code-block" data-run="r6"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AccesPlataforma</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">boolean</span> teCompte = <span class="kw">true</span>;
+        <span class="kw">boolean</span> contrasenyaOk = <span class="kw">false</span>;
+        <span class="kw">boolean</span> estaBloquejat = <span class="kw">false</span>;
+        <span class="kw">int</span> intentsFallits = <span class="num">2</span>;
+
+        <span class="cmt">// Pot entrar si té compte, la contrasenya és correcta i no està bloquejat</span>
+        <span class="kw">boolean</span> potEntrar = teCompte &amp;&amp; contrasenyaOk &amp;&amp; !estaBloquejat;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);  <span class="cmt">// false</span>
+
+        <span class="cmt">// Mostrem un avís si la contrasenya és incorrecta o ja porta 2 intents fallits</span>
+        <span class="kw">boolean</span> mostrarAvis = !contrasenyaOk || intentsFallits &gt;= <span class="num">2</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mostrar avís: "</span> + mostrarAvis);  <span class="cmt">// true</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r6">Pot entrar: false
+Mostrar avís: true</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Amb <code>&amp;&amp;</code> cal que <strong>totes</strong> les condicions es compleixin: com que <code>contrasenyaOk</code> és <code>false</code>, <code>potEntrar</code> és <code>false</code>. <code>!estaBloquejat</code> inverteix el valor: «no està bloquejat» és <code>true</code>.</p><p>Amb <code>||</code> n'hi ha prou que se'n compleixi <strong>una</strong>: la contrasenya és incorrecta, per tant <code>mostrarAvis</code> ja és <code>true</code>.</p></div>
+</div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Any de traspàs amb una expressió lògica</span></div>
+  <div class="code-block" data-run="r7"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnyTraspas</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Un any és de traspàs si és divisible per 4 i no per 100,</span>
+        <span class="cmt">// o bé si és divisible per 400</span>
+        <span class="kw">int</span> any = <span class="num">1900</span>;
+
+        <span class="kw">boolean</span> esTraspas = (any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(any + <span class="str">" és de traspàs: "</span> + esTraspas);  <span class="cmt">// false</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r7">1900 és de traspàs: false</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'expressió tradueix la regla del calendari. Per a 1900: és divisible per 4 (<code>true</code>) però també per 100, així que el parèntesi dona <code>false</code>; i no és divisible per 400 (<code>false</code>). <code>false || false</code> és <code>false</code>.</p><p>Els parèntesis agrupen la primera condició i fan l'expressió més fàcil de llegir. Prova-ho amb 2024 (<code>true</code>) i amb 2000 (<code>true</code>).</p></div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Y</code> (o <code>&amp;</code>)</td><td><code>&amp;&amp;</code></td></tr><tr><td><code>O</code> (o <code>|</code>)</td><td><code>||</code></td></tr><tr><td><code>NO</code> (o <code>~</code>)</td><td><code>!</code></td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">5</span><div><h2 class="sec-title">Concatenació de cadenes</h2><p class="sec-sub">Unir textos amb +</p></div></div>
+  <p class="lead">Quan un dels dos operands del <code>+</code> és un <code>String</code>, el <code>+</code> deixa de sumar i <strong>uneix</strong> (concatena): l'altre valor es converteix a text i s'hi enganxa.</p><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>La trampa de l'ordre: suma o concatenació?</span></div>
+  <div class="code-block" data-run="r8"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OrdreConcatenacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">5</span>;
+        <span class="kw">int</span> b = <span class="num">3</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resultat: "</span> + a + b);    <span class="cmt">// Resultat: 53  ← s'enganxen com a text!</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resultat: "</span> + (a + b));  <span class="cmt">// Resultat: 8   ← correcte</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(a + b + <span class="str">" és la suma"</span>);   <span class="cmt">// 8 és la suma  (s'avalua d'esquerra a dreta)</span>
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r8">Resultat: 53
+Resultat: 8
+8 és la suma</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els <code>+</code> s'avaluen d'<strong>esquerra a dreta</strong>. A la primera línia, <code>"Resultat: " + a</code> ja és un text, i en afegir-hi <code>b</code> s'enganxa un <code>3</code>: surt <code>53</code>. Els parèntesis de la segona línia obliguen a sumar primer.</p><p>A la tercera, <code>a + b</code> són dos enters i se sumen (8) abans de trobar el text.</p></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Quan vulguis mostrar el resultat d'un càlcul dins d'un text, posa el càlcul <strong>entre parèntesis</strong>: <code>"Total: " + (preu * quantitat)</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir "Nota: ", 8</code> (amb coma)</td><td><code>"Nota: " + 8</code> (amb <code>+</code>)</td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">6</span><div><h2 class="sec-title">La classe Math</h2><p class="sec-sub">Operacions matemàtiques habituals</p></div></div>
+  <p class="lead">Java inclou la classe <code>Math</code> amb operacions matemàtiques habituals. No cal cap <code>import</code>.</p><div class="table-wrap"><table><thead><tr><th>Expressió</th><th>Què calcula</th><th>Exemple</th><th>Resultat</th></tr></thead><tbody><tr><td><code>Math.pow(b, e)</code></td><td>potència b<sup>e</sup></td><td><code>Math.pow(2, 10)</code></td><td><code>1024.0</code></td></tr><tr><td><code>Math.sqrt(x)</code></td><td>arrel quadrada</td><td><code>Math.sqrt(81)</code></td><td><code>9.0</code></td></tr><tr><td><code>Math.abs(x)</code></td><td>valor absolut</td><td><code>Math.abs(-7)</code></td><td><code>7</code></td></tr><tr><td><code>Math.round(x)</code></td><td>arrodoneix a l'enter més proper</td><td><code>Math.round(8.5)</code></td><td><code>9</code></td></tr><tr><td><code>Math.max(a, b)</code></td><td>el més gran de dos</td><td><code>Math.max(4, 9)</code></td><td><code>9</code></td></tr><tr><td><code>Math.PI</code></td><td>constant π</td><td><code>Math.PI</code></td><td><code>3.141592653589793</code></td></tr></tbody></table></div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Operacions de la classe Math</span></div>
+  <div class="code-block" data-run="r9"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ExempleMath</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">pow</span>(<span class="num">2</span>, <span class="num">10</span>));   <span class="cmt">// 2 elevat a 10</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">sqrt</span>(<span class="num">81</span>));     <span class="cmt">// arrel quadrada</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">abs</span>(-<span class="num">7</span>));      <span class="cmt">// valor absolut</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">round</span>(<span class="num">8.5</span>));   <span class="cmt">// arrodoniment</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.<span class="fn">max</span>(<span class="num">4</span>, <span class="num">9</span>));    <span class="cmt">// el més gran</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">Math</span>.PI);           <span class="cmt">// el número π</span>
+
+        <span class="cmt">// Hipotenusa d'un triangle rectangle de catets 3 i 4</span>
+        <span class="kw">double</span> hipotenusa = <span class="cls">Math</span>.<span class="fn">sqrt</span>(<span class="cls">Math</span>.<span class="fn">pow</span>(<span class="num">3</span>, <span class="num">2</span>) + <span class="cls">Math</span>.<span class="fn">pow</span>(<span class="num">4</span>, <span class="num">2</span>));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hipotenusa: "</span> + hipotenusa);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r9">1024.0
+9.0
+7
+9
+9
+3.141592653589793
+Hipotenusa: 5.0</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada operació s'escriu <code>Math.</code> + el nom + els valors entre parèntesis. <code>pow</code> i <code>sqrt</code> sempre retornen un <code>double</code> (per això surt <code>1024.0</code> i <code>9.0</code>), mentre que <code>abs</code> i <code>max</code> retornen el mateix tipus que els valors que reben.</p><p>Les operacions es poden combinar: per calcular la hipotenusa primer s'eleven els catets al quadrat, se sumen i després es fa l'arrel.</p></div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>b ^ e</code></td><td><code>Math.pow(b, e)</code></td></tr><tr><td><code>RC(x)</code></td><td><code>Math.sqrt(x)</code></td></tr><tr><td><code>ABS(x)</code></td><td><code>Math.abs(x)</code></td></tr><tr><td><code>REDON(x)</code></td><td><code>Math.round(x)</code></td></tr><tr><td><code>PI</code></td><td><code>Math.PI</code></td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">7</span><div><h2 class="sec-title">Precedència d'operadors</h2><p class="sec-sub">Quina operació es fa primer</p></div></div>
+  <p class="lead">Quan una expressió té diversos operadors, Java segueix un ordre fix, com a matemàtiques. De més a menys prioritat: <code>!</code> i <code>++ --</code> → <code>* / %</code> → <code>+ -</code> → <code>&lt; &gt; &lt;= &gt;=</code> → <code>== !=</code> → <code>&amp;&amp;</code> → <code>||</code> → <code>= += -=</code>… Els operadors del mateix nivell s'avaluen d'esquerra a dreta.</p><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>La precedència en acció</span></div>
+  <div class="code-block" data-run="r10"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Precedencia</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">2</span> + <span class="num">3</span> * <span class="num">4</span>);       <span class="cmt">// * abans que +</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>((<span class="num">2</span> + <span class="num">3</span>) * <span class="num">4</span>);     <span class="cmt">// el parèntesi primer</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">20</span> - <span class="num">8</span> - <span class="num">2</span>);      <span class="cmt">// d'esquerra a dreta</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">20</span> / <span class="num">4</span> * <span class="num">2</span>);      <span class="cmt">// d'esquerra a dreta</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">7</span> + <span class="num">10</span> % <span class="num">4</span>);      <span class="cmt">// % abans que +</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">3</span> + <span class="num">4</span> &gt; <span class="num">6</span> &amp;&amp; <span class="num">2</span> * <span class="num">5</span> == <span class="num">10</span>);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r10">14
+20
+10
+10
+9
+true</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>A <code>2 + 3 * 4</code> es multiplica primer (12) i després se suma: 14. Els parèntesis canvien l'ordre: <code>(2 + 3) * 4</code> = 20. Quan els operadors tenen la mateixa prioritat, es va d'esquerra a dreta: <code>20 - 8 - 2</code> = 10 i <code>20 / 4 * 2</code> = 10.</p><p>A la darrera línia es fan primer els càlculs (7 i 10), després les comparacions (<code>true</code> i <code>true</code>) i finalment el <code>&amp;&amp;</code>.</p></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Quan tinguis dubtes, fes servir <strong>parèntesis</strong>: no costen res i fan el codi més clar per a qui el llegeix.</p></div>
+</section><section class="section" id="demos">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Quatre exercicis de nivell creixent per comprovar què has entès</p></div></div>
+  <p class="lead">Comprova que saps avaluar expressions com ho fa Java. Els dos primers són interactius: les respostes s'han comprovat executant les expressions.</p><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Avalua l'expressió</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Aplica la precedència i les regles de la divisió entera. Tria el resultat que mostraria Java.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>2 + 3 * 4</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">20</button><button type="button" class="qi-btn" data-ok="1">14</button><button type="button" class="qi-btn" data-ok="0">24</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Primer la multiplicació: 3 * 4 = 12; després 2 + 12 = 14.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>(2 + 3) * 4</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">14</button><button type="button" class="qi-btn" data-ok="1">20</button><button type="button" class="qi-btn" data-ok="0">9</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El parèntesi primer: 2 + 3 = 5; després 5 * 4 = 20.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>17 / 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3.4</button><button type="button" class="qi-btn" data-ok="1">3</button><button type="button" class="qi-btn" data-ok="0">4</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Els dos operands són enters: divisió entera, es descarten els decimals.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>17 % 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3</button><button type="button" class="qi-btn" data-ok="1">2</button><button type="button" class="qi-btn" data-ok="0">0</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>17 = 5 · 3 + 2. El residu és 2.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>17.0 / 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3</button><button type="button" class="qi-btn" data-ok="1">3.4</button><button type="button" class="qi-btn" data-ok="0">3.0</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Com que 17.0 és decimal, la divisió és decimal.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> <code>2 + 10 % 4 * 2</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">6</button><button type="button" class="qi-btn" data-ok="0">8</button><button type="button" class="qi-btn" data-ok="0">10</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>%</code> i <code>*</code> van abans que <code>+</code>, d'esquerra a dreta: 10 % 4 = 2; 2 * 2 = 4; 2 + 4 = 6.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">7.</span> <code>!(5 &gt; 3) || 2 == 2</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">false</button><button type="button" class="qi-btn" data-ok="1">true</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>!(5 &gt; 3)</code> és <code>false</code>, però <code>2 == 2</code> és <code>true</code>, i amb <code>||</code> n'hi ha prou amb un.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Suma o concatenació?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Recorda: els <code>+</code> s'avaluen d'esquerra a dreta i, quan hi ha un text, s'enganxen. Què mostra cada <code>println</code>?</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>"Total: " + 2 + 3</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Total: 5</button><button type="button" class="qi-btn" data-ok="1">Total: 23</button><button type="button" class="qi-btn" data-ok="0">Total: 2 3</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El text va primer: <code>"Total: " + 2</code> és text, i el 3 s'hi enganxa.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>2 + 3 + " euros"</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">23 euros</button><button type="button" class="qi-btn" data-ok="1">5 euros</button><button type="button" class="qi-btn" data-ok="0">5</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Els dos primers són números i se sumen (5) abans de trobar el text.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>"Total: " + (2 + 3)</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Total: 23</button><button type="button" class="qi-btn" data-ok="1">Total: 5</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El parèntesi obliga a sumar primer.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>"" + 7 + 3</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">10</button><button type="button" class="qi-btn" data-ok="1">73</button><button type="button" class="qi-btn" data-ok="0">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El text buit <code>""</code> converteix tota l'expressió en text des del principi.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>1 + 2 + "3" + 4 + 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">15</button><button type="button" class="qi-btn" data-ok="1">3345</button><button type="button" class="qi-btn" data-ok="0">12345</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>1 + 2 = 3 (números); després apareix el text "3" i a partir d'aquí tot s'enganxa: 3 3 4 5.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 3</span><span class="exercici-title">Detecta l'error</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Errors típics amb <code>=</code>, <code>==</code> i <code>++</code>. Alguns ni tan sols els detecta el compilador!</p><div class="err-item"><div class="qi-text"><span class="qi-n">a)</span> Volem saber si una persona té exactament 18 anys.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Majoria</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> edat = <span class="num">20</span>;
+        <span class="kw">boolean</span> teDivuit = edat = <span class="num">18</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(teDivuit);
+    }
+
+}</div><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
+      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp"><code>edat = 18</code> és una <strong>assignació</strong>, que dona un <code>int</code>, i no es pot guardar en un <code>boolean</code>. Per comparar cal <code>==</code>.<p class="msg">Missatge del compilador:<br><code>Majoria.java:5: error: incompatible types: int cannot be converted to boolean</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r11"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Majoria</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> edat = <span class="num">20</span>;
+        <span class="kw">boolean</span> teDivuit = edat == <span class="num">18</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(teDivuit);
+    }
+
+}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r11">false</pre></div></div>
+  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">b)</span> Volem que <code>seguent</code> valgui un més que <code>actual</code>.</div><div class="code-block" data-run="r12" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Seguent</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> actual = <span class="num">5</span>;
+        <span class="kw">int</span> seguent = actual++;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Següent: "</span> + seguent);
+    }
+
+}</div><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
+      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp"><code>actual++</code> és un <strong>post-increment</strong>: primer dona el valor antic (5) a <code>seguent</code> i després incrementa <code>actual</code>. A més, modifica <code>actual</code>, que no volíem tocar. El més clar és <code>actual + 1</code>.<div class="console"><div class="console-header">🖥️ Sortida que dona (incorrecta)</div><pre data-out="r12">Següent: 5</pre></div></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r13"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Seguent</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> actual = <span class="num">5</span>;
+        <span class="kw">int</span> seguent = actual + <span class="num">1</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Següent: "</span> + seguent);
+    }
+
+}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r13">Següent: 6</pre></div></div>
+  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">c)</span> Volem sumar 3 punts a <code>x</code>.</div><div class="code-block" data-run="r14" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">SumaPunts</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> x = <span class="num">5</span>;
+        x =+ <span class="num">3</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(x);
+    }
+
+}</div><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
+      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">S'ha escrit <code>=+</code> en lloc de <code>+=</code>. Java ho llegeix com <code>x = +3</code> (assigna «més tres»), així que compila però <code>x</code> passa a valer 3. És un error de lògica.<div class="console"><div class="console-header">🖥️ Sortida que dona (incorrecta)</div><pre data-out="r14">3</pre></div></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r15"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">SumaPunts</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">int</span> x = <span class="num">5</span>;
+        x += <span class="num">3</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(x);
+    }
+
+}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r15">8</pre></div></div>
+  </div></div></div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Demo 4a</span><span class="exercici-title">Descompondre segons</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>Un cronòmetre marca 4.000 segons. Mostra quantes hores, minuts i segons són.</p><ul class="exercici-tasques"><li>Declara <code>int segonsTotals = 4000;</code></li><li>Usa només la divisió entera <code>/</code> i el residu <code>%</code>.</li><li>Declara les constants <code>SEGONS_HORA = 3600</code> i <code>SEGONS_MINUT = 60</code>.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r16">4000 s = 1 h 6 min 40 s</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.6 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r16"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DescompondreSegons</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SEGONS_HORA = <span class="num">3600</span>;
+        <span class="kw">final</span> <span class="kw">int</span> SEGONS_MINUT = <span class="num">60</span>;
+
+        <span class="kw">int</span> segonsTotals = <span class="num">4000</span>;
+
+        <span class="kw">int</span> hores = segonsTotals / SEGONS_HORA;          <span class="cmt">// 1</span>
+        <span class="kw">int</span> restants = segonsTotals % SEGONS_HORA;       <span class="cmt">// 400</span>
+        <span class="kw">int</span> minuts = restants / SEGONS_MINUT;            <span class="cmt">// 6</span>
+        <span class="kw">int</span> segons = restants % SEGONS_MINUT;            <span class="cmt">// 40</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(segonsTotals + <span class="str">" s = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min "</span> + segons + <span class="str">" s"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>%</code> per obtenir el que sobra després de treure les hores.</li><li>No hi ha números màgics: 3600 i 60 són constants.</li></ul></div></div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Demo 4b</span><span class="exercici-title">Condicions d'accés a un concert</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>Calcula, només amb operadors relacionals i lògics, si una persona pot entrar a un concert i si té descompte.</p><ul class="exercici-tasques"><li>Dades: <code>int edat = 17;</code>, <code>boolean teEntrada = true;</code>, <code>boolean acompanyadaAdult = true;</code>, <code>boolean esEstudiant = true;</code></li><li>Pot entrar si té entrada i, a més, és major d'edat o va acompanyada d'un adult.</li><li>Té descompte si és estudiant o té menys de 12 anys o 65 o més.</li><li>Mostra el resultat de les dues expressions (<code>true</code>/<code>false</code>). Encara no cal <code>if</code>.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r17">Pot entrar: true
+Té descompte: true</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.4 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r17"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AccesConcert</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">17</span>;
+        <span class="kw">boolean</span> teEntrada = <span class="kw">true</span>;
+        <span class="kw">boolean</span> acompanyadaAdult = <span class="kw">true</span>;
+        <span class="kw">boolean</span> esEstudiant = <span class="kw">true</span>;
+
+        <span class="kw">boolean</span> potEntrar = teEntrada &amp;&amp; (edat &gt;= <span class="num">18</span> || acompanyadaAdult);
+        <span class="kw">boolean</span> teDescompte = esEstudiant || edat &lt; <span class="num">12</span> || edat &gt;= <span class="num">65</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té descompte: "</span> + teDescompte);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Els parèntesis de <code>(edat &gt;= 18 || acompanyadaAdult)</code> són imprescindibles: sense ells, algú sense entrada però major d'edat podria entrar.</li><li>Prova-ho canviant els valors: <code>teEntrada = false</code> ha de donar <code>false</code>.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A1_2_dades.html">← A1.2 Dades</a><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><a href="A1_4_conversions_sequencial.html">A1.4 Conversions i composició seqüencial →</a></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>

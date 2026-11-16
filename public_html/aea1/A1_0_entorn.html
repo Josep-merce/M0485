@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A1.0 — Preparem l'entorn · A1 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A1 · Estructura del programa informàtic</p>
+  <h1>A1.0 — Preparem l'entorn</h1>
+  <p>Què és el JDK, com s'instal·la l'entorn de treball (JDK 21 i NetBeans) i com es crea i s'executa el primer projecte Maven.</p>
+  <div class="hero-pills"><span class="pill">RA1</span><span class="pill">CA 1.2 · 1.3</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A1_estructura_programa.html">A1</a><span>›</span>
+  A1.0
+</nav>
+<main>
+<a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.2 i 1.3</div><div class="obj-text">Instal·lar i comprovar l'entorn de treball del curs i crear-hi el primer projecte Maven. Saber què fa cada peça (JDK, JRE i JVM) i com passa un programa del codi font a l'execució. Al final tindràs a punt el projecte <code>AEA1_A1</code>, on faràs tots els exercicis.</div></div></div>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Java: JDK, JRE i JVM</h2><p class="sec-sub">Les peces que necessitem per programar i executar</p></div></div>
+  <p class="lead">Java és un llenguatge de programació d'alt nivell i d'ús general creat el 1995 per James Gosling a Sun Microsystems. El seu lema és <strong>«Escriu una vegada, executa a qualsevol lloc»</strong>: el codi compilat funciona a qualsevol sistema que tingui una màquina virtual Java instal·lada. Per treballar-hi fan falta tres peces, una dins de l'altra:</p><div class="table-wrap"><table><thead><tr><th>Component</th><th>Nom complet</th><th>Per a què serveix</th></tr></thead><tbody><tr><td><code>JDK</code></td><td>Java Development Kit</td><td>Eines per <strong>desenvolupar</strong>: compilador (<code>javac</code>), JRE i eines de depuració.</td></tr><tr><td><code>JRE</code></td><td>Java Runtime Environment</td><td>Entorn per <strong>executar</strong> programes Java. Inclou la JVM i les llibreries estàndard.</td></tr><tr><td><code>JVM</code></td><td>Java Virtual Machine</td><td>Màquina virtual que <strong>executa el bytecode</strong> traduint-lo a instruccions del sistema operatiu.</td></tr></tbody></table></div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Del codi font a l'execució</span></div>
+  <div class="flux" role="img" aria-label="Rectangle.java, javac, Rectangle.class, JVM, execució">
+    <div class="flux-pas"><strong>Rectangle.java</strong>codi font</div><span class="flux-fl">→</span>
+    <div class="flux-pas"><strong>javac</strong>compilador (JDK)</div><span class="flux-fl">→</span>
+    <div class="flux-pas"><strong>Rectangle.class</strong>bytecode</div><span class="flux-fl">→</span>
+    <div class="flux-pas"><strong>JVM</strong>màquina virtual (JRE)</div><span class="flux-fl">→</span>
+    <div class="flux-pas"><strong>Execució</strong>sortida per consola</div>
+  </div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span>
+    <p>Escrivim el programa en un fitxer <code>.java</code>, que és text. El compilador <code>javac</code> comprova que estigui ben escrit i, si no hi ha errors, genera un fitxer <code>.class</code> amb el <strong>bytecode</strong>, un codi intermedi que no depèn de cap sistema operatiu. La <strong>JVM</strong> llegeix aquest bytecode i l'executa a l'ordinador concret.</p>
+    <p>Per això el mateix <code>.class</code> funciona a Windows, macOS i Linux: cada sistema té la seva JVM. A NetBeans tot el procés es fa amb un sol clic (<strong>Run File</strong>).</p>
+  </div>
+</div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>Per <strong>programar</strong> necessites el JDK (que ja porta el JRE i la JVM a dins). Per <strong>executar</strong> un programa que t'han passat, n'hi ha prou amb el JRE. Al curs fem servir el <strong>JDK 21</strong>, una versió LTS (de suport a llarg termini).</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Premem <strong>Ejecutar</strong> i PSeInt interpreta el pseudocodi línia a línia.</td><td>Primer es <strong>compila</strong> (<code>javac</code>) i, si no hi ha errors, la JVM l'<strong>executa</strong>. Els errors de sintaxi surten abans d'executar.</td></tr><tr><td>Un fitxer <code>.psc</code>.</td><td>Un fitxer <code>.java</code> per classe, que genera un <code>.class</code>.</td></tr></tbody></table></div></div><details class="mes"><summary>📚 Per saber-ne més · característiques de Java</summary><div class="mes-body"><div class="table-wrap"><table><thead><tr><th>Característica</th><th>Descripció</th></tr></thead><tbody><tr><td><strong>Portabilitat</strong></td><td>El mateix programa compilat s'executa a Windows, macOS i Linux sense canvis.</td></tr><tr><td><strong>Orientat a objectes</strong></td><td>Els programes s'organitzen en classes i objectes (ho treballarem a partir de l'AEA2).</td></tr><tr><td><strong>Gestió automàtica de memòria</strong></td><td>El <em>Garbage Collector</em> allibera la memòria que ja no s'usa.</td></tr><tr><td><strong>Àmplia comunitat</strong></td><td>Un dels llenguatges més demandats al mercat laboral, amb molts frameworks i llibreries.</td></tr><tr><td><strong>Versió del curs</strong></td><td><strong>JDK 21 (LTS)</strong>: versió de suport a llarg termini, estable i recomanada.</td></tr></tbody></table></div></div></details>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Instal·lació del JDK 21 i NetBeans</h2><p class="sec-sub">L'entorn de treball del curs</p></div></div>
+  <p class="lead">Necessitem dues coses: el <strong>JDK 21</strong>, que compila i executa, i un entorn de desenvolupament (IDE), <strong>Apache NetBeans</strong>, on escriurem el codi. Tens tots els passos amb captures a la guia en PDF.</p><div class="cards">
+  <div class="card"><span class="card-num">1</span><span class="card-title">Descarregar el JDK 21</span><span class="card-desc">Des de la web d'Oracle (<strong>oracle.com/java/technologies/downloads</strong>) o d'Eclipse Adoptium, tria l'instal·lador del teu sistema operatiu.</span></div>
+  <div class="card"><span class="card-num">2</span><span class="card-title">Instal·lar i verificar</span><span class="card-desc">Executa l'instal·lador amb les opcions per defecte. Obre una terminal i escriu <code>java -version</code>: ha d'aparèixer la versió 21.</span></div>
+  <div class="card"><span class="card-num">3</span><span class="card-title">Instal·lar Apache NetBeans</span><span class="card-desc">Descarrega la darrera versió des de <strong>netbeans.apache.org</strong> i instal·la-la. Detectarà automàticament el JDK i ja porta <strong>Maven</strong> integrat: no cal instal·lar-lo a part.</span></div>
+  <div class="card"><span class="card-num">4</span><span class="card-title">Configuració opcional</span><span class="card-desc">Tools → Options → Appearance → Look and Feel → <strong>FlatLaf Dark</strong> per a un tema fosc, i Fonts &amp; Colors per augmentar la mida de la lletra.</span></div>
+  <a class="card card-link" href="docs/installacio_JDK21_NetBeans.pdf" target="_blank" rel="noopener"><span class="card-num">PDF</span><span class="card-title">Guia pas a pas 📄</span><span class="card-desc">Instal·lació de l'entorn de treball (JDK 21 i NetBeans) explicada pas a pas. <strong>Obre la guia →</strong></span></a>
+</div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comprovar la instal·lació des de la terminal</span></div>
+  <div class="code-block">java -version
+javac -version</div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span>
+    <p>La primera ordre pregunta quina versió de Java (la JVM) hi ha instal·lada; la segona, quina versió del compilador. Totes dues han de començar per <strong>21</strong> (per exemple <code>java version "21.0.5"</code> o <code>openjdk version "21.0.5"</code>; els darrers números depenen de l'actualització que hagis instal·lat).</p>
+    <p>Si <code>java</code> respon però <code>javac</code> no es reconeix, tens només el JRE: cal instal·lar el <strong>JDK</strong>.</p>
+  </div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><ul><li><em>«java» no es reconeix com una ordre</em>: el JDK no està instal·lat o la terminal es va obrir abans d'instal·lar-lo. Tanca-la i torna-la a obrir.</li><li>Surt una versió antiga (8, 11, 17…): tens més d'un JDK. A NetBeans, comprova a Tools → Java Platforms que el projecte fa servir el <strong>JDK 21</strong>.</li></ul></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Primer projecte Maven: Hola Món</h2><p class="sec-sub">Crear el projecte, la classe i executar-la</p></div></div>
+  <p class="lead">Crear projectes és el primer pas per desenvolupar qualsevol aplicació. Segueix aquests passos a NetBeans:</p><div class="cards"><div class="card"><span class="card-num">1</span><span class="card-title">Crear el projecte</span><span class="card-desc">File → New Project → <strong>Java with Maven</strong> → Java Application. <em>Project Name</em>: <code>IntroduccioJava</code>. <em>Group Id</em>: <code>cat.lamerce</code>. El paquet es crea sol: <code>cat.lamerce.introducciojava</code>.</span></div><div class="card"><span class="card-num">2</span><span class="card-title">Crear la classe</span><span class="card-desc">Dins de <em>Source Packages</em>, clic dret al paquet <code>cat.lamerce.introducciojava</code> → New → Java Class. Nom: <code>HolaMon</code>. NetBeans crea <code>HolaMon.java</code> amb la línia <code>package</code> ja escrita. (Pots esborrar la classe <code>IntroduccioJava</code> que genera l'assistent.)</span></div><div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota <strong>sense la línia <code>package</code></strong> i enganxa'l a sota de la que ja ha escrit NetBeans. Fixa't en l'estructura: paquet, classe, mètode <code>main</code> i instruccions.</span></div><div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>, envoltat de les línies de Maven (<code>Building IntroduccioJava…</code>, <code>BUILD SUCCESS</code>).</span></div></div><h3 class="sub-title">Què és un projecte Maven?</h3><p class="text"><strong>Maven</strong> és l'eina estàndard per construir projectes Java. Organitza sempre els fitxers de la mateixa manera i guarda la configuració del projecte en un fitxer anomenat <code>pom.xml</code>. Qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar un projecte Maven sense canviar res.</p><div class="pseudo">IntroduccioJava/
+├── pom.xml                       ← configuració del projecte (JDK 21…)
+└── src/main/java/
+    └── cat/lamerce/introducciojava/    ← el paquet són carpetes
+        └── HolaMon.java</div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
+  <div class="code-block" data-run="r1"><span class="kw">package</span> cat.lamerce.introducciojava;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Mostra dos missatges per pantalla</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola Món amb Java"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguts al curs!"</span>);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r1">Hola Món amb Java
+Benvinguts al curs!</pre></div>
+  
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La primera línia, <code>package cat.lamerce.introducciojava;</code>, diu a quin <strong>paquet</strong> pertany la classe; el paquet correspon a les carpetes <code>cat/lamerce/introducciojava</code> dins de <code>src/main/java</code>. Després ve la classe <code>HolaMon</code> (el fitxer s'ha de dir <code>HolaMon.java</code>) i, a dins, el mètode <code>main</code>, que és on comença l'execució.</p><p>Cada <code>System.out.println</code> escriu un text i salta de línia. A la finestra <em>Output</em> de NetBeans veuràs aquestes dues línies entre els missatges de Maven.</p></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Un projecte per activitat, una classe per exemple.</strong> No cal crear un projecte nou per a cada exemple: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong>, posa-li el nom de l'exemple i enganxa el codi a sota de la línia <code>package</code>. Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> (<kbd>Maj</kbd>+<kbd>F6</kbd>) executa només la que tries.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>A les subpàgines següents els exemples no porten la línia <code>package</code></strong>, per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Cada algorisme és un fitxer <code>.psc</code> independent.</td><td>Un <strong>projecte</strong> Maven agrupa moltes classes; cadascuna pot tenir el seu <code>main</code>.</td></tr><tr><td>No hi ha paquets.</td><td><code>package cat.lamerce.introducciojava;</code> organitza les classes en carpetes.</td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">L'error «Incorrect package»</h2><p class="sec-sub">El primer error que et trobaràs (i com evitar-lo)</p></div></div>
+  <p class="lead">Quan copiem exemples d'una pàgina web a NetBeans és fàcil trepitjar la línia <code>package</code>. Aquest és el resultat:</p><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fitxer <code>HolaMon.java</code> dins del paquet <code>cat.lamerce.aea1_a1</code></span></div>
+  <div class="code-block" data-expect="ide"><span class="kw">package</span> cat.lamerce.introducciojava;   <span class="cmt">// ✘ no és el paquet on és el fitxer</span>
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
+    <span class="cmt">// ...</span>
+}</div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span>
+    <p>NetBeans mostra una <strong>bombeta vermella a la línia 1</strong> amb el missatge <em>Incorrect package</em>: la línia <code>package</code> diu <code>cat.lamerce.introducciojava</code>, però el fitxer és a la carpeta del paquet <code>cat.lamerce.aea1_a1</code>. Totes dues coses han de coincidir.</p>
+  </div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Error <em>Incorrect package</em> (bombeta vermella a la línia 1).</strong> Apareix quan la línia <code>package</code> no coincideix amb el paquet on és el fitxer. Sol passar en enganxar un exemple i esborrar o canviar la línia <code>package</code> que havia escrit NetBeans.</p><p><strong>Solució:</strong> mira el nom del paquet a <em>Source Packages</em> (per exemple <code>lamerce.estructura</code>) i escriu-lo a la primera línia: <code>package lamerce.estructura;</code>. També pots clicar la bombeta i triar <strong>Change package declaration to …</strong>. No triïs <em>Move class to correct folder</em>: mouria el fitxer a una carpeta nova.</p><p><strong>Per evitar-ho:</strong> copia els exemples a partir de la línia <code>import</code> (o de <code>public class</code> si no n'hi ha) i enganxa'ls a sota del <code>package</code> que ja hi ha.</p></div>
+</section><section class="section" id="demos">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Quatre exercicis de nivell creixent per comprovar què has entès</p></div></div>
+  <p class="lead">Comprova que tens clars els conceptes de l'entorn. Els dos primers són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Ordena el procés</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Clica els passos en l'ordre en què passen, des que escrius el programa fins que en veus el resultat.</p><div class="ord" data-total="5"><ol class="ord-seq"></ol><div class="ord-pool"><button type="button" class="ord-btn" data-pos="3" data-hint="La JVM només pot executar bytecode (.class), que encara no existeix.">La JVM executa el bytecode</button><button type="button" class="ord-btn" data-pos="0" data-hint="Tot comença pel codi font: sense fitxer .java no hi ha res a compilar.">Escrivim el codi font a <code>HolaMon.java</code></button><button type="button" class="ord-btn" data-pos="4" data-hint="La sortida és el darrer pas: primer el programa s&#x27;ha d&#x27;executar.">Veiem el resultat a la consola</button><button type="button" class="ord-btn" data-pos="2" data-hint="El .class és el resultat de compilar: surt just després de javac.">Es genera el bytecode <code>HolaMon.class</code></button><button type="button" class="ord-btn" data-pos="1" data-hint="El compilador treballa sobre el codi font, abans que existeixi el .class."><code>javac</code> compila el codi</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Codi font (<code>.java</code>) → <code>javac</code> → bytecode (<code>.class</code>) → JVM → sortida. A NetBeans, <em>Run File</em> fa tots aquests passos seguits.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Quin component necessito?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Per a cada situació, tria la peça de Java que hi correspon.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Vull escriure i compilar els meus propis programes Java.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Per compilar cal <code>javac</code>, que només ve amb el JDK.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Només vull executar una aplicació Java que m'han passat ja compilada.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="1">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Per executar n'hi ha prou amb el JRE: porta la JVM i les llibreries estàndard.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> Quina peça tradueix el bytecode a instruccions del sistema operatiu?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="1">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>La màquina virtual (JVM) és la que executa el bytecode a cada sistema.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> On és el compilador <code>javac</code>?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>javac</code> és una eina de desenvolupament: forma part del JDK.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> Inclou la JVM i les llibreries estàndard, però no el compilador.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="1">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Aquesta és la definició del JRE: entorn d'execució sense eines de desenvolupament.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> Gràcies a aquesta peça el mateix <code>.class</code> funciona a Windows i a Linux.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="1">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cada sistema operatiu té la seva JVM, i totes entenen el mateix bytecode.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 3</span><span class="exercici-title">Detecta l'error</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Cada fragment té un error relacionat amb el paquet o amb el nom del fitxer. Pensa quin és abans d'obrir la solució.</p><div class="err-item"><div class="qi-text"><span class="qi-n">a)</span> El fitxer es diu <code>Salutacio.java</code>.</div><div class="code-block" data-expect="compile" data-file="Salutacio.java" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Saludacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola!"</span>);
+    }
+
+}</div><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
+      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La classe pública es diu <code>Saludacio</code> (amb <em>d</em>) però el fitxer és <code>Salutacio.java</code>. El nom de la classe i el del fitxer han de coincidir exactament, majúscules incloses.<p class="msg">Missatge del compilador:<br><code>Salutacio.java:1: error: class Saludacio is public, should be declared in a file named Saludacio.java</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola!"</span>);
+    }
+
+}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r2">Hola!</pre></div></div>
+  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">b)</span> Fitxer <code>Data.java</code>: volem mostrar l'any actual.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
+<span class="kw">package</span> cat.lamerce.aea1_a1;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Data</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">LocalDate</span>.<span class="fn">now</span>().<span class="fn">getYear</span>());
+    }
+
+}</div><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
+      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> ha de ser la <strong>primera instrucció</strong> del fitxer (només hi pot haver comentaris al davant). Les línies <code>import</code> van després.<p class="msg">Missatge del compilador:<br><code>Data.java:2: error: class, interface, enum, or record expected</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r3"><span class="kw">package</span> cat.lamerce.aea1_a1;
+
+<span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Data</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">LocalDate</span>.<span class="fn">now</span>().<span class="fn">getYear</span>());
+    }
+
+}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">2026</pre></div></div>
+  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">c)</span> Fitxer <code>Benvinguda.java</code>, creat dins del paquet <code>cat.lamerce.aea1_a1</code> del projecte <code>AEA1_A1</code>.</div><div class="code-block" data-expect="ide" data-bad="1"><span class="kw">package</span> cat.lamerce.introducciojava;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Benvinguda</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguda a l'AEA1"</span>);
+    }
+
+}</div><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
+      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> és la d'un altre projecte (s'ha copiat d'un exemple anterior). NetBeans marca <em>Incorrect package</em>: s'ha de posar el paquet on és realment el fitxer, <code>cat.lamerce.aea1_a1</code>.</div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r4"><span class="kw">package</span> cat.lamerce.aea1_a1;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Benvinguda</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguda a l'AEA1"</span>);
+    }
+
+}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Benvinguda a l'AEA1</pre></div></div>
+  </div></div></div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Demo 4</span><span class="exercici-title">Crear el projecte AEA1_A1</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>Prepara el projecte on faràs tots els exercicis de l'A1: crea'l a NetBeans i afegeix-hi una primera classe que saludi.</p><ul class="exercici-tasques"><li>Crea un projecte nou: <em>Java with Maven</em> → Java Application, <em>Project Name</em> <code>AEA1_A1</code>, <em>Group Id</em> <code>cat.lamerce</code>. Comprova que el paquet és <code>cat.lamerce.aea1_a1</code>.</li><li>Dins del paquet, crea la classe <code>Salutacio</code> (New → Java Class).</li><li>Escriu un <code>main</code> que mostri les tres línies de la sortida esperada.</li><li>Executa-la amb <strong>Run File</strong> i comprova que surt <code>BUILD SUCCESS</code>. Aquest serà el projecte de tots els exemples i exercicis de l'A1.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r5">Hola! Sóc alumne de DAW.
+Aquest és el projecte AEA1_A1.
+Ja tinc l'entorn a punt.</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.2 · 1.3</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r5"><span class="kw">package</span> cat.lamerce.aea1_a1;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola! Sóc alumne de DAW."</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Aquest és el projecte AEA1_A1."</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ja tinc l'entorn a punt."</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte és Maven i el <em>Group Id</em> és <code>cat.lamerce</code>.</li><li>La línia <code>package</code> coincideix amb el paquet de <em>Source Packages</em> i el fitxer es diu igual que la classe.</li><li>El programa s'executa sense errors amb <em>Run File</em>.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><span></span><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><a href="A1_1_primer_programa.html">A1.1 Del problema al programa →</a></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>

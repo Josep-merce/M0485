@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exercicis de repàs · A1 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A1 · Estructura del programa informàtic</p>
+  <h1>Exercicis de repàs</h1>
+  <p>Cinc exercicis per consolidar tota l'A1: operadors, constants, divisió entera i residu, conversions i detecció d'errors.</p>
+  <div class="hero-pills"><span class="pill">RA1</span><span class="pill">CA 1.1 a 1.9</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A1_estructura_programa.html">A1</a><span>›</span>
+  Exercicis de repàs
+</nav>
+<main>
+<a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.1 a 1.9</div><div class="obj-text">Resoldre problemes complets amb programes seqüencials en Java que combinin tipus de dades, constants, operadors i conversions, i detectar i corregir errors de compilació i de lògica en un programa donat.</div></div></div>
+<p class="lead">Exercicis per repassar tota l'A1 combinant el que has après a les subpàgines. Estan ordenats de menys a més dificultat. Abans de programar, escriu l'algorisme en paper (dades, càlculs, sortida). Quan acabis, compara la sortida del teu programa amb la <strong>sortida esperada</strong> i, finalment, consulta la solució. Crea cada exercici com una classe nova del projecte <code>AEA1_A1</code>.</p><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Ex. 1</span><span class="exercici-title">Cercle: àrea i circumferència</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Calcula l'àrea i la longitud de la circumferència d'un cercle de radi 5.</p><ul class="exercici-tasques"><li>Declara <code>double radi = 5;</code></li><li>Usa la constant <code>Math.PI</code>. Àrea = π · r²; circumferència = 2 · π · r.</li><li>Mostra els dos resultats arrodonits a 2 decimals (mira l'exemple <em>Obtenir una mitjana decimal a partir d'enters</em> d'<a href="A1_4_conversions_sequencial.html">A1.4</a>, secció 2).</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r1">Radi: 5.0
+Àrea: 78.54
+Circumferència: 31.42</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.5 · 1.7 · 1.8</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cercle</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> radi = <span class="num">5</span>;
+
+        <span class="kw">double</span> area = <span class="cls">Math</span>.PI * radi * radi;
+        <span class="kw">double</span> circumferencia = <span class="num">2</span> * <span class="cls">Math</span>.PI * radi;
+
+        <span class="cmt">// Arrodonim a 2 decimals</span>
+        area = <span class="cls">Math</span>.<span class="fn">round</span>(area * <span class="num">100</span>) / <span class="num">100.0</span>;
+        circumferencia = <span class="cls">Math</span>.<span class="fn">round</span>(circumferencia * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Radi: "</span> + radi);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Circumferència: "</span> + circumferencia);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>Math.PI</code> en lloc de 3.14.</li><li>L'arrodoniment divideix per <code>100.0</code> (decimal) i no per <code>100</code>.</li></ul></div></div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Ex. 2</span><span class="exercici-title">Les edats de la família</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Una família té 6 membres: dos germans (Joan i Marta), els dos pares i els dos avis materns. Sabem que:</p><ul class="exercici-tasques"><li>L'avi té sis vegades l'edat de la Marta.</li><li>L'àvia té la suma de les edats dels pares menys l'edat de la Marta.</li><li>L'edat del Joan és el residu (mòdul) de dividir l'edat del pare entre la de la Marta.</li><li>L'edat de la mare és el triple de l'edat de la Marta més l'edat del Joan.</li><li>L'edat del pare és el resultat de multiplicar per 6 la divisió entera entre l'edat de l'avi i la de la Marta.</li><li>La Marta té 10 anys.</li><li>Calcula i mostra totes les edats. <strong>Pensa en quin ordre</strong> has de fer els càlculs: no és el mateix ordre de l'enunciat.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r2">Marta: 10 anys
+Joan: 6 anys
+Pare: 36 anys
+Mare: 36 anys
+Avi: 60 anys
+Àvia: 62 anys</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.5 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EdatsFamilia</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Només coneixem l'edat de la Marta: la resta depèn d'altres edats,</span>
+        <span class="cmt">// així que cal calcular-les en l'ordre en què es necessiten</span>
+        <span class="kw">int</span> marta = <span class="num">10</span>;
+        <span class="kw">int</span> avi = <span class="num">6</span> * marta;               <span class="cmt">// 60</span>
+        <span class="kw">int</span> pare = <span class="num">6</span> * (avi / marta);      <span class="cmt">// 36 (necessita l'avi)</span>
+        <span class="kw">int</span> joan = pare % marta;           <span class="cmt">// 6  (necessita el pare)</span>
+        <span class="kw">int</span> mare = <span class="num">3</span> * marta + joan;       <span class="cmt">// 36 (necessita el Joan)</span>
+        <span class="kw">int</span> avia = pare + mare - marta;    <span class="cmt">// 62 (necessita pare i mare)</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Marta: "</span> + marta + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Joan: "</span> + joan + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pare: "</span> + pare + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mare: "</span> + mare + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Avi: "</span> + avi + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àvia: "</span> + avia + <span class="str">" anys"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Els càlculs segueixen l'ordre de dependències (avi → pare → Joan → mare → àvia).</li><li>Es fan servir la divisió entera <code>/</code> i el residu <code>%</code> com demana l'enunciat.</li></ul></div></div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Ex. 3</span><span class="exercici-title">Les xifres d'un número</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>Donat un número de 4 xifres, mostra cadascuna de les xifres per separat, la seva suma i el número escrit al revés.</p><ul class="exercici-tasques"><li>Declara <code>int numero = 2745;</code></li><li>Obtén les unitats, desenes, centenes i milers combinant <code>/</code> i <code>%</code> amb 10, 100 i 1000.</li><li>Calcula la suma de les xifres i el número invertit (5472) <strong>com a enter</strong>, no com a text.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r3">Milers: 2, centenes: 7, desenes: 4, unitats: 5
+Suma de xifres: 18
+Invertit: 5472</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.5 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">XifresNumero</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">2745</span>;
+
+        <span class="kw">int</span> unitats = numero % <span class="num">10</span>;           <span class="cmt">// 5</span>
+        <span class="kw">int</span> desenes = numero / <span class="num">10</span> % <span class="num">10</span>;      <span class="cmt">// 4</span>
+        <span class="kw">int</span> centenes = numero / <span class="num">100</span> % <span class="num">10</span>;    <span class="cmt">// 7</span>
+        <span class="kw">int</span> milers = numero / <span class="num">1000</span>;          <span class="cmt">// 2</span>
+
+        <span class="kw">int</span> suma = unitats + desenes + centenes + milers;
+        <span class="kw">int</span> invertit = unitats * <span class="num">1000</span> + desenes * <span class="num">100</span> + centenes * <span class="num">10</span> + milers;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Milers: "</span> + milers + <span class="str">", centenes: "</span> + centenes
+                + <span class="str">", desenes: "</span> + desenes + <span class="str">", unitats: "</span> + unitats);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma de xifres: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Entén que <code>numero / 10 % 10</code> s'avalua d'esquerra a dreta: primer <code>/</code> i després <code>%</code>.</li><li>El número invertit es construeix amb operacions aritmètiques.</li></ul></div></div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Ex. 4</span><span class="exercici-title">Caixer automàtic: bitllets i monedes</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>Un caixer ha de lliurar 187 €. Calcula quants bitllets de 50, 20, 10 i 5 € i quantes monedes de 2 i 1 € cal donar, fent servir el mínim nombre de peces.</p><ul class="exercici-tasques"><li>Declara <code>int import = 187;</code> (pista: <code>import</code> és paraula reservada, tria un altre nom!).</li><li>Per a cada valor: quantes peces = restant / valor; restant = restant % valor.</li><li>Mostra només el resultat final de cada tipus de peça.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r4">Import: 187 €
+Bitllets de 50: 3
+Bitllets de 20: 1
+Bitllets de 10: 1
+Bitllets de 5: 1
+Monedes de 2: 1
+Monedes d'1: 0</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.4 · 1.5 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r4"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Caixer</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> quantitat = <span class="num">187</span>;        <span class="cmt">// "import" és una paraula reservada de Java</span>
+        <span class="kw">int</span> restant = quantitat;
+
+        <span class="kw">int</span> b50 = restant / <span class="num">50</span>;   restant = restant % <span class="num">50</span>;
+        <span class="kw">int</span> b20 = restant / <span class="num">20</span>;   restant = restant % <span class="num">20</span>;
+        <span class="kw">int</span> b10 = restant / <span class="num">10</span>;   restant = restant % <span class="num">10</span>;
+        <span class="kw">int</span> b5 = restant / <span class="num">5</span>;     restant = restant % <span class="num">5</span>;
+        <span class="kw">int</span> m2 = restant / <span class="num">2</span>;     restant = restant % <span class="num">2</span>;
+        <span class="kw">int</span> m1 = restant;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Import: "</span> + quantitat + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 50: "</span> + b50);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 20: "</span> + b20);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 10: "</span> + b10);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bitllets de 5: "</span> + b5);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Monedes de 2: "</span> + m2);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Monedes d'1: "</span> + m1);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la variable <code>restant</code> en cada pas.</li><li>Detecta que <code>import</code> no es pot usar com a nom de variable.</li></ul></div></div>
+  </div>
+</div><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-num">Ex. 5</span><span class="exercici-title">Troba i corregeix els errors</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>El programa següent hauria de calcular el preu d'una entrada de cinema amb un 15 % de descompte, però té <strong>errors de compilació i de lògica</strong>. Copia'l a NetBeans, localitza'ls i corregeix-los.</p><ul class="exercici-tasques"><li><code>public class entradaCinema {</code><br><code>&nbsp;&nbsp;public static void main(String[] args) {</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;final double DESCOMPTE = 15;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;int preu = 8.50;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;String sala = '3';</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;double preuFinal = preu - preu * DESCOMPTE</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;DESCOMPTE = 20;</code><br><code>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println("Sala " + sala + ": " + preufinal + " €");</code><br><code>&nbsp;&nbsp;}</code><br><code>}</code></li><li>Hi ha <strong>6 errors</strong> (de compilació i de lògica) i <strong>1 mala pràctica</strong> de nomenclatura. Per a cadascun, afegeix un comentari explicant què passava.</li><li>Compte: el compilador de vegades mostra primer només l'error del punt i coma. Quan el corregeixes, apareixen els altres. Corregeix-los un a un.</li><li>Recorda: el nom del fitxer ha de coincidir amb el de la classe.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r5">Sala 3: 7.23 €</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.3 · 1.4 · 1.5 · 1.6 · 1.8 · 1.9</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r5"><span class="cmt">// 1. Mala pràctica: el nom de la classe comença en majúscula (fitxer EntradaCinema.java)</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">EntradaCinema</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// 2. El descompte és un percentatge: 15 % = 0.15 (error de lògica)</span>
+        <span class="kw">final</span> <span class="kw">double</span> DESCOMPTE = <span class="num">0.15</span>;
+
+        <span class="cmt">// 3. Un preu amb decimals ha de ser double, no int</span>
+        <span class="kw">double</span> preu = <span class="num">8.50</span>;
+
+        <span class="cmt">// 4. Un String va entre cometes dobles</span>
+        <span class="cls">String</span> sala = <span class="str">"3"</span>;
+
+        <span class="cmt">// 5. Faltava el punt i coma</span>
+        <span class="kw">double</span> preuFinal = preu - preu * DESCOMPTE;
+        preuFinal = <span class="cls">Math</span>.<span class="fn">round</span>(preuFinal * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cmt">// 6. Eliminada la línia DESCOMPTE = 20; → una constant no es pot reassignar</span>
+
+        <span class="cmt">// 7. preufinal → preuFinal (Java distingeix majúscules i minúscules)</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sala "</span> + sala + <span class="str">": "</span> + preuFinal + <span class="str">" €"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Distingeix errors de compilació (sintaxi, tipus) d'errors de lògica (el 15 en lloc de 0.15).</li><li>Cada correcció està justificada amb un comentari.</li></ul></div></div>
+  </div>
+</div>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A1_4_conversions_sequencial.html">← A1.4 Conversions i composició seqüencial</a><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><span></span></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>
