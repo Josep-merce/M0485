@@ -251,30 +251,83 @@ javac -version</div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><ul><li><em>«java» no es reconeix com una ordre</em>: el JDK no està instal·lat o la terminal es va obrir abans d'instal·lar-lo. Tanca-la i torna-la a obrir.</li><li>Surt una versió antiga (8, 11, 17…): tens més d'un JDK. A NetBeans, comprova a Tools → Java Platforms que el projecte fa servir el <strong>JDK 21</strong>.</li></ul></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Primer projecte Maven: Hola Món</h2><p class="sec-sub">Crear el projecte, la classe i executar-la</p></div></div>
-  <p class="lead">Crear projectes és el primer pas per desenvolupar qualsevol aplicació. Segueix aquests passos a NetBeans:</p><div class="cards"><div class="card"><span class="card-num">1</span><span class="card-title">Crear el projecte</span><span class="card-desc">File → New Project → <strong>Java with Maven</strong> → Java Application. <em>Project Name</em>: <code>IntroduccioJava</code>. <em>Group Id</em>: <code>cat.lamerce</code>. El paquet es crea sol: <code>cat.lamerce.introducciojava</code>.</span></div><div class="card"><span class="card-num">2</span><span class="card-title">Crear la classe</span><span class="card-desc">Dins de <em>Source Packages</em>, clic dret al paquet <code>cat.lamerce.introducciojava</code> → New → Java Class. Nom: <code>HolaMon</code>. NetBeans crea <code>HolaMon.java</code> amb la línia <code>package</code> ja escrita. (Pots esborrar la classe <code>IntroduccioJava</code> que genera l'assistent.)</span></div><div class="card"><span class="card-num">3</span><span class="card-title">Escriure el codi</span><span class="card-desc">Copia l'exemple de sota <strong>sense la línia <code>package</code></strong> i enganxa'l a sota de la que ja ha escrit NetBeans. Fixa't en l'estructura: paquet, classe, mètode <code>main</code> i instruccions.</span></div><div class="card"><span class="card-num">4</span><span class="card-title">Executar</span><span class="card-desc">Clic dret sobre <code>HolaMon.java</code> → <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). El resultat apareix a la finestra <em>Output</em>, envoltat de les línies de Maven (<code>Building IntroduccioJava…</code>, <code>BUILD SUCCESS</code>).</span></div></div><h3 class="sub-title">Què és un projecte Maven?</h3><p class="text"><strong>Maven</strong> és l'eina estàndard per construir projectes Java. Organitza sempre els fitxers de la mateixa manera i guarda la configuració del projecte en un fitxer anomenat <code>pom.xml</code>. Qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar un projecte Maven sense canviar res.</p><div class="pseudo">IntroduccioJava/
-├── pom.xml                       ← configuració del projecte (JDK 21…)
-└── src/main/java/
-    └── cat/lamerce/introducciojava/    ← el paquet són carpetes
-        └── HolaMon.java</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
-  <div class="code-block" data-run="r1"><span class="kw">package</span> cat.lamerce.introducciojava;
+  <p class="lead">Projecte Maven «Hola món» a NetBeans, pas a pas. Crear projectes és el primer pas per desenvolupar qualsevol aplicació.</p>
+  <div class="nota-ra5"><strong>Què treballem:</strong> RA1: CA 1.1 (blocs del programa), 1.2 (crear projectes), 1.3 (utilitzar l'IDE) i 1.9 (comentaris). RA2: CA 2.9 (usar l'IDE per crear i compilar programes simples).</div>
+  <h3 class="sub-title">Requisits previs</h3>
+  <ul class="exercici-tasques"><li><strong>JDK instal·lat</strong>, en una versió LTS (al curs fem servir la 21; també serveix la 25). Ho pots comprovar a la consola amb <code>java -version</code>.</li><li><strong>Apache NetBeans</strong>, en una versió recent. Ja porta <strong>Maven</strong> integrat, així que no cal instal·lar-lo a part.</li></ul>
+  <h3 class="sub-title">Pas 1 – Crear el projecte</h3>
+  <ul class="exercici-tasques"><li>Menú <strong>File → New Project…</strong> (o <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>N</kbd>).</li><li>A <em>Categories</em> tria <strong>Java with Maven</strong> i a <em>Projects</em> tria <strong>Java Application</strong>.</li><li>Clica <strong>Next</strong>.</li></ul>
+  <h3 class="sub-title">Pas 2 – Configurar el projecte</h3>
+  <div class="table-wrap"><table><thead><tr><th>Camp</th><th>Valor d'exemple</th><th>Què és</th></tr></thead><tbody><tr><td><em>Project Name</em></td><td><code>HolaMon</code></td><td>Nom del projecte i de la carpeta</td></tr><tr><td><em>Project Location</em></td><td><code>C:\Users\alumne\NetBeansProjects</code></td><td>On es desa</td></tr><tr><td><em>Group Id</em></td><td><code>cat.lamerce.daw</code></td><td>Identificador de l'organització (domini invertit)</td></tr><tr><td><em>Version</em></td><td><code>1.0-SNAPSHOT</code></td><td>Es deixa per defecte</td></tr><tr><td><em>Package</em></td><td><code>cat.lamerce.daw.holamon</code></td><td>Es genera automàticament</td></tr></tbody></table></div>
+  <p class="text">Clica <strong>Finish</strong>. La primera vegada, Maven pot trigar una mica perquè descarrega dependències.</p>
+  <div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>En prémer <em>Finish</em>, NetBeans <strong>crea automàticament la classe principal amb el nom del projecte</strong> (<code>HolaMon.java</code>), amb el mètode <code>main</code> i un <code>Hello World!</code> ja escrits. No cal crear-la a mà: només l'has d'editar al pas 5.</p></div>
+  <div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Fes servir sempre el mateix <em>Group Id</em></strong> (el que us indiqui el professorat). Així tots els projectes del grup tenen la mateixa estructura de paquets.</p></div>
+  <h3 class="sub-title">Pas 3 – Entendre l'estructura generada</h3>
+  <p class="text">A la pestanya <strong>Files</strong> (<kbd>Ctrl</kbd>+<kbd>2</kbd>) es veu l'estructura real del projecte. <strong>Maven</strong> organitza sempre els fitxers de la mateixa manera, i per això qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar el projecte sense canviar res.</p>
+  <div class="pseudo">HolaMon/
+├── pom.xml                     ← configuració Maven (el "cor" del projecte)
+├── src/
+│   ├── main/java/              ← codi font
+│   │   └── cat/lamerce/daw/holamon/
+│   │       └── HolaMon.java
+│   └── test/java/              ← proves (JUnit), més endavant
+└── target/                     ← es crea en compilar (.class, .jar)</div>
+  <p class="text">Fixa't que <strong>cada paquet correspon a una carpeta</strong>: el paquet <code>cat.lamerce.daw.holamon</code> són les carpetes <code>cat/lamerce/daw/holamon</code>.</p>
+  <h3 class="sub-title">Pas 4 – Revisar el pom.xml</h3>
+  <p class="text">NetBeans genera un <code>pom.xml</code> semblant a aquest:</p>
+  <div class="code-block">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
+    &lt;groupId&gt;cat.lamerce.daw&lt;/groupId&gt;
+    &lt;artifactId&gt;HolaMon&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        <span class="str">&lt;maven.compiler.release&gt;21&lt;/maven.compiler.release&gt;</span>
+        <span class="str">&lt;exec.mainClass&gt;cat.lamerce.daw.holamon.HolaMon&lt;/exec.mainClass&gt;</span>
+    &lt;/properties&gt;
+&lt;/project&gt;</div>
+  <p class="text">Hi ha dues línies clau:</p>
+  <ul class="exercici-tasques"><li><code>maven.compiler.release</code> és la versió de Java amb què es compila. Ha de coincidir amb el JDK instal·lat o ser inferior.</li><li><code>exec.mainClass</code> indica quina classe s'executa amb <strong>Run</strong>.</li></ul>
+  <h3 class="sub-title">Pas 5 – Escriure el codi</h3>
+  <p class="text">Obre <code>HolaMon.java</code> (a <em>Source Packages</em>) i deixa'l així:</p>
+  <div class="exemple">
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
+  <div class="code-block" data-run="r1"><span class="kw">package</span> cat.lamerce.daw.holamon;
+
+<span class="cmt">/**
+ * Primer programa en Java: mostra una salutació per consola.
+ *
+ * @author Nom de l'alumne
+ */</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
 
+    <span class="cmt">/**
+     * Mètode principal: punt d'entrada del programa.
+     *
+     * @param args arguments de la línia d'ordres (no s'utilitzen)
+     */</span>
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cmt">// Mostra dos missatges per pantalla</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola Món amb Java"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguts al curs!"</span>);
-
+        <span class="cmt">// Mostrem un missatge per la sortida estàndard</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola món!"</span>);
     }
-
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r1">Hola Món amb Java
-Benvinguts al curs!</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La primera línia, <code>package cat.lamerce.introducciojava;</code>, diu a quin <strong>paquet</strong> pertany la classe; el paquet correspon a les carpetes <code>cat/lamerce/introducciojava</code> dins de <code>src/main/java</code>. Després ve la classe <code>HolaMon</code> (el fitxer s'ha de dir <code>HolaMon.java</code>) i, a dins, el mètode <code>main</code>, que és on comença l'execució.</p><p>Cada <code>System.out.println</code> escriu un text i salta de línia. A la finestra <em>Output</em> de NetBeans veuràs aquestes dues línies entre els missatges de Maven.</p></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Un projecte per activitat, una classe per exemple.</strong> No cal crear un projecte nou per a cada exemple: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong>, posa-li el nom de l'exemple i enganxa el codi a sota de la línia <code>package</code>. Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> (<kbd>Maj</kbd>+<kbd>F6</kbd>) executa només la que tries.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>A les subpàgines següents els exemples no porten la línia <code>package</code></strong>, per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Cada algorisme és un fitxer <code>.psc</code> independent.</td><td>Un <strong>projecte</strong> Maven agrupa moltes classes; cadascuna pot tenir el seu <code>main</code>.</td></tr><tr><td>No hi ha paquets.</td><td><code>package cat.lamerce.introducciojava;</code> organitza les classes en carpetes.</td></tr></tbody></table></div></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r1">Hola món!</pre></div>
+  <div class="com-funciona"><span class="cf-label">Blocs del programa</span><p>Hi pots distingir:</p><ul class="exercici-tasques"><li>La declaració de <code>package</code>.</li><li>La classe <code>public class HolaMon</code> (el fitxer s'ha de dir <code>HolaMon.java</code>).</li><li>El mètode <code>main</code>, que és el punt d'entrada.</li><li>La sentència <code>System.out.println</code>, que escriu un text i salta de línia.</li><li>Els tres tipus de comentari: <code>//</code>, <code>/* */</code> i <code>/** */</code> (Javadoc).</li></ul></div>
+</div>
+  <h3 class="sub-title">Pas 6 – Executar</h3>
+  <ul class="exercici-tasques"><li>Prem <strong>Run Project</strong> (▶ o <kbd>F6</kbd>).</li><li>A la finestra <em>Output</em> apareixerà:</li></ul>
+  <div class="console"><div class="console-header">🖥️ Finestra Output de NetBeans</div><pre>--- exec:3.x.x:exec (default-cli) @ HolaMon ---
+Hola món!
+------------------------------------------------------------------------
+BUILD SUCCESS</pre></div>
+<div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Un projecte per activitat, una classe per exemple.</strong> No cal crear un projecte nou per a cada exemple: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong>, posa-li el nom de l'exemple i enganxa el codi a sota de la línia <code>package</code>. Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> (<kbd>Maj</kbd>+<kbd>F6</kbd>) executa només la que tries.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>A les subpàgines següents els exemples no porten la línia <code>package</code></strong>, per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Cada algorisme és un fitxer <code>.psc</code> independent.</td><td>Un <strong>projecte</strong> Maven agrupa moltes classes; cadascuna pot tenir el seu <code>main</code>.</td></tr><tr><td>No hi ha paquets.</td><td><code>package cat.lamerce.daw.holamon;</code> organitza les classes en carpetes.</td></tr></tbody></table></div></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">L'error «Incorrect package»</h2><p class="sec-sub">El primer error que et trobaràs (i com evitar-lo)</p></div></div>
   <p class="lead">Quan copiem exemples d'una pàgina web a NetBeans és fàcil trepitjar la línia <code>package</code>. Aquest és el resultat:</p><div class="exemple">
