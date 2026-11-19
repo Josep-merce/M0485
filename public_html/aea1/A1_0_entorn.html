@@ -331,14 +331,14 @@ BUILD SUCCESS</pre></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">L'error «Incorrect package»</h2><p class="sec-sub">El primer error que et trobaràs (i com evitar-lo)</p></div></div>
   <p class="lead">Quan copiem exemples d'una pàgina web a NetBeans és fàcil trepitjar la línia <code>package</code>. Aquest és el resultat:</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fitxer <code>HolaMon.java</code> dins del paquet <code>cat.lamerce.aea1_a1</code></span></div>
-  <div class="code-block" data-expect="ide"><span class="kw">package</span> cat.lamerce.introducciojava;   <span class="cmt">// ✘ no és el paquet on és el fitxer</span>
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fitxer <code>HolaMon.java</code> dins del paquet <code>cat.lamerce.daw.aea1_a1</code></span></div>
+  <div class="code-block" data-expect="ide"><span class="kw">package</span> cat.lamerce.daw.introducciojava;   <span class="cmt">// ✘ no és el paquet on és el fitxer</span>
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
     <span class="cmt">// ...</span>
 }</div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span>
-    <p>NetBeans mostra una <strong>bombeta vermella a la línia 1</strong> amb el missatge <em>Incorrect package</em>: la línia <code>package</code> diu <code>cat.lamerce.introducciojava</code>, però el fitxer és a la carpeta del paquet <code>cat.lamerce.aea1_a1</code>. Totes dues coses han de coincidir.</p>
+    <p>NetBeans mostra una <strong>bombeta vermella a la línia 1</strong> amb el missatge <em>Incorrect package</em>: la línia <code>package</code> diu <code>cat.lamerce.daw.introducciojava</code>, però el fitxer és a la carpeta del paquet <code>cat.lamerce.daw.aea1_a1</code>. Totes dues coses han de coincidir.</p>
   </div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Error <em>Incorrect package</em> (bombeta vermella a la línia 1).</strong> Apareix quan la línia <code>package</code> no coincideix amb el paquet on és el fitxer. Sol passar en enganxar un exemple i esborrar o canviar la línia <code>package</code> que havia escrit NetBeans.</p><p><strong>Solució:</strong> mira el nom del paquet a <em>Source Packages</em> (per exemple <code>lamerce.estructura</code>) i escriu-lo a la primera línia: <code>package lamerce.estructura;</code>. També pots clicar la bombeta i triar <strong>Change package declaration to …</strong>. No triïs <em>Move class to correct folder</em>: mouria el fitxer a una carpeta nova.</p><p><strong>Per evitar-ho:</strong> copia els exemples a partir de la línia <code>import</code> (o de <code>public class</code> si no n'hi ha) i enganxa'ls a sota del <code>package</code> que ja hi ha.</p></div>
 </section><section class="section" id="demos">
@@ -369,7 +369,7 @@ BUILD SUCCESS</pre></div>
 
 }</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r2">Hola!</pre></div></div>
   </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">b)</span> Fitxer <code>Data.java</code>: volem mostrar l'any actual.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
-<span class="kw">package</span> cat.lamerce.aea1_a1;
+<span class="kw">package</span> cat.lamerce.daw.aea1_a1;
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Data</span> {
 
@@ -381,7 +381,7 @@ BUILD SUCCESS</pre></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
       <span class="icon">▶</span><span class="label">Veure l'error</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> ha de ser la <strong>primera instrucció</strong> del fitxer (només hi pot haver comentaris al davant). Les línies <code>import</code> van després.<p class="msg">Missatge del compilador:<br><code>Data.java:2: error: class, interface, enum, or record expected</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r3"><span class="kw">package</span> cat.lamerce.aea1_a1;
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> ha de ser la <strong>primera instrucció</strong> del fitxer (només hi pot haver comentaris al davant). Les línies <code>import</code> van després.<p class="msg">Missatge del compilador:<br><code>Data.java:2: error: class, interface, enum, or record expected</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r3"><span class="kw">package</span> cat.lamerce.daw.aea1_a1;
 
 <span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
 
@@ -392,7 +392,7 @@ BUILD SUCCESS</pre></div>
     }
 
 }</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">2026</pre></div></div>
-  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">c)</span> Fitxer <code>Benvinguda.java</code>, creat dins del paquet <code>cat.lamerce.aea1_a1</code> del projecte <code>AEA1_A1</code>.</div><div class="code-block" data-expect="ide" data-bad="1"><span class="kw">package</span> cat.lamerce.introducciojava;
+  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">c)</span> Fitxer <code>Benvinguda.java</code>, creat dins del paquet <code>cat.lamerce.daw.aea1_a1</code> del projecte <code>AEA1_A1</code>.</div><div class="code-block" data-expect="ide" data-bad="1"><span class="kw">package</span> cat.lamerce.daw.introducciojava;
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Benvinguda</span> {
 
@@ -404,7 +404,7 @@ BUILD SUCCESS</pre></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
       <span class="icon">▶</span><span class="label">Veure l'error</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> és la d'un altre projecte (s'ha copiat d'un exemple anterior). NetBeans marca <em>Incorrect package</em>: s'ha de posar el paquet on és realment el fitxer, <code>cat.lamerce.aea1_a1</code>.</div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r4"><span class="kw">package</span> cat.lamerce.aea1_a1;
+    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> és la d'un altre projecte (s'ha copiat d'un exemple anterior). NetBeans marca <em>Incorrect package</em>: s'ha de posar el paquet on és realment el fitxer, <code>cat.lamerce.daw.aea1_a1</code>.</div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r4"><span class="kw">package</span> cat.lamerce.daw.aea1_a1;
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Benvinguda</span> {
 
@@ -416,7 +416,7 @@ BUILD SUCCESS</pre></div>
   </div></div></div>
 </div><div class="exercici-card">
   <div class="exercici-header"><span class="exercici-num">Demo 4</span><span class="exercici-title">Crear el projecte AEA1_A1</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Prepara el projecte on faràs tots els exercicis de l'A1: crea'l a NetBeans i afegeix-hi una primera classe que saludi.</p><ul class="exercici-tasques"><li>Crea un projecte nou: <em>Java with Maven</em> → Java Application, <em>Project Name</em> <code>AEA1_A1</code>, <em>Group Id</em> <code>cat.lamerce</code>. Comprova que el paquet és <code>cat.lamerce.aea1_a1</code>.</li><li>Dins del paquet, crea la classe <code>Salutacio</code> (New → Java Class).</li><li>Escriu un <code>main</code> que mostri les tres línies de la sortida esperada.</li><li>Executa-la amb <strong>Run File</strong> i comprova que surt <code>BUILD SUCCESS</code>. Aquest serà el projecte de tots els exemples i exercicis de l'A1.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r5">Hola! Sóc alumne de DAW.
+  <div class="exercici-body"><p>Prepara el projecte on faràs tots els exercicis de l'A1: crea'l a NetBeans i afegeix-hi una primera classe que saludi.</p><ul class="exercici-tasques"><li>Crea un projecte nou: <em>Java with Maven</em> → Java Application, <em>Project Name</em> <code>AEA1_A1</code>, <em>Group Id</em> <code>cat.lamerce.daw</code>. Comprova que el paquet és <code>cat.lamerce.daw.aea1_a1</code>.</li><li>Dins del paquet, crea la classe <code>Salutacio</code> (New → Java Class).</li><li>Escriu un <code>main</code> que mostri les tres línies de la sortida esperada.</li><li>Executa-la amb <strong>Run File</strong> i comprova que surt <code>BUILD SUCCESS</code>. Aquest serà el projecte de tots els exemples i exercicis de l'A1.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r5">Hola! Sóc alumne de DAW.
 Aquest és el projecte AEA1_A1.
 Ja tinc l'entorn a punt.</pre></div></div>
   <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.2 · 1.3</span></div>
@@ -424,7 +424,7 @@ Ja tinc l'entorn a punt.</pre></div></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r5"><span class="kw">package</span> cat.lamerce.aea1_a1;
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r5"><span class="kw">package</span> cat.lamerce.daw.aea1_a1;
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
 
@@ -436,7 +436,7 @@ Ja tinc l'entorn a punt.</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte és Maven i el <em>Group Id</em> és <code>cat.lamerce</code>.</li><li>La línia <code>package</code> coincideix amb el paquet de <em>Source Packages</em> i el fitxer es diu igual que la classe.</li><li>El programa s'executa sense errors amb <em>Run File</em>.</li></ul></div></div>
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte és Maven i el <em>Group Id</em> és <code>cat.lamerce.daw</code>.</li><li>La línia <code>package</code> coincideix amb el paquet de <em>Source Packages</em> i el fitxer es diu igual que la classe.</li><li>El programa s'executa sense errors amb <em>Run File</em>.</li></ul></div></div>
   </div>
 </div>
 </section>
