@@ -218,20 +218,7 @@
 <div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.2 i 1.3</div><div class="obj-text">Instal·lar i comprovar l'entorn de treball del curs i crear-hi el primer projecte Maven. Saber què fa cada peça (JDK, JRE i JVM) i com passa un programa del codi font a l'execució. Al final tindràs a punt el projecte <code>AEA1_A1</code>, on faràs tots els exercicis.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Java: JDK, JRE i JVM</h2><p class="sec-sub">Les peces que necessitem per programar i executar</p></div></div>
-  <p class="lead">Java és un llenguatge de programació d'alt nivell i d'ús general creat el 1995 per James Gosling a Sun Microsystems. El seu lema és <strong>«Escriu una vegada, executa a qualsevol lloc»</strong>: el codi compilat funciona a qualsevol sistema que tingui una màquina virtual Java instal·lada. Per treballar-hi fan falta tres peces, una dins de l'altra:</p><div class="table-wrap"><table><thead><tr><th>Component</th><th>Nom complet</th><th>Per a què serveix</th></tr></thead><tbody><tr><td><code>JDK</code></td><td>Java Development Kit</td><td>Eines per <strong>desenvolupar</strong>: compilador (<code>javac</code>), JRE i eines de depuració.</td></tr><tr><td><code>JRE</code></td><td>Java Runtime Environment</td><td>Entorn per <strong>executar</strong> programes Java. Inclou la JVM i les llibreries estàndard.</td></tr><tr><td><code>JVM</code></td><td>Java Virtual Machine</td><td>Màquina virtual que <strong>executa el bytecode</strong> traduint-lo a instruccions del sistema operatiu.</td></tr></tbody></table></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Del codi font a l'execució</span></div>
-  <div class="flux" role="img" aria-label="Rectangle.java, javac, Rectangle.class, JVM, execució">
-    <div class="flux-pas"><strong>Rectangle.java</strong>codi font</div><span class="flux-fl">→</span>
-    <div class="flux-pas"><strong>javac</strong>compilador (JDK)</div><span class="flux-fl">→</span>
-    <div class="flux-pas"><strong>Rectangle.class</strong>bytecode</div><span class="flux-fl">→</span>
-    <div class="flux-pas"><strong>JVM</strong>màquina virtual (JRE)</div><span class="flux-fl">→</span>
-    <div class="flux-pas"><strong>Execució</strong>sortida per consola</div>
-  </div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span>
-    <p>Escrivim el programa en un fitxer <code>.java</code>, que és text. El compilador <code>javac</code> comprova que estigui ben escrit i, si no hi ha errors, genera un fitxer <code>.class</code> amb el <strong>bytecode</strong>, un codi intermedi que no depèn de cap sistema operatiu. La <strong>JVM</strong> llegeix aquest bytecode i l'executa a l'ordinador concret.</p>
-    <p>Per això el mateix <code>.class</code> funciona a Windows, macOS i Linux: cada sistema té la seva JVM. A NetBeans tot el procés es fa amb un sol clic (<strong>Run File</strong>).</p>
-  </div>
-</div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>Per <strong>programar</strong> necessites el JDK (que ja porta el JRE i la JVM a dins). Per <strong>executar</strong> un programa que t'han passat, n'hi ha prou amb el JRE. Al curs fem servir el <strong>JDK 21</strong>, una versió LTS (de suport a llarg termini).</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Premem <strong>Ejecutar</strong> i PSeInt interpreta el pseudocodi línia a línia.</td><td>Primer es <strong>compila</strong> (<code>javac</code>) i, si no hi ha errors, la JVM l'<strong>executa</strong>. Els errors de sintaxi surten abans d'executar.</td></tr><tr><td>Un fitxer <code>.psc</code>.</td><td>Un fitxer <code>.java</code> per classe, que genera un <code>.class</code>.</td></tr></tbody></table></div></div><details class="mes"><summary>📚 Per saber-ne més · característiques de Java</summary><div class="mes-body"><div class="table-wrap"><table><thead><tr><th>Característica</th><th>Descripció</th></tr></thead><tbody><tr><td><strong>Portabilitat</strong></td><td>El mateix programa compilat s'executa a Windows, macOS i Linux sense canvis.</td></tr><tr><td><strong>Orientat a objectes</strong></td><td>Els programes s'organitzen en classes i objectes (ho treballarem a partir de l'AEA2).</td></tr><tr><td><strong>Gestió automàtica de memòria</strong></td><td>El <em>Garbage Collector</em> allibera la memòria que ja no s'usa.</td></tr><tr><td><strong>Àmplia comunitat</strong></td><td>Un dels llenguatges més demandats al mercat laboral, amb molts frameworks i llibreries.</td></tr><tr><td><strong>Versió del curs</strong></td><td><strong>JDK 21 (LTS)</strong>: versió de suport a llarg termini, estable i recomanada.</td></tr></tbody></table></div></div></details>
+  <p class="lead">Java és un llenguatge de programació d'alt nivell i d'ús general creat el 1995 per James Gosling a Sun Microsystems. El seu lema és <strong>«Escriu una vegada, executa a qualsevol lloc»</strong>: el codi compilat funciona a qualsevol sistema que tingui una màquina virtual Java instal·lada. Per treballar-hi fan falta tres peces, una dins de l'altra:</p><div class="table-wrap"><table><thead><tr><th>Component</th><th>Nom complet</th><th>Per a què serveix</th></tr></thead><tbody><tr><td><code>JDK</code></td><td>Java Development Kit</td><td>Eines per <strong>desenvolupar</strong>: compilador (<code>javac</code>), JRE i eines de depuració.</td></tr><tr><td><code>JRE</code></td><td>Java Runtime Environment</td><td>Entorn per <strong>executar</strong> programes Java. Inclou la JVM i les llibreries estàndard.</td></tr><tr><td><code>JVM</code></td><td>Java Virtual Machine</td><td>Màquina virtual que <strong>executa el bytecode</strong> traduint-lo a instruccions del sistema operatiu.</td></tr></tbody></table></div><p class="text">Escrivim el programa en un fitxer <code>.java</code>, que és text. El compilador <code>javac</code> comprova que estigui ben escrit i, si no hi ha errors, genera un fitxer <code>.class</code> amb el <strong>bytecode</strong>, un codi intermedi que no depèn de cap sistema operatiu. La <strong>JVM</strong> llegeix aquest bytecode i l'executa a l'ordinador concret.</p><p class="text">Per això el mateix <code>.class</code> funciona a Windows, macOS i Linux: cada sistema té la seva JVM. A NetBeans tot el procés es fa amb un sol clic (<strong>Run File</strong>).</p><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Premem <strong>Ejecutar</strong> i PSeInt interpreta el pseudocodi línia a línia.</td><td>Primer es <strong>compila</strong> (<code>javac</code>) i, si no hi ha errors, la JVM l'<strong>executa</strong>. Els errors de sintaxi surten abans d'executar.</td></tr><tr><td>Un fitxer <code>.psc</code>.</td><td>Un fitxer <code>.java</code> per classe, que genera un <code>.class</code>.</td></tr></tbody></table></div></div><details class="mes"><summary>📚 Per saber-ne més · característiques de Java</summary><div class="mes-body"><div class="table-wrap"><table><thead><tr><th>Característica</th><th>Descripció</th></tr></thead><tbody><tr><td><strong>Portabilitat</strong></td><td>El mateix programa compilat s'executa a Windows, macOS i Linux sense canvis.</td></tr><tr><td><strong>Orientat a objectes</strong></td><td>Els programes s'organitzen en classes i objectes (ho treballarem a partir de l'AEA2).</td></tr><tr><td><strong>Gestió automàtica de memòria</strong></td><td>El <em>Garbage Collector</em> allibera la memòria que ja no s'usa.</td></tr><tr><td><strong>Àmplia comunitat</strong></td><td>Un dels llenguatges més demandats al mercat laboral, amb molts frameworks i llibreries.</td></tr><tr><td><strong>Versió del curs</strong></td><td><strong>JDK 21 (LTS)</strong>: versió de suport a llarg termini, estable i recomanada.</td></tr></tbody></table></div></div></details>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Instal·lació del JDK 21 i NetBeans</h2><p class="sec-sub">L'entorn de treball del curs</p></div></div>
   <p class="lead">Necessitem dues coses: el <strong>JDK 21</strong>, que compila i executa, i un entorn de desenvolupament (IDE), <strong>Apache NetBeans</strong>, on escriurem el codi. Tens tots els passos amb captures a la guia en PDF.</p><div class="cards">
@@ -244,11 +231,7 @@
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comprovar la instal·lació des de la terminal</span></div>
   <div class="code-block">java -version
 javac -version</div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span>
-    <p>La primera ordre pregunta quina versió de Java (la JVM) hi ha instal·lada; la segona, quina versió del compilador. Totes dues han de començar per <strong>21</strong> (per exemple <code>java version "21.0.5"</code> o <code>openjdk version "21.0.5"</code>; els darrers números depenen de l'actualització que hagis instal·lat).</p>
-    <p>Si <code>java</code> respon però <code>javac</code> no es reconeix, tens només el JRE: cal instal·lar el <strong>JDK</strong>.</p>
-  </div>
-</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><ul><li><em>«java» no es reconeix com una ordre</em>: el JDK no està instal·lat o la terminal es va obrir abans d'instal·lar-lo. Tanca-la i torna-la a obrir.</li><li>Surt una versió antiga (8, 11, 17…): tens més d'un JDK. A NetBeans, comprova a Tools → Java Platforms que el projecte fa servir el <strong>JDK 21</strong>.</li></ul></div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Primer projecte Maven: Hola Món</h2><p class="sec-sub">Crear el projecte, la classe i executar-la</p></div></div>
   <p class="lead">Projecte Maven «Hola món» a NetBeans, pas a pas. Crear projectes és el primer pas per desenvolupar qualsevol aplicació.</p>
@@ -258,21 +241,21 @@ javac -version</div>
   <h3 class="sub-title">Pas 1 – Crear el projecte</h3>
   <ul class="exercici-tasques"><li>Menú <strong>File → New Project…</strong> (o <kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>N</kbd>).</li><li>A <em>Categories</em> tria <strong>Java with Maven</strong> i a <em>Projects</em> tria <strong>Java Application</strong>.</li><li>Clica <strong>Next</strong>.</li></ul>
   <h3 class="sub-title">Pas 2 – Configurar el projecte</h3>
-  <div class="table-wrap"><table><thead><tr><th>Camp</th><th>Valor d'exemple</th><th>Què és</th></tr></thead><tbody><tr><td><em>Project Name</em></td><td><code>HolaMon</code></td><td>Nom del projecte i de la carpeta</td></tr><tr><td><em>Project Location</em></td><td><code>C:\Users\alumne\NetBeansProjects</code></td><td>On es desa</td></tr><tr><td><em>Group Id</em></td><td><code>cat.lamerce.daw</code></td><td>Identificador de l'organització (domini invertit)</td></tr><tr><td><em>Version</em></td><td><code>1.0-SNAPSHOT</code></td><td>Es deixa per defecte</td></tr><tr><td><em>Package</em></td><td><code>cat.lamerce.daw.holamon</code></td><td>Es genera automàticament</td></tr></tbody></table></div>
+  <div class="table-wrap"><table><thead><tr><th>Camp</th><th>Valor d'exemple</th><th>Què és</th></tr></thead><tbody><tr><td><em>Project Name</em></td><td><code>HolaMon</code></td><td>Nom del projecte i de la carpeta</td></tr><tr><td><em>Project Location</em></td><td><code>C:\Users\alumne\NetBeansProjects</code></td><td>On es desa</td></tr><tr><td><em>Group Id</em></td><td><code>daw</code></td><td>Identificador del grup de projectes (al curs, <code>daw</code>)</td></tr><tr><td><em>Version</em></td><td><code>1.0-SNAPSHOT</code></td><td>Es deixa per defecte</td></tr><tr><td><em>Package</em></td><td><code>daw.holamon</code></td><td>Es genera automàticament</td></tr></tbody></table></div>
   <p class="text">Clica <strong>Finish</strong>. La primera vegada, Maven pot trigar una mica perquè descarrega dependències.</p>
   <div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>En prémer <em>Finish</em>, NetBeans <strong>crea automàticament la classe principal amb el nom del projecte</strong> (<code>HolaMon.java</code>), amb el mètode <code>main</code> i un <code>Hello World!</code> ja escrits. No cal crear-la a mà: només l'has d'editar al pas 5.</p></div>
   <div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Fes servir sempre el mateix <em>Group Id</em></strong> (el que us indiqui el professorat). Així tots els projectes del grup tenen la mateixa estructura de paquets.</p></div>
   <h3 class="sub-title">Pas 3 – Entendre l'estructura generada</h3>
   <p class="text">A la pestanya <strong>Files</strong> (<kbd>Ctrl</kbd>+<kbd>2</kbd>) es veu l'estructura real del projecte. <strong>Maven</strong> organitza sempre els fitxers de la mateixa manera, i per això qualsevol IDE (NetBeans, IntelliJ, VS Code) o la terminal saben obrir i executar el projecte sense canviar res.</p>
-  <div class="pseudo">HolaMon/
-├── pom.xml                     ← configuració Maven (el "cor" del projecte)
-├── src/
-│   ├── main/java/              ← codi font
-│   │   └── cat/lamerce/daw/holamon/
-│   │       └── HolaMon.java
-│   └── test/java/              ← proves (JUnit), més endavant
-└── target/                     ← es crea en compilar (.class, .jar)</div>
-  <p class="text">Fixa't que <strong>cada paquet correspon a una carpeta</strong>: el paquet <code>cat.lamerce.daw.holamon</code> són les carpetes <code>cat/lamerce/daw/holamon</code>.</p>
+  <div class="pseudo">HolaMon/                        ← carpeta del projecte (porta el nom del Project Name)
+├── pom.xml                     ← configuració Maven: Group Id, versió de Java, classe principal…
+├── src/                        ← carpeta de tot el codi que escrivim nosaltres
+│   ├── main/java/              ← codi font del programa (el que es compila i s'executa)
+│   │   └── daw/holamon/        ← carpetes del paquet daw.holamon (Group Id + nom del projecte)
+│   │       └── HolaMon.java    ← classe principal amb el main, creada per NetBeans
+│   └── test/java/              ← proves automàtiques (JUnit); de moment no la fem servir
+└── target/                     ← resultat de compilar (.class, .jar); la crea Maven, no s'edita</div>
+  <p class="text">Fixa't que <strong>cada paquet correspon a una carpeta</strong>: el paquet <code>daw.holamon</code> són les carpetes <code>daw/holamon</code>.</p>
   <h3 class="sub-title">Pas 4 – Revisar el pom.xml</h3>
   <p class="text">NetBeans genera un <code>pom.xml</code> semblant a aquest:</p>
   <div class="code-block">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -282,7 +265,7 @@ javac -version</div>
                              http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
     &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
-    &lt;groupId&gt;cat.lamerce.daw&lt;/groupId&gt;
+    &lt;groupId&gt;daw&lt;/groupId&gt;
     &lt;artifactId&gt;HolaMon&lt;/artifactId&gt;
     &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
     &lt;packaging&gt;jar&lt;/packaging&gt;
@@ -290,7 +273,7 @@ javac -version</div>
     &lt;properties&gt;
         &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
         <span class="str">&lt;maven.compiler.release&gt;21&lt;/maven.compiler.release&gt;</span>
-        <span class="str">&lt;exec.mainClass&gt;cat.lamerce.daw.holamon.HolaMon&lt;/exec.mainClass&gt;</span>
+        <span class="str">&lt;exec.mainClass&gt;daw.holamon.HolaMon&lt;/exec.mainClass&gt;</span>
     &lt;/properties&gt;
 &lt;/project&gt;</div>
   <p class="text">Hi ha dues línies clau:</p>
@@ -299,7 +282,7 @@ javac -version</div>
   <p class="text">Obre <code>HolaMon.java</code> (a <em>Source Packages</em>) i deixa'l així:</p>
   <div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>El primer programa</span></div>
-  <div class="code-block" data-run="r1"><span class="kw">package</span> cat.lamerce.daw.holamon;
+  <div class="code-block" data-run="r1"><span class="kw">package</span> daw.holamon;
 
 <span class="cmt">/**
  * Primer programa en Java: mostra una salutació per consola.
@@ -327,96 +310,25 @@ javac -version</div>
 Hola món!
 ------------------------------------------------------------------------
 BUILD SUCCESS</pre></div>
-<div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Un projecte per activitat, una classe per exemple.</strong> No cal crear un projecte nou per a cada exemple: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong>, posa-li el nom de l'exemple i enganxa el codi a sota de la línia <code>package</code>. Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> (<kbd>Maj</kbd>+<kbd>F6</kbd>) executa només la que tries.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>A les subpàgines següents els exemples no porten la línia <code>package</code></strong>, per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Cada algorisme és un fitxer <code>.psc</code> independent.</td><td>Un <strong>projecte</strong> Maven agrupa moltes classes; cadascuna pot tenir el seu <code>main</code>.</td></tr><tr><td>No hi ha paquets.</td><td><code>package cat.lamerce.daw.holamon;</code> organitza les classes en carpetes.</td></tr></tbody></table></div></div>
+<div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Un projecte per activitat, una classe per exemple.</strong> No cal crear un projecte nou per a cada exemple: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong>, posa-li el nom de l'exemple i enganxa el codi a sota de la línia <code>package</code>. Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> (<kbd>Maj</kbd>+<kbd>F6</kbd>) executa només la que tries.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>A les subpàgines següents els exemples no porten la línia <code>package</code></strong>, per fer-los més curts. Quan els copiïs a NetBeans, deixa la línia <code>package …;</code> que ja té el fitxer i enganxa el codi a sota.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Cada algorisme és un fitxer <code>.psc</code> independent.</td><td>Un <strong>projecte</strong> Maven agrupa moltes classes; cadascuna pot tenir el seu <code>main</code>.</td></tr><tr><td>No hi ha paquets.</td><td><code>package daw.holamon;</code> organitza les classes en carpetes.</td></tr></tbody></table></div></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">L'error «Incorrect package»</h2><p class="sec-sub">El primer error que et trobaràs (i com evitar-lo)</p></div></div>
   <p class="lead">Quan copiem exemples d'una pàgina web a NetBeans és fàcil trepitjar la línia <code>package</code>. Aquest és el resultat:</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fitxer <code>HolaMon.java</code> dins del paquet <code>cat.lamerce.daw.aea1_a1</code></span></div>
-  <div class="code-block" data-expect="ide"><span class="kw">package</span> cat.lamerce.daw.introducciojava;   <span class="cmt">// ✘ no és el paquet on és el fitxer</span>
+  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fitxer <code>HolaMon.java</code> dins del paquet <code>daw.aea1_a1</code></span></div>
+  <div class="code-block" data-expect="ide"><span class="kw">package</span> daw.introducciojava;   <span class="cmt">// ✘ no és el paquet on és el fitxer</span>
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">HolaMon</span> {
     <span class="cmt">// ...</span>
 }</div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span>
-    <p>NetBeans mostra una <strong>bombeta vermella a la línia 1</strong> amb el missatge <em>Incorrect package</em>: la línia <code>package</code> diu <code>cat.lamerce.daw.introducciojava</code>, però el fitxer és a la carpeta del paquet <code>cat.lamerce.daw.aea1_a1</code>. Totes dues coses han de coincidir.</p>
+    <p>NetBeans mostra una <strong>bombeta vermella a la línia 1</strong> amb el missatge <em>Incorrect package</em>: la línia <code>package</code> diu <code>daw.introducciojava</code>, però el fitxer és a la carpeta del paquet <code>daw.aea1_a1</code>. Totes dues coses han de coincidir.</p>
   </div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Error <em>Incorrect package</em> (bombeta vermella a la línia 1).</strong> Apareix quan la línia <code>package</code> no coincideix amb el paquet on és el fitxer. Sol passar en enganxar un exemple i esborrar o canviar la línia <code>package</code> que havia escrit NetBeans.</p><p><strong>Solució:</strong> mira el nom del paquet a <em>Source Packages</em> (per exemple <code>lamerce.estructura</code>) i escriu-lo a la primera línia: <code>package lamerce.estructura;</code>. També pots clicar la bombeta i triar <strong>Change package declaration to …</strong>. No triïs <em>Move class to correct folder</em>: mouria el fitxer a una carpeta nova.</p><p><strong>Per evitar-ho:</strong> copia els exemples a partir de la línia <code>import</code> (o de <code>public class</code> si no n'hi ha) i enganxa'ls a sota del <code>package</code> que ja hi ha.</p></div>
 </section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Quatre exercicis de nivell creixent per comprovar què has entès</p></div></div>
-  <p class="lead">Comprova que tens clars els conceptes de l'entorn. Els dos primers són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Ordena el procés</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body"><p>Clica els passos en l'ordre en què passen, des que escrius el programa fins que en veus el resultat.</p><div class="ord" data-total="5"><ol class="ord-seq"></ol><div class="ord-pool"><button type="button" class="ord-btn" data-pos="3" data-hint="La JVM només pot executar bytecode (.class), que encara no existeix.">La JVM executa el bytecode</button><button type="button" class="ord-btn" data-pos="0" data-hint="Tot comença pel codi font: sense fitxer .java no hi ha res a compilar.">Escrivim el codi font a <code>HolaMon.java</code></button><button type="button" class="ord-btn" data-pos="4" data-hint="La sortida és el darrer pas: primer el programa s&#x27;ha d&#x27;executar.">Veiem el resultat a la consola</button><button type="button" class="ord-btn" data-pos="2" data-hint="El .class és el resultat de compilar: surt just després de javac.">Es genera el bytecode <code>HolaMon.class</code></button><button type="button" class="ord-btn" data-pos="1" data-hint="El compilador treballa sobre el codi font, abans que existeixi el .class."><code>javac</code> compila el codi</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Codi font (<code>.java</code>) → <code>javac</code> → bytecode (<code>.class</code>) → JVM → sortida. A NetBeans, <em>Run File</em> fa tots aquests passos seguits.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
-</div><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Quin component necessito?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Per a cada situació, tria la peça de Java que hi correspon.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Vull escriure i compilar els meus propis programes Java.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Per compilar cal <code>javac</code>, que només ve amb el JDK.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Només vull executar una aplicació Java que m'han passat ja compilada.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="1">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Per executar n'hi ha prou amb el JRE: porta la JVM i les llibreries estàndard.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> Quina peça tradueix el bytecode a instruccions del sistema operatiu?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="1">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>La màquina virtual (JVM) és la que executa el bytecode a cada sistema.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> On és el compilador <code>javac</code>?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>javac</code> és una eina de desenvolupament: forma part del JDK.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> Inclou la JVM i les llibreries estàndard, però no el compilador.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="1">JRE</button><button type="button" class="qi-btn" data-ok="0">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Aquesta és la definició del JRE: entorn d'execució sense eines de desenvolupament.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> Gràcies a aquesta peça el mateix <code>.class</code> funciona a Windows i a Linux.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">JDK</button><button type="button" class="qi-btn" data-ok="0">JRE</button><button type="button" class="qi-btn" data-ok="1">JVM</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cada sistema operatiu té la seva JVM, i totes entenen el mateix bytecode.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
-</div><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 3</span><span class="exercici-title">Detecta l'error</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Cada fragment té un error relacionat amb el paquet o amb el nom del fitxer. Pensa quin és abans d'obrir la solució.</p><div class="err-item"><div class="qi-text"><span class="qi-n">a)</span> El fitxer es diu <code>Salutacio.java</code>.</div><div class="code-block" data-expect="compile" data-file="Salutacio.java" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Saludacio</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola!"</span>);
-    }
-
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La classe pública es diu <code>Saludacio</code> (amb <em>d</em>) però el fitxer és <code>Salutacio.java</code>. El nom de la classe i el del fitxer han de coincidir exactament, majúscules incloses.<p class="msg">Missatge del compilador:<br><code>Salutacio.java:1: error: class Saludacio is public, should be declared in a file named Saludacio.java</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola!"</span>);
-    }
-
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r2">Hola!</pre></div></div>
-  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">b)</span> Fitxer <code>Data.java</code>: volem mostrar l'any actual.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
-<span class="kw">package</span> cat.lamerce.daw.aea1_a1;
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Data</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">LocalDate</span>.<span class="fn">now</span>().<span class="fn">getYear</span>());
-    }
-
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> ha de ser la <strong>primera instrucció</strong> del fitxer (només hi pot haver comentaris al davant). Les línies <code>import</code> van després.<p class="msg">Missatge del compilador:<br><code>Data.java:2: error: class, interface, enum, or record expected</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r3"><span class="kw">package</span> cat.lamerce.daw.aea1_a1;
-
-<span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Data</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="cls">LocalDate</span>.<span class="fn">now</span>().<span class="fn">getYear</span>());
-    }
-
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">2026</pre></div></div>
-  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">c)</span> Fitxer <code>Benvinguda.java</code>, creat dins del paquet <code>cat.lamerce.daw.aea1_a1</code> del projecte <code>AEA1_A1</code>.</div><div class="code-block" data-expect="ide" data-bad="1"><span class="kw">package</span> cat.lamerce.daw.introducciojava;
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Benvinguda</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguda a l'AEA1"</span>);
-    }
-
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La línia <code>package</code> és la d'un altre projecte (s'ha copiat d'un exemple anterior). NetBeans marca <em>Incorrect package</em>: s'ha de posar el paquet on és realment el fitxer, <code>cat.lamerce.daw.aea1_a1</code>.</div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r4"><span class="kw">package</span> cat.lamerce.daw.aea1_a1;
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Benvinguda</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvinguda a l'AEA1"</span>);
-    }
-
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Benvinguda a l'AEA1</pre></div></div>
-  </div></div></div>
-</div><div class="exercici-card">
-  <div class="exercici-header"><span class="exercici-num">Demo 4</span><span class="exercici-title">Crear el projecte AEA1_A1</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Prepara el projecte on faràs tots els exercicis de l'A1: crea'l a NetBeans i afegeix-hi una primera classe que saludi.</p><ul class="exercici-tasques"><li>Crea un projecte nou: <em>Java with Maven</em> → Java Application, <em>Project Name</em> <code>AEA1_A1</code>, <em>Group Id</em> <code>cat.lamerce.daw</code>. Comprova que el paquet és <code>cat.lamerce.daw.aea1_a1</code>.</li><li>Dins del paquet, crea la classe <code>Salutacio</code> (New → Java Class).</li><li>Escriu un <code>main</code> que mostri les tres línies de la sortida esperada.</li><li>Executa-la amb <strong>Run File</strong> i comprova que surt <code>BUILD SUCCESS</code>. Aquest serà el projecte de tots els exemples i exercicis de l'A1.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r5">Hola! Sóc alumne de DAW.
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Prepara el projecte de l'activitat</p></div></div>
+  <p class="lead">Crea el projecte on faràs tots els exemples i exercicis de l'A1.</p><div class="exercici-card">
+  <div class="exercici-header"><span class="exercici-title">Crear el projecte AEA1_A1</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body"><p>Prepara el projecte on faràs tots els exercicis de l'A1: crea'l a NetBeans i afegeix-hi una primera classe que saludi.</p><ul class="exercici-tasques"><li>Crea un projecte nou: <em>Java with Maven</em> → Java Application, <em>Project Name</em> <code>AEA1_A1</code>, <em>Group Id</em> <code>daw</code>. Comprova que el paquet és <code>daw.aea1_a1</code>.</li><li>Dins del paquet, crea la classe <code>Salutacio</code> (New → Java Class).</li><li>Escriu un <code>main</code> que mostri les tres línies de la sortida esperada.</li><li>Executa-la amb <strong>Run File</strong> i comprova que surt <code>BUILD SUCCESS</code>. Aquest serà el projecte de tots els exemples i exercicis de l'A1.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r5">Hola! Sóc alumne de DAW.
 Aquest és el projecte AEA1_A1.
 Ja tinc l'entorn a punt.</pre></div></div>
   <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.2 · 1.3</span></div>
@@ -424,7 +336,7 @@ Ja tinc l'entorn a punt.</pre></div></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r5"><span class="kw">package</span> cat.lamerce.daw.aea1_a1;
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r5"><span class="kw">package</span> daw.aea1_a1;
 
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
 
@@ -436,7 +348,7 @@ Ja tinc l'entorn a punt.</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte és Maven i el <em>Group Id</em> és <code>cat.lamerce.daw</code>.</li><li>La línia <code>package</code> coincideix amb el paquet de <em>Source Packages</em> i el fitxer es diu igual que la classe.</li><li>El programa s'executa sense errors amb <em>Run File</em>.</li></ul></div></div>
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El projecte és Maven i el <em>Group Id</em> és <code>daw</code>.</li><li>La línia <code>package</code> coincideix amb el paquet de <em>Source Packages</em> i el fitxer es diu igual que la classe.</li><li>El programa s'executa sense errors amb <em>Run File</em>.</li></ul></div></div>
   </div>
 </div>
 </section>
@@ -453,58 +365,6 @@ Ja tinc l'entorn a punt.</pre></div></div>
     btn.classList.toggle('obert', obert);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
-  }
-  // Preguntes de clic: es tria una opció i es revela la resposta
-  document.querySelectorAll('.qi').forEach(function (q) {
-    q.querySelectorAll('.qi-btn').forEach(function (b) {
-      b.addEventListener('click', function () {
-        const btns = q.querySelectorAll('.qi-btn');
-        btns.forEach(function (x) { x.disabled = true; });
-        const ok = b.dataset.ok === '1';
-        b.classList.add(ok ? 'ok' : 'fail');
-        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
-        const fb = q.querySelector('.qi-fb');
-        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
-        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
-        fb.hidden = false;
-      });
-    });
-  });
-  // Ordenar passos: cal clicar-los en l'ordre correcte
-  document.querySelectorAll('.ord').forEach(function (o) {
-    const total = Number(o.dataset.total);
-    o.querySelectorAll('.ord-btn').forEach(function (b) {
-      b.addEventListener('click', function () {
-        const seq = o.querySelector('.ord-seq');
-        const fb = o.querySelector('.qi-fb');
-        const next = seq.children.length;
-        if (Number(b.dataset.pos) === next) {
-          const li = document.createElement('li');
-          li.textContent = b.textContent;
-          seq.appendChild(li);
-          b.hidden = true;
-          if (next + 1 === total) {
-            fb.className = 'qi-fb ok';
-            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
-          } else {
-            fb.className = 'qi-fb ok';
-            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
-          }
-        } else {
-          fb.className = 'qi-fb fail';
-          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
-        }
-        fb.hidden = false;
-      });
-    });
-  });
-  // Reinicia les preguntes d'una demo
-  function reiniciaDemo(btn) {
-    const card = btn.closest('.demo');
-    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
-    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
-    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
-    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
   }
 </script>
 </body>
