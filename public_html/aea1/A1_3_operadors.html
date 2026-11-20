@@ -141,6 +141,15 @@
     .ex-ca { font-size:.82rem; color:var(--text-soft); }
     .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
     .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
@@ -215,7 +224,7 @@
 </nav>
 <main>
 <a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.7</div><div class="obj-text">Escriure expressions correctes amb tots els tipus d'operadors i predir-ne el resultat: tenir en compte la divisió entera, la precedència, la diferència entre <code>=</code> i <code>==</code> i quan el <code>+</code> suma o concatena.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.7</div><div class="obj-text">Escriure expressions correctes amb tots els tipus d'operadors i predir-ne el resultat: tenir en compte la divisió entera, la precedència, la diferència entre <code>=</code> i <code>==</code> i quan el <code>+</code> suma o concatena.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Operadors aritmètics</h2><p class="sec-sub">Fer càlculs amb números</p></div></div>
   <p class="lead">Un <strong>operador</strong> és un símbol que fa una operació sobre un o més valors (<em>operands</em>). Una <strong>expressió</strong> és una combinació d'operands i operadors que produeix un resultat. Aquestes són les famílies d'operadors que veurem en aquesta subpàgina:</p><div class="table-wrap"><table><thead><tr><th>Categoria</th><th>Operadors</th><th>Exemple</th><th>Resultat</th></tr></thead><tbody><tr><td><strong>Aritmètics</strong></td><td><code>+ - * / %</code></td><td><code>7 % 3</code></td><td><code>1</code></td></tr><tr><td><strong>Assignació</strong></td><td><code>= += -= *= /= %=</code></td><td><code>a += 5</code></td><td>a = a + 5</td></tr><tr><td><strong>Increment / decrement</strong></td><td><code>++ --</code></td><td><code>a++</code></td><td>a = a + 1</td></tr><tr><td><strong>Relacionals</strong></td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr><tr><td><strong>Lògics</strong></td><td><code>&amp;&amp; || !</code></td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td></tr><tr><td><strong>Concatenació</strong></td><td><code>+</code> amb <code>String</code></td><td><code>"Nota: " + 8</code></td><td><code>"Nota: 8"</code></td></tr></tbody></table></div><div class="exemple">
@@ -271,6 +280,51 @@
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La divisió entera i el residu treballen en parella: <code>137 / 60</code> diu quantes hores <strong>senceres</strong> hi caben (2) i <code>137 % 60</code> quants minuts <strong>sobren</strong> (17). És la mateixa idea que farem servir per descompondre segons o per donar canvi.</p><p>Un número és parell quan el residu de dividir-lo entre 2 és 0. <code>numero % 2 == 0</code> fa primer el residu i després la comparació, i el resultat (<code>true</code>) es guarda en un <code>boolean</code>.</p></div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Divisió entera:</strong> si els dos operands són enters, <code>/</code> descarta els decimals: <code>10 / 3</code> dona <code>3</code>. Perquè doni <code>3.333…</code> cal que almenys un sigui decimal: <code>10.0 / 3</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>7 / 2</code> → <code>3.5</code> (sempre decimal)</td><td><code>7 / 2</code> → <code>3</code> (enters) · <code>7.0 / 2</code> → <code>3.5</code></td></tr><tr><td><code>MOD</code> o <code>%</code></td><td><code>%</code></td></tr><tr><td><code>2 ^ 3</code></td><td>No hi ha operador de potència: <code>Math.pow(2, 3)</code> (secció 6)</td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El cronòmetre</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un cronòmetre marca 4.000 segons. Tradueix l'algorisme que els descompon en hores, minuts i segons. Crea la classe <code>Cronometre</code>.</p><div class="pseudo">Algoritmo Cronometre
+    Definir segonsTotals, hores, resta, minuts, segons Como Entero
+
+    segonsTotals &lt;- 4000
+
+    hores &lt;- trunc(segonsTotals / 3600)
+    resta &lt;- segonsTotals MOD 3600
+    minuts &lt;- trunc(resta / 60)
+    segons &lt;- resta MOD 60
+
+    Escribir segonsTotals, " s = ", hores, " h ", minuts, " min ", segons, " s"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>A PSeInt <code>/</code> sempre dona decimals i per això cal <code>trunc</code>. A Java, què passa quan divideixes dos <code>int</code>? Necessites el <code>trunc</code>?</li><li><code>MOD</code> → <code>%</code>.</li><li>No deixis números màgics: declara <code>3600</code> i <code>60</code> com a constants (<code>SEGONS_HORA</code> i <code>SEGONS_MINUT</code>), com vas aprendre a l'A1.2.</li><li>Prova-ho també amb <code>7322</code>: ha de sortir <code>2 h 2 min 2 s</code>.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>minuts a hores</em> d'aquí dalt: és el mateix problema amb un pas més.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">4000 s = 1 h 6 min 40 s</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.6 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="cmt">// Descompon una quantitat de segons en hores, minuts i segons</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cronometre</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SEGONS_HORA = <span class="num">3600</span>;
+        <span class="kw">final</span> <span class="kw">int</span> SEGONS_MINUT = <span class="num">60</span>;
+
+        <span class="kw">int</span> segonsTotals = <span class="num">4000</span>;
+
+        <span class="cmt">// Divisió entera: quantes hores senceres hi caben</span>
+        <span class="kw">int</span> hores = segonsTotals / SEGONS_HORA;
+        <span class="cmt">// Residu: els segons que sobren després de treure les hores</span>
+        <span class="kw">int</span> resta = segonsTotals % SEGONS_HORA;
+        <span class="kw">int</span> minuts = resta / SEGONS_MINUT;
+        <span class="kw">int</span> segons = resta % SEGONS_MINUT;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(segonsTotals + <span class="str">" s = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min "</span> + segons + <span class="str">" s"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>/</code> entre enters per obtenir la part entera, sense cap <code>trunc</code>: entre dos <code>int</code>, Java ja descarta els decimals.</li><li>Fa servir <code>%</code> per obtenir el que sobra després de treure les hores.</li><li>No hi ha números màgics: <code>3600</code> i <code>60</code> són constants.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Increment, decrement i assignació composta</h2><p class="sec-sub">Dreceres per modificar variables</p></div></div>
   <p class="lead">Modificar una variable a partir del seu propi valor és tan habitual que Java té operadors abreujats: <code>a++</code> suma 1, <code>a--</code> resta 1 i <code>a += 5</code> és el mateix que <code>a = a + 5</code>.</p><div class="exemple">
@@ -319,6 +373,59 @@
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada operador compost agafa el valor actual de <code>punts</code>, hi fa l'operació i hi guarda el resultat. Les instruccions s'executen en ordre, de manera que cada línia parteix del valor que ha deixat l'anterior: 100 → 150 → 120 → 240 → 60 → 4.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Fes servir <code>++</code> i <code>--</code> en una línia pròpia (<code>comptador++;</code>). Posar-los dins d'expressions més llargues fa el codi difícil de llegir i és una font d'errors.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>a &lt;- a + 1</code></td><td><code>a++;</code> o <code>a += 1;</code></td></tr><tr><td><code>total &lt;- total + preu</code></td><td><code>total += preu;</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La targeta de fidelitat</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Tradueix l'algorisme fent servir els operadors abreujats de Java sempre que puguis. Crea la classe <code>Fidelitat</code>.</p><div class="pseudo">Algoritmo Fidelitat
+    Definir punts, visites Como Entero
+
+    punts &lt;- 0
+    visites &lt;- 0
+
+    // Primera visita: compra que dona 50 punts
+    visites &lt;- visites + 1
+    punts &lt;- punts + 50
+
+    // Segona visita: dia de punts dobles i bescanvia 30 punts
+    visites &lt;- visites + 1
+    punts &lt;- punts * 2
+    punts &lt;- punts - 30
+
+    Escribir "Visites: ", visites
+    Escribir "Punts: ", punts
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Quan una variable augmenta en 1, fes servir <code>++</code>.</li><li>Per a la resta de canvis, fes servir <code>+=</code>, <code>*=</code> i <code>-=</code>.</li><li>Abans d'executar-lo, apunta en un paper el valor de <code>punts</code> després de cada línia i comprova-ho amb la sortida.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Visites: 2
+Punts: 70</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="cmt">// Calcula els punts d'una targeta de fidelitat</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Fidelitat</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> punts = <span class="num">0</span>;
+        <span class="kw">int</span> visites = <span class="num">0</span>;
+
+        <span class="cmt">// Primera visita: compra de 50 punts</span>
+        visites++;
+        punts += <span class="num">50</span>;
+
+        <span class="cmt">// Segona visita: dia de punts dobles i bescanvia 30 punts</span>
+        visites++;
+        punts *= <span class="num">2</span>;
+        punts -= <span class="num">30</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Visites: "</span> + visites);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts: "</span> + punts);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li><code>visites++</code> en una línia pròpia.</li><li><code>punts += 50;</code>, <code>punts *= 2;</code> i <code>punts -= 30;</code> en lloc de repetir el nom de la variable.</li><li>Seguiment dels punts: 0 → 50 → 100 → 70.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Operadors relacionals</h2><p class="sec-sub">Comparar valors</p></div></div>
   <p class="lead">Comparen dos valors i sempre retornen un <code>boolean</code>. Són la base de les decisions que prendrem a l'A2.</p><div class="exemple">
@@ -394,6 +501,61 @@ Mostrar avís: true</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'expressió tradueix la regla del calendari. Per a 1900: és divisible per 4 (<code>true</code>) però també per 100, així que el parèntesi dona <code>false</code>; i no és divisible per 400 (<code>false</code>). <code>false || false</code> és <code>false</code>.</p><p>Els parèntesis agrupen la primera condició i fan l'expressió més fàcil de llegir. Prova-ho amb 2024 (<code>true</code>) i amb 2000 (<code>true</code>).</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Y</code> (o <code>&amp;</code>)</td><td><code>&amp;&amp;</code></td></tr><tr><td><code>O</code> (o <code>|</code>)</td><td><code>||</code></td></tr><tr><td><code>NO</code> (o <code>~</code>)</td><td><code>!</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex3">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">L'accés a un concert</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Tradueix l'algorisme, que decideix si una persona pot entrar a un concert i si té descompte. Encara no fem servir <code>if</code>: només mostrem el resultat <code>true</code> o <code>false</code>. Crea la classe <code>Concert</code>.</p><div class="pseudo">Algoritmo Concert
+    Definir edat Como Entero
+    Definir teEntrada, acompanyadaAdult, esEstudiant Como Logico
+    Definir esMenor, potEntrar, teDescompte Como Logico
+
+    edat &lt;- 17
+    teEntrada &lt;- Verdadero
+    acompanyadaAdult &lt;- Verdadero
+    esEstudiant &lt;- Verdadero
+
+    esMenor &lt;- edat &lt; 18
+    // Pot entrar si té entrada i, a més, és major d'edat o va amb un adult
+    potEntrar &lt;- teEntrada Y (NO esMenor O acompanyadaAdult)
+    // Té descompte si és estudiant, té menys de 12 anys o en té 65 o més
+    teDescompte &lt;- esEstudiant O edat &lt; 12 O edat &gt;= 65
+
+    Escribir "És menor: ", esMenor
+    Escribir "Pot entrar: ", potEntrar
+    Escribir "Té descompte: ", teDescompte
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Y</code> → <code>&amp;&amp;</code>, <code>O</code> → <code>||</code>, <code>NO</code> → <code>!</code>.</li><li>Mantén els parèntesis de <code>potEntrar</code>. Després, treu-los i prova-ho amb <code>teEntrada = false</code> i <code>edat = 20</code>: què passa?</li><li>Prova també <code>edat = 70</code> i <code>esEstudiant = false</code>: ha de seguir tenint descompte.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">És menor: true
+Pot entrar: true
+Té descompte: true</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.4 · 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e3"><span class="cmt">// Calcula si una persona pot entrar a un concert i si té descompte</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Concert</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">17</span>;
+        <span class="kw">boolean</span> teEntrada = <span class="kw">true</span>;
+        <span class="kw">boolean</span> acompanyadaAdult = <span class="kw">true</span>;
+        <span class="kw">boolean</span> esEstudiant = <span class="kw">true</span>;
+
+        <span class="kw">boolean</span> esMenor = edat &lt; <span class="num">18</span>;
+        <span class="cmt">// Els parèntesis són imprescindibles: sense entrada no entra ningú</span>
+        <span class="kw">boolean</span> potEntrar = teEntrada &amp;&amp; (!esMenor || acompanyadaAdult);
+        <span class="kw">boolean</span> teDescompte = esEstudiant || edat &lt; <span class="num">12</span> || edat &gt;= <span class="num">65</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És menor: "</span> + esMenor);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té descompte: "</span> + teDescompte);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Els operadors lògics són els de Java i la comparació <code>edat &lt; 18</code> es guarda en un <code>boolean</code>.</li><li>Els parèntesis de <code>(!esMenor || acompanyadaAdult)</code> són imprescindibles: com que <code>&amp;&amp;</code> té més prioritat que <code>||</code>, sense ells algú sense entrada però amb un adult podria entrar.</li><li>Els comentaris expliquen la regla de negoci de cada expressió.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">5</span><div><h2 class="sec-title">Concatenació de cadenes</h2><p class="sec-sub">Unir textos amb +</p></div></div>
   <p class="lead">Quan un dels dos operands del <code>+</code> és un <code>String</code>, el <code>+</code> deixa de sumar i <strong>uneix</strong> (concatena): l'altre valor es converteix a text i s'hi enganxa.</p><div class="exemple">
@@ -418,6 +580,51 @@ Resultat: 8
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els <code>+</code> s'avaluen d'<strong>esquerra a dreta</strong>. A la primera línia, <code>"Resultat: " + a</code> ja és un text, i en afegir-hi <code>b</code> s'enganxa un <code>3</code>: surt <code>53</code>. Els parèntesis de la segona línia obliguen a sumar primer.</p><p>A la tercera, <code>a + b</code> són dos enters i se sumen (8) abans de trobar el text.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Quan vulguis mostrar el resultat d'un càlcul dins d'un text, posa el càlcul <strong>entre parèntesis</strong>: <code>"Total: " + (preu * quantitat)</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir "Nota: ", 8</code> (amb coma)</td><td><code>"Nota: " + 8</code> (amb <code>+</code>)</td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex4">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">El rebut del gimnàs</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Tradueix l'algorisme. Compte: a PSeInt les comes de l'<code>Escribir</code> separen els valors, però a Java el <code>+</code> pot <strong>sumar</strong> o <strong>enganxar</strong>. Crea la classe <code>Gimnas</code>.</p><div class="pseudo">Algoritmo Gimnas
+    Definir socia Como Caracter
+    Definir mesos, quota Como Entero
+
+    socia &lt;- "Júlia"
+    mesos &lt;- 3
+    quota &lt;- 35
+
+    Escribir "Sòcia: ", socia
+    Escribir "Mesos pagats: ", mesos
+    Escribir "Mesos amb el regal: ", mesos + 1
+    Escribir "Total: ", mesos * quota, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Tradueix primer sense parèntesis i executa-ho. Quina línia surt malament i per què?</li><li>Corregeix-la amb parèntesis. Posa'ls també al total, encara que funcioni sense: és el bon costum.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Sòcia: Júlia
+Mesos pagats: 3
+Mesos amb el regal: 4
+Total: 105 €</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e4"><span class="cmt">// Mostra el rebut de la quota del gimnàs</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Gimnas</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> socia = <span class="str">"Júlia"</span>;
+        <span class="kw">int</span> mesos = <span class="num">3</span>;
+        <span class="kw">int</span> quota = <span class="num">35</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sòcia: "</span> + socia);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mesos pagats: "</span> + mesos);
+        <span class="cmt">// Sense parèntesis sortiria "31": el 3 i l'1 s'enganxarien com a text</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mesos amb el regal: "</span> + (mesos + <span class="num">1</span>));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + (mesos * quota) + <span class="str">" €"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Sense parèntesis, <code>"Mesos amb el regal: " + mesos + 1</code> mostra <code>31</code>: el text i el 3 ja són un <code>String</code> i l'<code>1</code> s'hi enganxa.</li><li>Amb <code>(mesos + 1)</code> primer se suma i després es concatena.</li><li>La multiplicació sortiria bé sense parèntesis, perquè <code>*</code> té més prioritat que <code>+</code>, però amb parèntesis s'entén millor.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">6</span><div><h2 class="sec-title">La classe Math</h2><p class="sec-sub">Operacions matemàtiques habituals</p></div></div>
   <p class="lead">Java inclou la classe <code>Math</code> amb operacions matemàtiques habituals. No cal cap <code>import</code>.</p><div class="table-wrap"><table><thead><tr><th>Expressió</th><th>Què calcula</th><th>Exemple</th><th>Resultat</th></tr></thead><tbody><tr><td><code>Math.pow(b, e)</code></td><td>potència b<sup>e</sup></td><td><code>Math.pow(2, 10)</code></td><td><code>1024.0</code></td></tr><tr><td><code>Math.sqrt(x)</code></td><td>arrel quadrada</td><td><code>Math.sqrt(81)</code></td><td><code>9.0</code></td></tr><tr><td><code>Math.abs(x)</code></td><td>valor absolut</td><td><code>Math.abs(-7)</code></td><td><code>7</code></td></tr><tr><td><code>Math.round(x)</code></td><td>arrodoneix a l'enter més proper</td><td><code>Math.round(8.5)</code></td><td><code>9</code></td></tr><tr><td><code>Math.max(a, b)</code></td><td>el més gran de dos</td><td><code>Math.max(4, 9)</code></td><td><code>9</code></td></tr><tr><td><code>Math.PI</code></td><td>constant π</td><td><code>Math.PI</code></td><td><code>3.141592653589793</code></td></tr></tbody></table></div><div class="exemple">
@@ -477,9 +684,68 @@ true</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>A <code>2 + 3 * 4</code> es multiplica primer (12) i després se suma: 14. Els parèntesis canvien l'ordre: <code>(2 + 3) * 4</code> = 20. Quan els operadors tenen la mateixa prioritat, es va d'esquerra a dreta: <code>20 - 8 - 2</code> = 10 i <code>20 / 4 * 2</code> = 10.</p><p>A la darrera línia es fan primer els càlculs (7 i 10), després les comparacions (<code>true</code> i <code>true</code>) i finalment el <code>&amp;&amp;</code>.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Quan tinguis dubtes, fes servir <strong>parèntesis</strong>: no costen res i fan el codi més clar per a qui el llegeix.</p></div>
+<div class="exercici-card practica" id="ex5">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 5</span><span class="exercici-title">Quina pizza surt més a compte?</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Una pizza gran de 40 cm costa 16 € i una de mitjana de 30 cm en costa 10. Tradueix l'algorisme que calcula quants cm² de pizza dona cada euro. Crea la classe <code>Pizza</code>.</p><div class="pseudo">Algoritmo Pizza
+    Definir diametreGran, diametreMitjana Como Entero
+    Definir preuGran, preuMitjana Como Real
+    Definir areaGran, areaMitjana, cm2EuroGran, cm2EuroMitjana Como Real
+
+    diametreGran &lt;- 40
+    preuGran &lt;- 16
+    diametreMitjana &lt;- 30
+    preuMitjana &lt;- 10
+
+    areaGran &lt;- PI * (diametreGran / 2) ^ 2
+    areaMitjana &lt;- PI * (diametreMitjana / 2) ^ 2
+
+    cm2EuroGran &lt;- areaGran / preuGran
+    cm2EuroMitjana &lt;- areaMitjana / preuMitjana
+
+    Escribir "Pizza gran: ", redon(areaGran), " cm², ", redon(cm2EuroGran), " cm² per euro"
+    Escribir "Pizza mitjana: ", redon(areaMitjana), " cm², ", redon(cm2EuroMitjana), " cm² per euro"
+    Escribir "La gran surt més a compte: ", cm2EuroGran &gt; cm2EuroMitjana
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir la taula <em>De PSeInt a Java</em> de la classe <code>Math</code>: <code>PI</code>, <code>^</code> i <code>redon</code>.</li><li>A PSeInt, <code>^</code> té més prioritat que <code>*</code>. A Java, com que és una crida a <code>Math.pow</code>, l'ordre queda clar sol.</li><li>A la darrera línia, la comparació ha d'anar entre parèntesis. Per què?</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e5">Pizza gran: 1257 cm², 79 cm² per euro
+Pizza mitjana: 707 cm², 71 cm² per euro
+La gran surt més a compte: true</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Canvia el diàmetre de la mitjana a <code>31</code> sense tocar res més. El resultat és correcte? Per què? Arregla-ho perquè la divisió entre 2 no perdi decimals.</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e5"><span class="cmt">// Compara quina pizza surt més a compte segons els cm² que dona per euro</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Pizza</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> diametreGran = <span class="num">40</span>;
+        <span class="kw">double</span> preuGran = <span class="num">16</span>;
+        <span class="kw">int</span> diametreMitjana = <span class="num">30</span>;
+        <span class="kw">double</span> preuMitjana = <span class="num">10</span>;
+
+        <span class="cmt">// Àrea del cercle: π · r², i el radi és la meitat del diàmetre</span>
+        <span class="kw">double</span> areaGran = <span class="cls">Math</span>.PI * <span class="cls">Math</span>.<span class="fn">pow</span>(diametreGran / <span class="num">2</span>, <span class="num">2</span>);
+        <span class="kw">double</span> areaMitjana = <span class="cls">Math</span>.PI * <span class="cls">Math</span>.<span class="fn">pow</span>(diametreMitjana / <span class="num">2</span>, <span class="num">2</span>);
+
+        <span class="kw">double</span> cm2EuroGran = areaGran / preuGran;
+        <span class="kw">double</span> cm2EuroMitjana = areaMitjana / preuMitjana;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pizza gran: "</span> + <span class="cls">Math</span>.<span class="fn">round</span>(areaGran) + <span class="str">" cm², "</span>
+                + <span class="cls">Math</span>.<span class="fn">round</span>(cm2EuroGran) + <span class="str">" cm² per euro"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pizza mitjana: "</span> + <span class="cls">Math</span>.<span class="fn">round</span>(areaMitjana) + <span class="str">" cm², "</span>
+                + <span class="cls">Math</span>.<span class="fn">round</span>(cm2EuroMitjana) + <span class="str">" cm² per euro"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"La gran surt més a compte: "</span> + (cm2EuroGran &gt; cm2EuroMitjana));
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li><code>Math.PI</code>, <code>Math.pow(..., 2)</code> i <code>Math.round(...)</code> en lloc de <code>PI</code>, <code>^</code> i <code>redon</code>.</li><li>La comparació va entre parèntesis: sense ells, Java intentaria fer primer <code>text + cm2EuroGran</code> i després comparar un <code>String</code> amb un número, i no compila.</li><li><code>diametreGran / 2</code> és una divisió entera, però aquí no perd res perquè els diàmetres són parells.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Quatre exercicis de nivell creixent per comprovar què has entès</p></div></div>
-  <p class="lead">Comprova que saps avaluar expressions com ho fa Java. Els dos primers són interactius: les respostes s'han comprovat executant les expressions.</p><div class="exercici-card demo">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Tres exercicis ràpids per repassar tota la subpàgina</p></div></div>
+  <p class="lead">Ja has escrit cinc programes. Ara comprova que saps avaluar expressions com ho fa Java. Els dos primers són interactius: les respostes s'han comprovat executant les expressions.</p><div class="exercici-card demo">
   <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Avalua l'expressió</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body"><p>Aplica la precedència i les regles de la divisió entera. Tria el resultat que mostraria Java.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>2 + 3 * 4</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">20</button><button type="button" class="qi-btn" data-ok="1">14</button><button type="button" class="qi-btn" data-ok="0">24</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Primer la multiplicació: 3 * 4 = 12; després 2 + 12 = 14.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>(2 + 3) * 4</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">14</button><button type="button" class="qi-btn" data-ok="1">20</button><button type="button" class="qi-btn" data-ok="0">9</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El parèntesi primer: 2 + 3 = 5; després 5 * 4 = 20.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>17 / 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3.4</button><button type="button" class="qi-btn" data-ok="1">3</button><button type="button" class="qi-btn" data-ok="0">4</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Els dos operands són enters: divisió entera, es descarten els decimals.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>17 % 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3</button><button type="button" class="qi-btn" data-ok="1">2</button><button type="button" class="qi-btn" data-ok="0">0</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>17 = 5 · 3 + 2. El residu és 2.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>17.0 / 5</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3</button><button type="button" class="qi-btn" data-ok="1">3.4</button><button type="button" class="qi-btn" data-ok="0">3.0</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Com que 17.0 és decimal, la divisió és decimal.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> <code>2 + 10 % 4 * 2</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">6</button><button type="button" class="qi-btn" data-ok="0">8</button><button type="button" class="qi-btn" data-ok="0">10</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>%</code> i <code>*</code> van abans que <code>+</code>, d'esquerra a dreta: 10 % 4 = 2; 2 * 2 = 4; 2 + 4 = 6.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">7.</span> <code>!(5 &gt; 3) || 2 == 2</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">false</button><button type="button" class="qi-btn" data-ok="1">true</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>!(5 &gt; 3)</code> és <code>false</code>, però <code>2 == 2</code> és <code>true</code>, i amb <code>||</code> n'hi ha prou amb un.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
 </div><div class="exercici-card demo">
@@ -551,64 +817,7 @@ true</pre></div>
 
 }</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r15">8</pre></div></div>
   </div></div></div>
-</div><div class="exercici-card">
-  <div class="exercici-header"><span class="exercici-num">Demo 4a</span><span class="exercici-title">Descompondre segons</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Un cronòmetre marca 4.000 segons. Mostra quantes hores, minuts i segons són.</p><ul class="exercici-tasques"><li>Declara <code>int segonsTotals = 4000;</code></li><li>Usa només la divisió entera <code>/</code> i el residu <code>%</code>.</li><li>Declara les constants <code>SEGONS_HORA = 3600</code> i <code>SEGONS_MINUT = 60</code>.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r16">4000 s = 1 h 6 min 40 s</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.6 · 1.7</span></div>
-  <div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r16"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DescompondreSegons</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">final</span> <span class="kw">int</span> SEGONS_HORA = <span class="num">3600</span>;
-        <span class="kw">final</span> <span class="kw">int</span> SEGONS_MINUT = <span class="num">60</span>;
-
-        <span class="kw">int</span> segonsTotals = <span class="num">4000</span>;
-
-        <span class="kw">int</span> hores = segonsTotals / SEGONS_HORA;          <span class="cmt">// 1</span>
-        <span class="kw">int</span> restants = segonsTotals % SEGONS_HORA;       <span class="cmt">// 400</span>
-        <span class="kw">int</span> minuts = restants / SEGONS_MINUT;            <span class="cmt">// 6</span>
-        <span class="kw">int</span> segons = restants % SEGONS_MINUT;            <span class="cmt">// 40</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(segonsTotals + <span class="str">" s = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min "</span> + segons + <span class="str">" s"</span>);
-
-    }
-
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>%</code> per obtenir el que sobra després de treure les hores.</li><li>No hi ha números màgics: 3600 i 60 són constants.</li></ul></div></div>
-  </div>
-</div><div class="exercici-card">
-  <div class="exercici-header"><span class="exercici-num">Demo 4b</span><span class="exercici-title">Condicions d'accés a un concert</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Calcula, només amb operadors relacionals i lògics, si una persona pot entrar a un concert i si té descompte.</p><ul class="exercici-tasques"><li>Dades: <code>int edat = 17;</code>, <code>boolean teEntrada = true;</code>, <code>boolean acompanyadaAdult = true;</code>, <code>boolean esEstudiant = true;</code></li><li>Pot entrar si té entrada i, a més, és major d'edat o va acompanyada d'un adult.</li><li>Té descompte si és estudiant o té menys de 12 anys o 65 o més.</li><li>Mostra el resultat de les dues expressions (<code>true</code>/<code>false</code>). Encara no cal <code>if</code>.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r17">Pot entrar: true
-Té descompte: true</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.4 · 1.7</span></div>
-  <div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r17"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AccesConcert</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> edat = <span class="num">17</span>;
-        <span class="kw">boolean</span> teEntrada = <span class="kw">true</span>;
-        <span class="kw">boolean</span> acompanyadaAdult = <span class="kw">true</span>;
-        <span class="kw">boolean</span> esEstudiant = <span class="kw">true</span>;
-
-        <span class="kw">boolean</span> potEntrar = teEntrada &amp;&amp; (edat &gt;= <span class="num">18</span> || acompanyadaAdult);
-        <span class="kw">boolean</span> teDescompte = esEstudiant || edat &lt; <span class="num">12</span> || edat &gt;= <span class="num">65</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té descompte: "</span> + teDescompte);
-
-    }
-
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Els parèntesis de <code>(edat &gt;= 18 || acompanyadaAdult)</code> són imprescindibles: sense ells, algú sense entrada però major d'edat podria entrar.</li><li>Prova-ho canviant els valors: <code>teEntrada = false</code> ha de donar <code>false</code>.</li></ul></div></div>
-  </div>
-</div>
-</section>
+</div></section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A1_2_dades.html">← A1.2 Dades</a><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><a href="A1_4_conversions_sequencial.html">A1.4 Conversions i composició seqüencial →</a></nav>
 </main>
 <footer>

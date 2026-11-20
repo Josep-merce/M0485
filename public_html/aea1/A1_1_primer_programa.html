@@ -141,6 +141,15 @@
     .ex-ca { font-size:.82rem; color:var(--text-soft); }
     .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
     .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
@@ -215,7 +224,7 @@
 </nav>
 <main>
 <a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.1 i 1.9</div><div class="obj-text">Seguir les fases de construcció d'un programa i traduir a Java un algorisme seqüencial escrit en pseudocodi. Reconèixer els blocs de qualsevol programa Java, mostrar resultats per pantalla i documentar el codi amb comentaris que expliquin el perquè.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.1 i 1.9</div><div class="obj-text">Seguir les fases de construcció d'un programa i traduir a Java un algorisme seqüencial escrit en pseudocodi. Reconèixer els blocs de qualsevol programa Java, mostrar resultats per pantalla i documentar el codi amb comentaris que expliquin el perquè.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Com es construeix un programa</h2><p class="sec-sub">Primer es pensa, després es programa</p></div></div>
   <p class="lead">Un <strong>programa</strong> és una seqüència d'instruccions que un ordinador executa per resoldre un problema. Abans d'escriure codi cal entendre bé el problema i dissenyar-ne la solució: <strong>primer es pensa, després es programa</strong>.</p><div class="cards"><div class="card"><span class="card-num">1</span><span class="card-title">Anàlisi</span><span class="card-desc">Què ens demanen? Quines dades tenim (entrada) i quin resultat volem (sortida)?</span></div><div class="card"><span class="card-num">2</span><span class="card-title">Disseny de l'algorisme</span><span class="card-desc">Escrivim els passos en <strong>pseudocodi</strong> o amb un diagrama, amb paper i llapis, sense pensar encara en Java.</span></div><div class="card"><span class="card-num">3</span><span class="card-title">Codificació</span><span class="card-desc">Traduïm l'algorisme al llenguatge de programació (Java) dins de l'entorn de desenvolupament.</span></div><div class="card"><span class="card-num">4</span><span class="card-title">Compilació</span><span class="card-desc">El compilador revisa que el codi estigui ben escrit i el tradueix a un format executable.</span></div><div class="card"><span class="card-num">5</span><span class="card-title">Prova i depuració</span><span class="card-desc">Executem el programa amb diferents valors i comprovem que el resultat és correcte. Si no ho és, busquem l'error.</span></div></div><h3 class="sub-title">Exemple: calcular l'àrea i el perímetre d'un rectangle</h3><p class="text">Primer escrivim l'algorisme en <strong>pseudocodi</strong> (llenguatge natural estructurat) amb <strong>PSeInt</strong>:</p><div class="pseudo">Algoritmo Rectangle
@@ -269,6 +278,51 @@ Perímetre: 26</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa té les mateixes tres parts que el pseudocodi: <strong>dades d'entrada</strong> (<code>base</code> i <code>altura</code>), <strong>càlculs</strong> i <strong>sortida</strong>. Les línies que comencen per <code>//</code> són comentaris i Java les ignora: aquí expliquen cada paraula de la capçalera.</p><p>Les instruccions s'executen en ordre, de dalt a baix: primer es guarden les dades, després es calculen <code>area</code> i <code>perimetre</code> (que fan servir aquestes dades) i finalment es mostren.</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Algoritmo Rectangle</code> … <code>FinAlgoritmo</code></td><td><code>public class Rectangle {</code> + <code>public static void main(String[] args) {</code> … <code>}</code> <code>}</code></td></tr><tr><td><code>Definir base Como Entero</code></td><td><code>int base;</code></td></tr><tr><td><code>base &lt;- 8</code></td><td><code>base = 8;</code> (o tot junt: <code>int base = 8;</code>)</td></tr><tr><td><code>Escribir "Àrea: ", area</code></td><td><code>System.out.println("Àrea: " + area);</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">L'estalvi setmanal</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Abans d'escriure codi, fes l'<strong>anàlisi</strong>: quines són les dades d'entrada, quin és el càlcul i quina és la sortida? Després tradueix l'algorisme a Java, igual que hem fet amb el rectangle. Crea la classe <code>Estalvi</code> al projecte <code>AEA1_A1</code>.</p><div class="pseudo">Algoritmo Estalvi
+    Definir setmanal, setmanes, total Como Entero
+
+    setmanal &lt;- 15
+    setmanes &lt;- 12
+
+    total &lt;- setmanal * setmanes
+
+    Escribir "Estalvi setmanal: ", setmanal
+    Escribir "Setmanes: ", setmanes
+    Escribir "Total estalviat: ", total
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir la taula <em>De PSeInt a Java</em> d'aquí dalt: <code>Entero</code> → <code>int</code>, <code>&lt;-</code> → <code>=</code>, <code>Escribir</code> → <code>System.out.println</code>.</li><li>Separa les tres parts del programa (dades, càlcul i sortida) amb un comentari a sobre de cadascuna.</li><li>Quan funcioni, canvia <code>setmanes</code> per <code>52</code> i comprova que el total canvia: és la fase de <strong>prova</strong>.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Comença copiant l'esquelet del <code>Rectangle</code> (la classe i el <code>main</code>) i canvia-hi el nom. Després només has d'omplir el cos del <code>main</code> línia a línia.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Estalvi setmanal: 15
+Setmanes: 12
+Total estalviat: 180</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.1</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="cmt">// Calcula quants diners estalvies en unes quantes setmanes</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Estalvi</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Dades d'entrada</span>
+        <span class="kw">int</span> setmanal = <span class="num">15</span>;
+        <span class="kw">int</span> setmanes = <span class="num">12</span>;
+
+        <span class="cmt">// Càlcul</span>
+        <span class="kw">int</span> total = setmanal * setmanes;
+
+        <span class="cmt">// Sortida</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Estalvi setmanal: "</span> + setmanal);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Setmanes: "</span> + setmanes);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total estalviat: "</span> + total);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La classe es diu igual que el fitxer (<code>Estalvi.java</code>) i té el mètode <code>main</code>.</li><li>Cada <code>Definir</code> és una declaració <code>int</code> i cada instrucció acaba en <code>;</code>.</li><li>Cada <code>Escribir</code> amb coma s'ha convertit en un <code>println</code> amb <code>+</code>.</li><li>L'ordre és el mateix que al pseudocodi: primer les dades, després el càlcul i al final la sortida.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Estructura d'un programa Java</h2><p class="sec-sub">Els blocs que sempre hi són</p></div></div>
   <p class="lead">Tot programa Java està format per uns <strong>blocs</strong> que sempre apareixen en el mateix ordre. Identificar-los és el primer pas per llegir i entendre qualsevol codi.</p><div class="exemple">
@@ -298,6 +352,56 @@ Som a l'any 2026</pre></div>
   <p class="nota-sortida">L'any surt de la data de l'ordinador: canvia segons quan executis el programa.</p>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'<code>import</code> ① permet fer servir <code>LocalDate</code>, una classe que serveix per treballar amb dates. La classe ② conté tot el programa i el seu nom coincideix amb el del fitxer, <code>Estructura.java</code>. Dins, el <code>main</code> ③ és on comença l'execució.</p><p>Les variables ④ guarden les dades, i les instruccions ⑤ fan la feina; totes acaben en <code>;</code>. Cada <code>{</code> obre un bloc que es tanca amb el seu <code>}</code>: el primer que es tanca és el del <code>main</code> i el darrer, el de la classe.</p></div>
 </div><div class="table-wrap"><table><thead><tr><th>Bloc</th><th>Obligatori?</th><th>Funció</th></tr></thead><tbody><tr><td><code>package nom.paquet;</code></td><td>Sí (a Maven)</td><td>Indica el paquet (carpeta) de la classe. Ha de ser la primera instrucció i coincidir amb les carpetes de <code>src/main/java</code> (ho has vist a <a href="A1_0_entorn.html">A1.0</a>).</td></tr><tr><td><code>import</code></td><td>No</td><td>Permet usar classes de llibreries de Java (<code>java.time</code>, <code>java.util</code>…).</td></tr><tr><td><code>public class Nom { }</code></td><td>Sí</td><td>Conté tot el programa. El fitxer s'ha de dir exactament <code>Nom.java</code> (majúscules incloses).</td></tr><tr><td><code>public static void main(String[] args)</code></td><td>Sí (per executar)</td><td>Punt d'inici. Java executa les instruccions del <code>main</code> de dalt a baix.</td></tr><tr><td>Claus <code>{ }</code></td><td>Sí</td><td>Delimiten blocs de codi. Cada <code>{</code> ha de tenir el seu <code>}</code>.</td></tr><tr><td>Instruccions</td><td>Sí</td><td>Ordres que fa el programa. Totes acaben en <code>;</code>.</td></tr></tbody></table></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>D'on surt <code>LocalDate</code>?</strong> És una classe de la <strong>biblioteca estàndard de Java</strong> i ve inclosa amb el JDK. No cal descarregar ni afegir res al projecte.</p><p><strong>No cal crear un projecte nou</strong> per provar l'exemple: crea la classe <code>Estructura</code> al projecte <code>AEA1_A1</code>, deixa la línia <code>package</code> que escriu NetBeans i enganxa el codi a sota (a partir de l'<code>import</code>).</p></div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><ul><li><strong>Majúscules i minúscules.</strong> Java les distingeix: <code>system.out.println</code>, <code>string</code> o <code>Main</code> no funcionen.</li><li><strong>Punt i coma oblidat</strong> al final d'una instrucció: <em>';' expected</em>.</li><li><strong>Claus desaparellades</strong>: si en falta una de tancament, <em>reached end of file while parsing</em>. Sagnar bé el codi (<kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd> a NetBeans) ajuda a veure-ho.</li></ul></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Algoritmo Nom</code></td><td><code>public class Nom {</code></td></tr><tr><td>El cos de l'<code>Algoritmo</code></td><td>El cos del <code>main</code></td></tr><tr><td><code>FinAlgoritmo</code></td><td><code>}</code> (tanca el <code>main</code> i la classe)</td></tr><tr><td>El <code>;</code> final és opcional</td><td>El <code>;</code> és <strong>obligatori</strong></td></tr><tr><td>No hi ha <code>package</code> ni <code>import</code></td><td><code>package</code> i <code>import</code> van a dalt de tot</td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">On són els blocs?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Tradueix l'algorisme a Java i <strong>marca cada bloc</strong> amb un comentari numerat (① a ⑤), com a l'exemple <code>Estructura</code>. Crea la classe <code>Edat</code>.</p><div class="pseudo">Algoritmo Edat
+    Definir nom Como Caracter
+    Definir anyNaixement, anyActual, edat Como Entero
+
+    nom &lt;- "Pau"
+    anyNaixement &lt;- 2008
+    anyActual &lt;- 2026
+
+    edat &lt;- anyActual - anyNaixement
+
+    Escribir "Hola, ", nom, "!"
+    Escribir "Vas néixer l'any ", anyNaixement
+    Escribir "Aquest any en fas ", edat
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Caracter</code> (un text) passa a ser <code>String</code>, i el valor va entre cometes dobles.</li><li>A PSeInt l'any actual l'hem escrit a mà. A Java, agafa'l de l'ordinador amb <code>LocalDate.now().getYear()</code>: et caldrà l'<code>import</code>.</li><li>Posa els comentaris ① importació, ② classe, ③ <code>main</code>, ④ variables i ⑤ instruccions just a sobre de cada bloc.</li><li>Mira on es tanca cada <code>}</code>: escriu al costat a qui pertany (<code>// fi del main</code>, <code>// fi de la classe</code>).</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Hola, Pau!
+Vas néixer l'any 2008
+Aquest any en fas 18</pre></div><p class="nota-sortida">L'edat depèn de l'any de l'ordinador: l'any 2027 sortirà 19.</p></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.1</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="cmt">// ① Importació: necessitem LocalDate per saber l'any actual</span>
+<span class="kw">import</span> java.time.<span class="cls">LocalDate</span>;
+
+<span class="cmt">// ② Classe: el fitxer s'ha de dir Edat.java</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Edat</span> {
+
+    <span class="cmt">// ③ Mètode main: aquí comença l'execució</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// ④ Variables</span>
+        <span class="cls">String</span> nom = <span class="str">"Pau"</span>;
+        <span class="kw">int</span> anyNaixement = <span class="num">2008</span>;
+        <span class="kw">int</span> anyActual = <span class="cls">LocalDate</span>.<span class="fn">now</span>().<span class="fn">getYear</span>();
+        <span class="kw">int</span> edat = anyActual - anyNaixement;
+
+        <span class="cmt">// ⑤ Instruccions de sortida</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola, "</span> + nom + <span class="str">"!"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Vas néixer l'any "</span> + anyNaixement);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Aquest any en fas "</span> + edat);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha l'<code>import java.time.LocalDate;</code> a dalt de tot, abans de la classe.</li><li>Els cinc blocs estan identificats amb el seu comentari i en l'ordre correcte.</li><li>El text <code>"Pau"</code> és un <code>String</code> i la resta de dades són <code>int</code>.</li><li>La línia <code>Escribir "Hola, ", nom, "!"</code> amb tres parts esdevé <code>"Hola, " + nom + "!"</code>: totes les comes passen a ser <code>+</code>.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Mostrar resultats: print i println</h2><p class="sec-sub">La sortida per pantalla</p></div></div>
   <p class="lead">Per mostrar informació per la consola fem servir <code>System.out</code>. Hi ha dues variants: amb salt de línia i sense.</p><div class="table-wrap"><table><thead><tr><th>Instrucció</th><th>Què fa</th></tr></thead><tbody><tr><td><code>System.out.println(x)</code></td><td>Mostra <code>x</code> i fa un salt de línia.</td></tr><tr><td><code>System.out.print(x)</code></td><td>Mostra <code>x</code> sense saltar de línia.</td></tr><tr><td><code>System.out.println()</code></td><td>Només salta de línia (deixa una línia en blanc si ja n'estàvem a l'inici).</td></tr><tr><td><code>"\n"</code> dins un text</td><td>Salt de línia dins d'una cadena.</td></tr><tr><td><code>"\t"</code> dins un text</td><td>Tabulació.</td></tr></tbody></table></div><div class="exemple">
@@ -324,6 +428,55 @@ Fitxers: 3</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada <code>print</code> escriu just on s'ha quedat l'anterior, per això <code>Carregant</code> i els tres punts surten a la mateixa línia. El <code>println(".")</code> escriu el darrer punt i <strong>després</strong> salta de línia.</p><p>El <code>println()</code> buit no escriu res: només salta de línia. Com que ja érem a l'inici d'una línia, deixa una línia en blanc. Amb <code>+</code> podem unir un text i un número en una sola sortida.</p></div>
 </div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>Les <strong>seqüències d'escapament</strong> com <code>\n</code> i <code>\t</code> les veurem amb detall a <a href="A1_4_conversions_sequencial.html">A1.4</a>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir x</code></td><td><code>System.out.println(x);</code></td></tr><tr><td><code>Escribir Sin Saltar x</code></td><td><code>System.out.print(x);</code></td></tr><tr><td><code>Escribir "Nota: ", n</code> (amb coma)</td><td><code>System.out.println("Nota: " + n);</code> (amb <code>+</code>)</td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex3">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El tiquet de la cafeteria</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Aquest algorisme fa servir <code>Escribir Sin Saltar</code> per escriure diverses coses a la mateixa línia. Tradueix-lo a Java triant bé entre <code>print</code> i <code>println</code>. Crea la classe <code>Tiquet</code>.</p><div class="pseudo">Algoritmo Tiquet
+    Definir cafes, preuCafe, total Como Entero
+
+    cafes &lt;- 3
+    preuCafe &lt;- 2
+    total &lt;- cafes * preuCafe
+
+    Escribir Sin Saltar "Cafès: "
+    Escribir cafes
+    Escribir Sin Saltar "Preu: "
+    Escribir Sin Saltar preuCafe
+    Escribir " €"
+    Escribir ""
+    Escribir "TOTAL: ", total, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>; <code>Escribir</code> → <code>System.out.println</code>.</li><li><code>Escribir ""</code> només deixa una línia en blanc: en Java hi ha una manera més curta de fer-ho.</li><li>Respecta una instrucció Java per cada línia de PSeInt: així veuràs clar on salta de línia.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Compta els salts de línia de la sortida esperada: n'hi ha quatre. Per tant, el teu programa ha de tenir quatre <code>println</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">Cafès: 3
+Preu: 2 €
+
+TOTAL: 6 €</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.1</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e3"><span class="cmt">// Mostra el tiquet d'una cafeteria</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Tiquet</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> cafes = <span class="num">3</span>;
+        <span class="kw">int</span> preuCafe = <span class="num">2</span>;
+        <span class="kw">int</span> total = cafes * preuCafe;
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Cafès: "</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(cafes);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu: "</span>);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(preuCafe);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL: "</span> + total + <span class="str">" €"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>print</code> quan la línia continua i <code>println</code> quan s'ha d'acabar.</li><li>La línia en blanc es fa amb <code>System.out.println();</code>, sense res entre parèntesis.</li><li>La sortida coincideix exactament amb l'esperada, espais inclosos.</li><li>Totes les instruccions acaben en <code>;</code>.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Comentaris</h2><p class="sec-sub">Explicar el codi a les persones</p></div></div>
   <p class="lead">Els comentaris són text que el compilador <strong>ignora</strong>. Serveixen per explicar el codi a les persones: companys, professorat o tu mateix d'aquí a uns mesos. Un bon comentari explica el <strong>per què</strong>, no el que ja es veu llegint el codi.</p><div class="table-wrap"><table><thead><tr><th>Tipus</th><th>Sintaxi</th><th>Quan usar-lo</th></tr></thead><tbody><tr><td><strong>Una línia</strong></td><td><code>// text</code></td><td>Notes curtes sobre una instrucció.</td></tr><tr><td><strong>Diverses línies</strong></td><td><code>/* text */</code></td><td>Explicar un bloc de codi o desactivar codi temporalment.</td></tr></tbody></table></div><div class="exemple">
@@ -363,9 +516,48 @@ Fitxers: 3</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El comentari <code>/* … */</code> pot ocupar diverses línies: aquí explica la fórmula abans de fer-la, de manera que qui llegeixi el codi entén per què es multiplica per <code>1.21</code>.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p><strong>Bon comentari vs mal comentari:</strong> <code>// multipliquem per 1.8</code> no aporta res (ja es veu al codi). <code>// convertim de Celsius a Fahrenheit</code> sí que ajuda. Comença cada programa amb un comentari que digui què fa.</p><p>A NetBeans, <kbd>Ctrl</kbd>+<kbd>/</kbd> comenta o descomenta les línies seleccionades.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>// text</code></td><td><code>// text</code> (igual)</td></tr><tr><td>No hi ha comentaris de bloc (només <code>//</code>)</td><td><code>/* text en diverses línies */</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex4">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">Celsius a Fahrenheit, ben comentat</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Tradueix l'algorisme a Java i <strong>documenta'l</strong>: aquest cop el pseudocodi no porta cap comentari i els has d'afegir tu. Crea la classe <code>Temperatura</code>.</p><div class="pseudo">Algoritmo Temperatura
+    Definir celsius, fahrenheit Como Entero
+
+    celsius &lt;- 25
+    fahrenheit &lt;- celsius * 9 / 5 + 32
+
+    Escribir celsius, " °C són ", fahrenheit, " °F"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Comença el programa amb un <strong>comentari de bloc</strong> <code>/* … */</code> que digui què fa el programa i quina fórmula fa servir.</li><li>Afegeix un comentari de línia que expliqui <strong>què representa</strong> el valor <code>25</code>.</li><li>Afegeix un comentari que expliqui <strong>per què</strong> el càlcul es fa en aquest ordre (primer <code>* 9</code>, després <code>/ 5</code>). Recorda: un bon comentari diu el perquè, no repeteix el codi.</li><li>Prova'l amb <code>30</code> °C: ha de sortir <code>86</code> °F.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">25 °C són 77 °F</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Escriu la fórmula com <code>celsius * (9 / 5) + 32</code> i executa-ho. Quin resultat surt? Escriu un comentari al codi explicant què ha passat.</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.9</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e4"><span class="cmt">/*</span>
+ <span class="cmt">* Converteix una temperatura de graus Celsius a graus Fahrenheit.</span>
+ <span class="cmt">* Fórmula: F = C * 9 / 5 + 32</span>
+ <span class="cmt">*/</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Temperatura</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Temperatura d'un dia d'estiu, en graus Celsius</span>
+        <span class="kw">int</span> celsius = <span class="num">25</span>;
+
+        <span class="cmt">// Primer multipliquem per 9 i després dividim per 5:</span>
+        <span class="cmt">// així la divisió entre enters dona el resultat exacte</span>
+        <span class="kw">int</span> fahrenheit = celsius * <span class="num">9</span> / <span class="num">5</span> + <span class="num">32</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(celsius + <span class="str">" °C són "</span> + fahrenheit + <span class="str">" °F"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un comentari de bloc inicial amb la finalitat del programa i la fórmula.</li><li>Els comentaris expliquen el significat de les dades i el perquè del càlcul; no n'hi ha cap del tipus <code>// multipliquem per 9</code>.</li><li>La traducció és correcta i la sortida coincideix amb l'esperada.</li><li><strong>Per què l'ordre importa?</strong> Amb enters, <code>9 / 5</code> dona <code>1</code> (es perden els decimals) i el resultat seria <code>57</code>. Fent primer <code>25 * 9 = 225</code> i després <code>225 / 5 = 45</code>, el resultat és exacte. Ho veurem amb detall a l'A1.3.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Quatre exercicis de nivell creixent per comprovar què has entès</p></div></div>
-  <p class="lead">Comprova que saps llegir l'estructura d'un programa Java. Els dos primers són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Tres exercicis ràpids per repassar tota la subpàgina</p></div></div>
+  <p class="lead">Ja has escrit quatre programes. Ara comprova que saps <strong>llegir</strong> l'estructura d'un programa Java. Els dos primers són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
   <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Identifica els blocs d'un programa</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body"><p>Per a cada línia de codi, tria a quin bloc del programa pertany.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>public class Botiga {</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Importació</button><button type="button" class="qi-btn" data-ok="1">Classe</button><button type="button" class="qi-btn" data-ok="0">Mètode main</button><button type="button" class="qi-btn" data-ok="0">Variable</button><button type="button" class="qi-btn" data-ok="0">Sortida</button><button type="button" class="qi-btn" data-ok="0">Comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Declara la classe <code>Botiga</code>: el fitxer s'ha de dir <code>Botiga.java</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>// Calcula el total de la compra</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Importació</button><button type="button" class="qi-btn" data-ok="0">Classe</button><button type="button" class="qi-btn" data-ok="0">Mètode main</button><button type="button" class="qi-btn" data-ok="0">Variable</button><button type="button" class="qi-btn" data-ok="0">Sortida</button><button type="button" class="qi-btn" data-ok="1">Comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Comença per <code>//</code>: el compilador l'ignora.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>System.out.println(total);</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Importació</button><button type="button" class="qi-btn" data-ok="0">Classe</button><button type="button" class="qi-btn" data-ok="0">Mètode main</button><button type="button" class="qi-btn" data-ok="0">Variable</button><button type="button" class="qi-btn" data-ok="1">Sortida</button><button type="button" class="qi-btn" data-ok="0">Comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Mostra el valor de <code>total</code> per la consola.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>import java.time.LocalDate;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Importació</button><button type="button" class="qi-btn" data-ok="0">Classe</button><button type="button" class="qi-btn" data-ok="0">Mètode main</button><button type="button" class="qi-btn" data-ok="0">Variable</button><button type="button" class="qi-btn" data-ok="0">Sortida</button><button type="button" class="qi-btn" data-ok="0">Comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Porta una classe d'un altre paquet. Va a dalt, abans de la classe.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>double preu = 2.5;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Importació</button><button type="button" class="qi-btn" data-ok="0">Classe</button><button type="button" class="qi-btn" data-ok="0">Mètode main</button><button type="button" class="qi-btn" data-ok="1">Variable</button><button type="button" class="qi-btn" data-ok="0">Sortida</button><button type="button" class="qi-btn" data-ok="0">Comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Declara la variable <code>preu</code> de tipus <code>double</code> i li dona un valor.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> <code>public static void main(String[] args) {</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Importació</button><button type="button" class="qi-btn" data-ok="0">Classe</button><button type="button" class="qi-btn" data-ok="1">Mètode main</button><button type="button" class="qi-btn" data-ok="0">Variable</button><button type="button" class="qi-btn" data-ok="0">Sortida</button><button type="button" class="qi-btn" data-ok="0">Comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>És el punt d'entrada: l'execució comença aquí.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
 </div><div class="exercici-card demo">
@@ -443,52 +635,7 @@ Segona</pre></div></div>
 
 }</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r10">Hola</pre></div></div>
   </div></div></div>
-</div><div class="exercici-card">
-  <div class="exercici-header"><span class="exercici-num">Demo 4</span><span class="exercici-title">Del pseudocodi PSeInt al programa Java</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Tradueix a Java aquest algorisme PSeInt. Crea la classe <code>Compra</code> al projecte <code>AEA1_A1</code>.</p><div class="pseudo">Algoritmo Compra
-    // Calcula el preu total d'una compra
-    Definir unitats Como Entero
-    Definir preuUnitat, total Como Real
-
-    unitats &lt;- 4
-    preuUnitat &lt;- 2.5
-
-    total &lt;- unitats * preuUnitat
-
-    Escribir "Unitats: ", unitats
-    Escribir "Preu per unitat: ", preuUnitat
-    Escribir "Total a pagar: ", total
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>Definir</code> passa a ser una declaració de variable: <code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>.</li><li>Cada <code>&lt;-</code> passa a ser <code>=</code>, i cada instrucció acaba en <code>;</code>.</li><li>Cada <code>Escribir</code> passa a ser un <code>System.out.println</code>, unint el text i la variable amb <code>+</code>.</li><li>Mantén el comentari inicial i separa les tres parts (dades, càlcul i sortida) amb comentaris.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r11">Unitats: 4
-Preu per unitat: 2.5
-Total a pagar: 10.0</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.1 · 1.9</span></div>
-  <div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r11"><span class="cmt">// Calcula el preu total d'una compra</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Compra</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cmt">// Dades</span>
-        <span class="kw">int</span> unitats = <span class="num">4</span>;
-        <span class="kw">double</span> preuUnitat = <span class="num">2.5</span>;
-
-        <span class="cmt">// Càlcul</span>
-        <span class="kw">double</span> total = unitats * preuUnitat;
-
-        <span class="cmt">// Sortida</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Unitats: "</span> + unitats);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu per unitat: "</span> + preuUnitat);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total a pagar: "</span> + total);
-
-    }
-
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>L'estructura és correcta: classe amb el mateix nom que el fitxer i mètode <code>main</code>.</li><li>Les variables tenen el tipus equivalent al de PSeInt i les instruccions acaben en <code>;</code>.</li><li>Hi ha un comentari inicial que explica què fa el programa.</li><li>Fixa't que Java mostra <code>10.0</code> (un <code>double</code> sempre surt amb decimal), mentre que PSeInt mostraria <code>10</code>.</li></ul></div></div>
-  </div>
-</div>
-</section>
+</div></section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A1_0_entorn.html">← A1.0 Preparem l'entorn</a><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><a href="A1_2_dades.html">A1.2 Dades →</a></nav>
 </main>
 <footer>

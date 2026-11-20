@@ -141,6 +141,15 @@
     .ex-ca { font-size:.82rem; color:var(--text-soft); }
     .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
     .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
@@ -215,7 +224,7 @@
 </nav>
 <main>
 <a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.8</div><div class="obj-text">Convertir valors entre tipus de manera segura: saber quan ho fa Java sol, quan cal un <em>casting</em> i què es pot perdre (decimals o desbordament). Construir programes seqüencials complets (dades → procés → sortida) amb les instruccions en l'ordre correcte.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.8</div><div class="obj-text">Convertir valors entre tipus de manera segura: saber quan ho fa Java sol, quan cal un <em>casting</em> i què es pot perdre (decimals o desbordament). Construir programes seqüencials complets (dades → procés → sortida) amb les instruccions en l'ordre correcte.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Conversió implícita</h2><p class="sec-sub">Quan Java canvia el tipus tot sol</p></div></div>
   <p class="lead">Sovint cal passar un valor d'un tipus a un altre. Hi ha tres situacions: la conversió <strong>implícita</strong> (automàtica), la <strong>explícita</strong> (<em>casting</em>) i la conversió entre <strong>text i números</strong>.</p><div class="table-wrap"><table><thead><tr><th>Tipus</th><th>Cal escriure res?</th><th>Pot perdre informació?</th></tr></thead><tbody><tr><td><strong>Implícita</strong> (de petit a gran)</td><td>No, Java la fa sola</td><td>No</td></tr><tr><td><strong>Explícita / casting</strong> (de gran a petit)</td><td>Sí: <code>(tipus) valor</code></td><td>Sí: decimals o desbordament</td></tr><tr><td><strong>Text ↔ número</strong></td><td>Sí: <code>Integer.parseInt()</code>, <code>String.valueOf()</code>…</td><td>Pot fallar si el text no és un número</td></tr></tbody></table></div><div class="exemple">
@@ -307,6 +316,61 @@ Preu: 3.33</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>A <code>malament</code>, <code>17 / 2</code> es fa entre enters i dona 8; després es guarda en un <code>double</code> i passa a ser <code>8.0</code>, però els decimals ja s'han perdut. A <code>be</code>, el casting converteix <code>suma</code> a <code>double</code> <strong>abans</strong> de dividir, i la divisió ja és decimal.</p><p>Per arrodonir a 2 decimals: <code>3.333… * 100</code> = 333.33…, <code>Math.round</code> el deixa en 333 i, en dividir per <code>100.0</code> (decimal!), queda 3.33.</p></div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>El casting trunca:</strong> <code>(int) 9.99</code> dona <code>9</code>. Per arrodonir usa <code>Math.round()</code>. I compte amb l'ordre: <code>(double) (17 / 2)</code> dona <code>8.0</code> perquè la divisió entera es fa abans del casting.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>Els decimals no sempre són exactes.</strong> Els tipus <code>double</code> i <code>float</code> guarden els números en binari i alguns valors no es poden representar exactament: <code>0.1 + 0.2</code> dona <code>0.30000000000000004</code>. Per això arrodonim els imports amb <code>Math.round(x * 100) / 100.0</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>TRUNC(x)</code></td><td><code>(int) x</code></td></tr><tr><td><code>REDON(x)</code></td><td><code>Math.round(x)</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La mitjana de tres notes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un alumne té tres notes enteres: 7, 8 i 8. A PSeInt la divisió sempre dona decimals, però a Java no. Tradueix l'algorisme i fes que la mitjana surti bé. Crea la classe <code>Mitjana</code>.</p><div class="pseudo">Algoritmo Mitjana
+    Definir nota1, nota2, nota3, suma, notaFinal Como Entero
+    Definir mitjana Como Real
+
+    nota1 &lt;- 7
+    nota2 &lt;- 8
+    nota3 &lt;- 8
+    suma &lt;- nota1 + nota2 + nota3
+
+    mitjana &lt;- suma / 3
+    notaFinal &lt;- redon(mitjana)
+
+    Escribir "Mitjana: ", redon(mitjana * 100) / 100
+    Escribir "Nota final: ", notaFinal
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Primer tradueix <code>suma / 3</code> tal qual, guarda-ho en un <code>double</code> i mostra-ho com a <em>Mitjana (malament)</em>.</li><li>Després calcula-la bé amb un <em>casting</em> a <code>double</code>. Compte amb on poses el <code>(double)</code>!</li><li>Arrodoneix la mitjana a 2 decimals i la nota final a l'enter més proper amb <code>Math.round</code>.</li><li>Explica amb un comentari per què la primera mitjana és incorrecta.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Torna a mirar l'exemple <em>Obtenir una mitjana decimal a partir d'enters</em> d'aquí dalt.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Mitjana (malament): 7.0
+Mitjana (bé): 7.67
+Nota final: 8</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.7 · 1.8</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="cmt">// Calcula la mitjana de tres notes enteres</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Mitjana</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> nota1 = <span class="num">7</span>;
+        <span class="kw">int</span> nota2 = <span class="num">8</span>;
+        <span class="kw">int</span> nota3 = <span class="num">8</span>;
+        <span class="kw">int</span> suma = nota1 + nota2 + nota3;
+
+        <span class="cmt">// Malament: 23 / 3 es fa entre enters (dona 7) i després passa a 7.0</span>
+        <span class="kw">double</span> malament = suma / <span class="num">3</span>;
+
+        <span class="cmt">// Bé: convertim la suma a double ABANS de dividir</span>
+        <span class="kw">double</span> be = (<span class="kw">double</span>) suma / <span class="num">3</span>;
+        <span class="cmt">// Arrodonim a 2 decimals: multipliquem per 100, arrodonim i dividim per 100.0</span>
+        <span class="kw">double</span> beArrodonida = <span class="cls">Math</span>.<span class="fn">round</span>(be * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="kw">long</span> notaFinal = <span class="cls">Math</span>.<span class="fn">round</span>(be);
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana (malament): "</span> + malament);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana (bé): "</span> + beArrodonida);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota final: "</span> + notaFinal);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El <em>casting</em> es fa abans de dividir: <code>(double) (suma / 3)</code> continuaria donant <code>7.0</code>, perquè la divisió entera ja s'ha fet.</li><li>Arrodoneix a 2 decimals amb <code>Math.round(x * 100) / 100.0</code> (el <code>.0</code> és imprescindible).</li><li><code>Math.round</code> retorna un <code>long</code>: per això <code>notaFinal</code> és <code>long</code> (o cal fer <code>(int)</code>).</li><li>Hi ha un comentari que explica l'error de la primera mitjana.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Conversió entre text i números</h2><p class="sec-sub">Quan un número arriba com a text</p></div></div>
   <p class="lead">Un text com <code>"42"</code> no és un número: no es pot sumar ni multiplicar. Per operar-hi cal convertir-lo, i a l'inrevés, de vegades volem un número com a text.</p><div class="table-wrap"><table><thead><tr><th>Conversió</th><th>Com es fa</th><th>Exemple</th><th>Resultat</th></tr></thead><tbody><tr><td><code>String</code> → <code>int</code></td><td><code>Integer.parseInt(text)</code></td><td><code>Integer.parseInt("42")</code></td><td><code>42</code></td></tr><tr><td><code>String</code> → <code>double</code></td><td><code>Double.parseDouble(text)</code></td><td><code>Double.parseDouble("3.5")</code></td><td><code>3.5</code></td></tr><tr><td><code>String</code> → <code>boolean</code></td><td><code>Boolean.parseBoolean(text)</code></td><td><code>Boolean.parseBoolean("true")</code></td><td><code>true</code></td></tr><tr><td>número → <code>String</code></td><td><code>String.valueOf(n)</code></td><td><code>String.valueOf(42)</code></td><td><code>"42"</code></td></tr><tr><td>número → <code>String</code></td><td>concatenar amb <code>""</code></td><td><code>"" + 3.5</code></td><td><code>"3.5"</code></td></tr></tbody></table></div><div class="exemple">
@@ -336,6 +400,73 @@ Total: 37.5</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Si sumem els dos textos tal com estan, el <code>+</code> els enganxa i surt <code>312.5</code>, que sembla un número però no ho és. <code>Integer.parseInt</code> i <code>Double.parseDouble</code> llegeixen el text i en treuen el número, i amb aquests ja es pot multiplicar.</p><p><code>String.valueOf</code> fa el camí contrari: converteix el resultat a text.</p></div>
 </div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>Si el text no representa un número (per exemple <code>Integer.parseInt("hola")</code>), el programa s'atura amb una <code>NumberFormatException</code>. A l'<strong>A3</strong> aprendrem a controlar aquests errors amb <code>try-catch</code>.</p></div><details class="mes"><summary>📚 Per saber-ne més · classes envoltants (wrapper)</summary><div class="mes-body"><p>Cada tipus primitiu té una classe associada amb utilitats. Les fem servir per consultar límits (com a <a href="A1_2_dades.html">A1.2</a>) i per convertir text a número.</p><div class="table-wrap"><table><thead><tr><th>Primitiu</th><th>Classe envoltant</th><th>Utilitat</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>Integer</code></td><td><code>Integer.parseInt("42")</code>, <code>Integer.MAX_VALUE</code></td></tr><tr><td><code>double</code></td><td><code>Double</code></td><td><code>Double.parseDouble("3.14")</code></td></tr><tr><td><code>boolean</code></td><td><code>Boolean</code></td><td><code>Boolean.parseBoolean("true")</code></td></tr><tr><td><code>char</code></td><td><code>Character</code></td><td><code>Character.isDigit('7')</code></td></tr></tbody></table></div><p>Com que són classes, el nom comença en majúscula. També hi ha <code>Long</code>, <code>Byte</code>, <code>Short</code> i <code>Float</code>.</p></div></details><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>ConvertirANumero("42")</code></td><td><code>Integer.parseInt("42")</code> o <code>Double.parseDouble("3.14")</code></td></tr><tr><td><code>ConvertirATexto(42)</code></td><td><code>String.valueOf(42)</code> o <code>"" + 42</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Les dades d'un formulari</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Quan un usuari omple un formulari web, totes les dades arriben com a <strong>text</strong>. Tradueix l'algorisme convertint cada text al tipus que necessites. Crea la classe <code>Formulari</code>.</p><div class="pseudo">Algoritmo Formulari
+    Definir textEdat, textAlcada, textSoci, codi Como Caracter
+    Definir edat, edatVinent Como Entero
+    Definir alcada, alcadaCm Como Real
+    Definir soci Como Logico
+
+    textEdat &lt;- "17"
+    textAlcada &lt;- "1.7"
+    textSoci &lt;- "true"
+
+    edat &lt;- ConvertirANumero(textEdat)
+    alcada &lt;- ConvertirANumero(textAlcada)
+    soci &lt;- textSoci = "true"
+
+    edatVinent &lt;- edat + 1
+    alcadaCm &lt;- alcada * 100
+
+    Escribir "L'any vinent tindrà ", edatVinent, " anys"
+    Escribir "Alçada: ", alcadaCm, " cm"
+    Escribir "Soci: ", soci
+
+    codi &lt;- Concatenar(ConvertirATexto(edatVinent), "A")
+    Escribir "Codi de grup: ", codi
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Les tres dades de text són <code>String</code>. Converteix-les amb <code>Integer.parseInt</code>, <code>Double.parseDouble</code> i <code>Boolean.parseBoolean</code>.</li><li>Per al codi de grup, converteix el número a text amb <code>String.valueOf</code>.</li><li>Abans de convertir res, prova a mostrar <code>textEdat + 1</code>. Què surt? Per què?</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">L'any vinent tindrà 18 anys
+Alçada: 170.0 cm
+Soci: true
+Codi de grup: 18A</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.8</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="cmt">// Converteix a número les dades d'un formulari, que arriben com a text</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Formulari</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Dades tal com arriben del formulari: tot és text</span>
+        <span class="cls">String</span> textEdat = <span class="str">"17"</span>;
+        <span class="cls">String</span> textAlcada = <span class="str">"1.7"</span>;
+        <span class="cls">String</span> textSoci = <span class="str">"true"</span>;
+
+        <span class="cmt">// Convertim el text al tipus que necessitem per operar</span>
+        <span class="kw">int</span> edat = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textEdat);
+        <span class="kw">double</span> alcada = <span class="cls">Double</span>.<span class="fn">parseDouble</span>(textAlcada);
+        <span class="kw">boolean</span> soci = <span class="cls">Boolean</span>.<span class="fn">parseBoolean</span>(textSoci);
+
+        <span class="kw">int</span> edatVinent = edat + <span class="num">1</span>;
+        <span class="kw">double</span> alcadaCm = alcada * <span class="num">100</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"L'any vinent tindrà "</span> + edatVinent + <span class="str">" anys"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Alçada: "</span> + alcadaCm + <span class="str">" cm"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Soci: "</span> + soci);
+
+        <span class="cmt">// I a l'inrevés: de número a text</span>
+        <span class="cls">String</span> codi = <span class="cls">String</span>.<span class="fn">valueOf</span>(edatVinent) + <span class="str">"A"</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Codi de grup: "</span> + codi);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Cada text es converteix amb el mètode del tipus de destinació.</li><li>Els càlculs es fan amb les variables convertides, no amb els textos: <code>textEdat + 1</code> donaria <code>171</code>, perquè enganxa un <code>1</code> al text.</li><li>Fa servir <code>String.valueOf</code> per passar de número a text.</li><li>Si canvies <code>textEdat</code> per <code>"disset"</code>, el programa s'atura amb una <code>NumberFormatException</code>: ho controlarem a l'A3.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Composició seqüencial d'instruccions</h2><p class="sec-sub">Dades → procés → sortida</p></div></div>
   <p class="lead">La <strong>composició seqüencial</strong> és l'estructura més simple: les instruccions s'executen <strong>una rere l'altra</strong>, de dalt a baix, cadascuna una sola vegada. Tots els programes que hem fet fins ara són seqüencials. Tenen sempre tres parts: <strong>dades d'entrada → procés → sortida</strong>.</p><div class="pseudo">ALGORISME PreuAmbIva
@@ -389,6 +520,90 @@ Després: a = 9, b = 5</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Si fem directament <code>a = b;</code>, el 5 que hi havia a <code>a</code> es perd per sempre, i <code>b = a;</code> hi tornaria a posar un 9. Per això primer el guardem a <code>aux</code>. És com intercanviar el contingut de dos gots: cal un tercer got.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Abans de programar, escriu en paper les tres parts (dades, procés i sortida) i <strong>en quin ordre</strong> s'han de calcular els valors: un valor només es pot fer servir després d'haver-lo calculat.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Algoritmo</code> amb instruccions una rere l'altra</td><td><code>main</code> amb instruccions una rere l'altra: la mateixa estructura</td></tr><tr><td><code>aux &lt;- a</code> · <code>a &lt;- b</code> · <code>b &lt;- aux</code></td><td><code>int aux = a;</code> · <code>a = b;</code> · <code>b = aux;</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex3">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El tiquet amb IVA</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Aquest algorisme és un programa seqüencial complet: dades → procés → sortida. Tradueix-lo a Java respectant l'ordre de les instruccions. Crea la classe <code>TiquetIva</code>.</p><div class="pseudo">Algoritmo TiquetIva
+    Definir llibretes, boligrafs Como Entero
+    Definir iva, preuLlibreta, preuBoligraf Como Real
+    Definir base, importIva, total Como Real
+
+    // Dades
+    iva &lt;- 0.21
+    llibretes &lt;- 3
+    preuLlibreta &lt;- 2.40
+    boligrafs &lt;- 2
+    preuBoligraf &lt;- 1.15
+
+    // Procés
+    base &lt;- llibretes * preuLlibreta + boligrafs * preuBoligraf
+    importIva &lt;- base * iva
+    total &lt;- base + importIva
+
+    base &lt;- redon(base * 100) / 100
+    importIva &lt;- redon(importIva * 100) / 100
+    total &lt;- redon(total * 100) / 100
+
+    // Sortida
+    Escribir "-----------------------"
+    Escribir llibretes, " x Llibreta  ", preuLlibreta, " €"
+    Escribir boligrafs, " x Bolígraf  ", preuBoligraf, " €"
+    Escribir "-----------------------"
+    Escribir "Base:   ", base, " €"
+    Escribir "IVA:    ", importIva, " €"
+    Escribir "TOTAL:  ", total, " €"
+    Escribir "-----------------------"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>L'IVA és una regla fixa: declara'l com a constant.</li><li>Arrodoneix els imports a 2 decimals amb <code>Math.round</code>. Compte amb el <code>/ 100</code> de PSeInt: a Java ha de ser <code>/ 100.0</code>.</li><li>Canvia l'ordre i calcula el <code>total</code> abans que la <code>base</code>. Compila? Per què?</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">-----------------------
+3 x Llibreta  2.4 €
+2 x Bolígraf  1.15 €
+-----------------------
+Base:   9.5 €
+IVA:    2.0 €
+TOTAL:  11.5 €
+-----------------------</pre></div><p class="nota-sortida">Fixa't que Java mostra 2.4 i no 2.40: els zeros de la dreta no es mostren. Aprendrem a donar format als números a l'RA5.</p></div>
+  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.5 · 1.7 · 1.8</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e3"><span class="cmt">// Genera el tiquet d'una compra de material escolar amb l'IVA</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">TiquetIva</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// Dades d'entrada</span>
+        <span class="kw">final</span> <span class="kw">double</span> IVA = <span class="num">0.21</span>;
+        <span class="kw">int</span> llibretes = <span class="num">3</span>;
+        <span class="kw">double</span> preuLlibreta = <span class="num">2.40</span>;
+        <span class="kw">int</span> boligrafs = <span class="num">2</span>;
+        <span class="kw">double</span> preuBoligraf = <span class="num">1.15</span>;
+
+        <span class="cmt">// Procés</span>
+        <span class="kw">double</span> base = llibretes * preuLlibreta + boligrafs * preuBoligraf;
+        <span class="kw">double</span> importIva = base * IVA;
+        <span class="kw">double</span> total = base + importIva;
+
+        <span class="cmt">// Arrodonim els imports a 2 decimals</span>
+        base = <span class="cls">Math</span>.<span class="fn">round</span>(base * <span class="num">100</span>) / <span class="num">100.0</span>;
+        importIva = <span class="cls">Math</span>.<span class="fn">round</span>(importIva * <span class="num">100</span>) / <span class="num">100.0</span>;
+        total = <span class="cls">Math</span>.<span class="fn">round</span>(total * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cmt">// Sortida</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(llibretes + <span class="str">" x Llibreta  "</span> + preuLlibreta + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(boligrafs + <span class="str">" x Bolígraf  "</span> + preuBoligraf + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base:   "</span> + base + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"IVA:    "</span> + importIva + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL:  "</span> + total + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>L'IVA és una constant i els imports s'arrodoneixen correctament.</li><li><code>Math.round(x * 100) / 100</code>, sense el <code>.0</code>, faria una divisió entera i perdria els decimals: <code>950 / 100</code> = <code>9</code>.</li><li>L'ordre importa: el total es calcula a partir de la base i l'IVA. Si es calcula abans, el compilador diu que <code>base</code> encara no existeix.</li><li>Les tres parts (dades, procés i sortida) estan separades amb comentaris.</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">5</span><div><h2 class="sec-title">Sortida per pantalla i seqüències d'escapament</h2><p class="sec-sub">Caràcters especials dins dels textos</p></div></div>
   <p class="lead"><code>print</code> i <code>println</code> accepten qualsevol expressió i la converteixen automàticament a text. Cada instrucció escriu just on s'ha quedat l'anterior. Dins d'un text, la contrabarra <code>\</code> introdueix una <strong>seqüència d'escapament</strong>: un caràcter especial que no es pot escriure directament.</p><div class="exemple">
@@ -424,9 +639,46 @@ a</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p><code>\t</code> insereix una tabulació (per això <code>Preu</code> i <code>2.4 €</code> surten alineats), <code>\"</code> permet posar cometes dins d'un text sense tancar-lo, <code>\\</code> escriu una sola contrabarra i <code>\n</code> salta de línia enmig del text.</p><p>Les dues últimes línies mostren que <code>println</code> també accepta expressions (calcula <code>3 + 4</code> i mostra <code>7</code>) i caràcters.</p></div>
 </div><details class="mes"><summary>📚 Per saber-ne més · taula de seqüències d'escapament</summary><div class="mes-body"><div class="table-wrap"><table><thead><tr><th>Seqüència</th><th>Què representa</th></tr></thead><tbody><tr><td><code>\n</code></td><td>Salt de línia</td></tr><tr><td><code>\t</code></td><td>Tabulació</td></tr><tr><td><code>\'</code></td><td>Cometa simple (<code>'</code>)</td></tr><tr><td><code>\"</code></td><td>Cometes dobles (<code>"</code>) dins d'un text</td></tr><tr><td><code>\\</code></td><td>Contrabarra (<code>\</code>)</td></tr></tbody></table></div></div></details><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p>Una ruta de Windows escrita tal qual, <code>"C:\nous"</code>, no fa el que esperes: <code>\n</code> és un salt de línia! Cal doblar la contrabarra: <code>"C:\\nous"</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>Un altre <code>Escribir</code> per saltar de línia</td><td><code>\n</code> dins del text</td></tr><tr><td><code>'Diu: "hola"'</code> (cometes simples per fora)</td><td><code>"Diu: \"hola\""</code></td></tr></tbody></table></div></div>
+<div class="exercici-card practica" id="ex4">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">La taula de notes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>PSeInt no té seqüències d'escapament i necessita un <code>Escribir</code> per línia. Tradueix l'algorisme fent servir el <strong>mínim d'instruccions</strong> possible. Crea la classe <code>Notes</code>.</p><div class="pseudo">Algoritmo Notes
+    Escribir "Alumne    Nota"
+    Escribir "Laia      8.5"
+    Escribir "Pol       7"
+    Escribir 'Comentari: "Molt bé!"'
+    Escribir "Fitxer: C:\notes\daw1.txt"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Escriu les tres línies de la taula amb <strong>un sol</strong> <code>println</code>: fes servir <code>\t</code> per alinear les columnes i <code>\n</code> per saltar de línia.</li><li>A Java el text va sempre entre cometes dobles: com hi poses les cometes de <em>Molt bé!</em>?</li><li>Escriu la ruta del fitxer tal com està al pseudocodi i executa-ho. Què surt? Corregeix-ho.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Alumne	Nota
+Laia	8.5
+Pol	7
+Comentari: "Molt bé!"
+Fitxer: C:\notes\daw1.txt</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.8</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e4"><span class="cmt">// Mostra una taula de notes amb seqüències d'escapament</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Notes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cmt">// \t alinea les columnes i \n salta de línia: tota la taula en un sol println</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Alumne\tNota\nLaia\t8.5\nPol\t7"</span>);
+        <span class="cmt">// \" posa cometes dins del text sense tancar-lo</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Comentari: \"Molt bé!\""</span>);
+        <span class="cmt">// \\ escriu una contrabarra; amb una de sola, \n seria un salt de línia</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fitxer: C:\\notes\\daw1.txt"</span>);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La taula és un sol <code>println</code> amb <code>\t</code> i <code>\n</code>.</li><li>Les cometes interiors s'escriuen amb <code>\"</code>.</li><li>La ruta porta les contrabarres doblades. Amb una de sola, <code>\n</code> de <code>\notes</code> seria un salt de línia i el compilador donaria error amb <code>\d</code> (<em>illegal escape character</em>).</li></ul></div></div>
+  </div>
+</div>
 </section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Exercicis de demostració</h2><p class="sec-sub">Quatre exercicis de nivell creixent per comprovar què has entès</p></div></div>
-  <p class="lead">Comprova que saps predir les conversions i escriure programes seqüencials complets. Els dos primers són interactius: les respostes s'han comprovat amb Java.</p><div class="exercici-card demo">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Tres exercicis ràpids per repassar tota la subpàgina</p></div></div>
+  <p class="lead">Ja has escrit quatre programes. Ara comprova que saps predir les conversions. Els dos primers són interactius: les respostes s'han comprovat amb Java.</p><div class="exercici-card demo">
   <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Què imprimeix?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body"><p>Tria què mostraria <code>System.out.println(…)</code> amb cada expressió.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>(int) 9.99</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">10</button><button type="button" class="qi-btn" data-ok="1">9</button><button type="button" class="qi-btn" data-ok="0">9.99</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El casting a <code>int</code> talla els decimals; no arrodoneix.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>Math.round(9.5)</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">9</button><button type="button" class="qi-btn" data-ok="1">10</button><button type="button" class="qi-btn" data-ok="0">10.0</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>Math.round</code> arrodoneix a l'enter més proper (els .5 cap amunt) i retorna un <code>long</code>, sense decimals.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>(byte) 130</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">127</button><button type="button" class="qi-btn" data-ok="0">130</button><button type="button" class="qi-btn" data-ok="1">-126</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>130 no cap en un <code>byte</code> (màxim 127): es desborda i dona la volta pel costat negatiu.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>(double) 7 / 2</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3.0</button><button type="button" class="qi-btn" data-ok="1">3.5</button><button type="button" class="qi-btn" data-ok="0">3</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El casting s'aplica només al 7, que passa a 7.0; la divisió ja és decimal.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>(double) (7 / 2)</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">3.5</button><button type="button" class="qi-btn" data-ok="1">3.0</button><button type="button" class="qi-btn" data-ok="0">3</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El parèntesi fa primer la divisió entera (3) i després la converteix: 3.0.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> <code>(char) 67</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">C</button><button type="button" class="qi-btn" data-ok="0">67</button><button type="button" class="qi-btn" data-ok="0">B</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>67 és el codi Unicode de la lletra <code>C</code> (65 és la A).</div></div><div class="qi"><div class="qi-text"><span class="qi-n">7.</span> <code>Integer.parseInt("12") + 3</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">123</button><button type="button" class="qi-btn" data-ok="1">15</button><button type="button" class="qi-btn" data-ok="0">12 3</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>parseInt</code> converteix el text en el número 12, que se suma amb 3.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
 </div><div class="exercici-card demo">
@@ -498,90 +750,7 @@ a</pre></div>
 
 }</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r13">2.5 € per persona</pre></div></div>
   </div></div></div>
-</div><div class="exercici-card">
-  <div class="exercici-header"><span class="exercici-num">Demo 4a</span><span class="exercici-title">Tiquet de compra amb IVA</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Genera el tiquet d'una compra de 3 llibretes a 2,40 € i 2 bolígrafs a 1,15 €, amb un 21 % d'IVA.</p><ul class="exercici-tasques"><li>Declara les quantitats i els preus en variables, i l'IVA com a constant.</li><li>Calcula la base imposable (sense IVA), l'import de l'IVA i el total.</li><li>Arrodoneix els imports a 2 decimals amb <code>Math.round</code>.</li><li>Separa les parts del tiquet amb línies de guions.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r14">-----------------------
-3 x Llibreta  2.4 €
-2 x Bolígraf  1.15 €
------------------------
-Base:  9.5 €
-IVA:   2.0 €
-TOTAL: 11.5 €
------------------------</pre></div><p class="nota-sortida">Fixa't que Java mostra 2.4 i no 2.40: els zeros de la dreta no es mostren. Aprendrem a donar format als números a l'RA5.</p></div>
-  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.5 · 1.6 · 1.7 · 1.8</span></div>
-  <div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r14"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Tiquet</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">final</span> <span class="kw">double</span> IVA = <span class="num">0.21</span>;
-
-        <span class="kw">int</span> llibretes = <span class="num">3</span>;
-        <span class="kw">double</span> preuLlibreta = <span class="num">2.40</span>;
-        <span class="kw">int</span> boligrafs = <span class="num">2</span>;
-        <span class="kw">double</span> preuBoligraf = <span class="num">1.15</span>;
-
-        <span class="kw">double</span> base = llibretes * preuLlibreta + boligrafs * preuBoligraf;
-        base = <span class="cls">Math</span>.<span class="fn">round</span>(base * <span class="num">100</span>) / <span class="num">100.0</span>;
-
-        <span class="kw">double</span> importIva = <span class="cls">Math</span>.<span class="fn">round</span>(base * IVA * <span class="num">100</span>) / <span class="num">100.0</span>;
-        <span class="kw">double</span> total = <span class="cls">Math</span>.<span class="fn">round</span>((base + importIva) * <span class="num">100</span>) / <span class="num">100.0</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(llibretes + <span class="str">" x Llibreta  "</span> + preuLlibreta + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(boligrafs + <span class="str">" x Bolígraf  "</span> + preuBoligraf + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Base:  "</span> + base + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"IVA:   "</span> + importIva + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL: "</span> + total + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"-----------------------"</span>);
-
-    }
-
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>L'IVA és una constant i els imports s'arrodoneixen correctament.</li><li>El total es calcula a partir de la base i l'IVA, no es torna a escriure a mà.</li></ul></div></div>
-  </div>
-</div><div class="exercici-card">
-  <div class="exercici-header"><span class="exercici-num">Demo 4b</span><span class="exercici-title">Mitjana de tres notes</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Un alumne té tres notes enteres: 7, 8 i 8. Calcula'n la mitjana correctament i mostra també la nota final arrodonida.</p><ul class="exercici-tasques"><li>Declara les tres notes com a <code>int</code>.</li><li>Calcula primer la mitjana <strong>malament</strong> (<code>suma / 3</code>, tot enters) i mostra-la per veure l'error.</li><li>Calcula-la <strong>bé</strong> fent casting a <code>double</code> i arrodoneix-la a 2 decimals.</li><li>Mostra la nota final arrodonida a l'enter més proper amb <code>Math.round</code>.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r15">Mitjana (malament): 7.0
-Mitjana (bé): 7.67
-Nota final: 8</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.7 · 1.8</span></div>
-  <div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r15"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaNotes</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> nota1 = <span class="num">7</span>;
-        <span class="kw">int</span> nota2 = <span class="num">8</span>;
-        <span class="kw">int</span> nota3 = <span class="num">8</span>;
-
-        <span class="kw">int</span> suma = nota1 + nota2 + nota3;              <span class="cmt">// 23</span>
-
-        <span class="cmt">// Malament: suma / 3 és una divisió entera (23 / 3 = 7)</span>
-        <span class="kw">double</span> mitjanaMalament = suma / <span class="num">3</span>;             <span class="cmt">// 7.0</span>
-
-        <span class="cmt">// Bé: convertim a double ABANS de dividir</span>
-        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / <span class="num">3</span>;            <span class="cmt">// 7.666666666666667</span>
-        mitjana = <span class="cls">Math</span>.<span class="fn">round</span>(mitjana * <span class="num">100</span>) / <span class="num">100.0</span>;   <span class="cmt">// 7.67</span>
-
-        <span class="kw">long</span> notaFinal = <span class="cls">Math</span>.<span class="fn">round</span>(mitjana);          <span class="cmt">// 8</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana (malament): "</span> + mitjanaMalament);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana (bé): "</span> + mitjana);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota final: "</span> + notaFinal);
-
-    }
-
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Explica amb un comentari per què la primera mitjana és incorrecta.</li><li>El casting es fa <strong>abans</strong> de dividir: <code>(double) (suma / 3)</code> continuaria donant 7.0.</li></ul></div></div>
-  </div>
-</div>
-</section>
+</div></section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A1_3_operadors.html">← A1.3 Operadors i expressions</a><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><a href="A1_exercicis_repas.html">Exercicis de repàs →</a></nav>
 </main>
 <footer>
