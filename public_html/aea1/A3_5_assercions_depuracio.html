@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3.5 — Assercions, depuració i documentació · A3 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A3 · Disseny d'algorismes iteratius</p>
+  <h1>A3.5 — Assercions, depuració i documentació</h1>
+  <p>Comprovar el codi amb assercions, seguir els bucles amb taules de traça i amb el depurador de NetBeans, i documentar els programes.</p>
+  <div class="hero-pills"><span class="pill">RA3</span><span class="pill">CA 3.6 · 3.7 · 3.9</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A3_algorismes_iteratius.html">A3</a><span>›</span>
+  A3.5
+</nav>
+<main>
+<a class="backlink" href="A3_algorismes_iteratius.html">← A3 · Disseny d'algorismes iteratius</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.6, 3.7 i 3.9</div><div class="obj-text">Provar i depurar programes amb bucles: fer-ne la traça, trobar errors amb el depurador, verificar resultats amb assercions i documentar el codi.</div><div class="obj-text" style="margin-top:.5rem">Després de cada explicació hi ha un exercici <strong>Ara tu</strong> per fer en Java. Fes-lo abans de continuar.</div></div></div>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Assercions</h2><p class="sec-sub">Comprovar el que hauria de ser sempre cert</p></div></div>
+  <p class="lead">Una <strong>asserció</strong> (<code>assert condició : "missatge";</code>) comprova una condició que, si el codi és correcte, <strong>hauria de ser sempre certa</strong>. Si és falsa, el programa s'atura amb un <code>AssertionError</code>. Serveixen per detectar errors de programació <strong>durant el desenvolupament</strong>.</p>
+<div class="box box-errors"><span class="box-label">⚠️ Les assercions estan desactivades per defecte</span>Per activar-les al projecte Maven de NetBeans: clic dret al projecte → <em>Properties → Run → VM Options</em> → escriu <code>-ea</code> (s'aplica tant a <em>Run Project</em> com a <em>Run File</em>). Des de la terminal: <code>mvn compile</code> i després <code style="overflow-wrap:anywhere">java -ea -cp target/classes daw.aea1_a3.AssercioMitjana</code>.</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Assercions per verificar un càlcul</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AssercioMitjana</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> nota = <span class="num">4</span>; nota &lt;= <span class="num">9</span>; nota++) {
+            suma += nota;
+            quantitat++;
+        }
+
+        <span class="cmt">// Precondició: abans de dividir, hi ha d'haver almenys una nota</span>
+        <span class="kw">assert</span> quantitat &gt; <span class="num">0</span> : <span class="str">"No hi ha notes: quantitat = "</span> + quantitat;
+
+        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / quantitat;
+
+        <span class="cmt">// Postcondició: una mitjana de notes sempre és entre 0 i 10</span>
+        <span class="kw">assert</span> mitjana &gt;= <span class="num">0</span> &amp;&amp; mitjana &lt;= <span class="num">10</span> : <span class="str">"Mitjana fora de rang: "</span> + mitjana;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + mitjana);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Mitjana: 6.5</pre></div>
+</div>
+<p class="text">Si per error escrivíssim <code>suma += nota * 10;</code>, la mitjana seria 65.0 i, amb <code>-ea</code> activat, el programa s'aturaria mostrant:</p>
+<div class="console"><div class="console-header">🖥️ Sortida amb -ea</div><pre>Exception in thread &quot;main&quot; java.lang.AssertionError: Mitjana fora de rang: 65.0
+	at daw.aea1_a3.AssercioMitjana.main(AssercioMitjana.java:22)</pre></div><div class="box box-costum"><span class="box-label">💡 Assercions o excepcions?</span>Les assercions detecten errors <em>del programador</em> (coses que no haurien de passar mai). Les excepcions tracten errors <em>de l'usuari o de l'entorn</em> (dades incorrectes, fitxers que no existeixen). <strong>No facis servir mai <code>assert</code> per validar dades de l'usuari</strong>: en producció les assercions estan desactivades.</div><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header">
+    <span class="exercici-num">✍️ Ara tu · Exercici 1</span>
+    <span class="exercici-title">MCD i mcm amb assercions</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Calcula el màxim comú divisor (MCD) de dos números amb l'algorisme d'Euclides i, a partir d'aquest, el mínim comú múltiple: mcm(a, b) = a · b / MCD(a, b).</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int a = 48, b = 180;</code></li>
+      <li>Si algun número no és positiu, llança una <code>IllegalArgumentException</code> i captura-la.</li>
+      <li>Afegeix dues assercions de postcondició: el MCD divideix <code>a</code> i <code>b</code>; el mcm és múltiple de <code>a</code> i de <code>b</code>.</li>
+      <li>Executa-ho amb <code>-ea</code> i comprova que no salta cap asserció. Després, introdueix a propòsit un error al càlcul i observa l'<code>AssertionError</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>MCD(48, 180) = 12
+mcm(48, 180) = 720</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.2 · 3.4 · 3.6 · 3.9</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MCDiMCM</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">48</span>;
+        <span class="kw">int</span> b = <span class="num">180</span>;
+
+        <span class="kw">try</span> {
+            <span class="kw">if</span> (a &lt;= <span class="num">0</span> || b &lt;= <span class="num">0</span>) {
+                <span class="kw">throw</span> <span class="kw">new</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"Els dos números han de ser positius."</span>);
+            }
+
+            <span class="cmt">// Algorisme d'Euclides</span>
+            <span class="kw">int</span> x = a;
+            <span class="kw">int</span> y = b;
+            <span class="kw">while</span> (y != <span class="num">0</span>) {
+                <span class="kw">int</span> residu = x % y;
+                x = y;
+                y = residu;
+            }
+            <span class="kw">int</span> mcd = x;
+
+            <span class="cmt">// Dividim abans de multiplicar per evitar desbordaments amb números grans</span>
+            <span class="kw">int</span> mcm = a / mcd * b;
+
+            <span class="cmt">// Postcondicions</span>
+            <span class="kw">assert</span> a % mcd == <span class="num">0</span> &amp;&amp; b % mcd == <span class="num">0</span> : <span class="str">"El MCD no divideix els dos números"</span>;
+            <span class="kw">assert</span> mcm % a == <span class="num">0</span> &amp;&amp; mcm % b == <span class="num">0</span> : <span class="str">"El mcm no és múltiple dels dos números"</span>;
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"MCD("</span> + a + <span class="str">", "</span> + b + <span class="str">") = "</span> + mcd);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"mcm("</span> + a + <span class="str">", "</span> + b + <span class="str">") = "</span> + mcm);
+
+        } <span class="kw">catch</span> (<span class="cls">IllegalArgumentException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>L'algorisme d'Euclides està ben implementat (la condició de sortida és <code>y != 0</code>).</li><li>Les assercions verifiquen el resultat, no les dades d'entrada (aquestes es validen amb una excepció).</li><li>Es comprova que les assercions funcionen provocant un error.</li></ul></div>
+    </div>
+  </div>
+</div>
+</section>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Taula de traça</h2><p class="sec-sub">Seguir el bucle amb paper i llapis</p></div></div>
+  <p class="text">Una <strong>traça</strong> és seguir a mà, amb paper i llapis, el valor de les variables a cada iteració. És la millor manera d'entendre un bucle i de trobar-hi errors. Traça del programa <code>XifraMaxima</code> de l'A3.2 amb <code>numero = 528174</code>:</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Iteració</th><th><code>n</code> (inici)</th><th><code>xifra</code></th><th><code>maxim</code></th><th><code>n</code> (final)</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>528174</td><td>4</td><td>4</td><td>52817</td></tr>
+      <tr><td>2</td><td>52817</td><td>7</td><td>7</td><td>5281</td></tr>
+      <tr><td>3</td><td>5281</td><td>1</td><td>7</td><td>528</td></tr>
+      <tr><td>4</td><td>528</td><td>8</td><td>8</td><td>52</td></tr>
+      <tr><td>5</td><td>52</td><td>2</td><td>8</td><td>5</td></tr>
+      <tr><td>6</td><td>5</td><td>5</td><td>8</td><td>0 → surt</td></tr>
+    </tbody>
+  </table>
+</div><div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Fes la traça</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix el codi</span><span class="flux-fl">→</span><span class="pas-ex">2 · Omple la taula</span><span class="flux-fl">→</span><span class="pas-ex">3 · Comprova-ho executant</span></div>
+    <p>Sense executar-lo, segueix aquest fragment amb paper i llapis i omple una taula amb el valor de <code>c</code>, <code>a</code> i <code>b</code> al final de cada iteració.</p><div class="code-block"><span class="kw">int</span> n = <span class="num">6</span>;
+<span class="kw">int</span> a = <span class="num">0</span>;
+<span class="kw">int</span> b = <span class="num">1</span>;
+
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= n; i++) {
+    <span class="kw">int</span> c = a + b;
+    a = b;
+    b = c;
+}
+
+<span class="cls">System</span>.out.<span class="fn">println</span>(a);</div><ul class="exercici-tasques"><li>Fes una fila per a cada valor de <code>i</code> i una fila inicial amb els valors abans del bucle.</li><li>Quin número es mostra al final?</li><li>Quan acabis, comprova-ho executant-lo (posa'l dins d'un <code>main</code>).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't que a cada volta <code>a</code> agafa el valor antic de <code>b</code>, i <code>b</code> el de <code>c</code>. L'ordre de les tres línies és important.</div></details></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.6</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="table-wrap"><table><thead><tr><th>i</th><th><code>c</code></th><th><code>a</code> (final)</th><th><code>b</code> (final)</th></tr></thead><tbody><tr><td>inici</td><td>—</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td><td>1</td><td>2</td></tr><tr><td>3</td><td>3</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>3</td><td>5</td></tr><tr><td>5</td><td>8</td><td>5</td><td>8</td></tr><tr><td>6</td><td>13</td><td>8</td><td>13</td></tr><tr><td>7</td><td colspan="3"><code>7 &lt;= 6</code> és fals → surt del bucle</td></tr></tbody></table></div><p class="text">Es mostra <strong>8</strong>. El programa calcula el sisè terme de la successió de Fibonacci (0, 1, 1, 2, 3, 5, 8…): cada número és la suma dels dos anteriors.</p><div class="claus"><strong>✔ Què es valora</strong><ul><li>La taula té una fila per iteració i els valors són correctes.</li><li>S'identifica quan la condició deixa de complir-se.</li><li>El resultat de la traça coincideix amb el de l'execució.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">El depurador de NetBeans</h2><p class="sec-sub">Veure com canvien les variables a cada volta</p></div></div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Acció</th><th>Drecera</th><th>Per a què</th></tr></thead>
+    <tbody>
+      <tr><td>Posar / treure <em>breakpoint</em></td><td><kbd>Ctrl</kbd>+<kbd>F8</kbd> o clic al número de línia</td><td>Aturar l'execució en una línia</td></tr>
+      <tr><td>Depurar el fitxer</td><td><kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F5</kbd></td><td>Executar en mode depuració</td></tr>
+      <tr><td>Step Over</td><td><kbd>F8</kbd></td><td>Executar la línia actual</td></tr>
+      <tr><td>Continue</td><td><kbd>F5</kbd></td><td>Anar fins al següent breakpoint (útil per saltar d'iteració en iteració)</td></tr>
+      <tr><td>Finestra <em>Variables</em></td><td>—</td><td>Veure com canvien els valors a cada volta</td></tr>
+      <tr><td>Breakpoint condicional</td><td>Clic dret al breakpoint → Properties → Condition</td><td>Aturar-se només quan, per exemple, <code>i == 50</code></td></tr>
+    </tbody>
+  </table>
+</div><div class="exercici-card practica" id="ex3">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Caça els dos errors</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Executa'l</span><span class="flux-fl">→</span><span class="pas-ex">2 · Depura'l</span><span class="flux-fl">→</span><span class="pas-ex">3 · Corregeix i prova</span></div>
+    <p>Aquest programa hauria de calcular la mitjana dels múltiples de 3 entre 1 i 30 (n'hi ha 10, sumen 165 i la mitjana és 16.5). Però mostra <code>Múltiples: 9 · Suma: 135</code> i <code>Mitjana: 15.0</code>. Troba els dos errors fent servir el depurador.</p><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaMultiples3</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> comptador = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt; <span class="num">30</span>; i++) {
+            <span class="kw">if</span> (i % <span class="num">3</span> == <span class="num">0</span>) {
+                suma += i;
+                comptador++;
+            }
+        }
+
+        <span class="kw">double</span> mitjana = suma / comptador;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Múltiples: "</span> + comptador + <span class="str">" · Suma: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + mitjana);
+
+    }
+
+}</div><ul class="exercici-tasques"><li>Posa un <em>breakpoint</em> a la línia <code>suma += i;</code> i depura el fitxer (<kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F5</kbd>).</li><li>Avança amb <kbd>F5</kbd> i mira a la finestra <em>Variables</em> quins valors pren <code>i</code>. Quin múltiple falta?</li><li>Posa un altre breakpoint a la línia de la mitjana i observa el valor de <code>suma / comptador</code>.</li><li>Corregeix els dos errors i comprova que la sortida és la correcta.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Un error és en la condició del <code>for</code>; l'altre, en el tipus de la divisió.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Múltiples: 10 · Suma: 165
+Mitjana: 16.5</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.6</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Mitjana dels múltiples de 3 entre 1 i 30 (versió corregida)</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaMultiples3</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> comptador = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">30</span>; i++) {            <span class="cmt">// error 1: era i &lt; 30 i deixava fora el 30</span>
+            <span class="kw">if</span> (i % <span class="num">3</span> == <span class="num">0</span>) {
+                suma += i;
+                comptador++;
+            }
+        }
+
+        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / comptador; <span class="cmt">// error 2: sense (double) la divisió era entera</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Múltiples: "</span> + comptador + <span class="str">" · Suma: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + mitjana);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Es detecta que el 30 no entra al bucle (<code>i &lt; 30</code> en lloc de <code>i &lt;= 30</code>).</li><li>Es detecta la divisió entera i es corregeix amb <code>(double)</code>.</li><li>S'ha fet servir el depurador i no només la sortida per consola.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Documentar el codi</h2><p class="sec-sub">Comentaris que expliquen el perquè</p></div></div>
+  <div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Un programa ben documentat</span></div>
+  <div class="code-block"><span class="cmt">/**
+ * Calcula el màxim comú divisor (MCD) de dos números positius
+ * amb l'algorisme d'Euclides.
+ *
+ * @author Departament d'Informàtica
+ * @version 1.0
+ */</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">MCDEuclides</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">84</span>;
+        <span class="kw">int</span> b = <span class="num">36</span>;
+
+        <span class="cmt">// Les dades han de ser positives: si no, l'algorisme no acabaria</span>
+        <span class="kw">if</span> (a &lt;= <span class="num">0</span> || b &lt;= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Els números han de ser positius."</span>);
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">int</span> x = a;
+        <span class="kw">int</span> y = b;
+
+        <span class="cmt">// Euclides: mcd(x, y) = mcd(y, x % y). Acabem quan el residu és 0</span>
+        <span class="kw">while</span> (y != <span class="num">0</span>) {
+            <span class="kw">int</span> residu = x % y;
+            x = y;
+            y = residu;
+        }
+
+        <span class="cmt">// Postcondició: el MCD divideix els dos números</span>
+        <span class="kw">assert</span> a % x == <span class="num">0</span> &amp;&amp; b % x == <span class="num">0</span> : <span class="str">"Error en el càlcul del MCD"</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"MCD("</span> + a + <span class="str">", "</span> + b + <span class="str">") = "</span> + x);
+
+    }
+
+}</div>
+</div><div class="exercici-card practica" id="ex4">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">Documenta el programa</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix el codi</span><span class="flux-fl">→</span><span class="pas-ex">2 · Documenta'l</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i prova</span></div>
+    <p>Aquest programa funciona, però costa d'entendre: no té comentaris i una variable es diu <code>s</code>. Copia'l a la classe <code>NombrePerfecte</code> i documenta'l.</p><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">NombrePerfecte</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">28</span>;
+
+        <span class="kw">int</span> s = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> d = <span class="num">1</span>; d &lt;= numero / <span class="num">2</span>; d++) {
+            <span class="kw">if</span> (numero % d == <span class="num">0</span>) {
+                s += d;
+            }
+        }
+
+        <span class="kw">if</span> (s == numero) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és perfecte"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" no és perfecte (suma dels divisors: "</span> + s + <span class="str">")"</span>);
+        }
+
+    }
+
+}</div><ul class="exercici-tasques"><li>Afegeix un comentari Javadoc (<code>/** … */</code>) a la classe que expliqui què és un número perfecte, amb <code>@author</code> i <code>@version</code>.</li><li>Canvia el nom de la variable <code>s</code> per un de més clar.</li><li>Afegeix un comentari a sobre del bucle i un altre a sobre de l'<code>if</code> que expliquin <strong>per què</strong>, no què.</li><li>Prova amb 6, 28 i 12: quins són perfectes?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Un bon comentari respon preguntes que el codi no respon: per què el bucle arriba només fins a <code>numero / 2</code>?</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>28 és perfecte</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.7</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">/**</span>
+<span class="cmt"> * Comprova si un número és perfecte: un número és perfecte si és igual</span>
+<span class="cmt"> * a la suma dels seus divisors propis (tots menys ell mateix).</span>
+<span class="cmt"> * Exemple: 28 = 1 + 2 + 4 + 7 + 14.</span>
+<span class="cmt"> *</span>
+<span class="cmt"> * @author Nom i cognoms de l'alumne</span>
+<span class="cmt"> * @version 1.0</span>
+<span class="cmt"> */</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">NombrePerfecte</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">28</span>;
+
+        <span class="cmt">// Recorregut: sumem tots els divisors propis (de 1 a numero / 2,</span>
+        <span class="cmt">// perquè cap divisor propi pot ser més gran que la meitat)</span>
+        <span class="kw">int</span> sumaDivisors = <span class="num">0</span>;
+        <span class="kw">for</span> (<span class="kw">int</span> d = <span class="num">1</span>; d &lt;= numero / <span class="num">2</span>; d++) {
+            <span class="kw">if</span> (numero % d == <span class="num">0</span>) {
+                sumaDivisors += d;
+            }
+        }
+
+        <span class="cmt">// És perfecte si la suma dels divisors coincideix amb el número</span>
+        <span class="kw">if</span> (sumaDivisors == numero) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és perfecte"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" no és perfecte (suma dels divisors: "</span> + sumaDivisors + <span class="str">")"</span>);
+        }
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La classe té Javadoc amb descripció, <code>@author</code> i <code>@version</code>.</li><li>Els noms de les variables expliquen què guarden.</li><li>Els comentaris expliquen decisions (el límit <code>numero / 2</code>), no repeteixen el codi.</li><li>6 i 28 són perfectes; 12 no (la suma dels seus divisors és 16).</li></ul></div></div>
+  </div>
+</div>
+</section>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A3_4_excepcions.html">← A3.4 Excepcions</a><a href="A3_algorismes_iteratius.html" class="nav-hub">A3 · Índex</a><a href="A3_6_reptes.html">A3.6 Reptes de síntesi →</a></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>
