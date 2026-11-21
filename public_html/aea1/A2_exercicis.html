@@ -151,6 +151,12 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0 0 .75rem; }
+    .ex-grid .solucio-wrap { padding:0; }
+    .ex-grid { margin-top:0; }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -237,14 +243,7 @@
     <ul class="exercici-tasques">
       <li>Declara <code>int numero = 7;</code> i prova també amb un número parell.</li>
       <li>Usa <code>if / else</code> i l'operador <code>%</code>.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>7 és senar: 7 * 3 - 4 = 17</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-basic">Bàsic</span>
-    <span class="ex-ca">CA: 3.1 · 3.5</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -268,8 +267,14 @@
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La condició de parell és <code>numero % 2 == 0</code>.</li><li>S'ha provat amb un parell i amb un senar.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La condició de parell és <code>numero % 2 == 0</code>.</li><li>S'ha provat amb un parell i amb un senar.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>7 és senar: 7 * 3 - 4 = 17</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
   </div>
 </div>
 <div class="exercici-card" id="ex2">
@@ -285,15 +290,7 @@
       <li>Resol-ho amb <code>if / else if / else</code> i operadors lògics.</li>
       <li>Prova què passa si dos números són iguals i són els més grans (per exemple 27, 27, 9).</li>
       <li>Ampliació: resol-ho també amb dos operadors ternaris.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El major de 14, 27 i 9 és 27
-Amb ternaris: 27</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-basic">Bàsic</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -328,8 +325,15 @@ Amb ternaris: 27</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els empats donen un resultat correcte (per això <code>&gt;=</code> en lloc de <code>&gt;</code>).</li><li>No hi ha comparacions innecessàries a l'<code>else if</code>.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els empats donen un resultat correcte (per això <code>&gt;=</code> en lloc de <code>&gt;</code>).</li><li>No hi ha comparacions innecessàries a l'<code>else if</code>.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El major de 14, 27 i 9 és 27
+Amb ternaris: 27</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
   </div>
 </div>
 <div class="exercici-card" id="ex3">
@@ -344,14 +348,7 @@ Amb ternaris: 27</pre></div>
       <li>Declara <code>int edat = 70;</code> i el preu general com a constant.</li>
       <li>Calcula el preu amb una alternativa múltiple.</li>
       <li>Prova els valors límit: 5, 6, 17, 18, 64 i 65.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 70 anys → preu: 7.2 €</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-basic">Bàsic</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -385,8 +382,14 @@ Amb ternaris: 27</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els límits (6, 17, 65) estan ben tractats: s'han provat els valors frontera.</li><li>El preu general i el descompte són constants, i el resultat s'arrodoneix.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els límits (6, 17, 65) estan ben tractats: s'han provat els valors frontera.</li><li>El preu general i el descompte són constants, i el resultat s'arrodoneix.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 70 anys → preu: 7.2 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
   </div>
 </div>
 <div class="exercici-card" id="ex4">
@@ -401,14 +404,7 @@ Amb ternaris: 27</pre></div>
       <li>Declara <code>double pes = 82;</code> (kg) i <code>double alcada = 1.75;</code> (m).</li>
       <li>Valida primer que pes i alçada siguin positius; si no, mostra un error.</li>
       <li>Arrodoneix l'IMC a 2 decimals abans de mostrar-lo.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>IMC: 26.78 (Sobrepès)</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -447,8 +443,14 @@ Amb ternaris: 27</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans del càlcul.</li><li>Els parèntesis de <code>alcada * alcada</code> són necessaris.</li><li>Les condicions aprofiten l'ordre de l'<code>else if</code>.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans del càlcul.</li><li>Els parèntesis de <code>alcada * alcada</code> són necessaris.</li><li>Les condicions aprofiten l'ordre de l'<code>else if</code>.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>IMC: 26.78 (Sobrepès)</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
   </div>
 </div>
 <div class="exercici-card" id="ex5">
@@ -464,14 +466,7 @@ Amb ternaris: 27</pre></div>
       <li>Fes servir un <code>switch</code> agrupant els mesos que tenen els mateixos dies.</li>
       <li>Per al febrer, reutilitza l'expressió de l'any de traspàs de l'A1.</li>
       <li>Si el mes no és vàlid, mostra un missatge d'error.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El mes 2 de 2028 té 29 dies</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -505,8 +500,14 @@ Amb ternaris: 27</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els mesos s'agrupen en lloc de repetir 12 casos.</li><li>El febrer té en compte els anys de traspàs.</li><li>Els mesos no vàlids es detecten amb <code>default</code>.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els mesos s'agrupen en lloc de repetir 12 casos.</li><li>El febrer té en compte els anys de traspàs.</li><li>Els mesos no vàlids es detecten amb <code>default</code>.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El mes 2 de 2028 té 29 dies</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
   </div>
 </div>
 <div class="exercici-card" id="ex6">
@@ -522,14 +523,7 @@ Amb ternaris: 27</pre></div>
       <li>Usa un <code>switch</code> sobre el <code>String</code>.</li>
       <li>Si l'opció no existeix, mostra "Opció desconeguda".</li>
       <li>Arrodoneix el resultat a 2 decimals.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>26.2 milles = 42.16 km</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -565,8 +559,14 @@ Amb ternaris: 27</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els factors de conversió són constants.</li><li>El <code>switch</code> té un <code>default</code> per a opcions no vàlides.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els factors de conversió són constants.</li><li>El <code>switch</code> té un <code>default</code> per a opcions no vàlides.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>26.2 milles = 42.16 km</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
   </div>
 </div>
 <div class="exercici-card" id="ex7">
@@ -581,14 +581,7 @@ Amb ternaris: 27</pre></div>
       <li><code>double temp = 35;</code><br><code>if (temp &gt;= 10) { System.out.println("Temperat"); }</code><br><code>else if (temp &gt;= 30) { System.out.println("Calorós"); }</code><br><code>else if (temp &lt;= 0) { System.out.println("Glaçat"); }</code><br><code>else { System.out.println("Fred"); }</code></li>
       <li>Criteri correcte: 0 o menys → Glaçat; més de 0 i menys de 10 → Fred; de 10 a menys de 30 → Temperat; 30 o més → Calorós.</li>
       <li>Fes servir el depurador (<kbd>F8</kbd>) per veure per quina branca entra amb 35.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Calorós</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.6 · 3.7</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -616,8 +609,14 @@ Amb ternaris: 27</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una taula de proves amb resultat esperat i obtingut.</li><li>S'explica la causa de l'error (ordre de les condicions) en un comentari.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una taula de proves amb resultat esperat i obtingut.</li><li>S'explica la causa de l'error (ordre de les condicions) en un comentari.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Calorós</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.6 · 3.7</span>
   </div>
 </div>
 <div class="exercici-card" id="ex8">
@@ -633,15 +632,7 @@ Amb ternaris: 27</pre></div>
       <li>Les tarifes i els increments han de ser constants.</li>
       <li>Usa un <code>switch</code> per al torn i un <code>if</code> per al diumenge (compara el text amb <code>equalsIgnoreCase</code>).</li>
       <li>Si el torn no és vàlid, mostra un missatge d'error.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>8 h en torn N (diumenge) a 9 €/h
-Salari del dia: 72 €</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -688,8 +679,15 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les tarifes són constants i l'increment de diumenge depèn del torn.</li><li>Es controla un torn no vàlid.</li><li>Proves: 8 h diürn dilluns → 32 €; 8 h diürn diumenge → 48 €.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les tarifes són constants i l'increment de diumenge depèn del torn.</li><li>Es controla un torn no vàlid.</li><li>Proves: 8 h diürn dilluns → 32 €; 8 h diürn diumenge → 48 €.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>8 h en torn N (diumenge) a 9 €/h
+Salari del dia: 72 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
   </div>
 </div>
 <div class="exercici-card" id="ex9">
@@ -705,14 +703,7 @@ Salari del dia: 72 €</pre></div>
       <li>Si el número és fora de l'interval 0–64, mostra un error.</li>
       <li>Pista: el 0 i l'1 necessiten 1 bit; del 2 al 3, 2 bits; del 4 al 7, 3 bits…</li>
       <li>Prova els valors frontera: 0, 1, 2, 3, 4, 31, 32, 63 i 64.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Per escriure el 45 en binari calen 6 bits</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -755,8 +746,14 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les condicions aprofiten l'ordre de l'<code>else if</code> (no cal repetir el límit inferior).</li><li>S'han provat els valors frontera (sobretot 1–2, 31–32 i 63–64).</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les condicions aprofiten l'ordre de l'<code>else if</code> (no cal repetir el límit inferior).</li><li>S'han provat els valors frontera (sobretot 1–2, 31–32 i 63–64).</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Per escriure el 45 en binari calen 6 bits</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
   </div>
 </div>
 <div class="exercici-card" id="ex10">
@@ -772,14 +769,7 @@ Salari del dia: 72 €</pre></div>
       <li>d = (19 · a + 24) % 30; e = (2 · b + 4 · c + 6 · d + 5) % 7</li>
       <li>Si d + e &lt; 10, la Pasqua és el (22 + d + e) de març; si no, és el (d + e − 9) d'abril.</li>
       <li>Declara <code>int any = 2026;</code> i comprova-ho també amb 2025 (20 d'abril) i 2027 (28 de març).</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Pasqua 2026: 5 d&#x27;abril</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -806,8 +796,14 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les expressions reprodueixen exactament les fórmules (atenció als parèntesis).</li><li>Els parèntesis de <code>(22 + d + e)</code> eviten que es concateni com a text.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les expressions reprodueixen exactament les fórmules (atenció als parèntesis).</li><li>Els parèntesis de <code>(22 + d + e)</code> eviten que es concateni com a text.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Pasqua 2026: 5 d&#x27;abril</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
   </div>
 </div>
 <div class="exercici-card" id="ex11">
@@ -822,15 +818,7 @@ Salari del dia: 72 €</pre></div>
       <li>Declara <code>int diaNaix = 15, mesNaix = 10, anyNaix = 2008;</code> i <code>int diaAct = 29, mesAct = 9, anyAct = 2026;</code></li>
       <li>L'edat és la diferència d'anys, <strong>menys 1</strong> si aquest any encara no ha fet anys (el mes actual és anterior al de naixement, o és el mateix mes però el dia és anterior).</li>
       <li>Prova-ho també amb l'aniversari just avui (15/10/2026).</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 17 anys
-És menor d&#x27;edat.</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -868,8 +856,15 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es té en compte el mes i el dia, no només l'any.</li><li>El dia de l'aniversari ja compta com a any complert.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es té en compte el mes i el dia, no només l'any.</li><li>El dia de l'aniversari ja compta com a any complert.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 17 anys
+És menor d&#x27;edat.</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
   </div>
 </div>
 <div class="exercici-card" id="ex12">
@@ -885,14 +880,7 @@ Salari del dia: 72 €</pre></div>
       <li>Si <code>a == 0</code> no és de segon grau: mostra un missatge (ampliació: resol-la com a equació de primer grau si <code>b != 0</code>).</li>
       <li>Calcula el discriminant d = b² − 4ac. Si d &gt; 0 hi ha dues solucions; si d == 0, una; si d &lt; 0, cap de real.</li>
       <li>Solucions: x = (−b ± √d) / 2a. Fes servir <code>Math.sqrt()</code>.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dues solucions: x1 = 2.0, x2 = 1.0</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -933,8 +921,14 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es controla el cas <code>a == 0</code> abans de dividir.</li><li>Els parèntesis de <code>(2 * a)</code> són correctes: sense ells es dividiria per 2 i es multiplicaria per a.</li><li>Proves suggerides: (1, 2, 1) → una solució; (1, 0, 4) → cap.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es controla el cas <code>a == 0</code> abans de dividir.</li><li>Els parèntesis de <code>(2 * a)</code> són correctes: sense ells es dividiria per 2 i es multiplicaria per a.</li><li>Proves suggerides: (1, 2, 1) → una solució; (1, 0, 4) → cap.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dues solucions: x1 = 2.0, x2 = 1.0</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
   </div>
 </div>
 <div class="exercici-card" id="ex13">
@@ -950,14 +944,7 @@ Salari del dia: 72 €</pre></div>
       <li>Una data és vàlida si any &gt; 0, mes entre 1 i 12 i dia entre 1 i els dies d'aquell mes (reaprofita l'exercici 5).</li>
       <li>Per mostrar <code>05</code> en lloc de <code>5</code>, fes servir l'operador ternari: <code>(dia &lt; 10 ? "0" : "") + dia</code>.</li>
       <li>Prova: 29/2/2027 (no vàlida), 29/2/2028 (vàlida i últim dia), 31/4/2026 (no vàlida), 5/1/2026.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>La data 29/2/2027 no és vàlida.</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -997,8 +984,14 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la lògica dels dies del mes i dels anys de traspàs.</li><li>La condició de validesa comprova tots els camps.</li><li>S'han provat els quatre casos de l'enunciat.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la lògica dels dies del mes i dels anys de traspàs.</li><li>La condició de validesa comprova tots els camps.</li><li>S'han provat els quatre casos de l'enunciat.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>La data 29/2/2027 no és vàlida.</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
   </div>
 </div>
 <div class="exercici-card" id="ex14">
@@ -1014,14 +1007,7 @@ Salari del dia: 72 €</pre></div>
       <li>Calcula els dies del mes amb un <code>switch</code> (tenint en compte els anys de traspàs).</li>
       <li>Si el dia és l'últim del mes, passa al dia 1 del mes següent; si és el 31 de desembre, a l'1 de gener de l'any següent.</li>
       <li>Prova: 28/2/2028 → 29/02/2028; 28/2/2027 → 01/03/2027; 31/12/2026 → 01/01/2027; 15/6/2026 → 16/06/2026.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia següent: 29/02/2028</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -1060,8 +1046,14 @@ Salari del dia: 72 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es tracten els tres casos: dins del mes, canvi de mes i canvi d'any.</li><li>Febrer té en compte els anys de traspàs.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es tracten els tres casos: dins del mes, canvi de mes i canvi d'any.</li><li>Febrer té en compte els anys de traspàs.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia següent: 29/02/2028</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
   </div>
 </div>
 <div class="exercici-card" id="ex15">
@@ -1077,18 +1069,7 @@ Salari del dia: 72 €</pre></div>
       <li>Cada tram només s'aplica als kWh que hi cauen: 350 kWh = 100 × 0,15 + 200 × 0,20 + 50 × 0,28.</li>
       <li>Mostra el cost de l'energia, la quota, el recàrrec (si n'hi ha) i el total arrodonit a 2 decimals.</li>
       <li>Prova també amb 80, 100, 300 i 301 kWh.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Consum: 350 kWh
-Energia: 69.0 €
-Quota fixa: 8.0 €
-Recàrrec 5 %: 3.85 €
-TOTAL: 80.85 €</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -1138,8 +1119,18 @@ TOTAL: 80.85 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El càlcul per trams és correcte (no s'aplica el preu més car a tot el consum).</li><li>El recàrrec només apareix quan correspon.</li><li>Tots els valors fixos són constants documentades.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El càlcul per trams és correcte (no s'aplica el preu més car a tot el consum).</li><li>El recàrrec només apareix quan correspon.</li><li>Tots els valors fixos són constants documentades.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Consum: 350 kWh
+Energia: 69.0 €
+Quota fixa: 8.0 €
+Recàrrec 5 %: 3.85 €
+TOTAL: 80.85 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
   </div>
 </div>
 <div class="exercici-card" id="ex16">
@@ -1156,14 +1147,7 @@ TOTAL: 80.85 €</pre></div>
       <li>De 5 a 6,9 → Aprovat; de 7 a 8,9 → Notable; 9 o més → Excel·lent.</li>
       <li>Si la conducta és negativa, el resultat baixa un nivell: Excel·lent → Notable, Notable → Aprovat, Aprovat → "Suspès (per conducta)". Si ja era Suspès, es manté.</li>
       <li>Declara <code>double nota = 9.1;</code>, <code>boolean conductaNegativa = true;</code>, <code>boolean recuperacio = false;</code> i comprova les cinc files de la taula de sota.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nota 9.1 → Notable</pre></div><p class="nota-sortida">Taula de proves: 4.2 / false / false → Suspès · 4.2 / false / true → Aprovat per recuperació · 6.5 / true / false → Suspès (per conducta) · 9.1 / false / false → Excel·lent · 9.1 / true / false → Notable.</p>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -1219,8 +1203,14 @@ TOTAL: 80.85 €</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Convertir la qualificació en un nivell numèric simplifica "baixar un nivell".</li><li>Les regles s'apliquen en l'ordre correcte: nota → recuperació → conducta.</li><li>Es comproven les cinc files de la taula.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Convertir la qualificació en un nivell numèric simplifica "baixar un nivell".</li><li>Les regles s'apliquen en l'ordre correcte: nota → recuperació → conducta.</li><li>Es comproven les cinc files de la taula.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nota 9.1 → Notable</pre></div><p class="nota-sortida">Taula de proves: 4.2 / false / false → Suspès · 4.2 / false / true → Aprovat per recuperació · 6.5 / true / false → Suspès (per conducta) · 9.1 / false / false → Excel·lent · 9.1 / true / false → Notable.</p>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
   </div>
 </div>
 <div class="exercici-card" id="ex17">
@@ -1237,16 +1227,7 @@ TOTAL: 80.85 €</pre></div>
       <li>Estacions: Primavera des del 21/3, Estiu des del 21/6, Tardor des del 23/9, Hivern des del 21/12.</li>
       <li>Pista: cada mes hi ha exactament un canvi de signe. Amb un <code>switch</code>, obtén el dia del canvi, el signe anterior i el signe nou d'aquell mes; després, compara el dia.</li>
       <li>Prova: 20/4 (Taure, cúspide), 15/8 (Lleó), 31/4 (invàlida), 1/1 (Capricorn, Hivern).</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Data: 20/4
-Signe: Taure (cúspide)
-Estació: Primavera</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -1314,8 +1295,16 @@ Estació: Primavera</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans de qualsevol altre càlcul.</li><li>El <code>switch</code> evita escriure 12 intervals de dates amb <code>if</code>.</li><li>La cúspide es detecta amb el valor absolut de la diferència amb el dia del canvi.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans de qualsevol altre càlcul.</li><li>El <code>switch</code> evita escriure 12 intervals de dates amb <code>if</code>.</li><li>La cúspide es detecta amb el valor absolut de la diferència amb el dia del canvi.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Data: 20/4
+Signe: Taure (cúspide)
+Estació: Primavera</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
   </div>
 </div>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A2_4_provar_depurar.html">← A2.4 Provar, depurar i documentar</a><a href="A2_composicio_alternativa.html" class="nav-hub">A2 · Índex</a><span></span></nav>
@@ -1329,6 +1318,10 @@ Estació: Primavera</pre></div>
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
