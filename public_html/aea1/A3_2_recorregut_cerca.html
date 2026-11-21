@@ -153,13 +153,9 @@
     /* Solució desplegable */
     .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
     .ex-claus.visible { display:block; }
-    .ex-grid { display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:stretch; margin:1rem 0 1.25rem; }
-    .ex-grid .pseudo { margin:0; font-size:.76rem; line-height:1.75; padding:.9rem; align-self:start; }
-    .ex-grid .solucio-wrap { padding:.75rem; border:1px dashed var(--border); border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; }
-    .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
-    .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
-    .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
-    @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
+    .ex-grid { margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0 0 .75rem; }
+    .ex-grid .solucio-wrap { padding:0; }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -640,21 +636,6 @@ Invertit: 36271409</pre></div>
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
-  // Baixa el PSeInt perquè «Algoritmo» quedi a l'alçada del main de la solució
-  function alinearPseudo(grid) {
-    const ps = grid.querySelector('.pseudo');
-    ps.style.marginTop = '';
-    const wrap = grid.querySelector('.solucio-wrap');
-    const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
-    if (!wrap.classList.contains('obert') || !dosCols) return;
-    const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
-    if (!main) return;
-    const r = document.createRange();
-    r.setStart(ps.firstChild, 0); r.setEnd(ps.firstChild, 1);
-    const dif = main.getBoundingClientRect().top - r.getBoundingClientRect().top;
-    if (dif > 0) ps.style.marginTop = dif + 'px';
-  }
-  window.addEventListener('resize', function () { document.querySelectorAll('.ex-grid').forEach(alinearPseudo); });
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
@@ -664,7 +645,6 @@ Invertit: 36271409</pre></div>
     const grid = btn.closest('.ex-grid');
     const claus = grid && grid.nextElementSibling;
     if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
-    if (grid) alinearPseudo(grid);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
