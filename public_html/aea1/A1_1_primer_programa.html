@@ -412,7 +412,27 @@ Segona</pre></div></div>
   <p class="lead">Aquests dos exercicis fan servir tot el que has vist: l'estructura d'un programa, la composició seqüencial, <code>print</code> i <code>println</code> i els comentaris. Escriu-los al projecte <code>AEA1_A1</code> i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El tiquet de la llibreria</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
-    <p>Una alumna compra <strong>3 llibretes</strong> de 2 € i <strong>4 bolígrafs</strong> d'1 €. Fes un programa que calculi el preu de cada producte i el total, i que mostri un tiquet com el de l'exemple. Crea la classe <code>Llibreria</code>.</p><ul class="exercici-tasques"><li>Separa el programa en tres parts (dades, càlculs i sortida) amb un comentari a sobre de cadascuna.</li><li>Cada línia de producte s'ha d'escriure amb un <code>print</code> i un <code>println</code>.</li><li>Deixa una línia en blanc abans del total.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Llibretes: 3 x 2 € = 6 €
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Una alumna compra <strong>3 llibretes</strong> de 2 € i <strong>4 bolígrafs</strong> d'1 €. Aquest algorisme calcula el preu de cada producte i el total, i mostra un tiquet. Tradueix-lo a Java a la classe <code>Llibreria</code>.</p><div class="pseudo">Algoritmo Llibreria
+    Definir llibretes, preuLlibreta, boligrafs, preuBoligraf Como Entero
+    Definir totalLlibretes, totalBoligrafs, total Como Entero
+
+    llibretes &lt;- 3
+    preuLlibreta &lt;- 2
+    boligrafs &lt;- 4
+    preuBoligraf &lt;- 1
+
+    totalLlibretes &lt;- llibretes * preuLlibreta
+    totalBoligrafs &lt;- boligrafs * preuBoligraf
+    total &lt;- totalLlibretes + totalBoligrafs
+
+    Escribir Sin Saltar "Llibretes: ", llibretes
+    Escribir " x ", preuLlibreta, " € = ", totalLlibretes, " €"
+    Escribir Sin Saltar "Bolígrafs: ", boligrafs
+    Escribir " x ", preuBoligraf, " € = ", totalBoligrafs, " €"
+    Escribir ""
+    Escribir "TOTAL: ", total, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Separa el programa en tres parts (dades, càlculs i sortida) amb un comentari a sobre de cadascuna.</li><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>; <code>Escribir</code> → <code>System.out.println</code>.</li><li><code>Escribir ""</code> només deixa una línia en blanc: en Java es fa amb <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Llibretes: 3 x 2 € = 6 €
 Bolígrafs: 4 x 1 € = 4 €
 
 TOTAL: 10 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
@@ -455,7 +475,27 @@ TOTAL: 10 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La tanca del jardí</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
-    <p>Un jardí rectangular fa <strong>12 m de llarg</strong> i <strong>7 m d'ample</strong>. El volem envoltar amb una tanca que costa <strong>3 € el metre</strong>. Fes un programa que calculi l'àrea del jardí, els metres de tanca i el que costa. Crea la classe <code>Jardi</code>.</p><ul class="exercici-tasques"><li>Comença amb un comentari de bloc <code>/* … */</code> que digui què fa el programa i quines fórmules fa servir.</li><li>Afegeix comentaris de línia que expliquin les unitats de cada dada.</li><li>La línia de les mides s'ha d'escriure amb un <code>print</code> i un <code>println</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>=== JARDÍ ===
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un jardí rectangular fa <strong>12 m de llarg</strong> i <strong>7 m d'ample</strong>. El volem envoltar amb una tanca que costa <strong>3 € el metre</strong>. Aquest algorisme calcula l'àrea del jardí, els metres de tanca i el que costa. Tradueix-lo a Java a la classe <code>Jardi</code> i <strong>documenta'l</strong>: el pseudocodi no porta cap comentari.</p><div class="pseudo">Algoritmo Jardi
+    Definir llarg, ample, preuMetreTanca Como Entero
+    Definir area, metresTanca, costTanca Como Entero
+
+    llarg &lt;- 12
+    ample &lt;- 7
+    preuMetreTanca &lt;- 3
+
+    area &lt;- llarg * ample
+    metresTanca &lt;- 2 * (llarg + ample)
+    costTanca &lt;- metresTanca * preuMetreTanca
+
+    Escribir "=== JARDÍ ==="
+    Escribir Sin Saltar "Mides: ", llarg, " m"
+    Escribir " x ", ample, " m"
+    Escribir "Àrea: ", area, " m²"
+    Escribir ""
+    Escribir "Tanca: ", metresTanca, " m"
+    Escribir "Cost de la tanca: ", costTanca, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Comença amb un comentari de bloc <code>/* … */</code> que digui què fa el programa i quines fórmules fa servir.</li><li>Afegeix comentaris de línia que expliquin les unitats de cada dada.</li><li>Tria bé entre <code>print</code> i <code>println</code> segons si la línia continua o s'acaba.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>=== JARDÍ ===
 Mides: 12 m x 7 m
 Àrea: 84 m²
 
