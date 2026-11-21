@@ -151,6 +151,12 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0 0 .75rem; }
+    .ex-grid .solucio-wrap { padding:0; }
+    .ex-grid { margin-top:0; }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -273,15 +279,7 @@
       <li>Si algun número no és positiu, llança una <code>IllegalArgumentException</code> i captura-la.</li>
       <li>Afegeix dues assercions de postcondició: el MCD divideix <code>a</code> i <code>b</code>; el mcm és múltiple de <code>a</code> i de <code>b</code>.</li>
       <li>Executa-ho amb <code>-ea</code> i comprova que no salta cap asserció. Després, introdueix a propòsit un error al càlcul i observa l'<code>AssertionError</code>.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>MCD(48, 180) = 12
-mcm(48, 180) = 720</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.2 · 3.4 · 3.6 · 3.9</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -326,8 +324,15 @@ mcm(48, 180) = 720</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>L'algorisme d'Euclides està ben implementat (la condició de sortida és <code>y != 0</code>).</li><li>Les assercions verifiquen el resultat, no les dades d'entrada (aquestes es validen amb una excepció).</li><li>Es comprova que les assercions funcionen provocant un error.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'algorisme d'Euclides està ben implementat (la condició de sortida és <code>y != 0</code>).</li><li>Les assercions verifiquen el resultat, no les dades d'entrada (aquestes es validen amb una excepció).</li><li>Es comprova que les assercions funcionen provocant un error.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>MCD(48, 180) = 12
+mcm(48, 180) = 720</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.2 · 3.4 · 3.6 · 3.9</span>
   </div>
 </div>
 </section>
@@ -360,14 +365,13 @@ mcm(48, 180) = 720</pre></div>
     b = c;
 }
 
-<span class="cls">System</span>.out.<span class="fn">println</span>(a);</div><ul class="exercici-tasques"><li>Fes una fila per a cada valor de <code>i</code> i una fila inicial amb els valors abans del bucle.</li><li>Quin número es mostra al final?</li><li>Quan acabis, comprova-ho executant-lo (posa'l dins d'un <code>main</code>).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't que a cada volta <code>a</code> agafa el valor antic de <code>b</code>, i <code>b</code> el de <code>c</code>. L'ordre de les tres línies és important.</div></details></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.6</span></div>
-  <div class="solucio-wrap">
+<span class="cls">System</span>.out.<span class="fn">println</span>(a);</div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="table-wrap"><table><thead><tr><th>i</th><th><code>c</code></th><th><code>a</code> (final)</th><th><code>b</code> (final)</th></tr></thead><tbody><tr><td>inici</td><td>—</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td><td>1</td><td>2</td></tr><tr><td>3</td><td>3</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>3</td><td>5</td></tr><tr><td>5</td><td>8</td><td>5</td><td>8</td></tr><tr><td>6</td><td>13</td><td>8</td><td>13</td></tr><tr><td>7</td><td colspan="3"><code>7 &lt;= 6</code> és fals → surt del bucle</td></tr></tbody></table></div><p class="text">Es mostra <strong>8</strong>. El programa calcula el sisè terme de la successió de Fibonacci (0, 1, 1, 2, 3, 5, 8…): cada número és la suma dels dos anteriors.</p><div class="claus"><strong>✔ Què es valora</strong><ul><li>La taula té una fila per iteració i els valors són correctes.</li><li>S'identifica quan la condició deixa de complir-se.</li><li>El resultat de la traça coincideix amb el de l'execució.</li></ul></div></div>
-  </div>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="table-wrap"><table><thead><tr><th>i</th><th><code>c</code></th><th><code>a</code> (final)</th><th><code>b</code> (final)</th></tr></thead><tbody><tr><td>inici</td><td>—</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td><td>1</td><td>2</td></tr><tr><td>3</td><td>3</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>3</td><td>5</td></tr><tr><td>5</td><td>8</td><td>5</td><td>8</td></tr><tr><td>6</td><td>13</td><td>8</td><td>13</td></tr><tr><td>7</td><td colspan="3"><code>7 &lt;= 6</code> és fals → surt del bucle</td></tr></tbody></table></div><p class="text">Es mostra <strong>8</strong>. El programa calcula el sisè terme de la successió de Fibonacci (0, 1, 1, 2, 3, 5, 8…): cada número és la suma dels dos anteriors.</p></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La taula té una fila per iteració i els valors són correctes.</li><li>S'identifica quan la condició deixa de complir-se.</li><li>El resultat de la traça coincideix amb el de l'execució.</li></ul></div><ul class="exercici-tasques"><li>Fes una fila per a cada valor de <code>i</code> i una fila inicial amb els valors abans del bucle.</li><li>Quin número es mostra al final?</li><li>Quan acabis, comprova-ho executant-lo (posa'l dins d'un <code>main</code>).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't que a cada volta <code>a</code> agafa el valor antic de <code>b</code>, i <code>b</code> el de <code>c</code>. L'ordre de les tres línies és important.</div></details></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.6</span></div>
 </div>
 </section>
 <section class="section">
@@ -409,10 +413,7 @@ mcm(48, 180) = 720</pre></div>
 
     }
 
-}</div><ul class="exercici-tasques"><li>Posa un <em>breakpoint</em> a la línia <code>suma += i;</code> i depura el fitxer (<kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F5</kbd>).</li><li>Avança amb <kbd>F5</kbd> i mira a la finestra <em>Variables</em> quins valors pren <code>i</code>. Quin múltiple falta?</li><li>Posa un altre breakpoint a la línia de la mitjana i observa el valor de <code>suma / comptador</code>.</li><li>Corregeix els dos errors i comprova que la sortida és la correcta.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Un error és en la condició del <code>for</code>; l'altre, en el tipus de la divisió.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Múltiples: 10 · Suma: 165
-Mitjana: 16.5</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.6</span></div>
-  <div class="solucio-wrap">
+}</div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -438,8 +439,10 @@ Mitjana: 16.5</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Es detecta que el 30 no entra al bucle (<code>i &lt; 30</code> en lloc de <code>i &lt;= 30</code>).</li><li>Es detecta la divisió entera i es corregeix amb <code>(double)</code>.</li><li>S'ha fet servir el depurador i no només la sortida per consola.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es detecta que el 30 no entra al bucle (<code>i &lt; 30</code> en lloc de <code>i &lt;= 30</code>).</li><li>Es detecta la divisió entera i es corregeix amb <code>(double)</code>.</li><li>S'ha fet servir el depurador i no només la sortida per consola.</li></ul></div><ul class="exercici-tasques"><li>Posa un <em>breakpoint</em> a la línia <code>suma += i;</code> i depura el fitxer (<kbd>Ctrl</kbd>+<kbd>Maj</kbd>+<kbd>F5</kbd>).</li><li>Avança amb <kbd>F5</kbd> i mira a la finestra <em>Variables</em> quins valors pren <code>i</code>. Quin múltiple falta?</li><li>Posa un altre breakpoint a la línia de la mitjana i observa el valor de <code>suma / comptador</code>.</li><li>Corregeix els dos errors i comprova que la sortida és la correcta.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Un error és en la condició del <code>for</code>; l'altre, en el tipus de la divisió.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Múltiples: 10 · Suma: 165
+Mitjana: 16.5</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.6</span></div>
 </div>
 </section>
 <section class="section">
@@ -509,9 +512,7 @@ Mitjana: 16.5</pre></div></div>
 
     }
 
-}</div><ul class="exercici-tasques"><li>Afegeix un comentari Javadoc (<code>/** … */</code>) a la classe que expliqui què és un número perfecte, amb <code>@author</code> i <code>@version</code>.</li><li>Canvia el nom de la variable <code>s</code> per un de més clar.</li><li>Afegeix un comentari a sobre del bucle i un altre a sobre de l'<code>if</code> que expliquin <strong>per què</strong>, no què.</li><li>Prova amb 6, 28 i 12: quins són perfectes?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Un bon comentari respon preguntes que el codi no respon: per què el bucle arriba només fins a <code>numero / 2</code>?</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>28 és perfecte</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.7</span></div>
-  <div class="solucio-wrap">
+}</div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -547,8 +548,9 @@ Mitjana: 16.5</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La classe té Javadoc amb descripció, <code>@author</code> i <code>@version</code>.</li><li>Els noms de les variables expliquen què guarden.</li><li>Els comentaris expliquen decisions (el límit <code>numero / 2</code>), no repeteixen el codi.</li><li>6 i 28 són perfectes; 12 no (la suma dels seus divisors és 16).</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La classe té Javadoc amb descripció, <code>@author</code> i <code>@version</code>.</li><li>Els noms de les variables expliquen què guarden.</li><li>Els comentaris expliquen decisions (el límit <code>numero / 2</code>), no repeteixen el codi.</li><li>6 i 28 són perfectes; 12 no (la suma dels seus divisors és 16).</li></ul></div><ul class="exercici-tasques"><li>Afegeix un comentari Javadoc (<code>/** … */</code>) a la classe que expliqui què és un número perfecte, amb <code>@author</code> i <code>@version</code>.</li><li>Canvia el nom de la variable <code>s</code> per un de més clar.</li><li>Afegeix un comentari a sobre del bucle i un altre a sobre de l'<code>if</code> que expliquin <strong>per què</strong>, no què.</li><li>Prova amb 6, 28 i 12: quins són perfectes?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Un bon comentari respon preguntes que el codi no respon: per què el bucle arriba només fins a <code>numero / 2</code>?</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>28 és perfecte</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.7</span></div>
 </div>
 </section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A3_4_excepcions.html">← A3.4 Excepcions</a><a href="A3_algorismes_iteratius.html" class="nav-hub">A3 · Índex</a><a href="A3_6_reptes.html">A3.6 Reptes de síntesi →</a></nav>
@@ -562,6 +564,10 @@ Mitjana: 16.5</pre></div></div>
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
