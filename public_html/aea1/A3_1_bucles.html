@@ -151,6 +151,15 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:stretch; margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0; font-size:.76rem; line-height:1.75; padding:.9rem; align-self:start; }
+    .ex-grid .solucio-wrap { padding:.75rem; border:1px dashed var(--border); border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
+    .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
+    .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
+    @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -260,20 +269,15 @@ FI MENTRE</div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">De deu en deu</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Identifica les quatre parts del bucle (inicialització, condició, cos i actualització) i escriu-ho en Java amb un <code>while</code>. Crea la classe <code>DeDeuEnDeu</code> al projecte <code>AEA1_A3</code>.</p><div class="pseudo">Algoritmo DeDeuEnDeu
+    <p>Identifica les quatre parts del bucle (inicialització, condició, cos i actualització) i escriu-ho en Java amb un <code>while</code>. Crea la classe <code>DeDeuEnDeu</code> al projecte <code>AEA1_A3</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo DeDeuEnDeu
     Definir n Como Entero
     n &lt;- 10
     Mientras n &lt;= 50 Hacer
         Escribir n
         n &lt;- n + 10
     FinMientras
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Marca amb un comentari cadascuna de les quatre parts del bucle.</li><li>Què passa si esborres la línia <code>n = n + 10;</code>? Prova-ho i atura el programa amb el quadrat vermell.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">La sintaxi és <code>while (n &lt;= 50) { … }</code>: la condició va entre parèntesis i el cos entre claus. Cada <code>Escribir</code> és un <code>System.out.println</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>10
-20
-30
-40
-50</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -291,8 +295,13 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Marca amb un comentari cadasc
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La condició del <code>while</code> és la mateixa que la del <code>Mientras</code>.</li><li>L'actualització és dins del cos: sense ella el bucle és infinit.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La condició del <code>while</code> és la mateixa que la del <code>Mientras</code>.</li><li>L'actualització és dins del cos: sense ella el bucle és infinit.</li></ul></div><ul class="exercici-tasques"><li>Marca amb un comentari cadascuna de les quatre parts del bucle.</li><li>Què passa si esborres la línia <code>n = n + 10;</code>? Prova-ho i atura el programa amb el quadrat vermell.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">La sintaxi és <code>while (n &lt;= 50) { … }</code>: la condició va entre parèntesis i el cos entre claus. Cada <code>Escribir</code> és un <code>System.out.println</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>10
+20
+30
+40
+50</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
 </div>
 </section>
 <section class="section">
@@ -351,7 +360,7 @@ Enlairament!</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Sumar fins a passar de 100</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Aquí no sabem d'entrada quantes voltes farà el bucle: depèn de quan la suma passi de 100. Per això és un <code>Mientras</code>. Passa'l a Java a la classe <code>SumaFinsA100</code>.</p><div class="pseudo">Algoritmo SumaFinsA100
+    <p>Aquí no sabem d'entrada quantes voltes farà el bucle: depèn de quan la suma passi de 100. Per això és un <code>Mientras</code>. Passa'l a Java a la classe <code>SumaFinsA100</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo SumaFinsA100
     Definir suma, n Como Entero
     suma &lt;- 0
     n &lt;- 1
@@ -361,10 +370,8 @@ Enlairament!</pre></div>
     FinMientras
     Escribir "Nombres sumats: ", n - 1
     Escribir "Suma: ", suma
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>suma</code> és un acumulador: s'inicialitza a 0 <strong>abans</strong> del bucle.</li><li>Recorda que l'<code>Escribir</code> amb coma es converteix en un <code>println</code> amb <code>+</code>. Posa <code>n - 1</code> entre parèntesis.</li><li>Per què es mostra <code>n - 1</code> i no <code>n</code>? Explica-ho amb un comentari.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Si escrius <code>"Nombres sumats: " + n - 1</code> sense parèntesis, Java primer uneix el text amb <code>n</code> i després no pot restar 1 a un text: dona error de compilació.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nombres sumats: 14
-Suma: 105</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -388,8 +395,10 @@ Suma: 105</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>L'acumulador i el comptador s'inicialitzen fora del bucle.</li><li>Es fa servir <code>(n - 1)</code> entre parèntesis dins del <code>println</code>.</li><li>S'entén que en sortir del bucle <code>n</code> ja val un més que l'últim número sumat.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'acumulador i el comptador s'inicialitzen fora del bucle.</li><li>Es fa servir <code>(n - 1)</code> entre parèntesis dins del <code>println</code>.</li><li>S'entén que en sortir del bucle <code>n</code> ja val un més que l'últim número sumat.</li></ul></div><ul class="exercici-tasques"><li><code>suma</code> és un acumulador: s'inicialitza a 0 <strong>abans</strong> del bucle.</li><li>Recorda que l'<code>Escribir</code> amb coma es converteix en un <code>println</code> amb <code>+</code>. Posa <code>n - 1</code> entre parèntesis.</li><li>Per què es mostra <code>n - 1</code> i no <code>n</code>? Explica-ho amb un comentari.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Si escrius <code>"Nombres sumats: " + n - 1</code> sense parèntesis, Java primer uneix el text amb <code>n</code> i després no pot restar 1 a un text: dona error de compilació.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nombres sumats: 14
+Suma: 105</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
 </section>
 <section class="section">
@@ -459,7 +468,7 @@ Fins aviat.</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Dividir per 2 fins arribar a 0</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Compta quantes divisions per 2 calen perquè 1000 arribi a 0. Fixa't bé en la condició: PSeInt repeteix <em>fins que</em> és certa i Java repeteix <em>mentre</em> és certa. Classe <code>ComptarDivisions</code>.</p><div class="pseudo">Algoritmo ComptarDivisions
+    <p>Compta quantes divisions per 2 calen perquè 1000 arribi a 0. Fixa't bé en la condició: PSeInt repeteix <em>fins que</em> és certa i Java repeteix <em>mentre</em> és certa. Classe <code>ComptarDivisions</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo ComptarDivisions
     Definir n, vegades Como Entero
     n &lt;- 1000
     vegades &lt;- 0
@@ -468,9 +477,8 @@ Fins aviat.</pre></div>
         vegades &lt;- vegades + 1
     Hasta Que n = 0
     Escribir "Divisions: ", vegades
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir un <code>do-while</code> i no t'oblidis del <code>;</code> final.</li><li>Nega la condició del <code>Hasta Que</code>.</li><li>Prova amb <code>n = 1</code>: quantes divisions surten? I amb <code>n = 0</code>? Per què el <code>do-while</code> en fa una?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Hasta Que n = 0</code> vol dir "para quan n sigui 0", és a dir, "continua mentre n no sigui 0": <code>while (n != 0);</code></div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Divisions: 10</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -494,8 +502,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir un <code>do-while<
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La condició està negada correctament (<code>n != 0</code>).</li><li><code>trunc</code> no cal: <code>n / 2</code> amb dos enters ja és divisió entera.</li><li>S'explica per què amb <code>n = 0</code> el comptador val 1.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La condició està negada correctament (<code>n != 0</code>).</li><li><code>trunc</code> no cal: <code>n / 2</code> amb dos enters ja és divisió entera.</li><li>S'explica per què amb <code>n = 0</code> el comptador val 1.</li></ul></div><ul class="exercici-tasques"><li>Fes servir un <code>do-while</code> i no t'oblidis del <code>;</code> final.</li><li>Nega la condició del <code>Hasta Que</code>.</li><li>Prova amb <code>n = 1</code>: quantes divisions surten? I amb <code>n = 0</code>? Per què el <code>do-while</code> en fa una?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Hasta Que n = 0</code> vol dir "para quan n sigui 0", és a dir, "continua mentre n no sigui 0": <code>while (n != 0);</code></div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Divisions: 10</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
 </div>
 </section>
 <section class="section">
@@ -556,23 +565,13 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir un <code>do-while<
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">Quadrats dels parells</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Ara el nombre de voltes es coneix d'entrada: és un <code>Para</code> i, en Java, un <code>for</code>. Classe <code>QuadratsParells</code>.</p><div class="pseudo">Algoritmo QuadratsParells
+    <p>Ara el nombre de voltes es coneix d'entrada: és un <code>Para</code> i, en Java, un <code>for</code>. Classe <code>QuadratsParells</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo QuadratsParells
     Definir i Como Entero
     Para i &lt;- 2 Hasta 20 Con Paso 2 Hacer
         Escribir "El quadrat de ", i, " és ", i * i
     FinPara
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Tradueix el <code>Con Paso 2</code> a l'actualització del <code>for</code>.</li><li>Declara la variable <code>i</code> dins del <code>for</code>.</li><li>Ampliació: mostra'ls ara del 20 al 2 (cap enrere).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Les tres parts del <code>for</code> surten directament de la capçalera del <code>Para</code>: valor inicial, valor final (amb <code>&lt;=</code>) i pas.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El quadrat de 2 és 4
-El quadrat de 4 és 16
-El quadrat de 6 és 36
-El quadrat de 8 és 64
-El quadrat de 10 és 100
-El quadrat de 12 és 144
-El quadrat de 14 és 196
-El quadrat de 16 és 256
-El quadrat de 18 és 324
-El quadrat de 20 és 400</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -588,8 +587,18 @@ El quadrat de 20 és 400</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La capçalera del <code>for</code> té inicialització, condició i actualització correctes.</li><li><code>i * i</code> es calcula dins del <code>println</code> sense parèntesis: el <code>*</code> té més prioritat que el <code>+</code>.</li><li>L'ampliació fa servir <code>i -= 2</code> i la condició <code>i &gt;= 2</code>.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La capçalera del <code>for</code> té inicialització, condició i actualització correctes.</li><li><code>i * i</code> es calcula dins del <code>println</code> sense parèntesis: el <code>*</code> té més prioritat que el <code>+</code>.</li><li>L'ampliació fa servir <code>i -= 2</code> i la condició <code>i &gt;= 2</code>.</li></ul></div><ul class="exercici-tasques"><li>Tradueix el <code>Con Paso 2</code> a l'actualització del <code>for</code>.</li><li>Declara la variable <code>i</code> dins del <code>for</code>.</li><li>Ampliació: mostra'ls ara del 20 al 2 (cap enrere).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Les tres parts del <code>for</code> surten directament de la capçalera del <code>Para</code>: valor inicial, valor final (amb <code>&lt;=</code>) i pas.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El quadrat de 2 és 4
+El quadrat de 4 és 16
+El quadrat de 6 és 36
+El quadrat de 8 és 64
+El quadrat de 10 és 100
+El quadrat de 12 és 144
+El quadrat de 14 és 196
+El quadrat de 16 és 256
+El quadrat de 18 és 324
+El quadrat de 20 és 400</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
 </div>
 </section>
 <section class="section">
@@ -784,11 +793,31 @@ Accés concedit.</pre></div>
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Baixa el PSeInt perquè «Algoritmo» quedi a l'alçada del main de la solució
+  function alinearPseudo(grid) {
+    const ps = grid.querySelector('.pseudo');
+    ps.style.marginTop = '';
+    const wrap = grid.querySelector('.solucio-wrap');
+    const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
+    if (!wrap.classList.contains('obert') || !dosCols) return;
+    const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
+    if (!main) return;
+    const r = document.createRange();
+    r.setStart(ps.firstChild, 0); r.setEnd(ps.firstChild, 1);
+    const dif = main.getBoundingClientRect().top - r.getBoundingClientRect().top;
+    if (dif > 0) ps.style.marginTop = dif + 'px';
+  }
+  window.addEventListener('resize', function () { document.querySelectorAll('.ex-grid').forEach(alinearPseudo); });
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
+    if (grid) alinearPseudo(grid);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }

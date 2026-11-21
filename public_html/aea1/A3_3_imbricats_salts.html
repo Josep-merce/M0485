@@ -151,6 +151,15 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:stretch; margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0; font-size:.76rem; line-height:1.75; padding:.9rem; align-self:start; }
+    .ex-grid .solucio-wrap { padding:.75rem; border:1px dashed var(--border); border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
+    .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
+    .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
+    @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -285,7 +294,7 @@
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Triangle de números</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>El bucle extern recorre les files i l'intern escriu els números de cada fila. Classe <code>TriangleNumeros</code>.</p><div class="pseudo">Algoritmo TriangleNumeros
+    <p>El bucle extern recorre les files i l'intern escriu els números de cada fila. Classe <code>TriangleNumeros</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo TriangleNumeros
     Definir fila, col, files Como Entero
     files &lt;- 4
     Para fila &lt;- 1 Hasta files Hacer
@@ -294,12 +303,8 @@
         FinPara
         Escribir ""
     FinPara
-FinAlgoritmo</div><ul class="exercici-tasques"><li>El límit del bucle intern depèn de la variable del bucle extern.</li><li>Quantes vegades s'executa el <code>print</code> amb <code>files = 4</code>? I amb <code>files = 10</code>?</li><li>Ampliació: fes que cada fila mostri el número de la fila repetit (1 / 2 2 / 3 3 3…).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">L'<code>Escribir ""</code> buit serveix només per canviar de línia: en Java és un <code>println()</code> sense res dins.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>1 
-1 2 
-1 2 3 
-1 2 3 4 </pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -319,8 +324,12 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>El límit del bucle intern de
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El salt de línia és fora del bucle intern però dins de l'extern.</li><li>Amb 4 files el <code>print</code> s'executa 10 vegades (1+2+3+4); amb 10 files, 55.</li><li>L'ampliació escriu <code>fila</code> en comptes de <code>col</code>.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El salt de línia és fora del bucle intern però dins de l'extern.</li><li>Amb 4 files el <code>print</code> s'executa 10 vegades (1+2+3+4); amb 10 files, 55.</li><li>L'ampliació escriu <code>fila</code> en comptes de <code>col</code>.</li></ul></div><ul class="exercici-tasques"><li>El límit del bucle intern depèn de la variable del bucle extern.</li><li>Quantes vegades s'executa el <code>print</code> amb <code>files = 4</code>? I amb <code>files = 10</code>?</li><li>Ampliació: fes que cada fila mostri el número de la fila repetit (1 / 2 2 / 3 3 3…).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">L'<code>Escribir ""</code> buit serveix només per canviar de línia: en Java és un <code>println()</code> sense res dins.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>1 
+1 2 
+1 2 3 
+1 2 3 4 </pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
 </section>
 <section class="section">
@@ -396,7 +405,7 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>El límit del bucle intern de
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Primer múltiple de 13</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>PSeInt no té <code>break</code>: per aturar la cerca fa servir la variable <code>trobat</code>. Tu l'has d'escriure en Java amb un <code>for</code> i un <code>break</code>, <strong>sense</strong> la variable <code>trobat</code>. Classe <code>PrimerMultiple13</code>.</p><div class="pseudo">Algoritmo PrimerMultiple13
+    <p>PSeInt no té <code>break</code>: per aturar la cerca fa servir la variable <code>trobat</code>. Tu l'has d'escriure en Java amb un <code>for</code> i un <code>break</code>, <strong>sense</strong> la variable <code>trobat</code>. Classe <code>PrimerMultiple13</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo PrimerMultiple13
     Definir n Como Entero
     Definir trobat Como Logico
     n &lt;- 100
@@ -413,9 +422,8 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>El límit del bucle intern de
     SiNo
         Escribir "No n'hi ha cap"
     FinSi
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes un <code>for</code> de 100 a 200 i surt amb <code>break</code> quan el trobis.</li><li>Com que la <code>n</code> del <code>for</code> no existeix fora del bucle, guarda el resultat en una variable que valgui <code>-1</code> mentre no el trobis.</li><li>Compara les dues versions: quina et sembla més clara?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>La mateixa cerca amb break</em> d'aquest mateix apartat: té la mateixa estructura.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Primer múltiple de 13: 104</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.3</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -441,8 +449,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes un <code>for</code> de 10
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El <code>break</code> està dins de l'<code>if</code> que detecta el múltiple.</li><li>El resultat es guarda abans del <code>break</code> en una variable declarada fora del <code>for</code>.</li><li>Es controla el cas que no n'hi hagi cap.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>break</code> està dins de l'<code>if</code> que detecta el múltiple.</li><li>El resultat es guarda abans del <code>break</code> en una variable declarada fora del <code>for</code>.</li><li>Es controla el cas que no n'hi hagi cap.</li></ul></div><ul class="exercici-tasques"><li>Fes un <code>for</code> de 100 a 200 i surt amb <code>break</code> quan el trobis.</li><li>Com que la <code>n</code> del <code>for</code> no existeix fora del bucle, guarda el resultat en una variable que valgui <code>-1</code> mentre no el trobis.</li><li>Compara les dues versions: quina et sembla més clara?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>La mateixa cerca amb break</em> d'aquest mateix apartat: té la mateixa estructura.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Primer múltiple de 13: 104</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.3</span></div>
 </div>
 </section>
 <section class="section">
@@ -505,7 +514,7 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes un <code>for</code> de 10
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Comptar sisos</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Simula deu tirades d'un dau i compta quants sisos surten. Classe <code>ComptarSisos</code>.</p><div class="pseudo">Algoritmo ComptarSisos
+    <p>Simula deu tirades d'un dau i compta quants sisos surten. Classe <code>ComptarSisos</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo ComptarSisos
     Definir tirada, dau, sisos Como Entero
     sisos &lt;- 0
     Para tirada &lt;- 1 Hasta 10 Hacer
@@ -517,10 +526,8 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes un <code>for</code> de 10
     FinPara
     Escribir ""
     Escribir "Sisos: ", sisos
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir la classe <code>Random</code> (recorda l'<code>import</code>).</li><li>Crea l'objecte <code>Random</code> <strong>abans</strong> del bucle, no a cada volta.</li><li>Ampliació: fes 6000 tirades sense mostrar-les. Surten aproximadament 1000 sisos?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>nextInt(6)</code> dona un número del 0 al 5. Per tenir-lo de l'1 al 6, suma-hi 1.</div></details><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>4 6 1 3 6 2 5 5 1 6 
-Sisos: 3</pre></div><p class="nota-sortida">Els valors canvien a cada execució.</p></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -547,8 +554,10 @@ Sisos: 3</pre></div><p class="nota-sortida">Els valors canvien a cada execució.
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El dau dona valors de l'1 al 6.</li><li>El comptador només s'incrementa quan surt un 6.</li><li>En l'ampliació s'esborra el <code>print</code> de dins del bucle.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El dau dona valors de l'1 al 6.</li><li>El comptador només s'incrementa quan surt un 6.</li><li>En l'ampliació s'esborra el <code>print</code> de dins del bucle.</li></ul></div><ul class="exercici-tasques"><li>Fes servir la classe <code>Random</code> (recorda l'<code>import</code>).</li><li>Crea l'objecte <code>Random</code> <strong>abans</strong> del bucle, no a cada volta.</li><li>Ampliació: fes 6000 tirades sense mostrar-les. Surten aproximadament 1000 sisos?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>nextInt(6)</code> dona un número del 0 al 5. Per tenir-lo de l'1 al 6, suma-hi 1.</div></details><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>4 6 1 3 6 2 5 5 1 6 
+Sisos: 3</pre></div><p class="nota-sortida">Els valors canvien a cada execució.</p></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
 </section>
 <section class="section">
@@ -734,11 +743,31 @@ Total: 25 primers</pre></div>
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Baixa el PSeInt perquè «Algoritmo» quedi a l'alçada del main de la solució
+  function alinearPseudo(grid) {
+    const ps = grid.querySelector('.pseudo');
+    ps.style.marginTop = '';
+    const wrap = grid.querySelector('.solucio-wrap');
+    const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
+    if (!wrap.classList.contains('obert') || !dosCols) return;
+    const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
+    if (!main) return;
+    const r = document.createRange();
+    r.setStart(ps.firstChild, 0); r.setEnd(ps.firstChild, 1);
+    const dif = main.getBoundingClientRect().top - r.getBoundingClientRect().top;
+    if (dif > 0) ps.style.marginTop = dif + 'px';
+  }
+  window.addEventListener('resize', function () { document.querySelectorAll('.ex-grid').forEach(alinearPseudo); });
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
+    if (grid) alinearPseudo(grid);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }

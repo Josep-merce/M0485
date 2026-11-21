@@ -151,6 +151,15 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:stretch; margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0; font-size:.76rem; line-height:1.75; padding:.9rem; align-self:start; }
+    .ex-grid .solucio-wrap { padding:.75rem; border:1px dashed var(--border); border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
+    .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
+    .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
+    @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -264,7 +273,7 @@ Aprovat i menor? true</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El termòmetre</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Aquest algorisme no pren cap decisió encara: només <strong>calcula condicions</strong> i en mostra el resultat. Tradueix-lo a Java a la classe <code>Termometre</code>.</p><div class="pseudo">Algoritmo Termometre
+    <p>Aquest algorisme no pren cap decisió encara: només <strong>calcula condicions</strong> i en mostra el resultat. Tradueix-lo a Java a la classe <code>Termometre</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Termometre
     Definir temperatura Como Real
     Definir faCalor, faFred, esAgradable Como Logico
 
@@ -278,12 +287,8 @@ Aprovat i menor? true</pre></div>
     Escribir "Fa calor? ", faCalor
     Escribir "Fa fred? ", faFred
     Escribir "És agradable? ", esAgradable
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code> i <code>Y</code> → <code>&amp;&amp;</code>.</li><li>PSeInt escriu <code>VERDADERO</code>; Java escriu <code>true</code>.</li><li>Prova-ho també amb <code>20</code> i amb <code>5</code>: quantes condicions canvien?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">A Java no es pot escriure <code>18 &lt;= temperatura &lt;= 25</code>: cal partir-ho en dues comparacions i unir-les amb <code>&amp;&amp;</code>, igual que fa el <code>Y</code> de PSeInt.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Temperatura: 27.5
-Fa calor? true
-Fa fred? false
-És agradable? false</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -305,8 +310,12 @@ Fa fred? false
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Les tres condicions són variables <code>boolean</code>.</li><li>L'interval de 18 a 25 s'escriu amb dues comparacions unides per <code>&amp;&amp;</code> (no <code>18 &lt;= t &lt;= 25</code>).</li><li>S'ha provat amb més d'una temperatura.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les tres condicions són variables <code>boolean</code>.</li><li>L'interval de 18 a 25 s'escriu amb dues comparacions unides per <code>&amp;&amp;</code> (no <code>18 &lt;= t &lt;= 25</code>).</li><li>S'ha provat amb més d'una temperatura.</li></ul></div><ul class="exercici-tasques"><li><code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code> i <code>Y</code> → <code>&amp;&amp;</code>.</li><li>PSeInt escriu <code>VERDADERO</code>; Java escriu <code>true</code>.</li><li>Prova-ho també amb <code>20</code> i amb <code>5</code>: quantes condicions canvien?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">A Java no es pot escriure <code>18 &lt;= temperatura &lt;= 25</code>: cal partir-ho en dues comparacions i unir-les amb <code>&amp;&amp;</code>, igual que fa el <code>Y</code> de PSeInt.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Temperatura: 27.5
+Fa calor? true
+Fa fred? false
+És agradable? false</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1</span></div>
 </div>
 </section><section class="section" id="if">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Alternativa simple: if</h2><p class="sec-sub">Fer alguna cosa només si…</p></div></div>
@@ -349,7 +358,7 @@ Preu final: 108.0 €</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'enviament a domicili</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una botiga en línia cobra l'enviament només a les compres petites. Tradueix l'algorisme a Java a la classe <code>Enviament</code>.</p><div class="pseudo">Algoritmo Enviament
+    <p>Una botiga en línia cobra l'enviament només a les compres petites. Tradueix l'algorisme a Java a la classe <code>Enviament</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Enviament
     Definir compra, enviament, total Como Real
 
     compra &lt;- 42.5
@@ -365,11 +374,8 @@ Preu final: 108.0 €</pre></div>
     Escribir "Compra: ", compra, " €"
     Escribir "Enviament: ", enviament, " €"
     Escribir "Total: ", total, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix el <code>50</code> i el <code>4.95</code> en constants (<code>final double</code>) amb un nom clar.</li><li>Fixa't que <code>enviament</code> comença valent 0: l'<code>if</code> només el canvia si cal.</li><li>Prova-ho amb <code>60</code> i amb <code>50</code>: amb 50 exactes, es paga enviament?</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Compra: 42.5 €
-Enviament: 4.95 €
-Total: 47.45 €</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -396,8 +402,11 @@ Total: 47.45 €</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El <code>Si … FinSi</code> s'ha convertit en un <code>if</code> amb claus i sense <code>else</code>.</li><li>Els valors fixos són constants i la condició es llegeix sola.</li><li>S'han provat els casos 42.5, 50 i 60.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>Si … FinSi</code> s'ha convertit en un <code>if</code> amb claus i sense <code>else</code>.</li><li>Els valors fixos són constants i la condició es llegeix sola.</li><li>S'han provat els casos 42.5, 50 i 60.</li></ul></div><ul class="exercici-tasques"><li>Converteix el <code>50</code> i el <code>4.95</code> en constants (<code>final double</code>) amb un nom clar.</li><li>Fixa't que <code>enviament</code> comença valent 0: l'<code>if</code> només el canvia si cal.</li><li>Prova-ho amb <code>60</code> i amb <code>50</code>: amb 50 exactes, es paga enviament?</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Compra: 42.5 €
+Enviament: 4.95 €
+Total: 47.45 €</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="ifelse">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Alternativa doble: if / else</h2><p class="sec-sub">O una cosa o l'altra</p></div></div>
@@ -452,7 +461,7 @@ FinAlgoritmo</div><div class="exemple">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El caixer automàtic</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>El caixer només et deixa treure diners si en tens prou al compte. Tradueix l'algorisme a la classe <code>Caixer</code>.</p><div class="pseudo">Algoritmo Caixer
+    <p>El caixer només et deixa treure diners si en tens prou al compte. Tradueix l'algorisme a la classe <code>Caixer</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Caixer
     Definir saldo, retirada Como Real
 
     saldo &lt;- 120
@@ -464,9 +473,8 @@ FinAlgoritmo</div><div class="exemple">
     SiNo
         Escribir "Saldo insuficient. Disponible: ", saldo, " €"
     FinSi
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada bloc del <code>Si</code> i del <code>SiNo</code> va entre claus.</li><li>Java mostra <code>120.0</code> perquè <code>saldo</code> és <code>double</code>.</li><li>Prova-ho amb una retirada de <code>50</code> i de <code>120</code> (just el saldo).</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">Saldo insuficient. Disponible: 120.0 €</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Afegeix una comissió de 2 € si la retirada és inferior a 20 €. Necessites un <code>if</code> nou dins del primer bloc?</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -486,8 +494,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada bloc del <code>Si</code>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Només s'executa un dels dos missatges.</li><li>El saldo només es modifica dins del bloc de la retirada correcta.</li><li>S'ha provat el cas límit <code>retirada == saldo</code>.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Només s'executa un dels dos missatges.</li><li>El saldo només es modifica dins del bloc de la retirada correcta.</li><li>S'ha provat el cas límit <code>retirada == saldo</code>.</li></ul></div><ul class="exercici-tasques"><li>Cada bloc del <code>Si</code> i del <code>SiNo</code> va entre claus.</li><li>Java mostra <code>120.0</code> perquè <code>saldo</code> és <code>double</code>.</li><li>Prova-ho amb una retirada de <code>50</code> i de <code>120</code> (just el saldo).</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">Saldo insuficient. Disponible: 120.0 €</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Afegeix una comissió de 2 € si la retirada és inferior a 20 €. Necessites un <code>if</code> nou dins del primer bloc?</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="multiple">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Alternativa múltiple: else if</h2><p class="sec-sub">Diversos casos, un sol camí</p></div></div>
@@ -558,7 +567,7 @@ FinAlgoritmo</div><div class="exemple">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">La multa de velocitat</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>La multa depèn de quants km/h se supera el límit. L'algorisme està escrit amb <code>Si</code> niats, com es fa a PSeInt; a Java escriu-lo amb una cadena <code>else if</code>. Classe <code>Multa</code>.</p><div class="pseudo">Algoritmo Multa
+    <p>La multa depèn de quants km/h se supera el límit. L'algorisme està escrit amb <code>Si</code> niats, com es fa a PSeInt; a Java escriu-lo amb una cadena <code>else if</code>. Classe <code>Multa</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Multa
     Definir velocitat, limit, exces, multa Como Entero
 
     velocitat &lt;- 147
@@ -582,11 +591,8 @@ FinAlgoritmo</div><div class="exemple">
     Escribir "Velocitat: ", velocitat, " km/h (límit ", limit, ")"
     Escribir "Excés: ", exces, " km/h"
     Escribir "Multa: ", multa, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix els tres <code>Si</code> niats en <code>if / else if / else if / else</code>.</li><li>Declara <code>multa</code> abans de la cadena: totes les branques li donen valor.</li><li>Prova els valors frontera: 120, 121, 140, 141, 160 i 161 km/h.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Cada <code>SiNo</code> seguit d'un <code>Si</code> es converteix en <code>} else if (…) {</code>. L'últim <code>SiNo</code>, que ja no té cap <code>Si</code> a dins, és l'<code>else</code> final.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Velocitat: 147 km/h (límit 120)
-Excés: 27 km/h
-Multa: 300 €</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Quan no hi ha excés el programa mostra un excés negatiu. Fes que en aquest cas mostri <code>Sense excés de velocitat</code> en lloc de les línies d'excés i multa.</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -615,8 +621,11 @@ Multa: 300 €</pre></div><div class="box box-costum repte"><span class="box-lab
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La cadena <code>else if</code> té el mateix comportament que els <code>Si</code> niats.</li><li>No es repeteixen límits inferiors (<code>exces &gt; 20 &amp;&amp; exces &lt;= 40</code> no cal).</li><li>S'han provat els sis valors frontera.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La cadena <code>else if</code> té el mateix comportament que els <code>Si</code> niats.</li><li>No es repeteixen límits inferiors (<code>exces &gt; 20 &amp;&amp; exces &lt;= 40</code> no cal).</li><li>S'han provat els sis valors frontera.</li></ul></div><ul class="exercici-tasques"><li>Converteix els tres <code>Si</code> niats en <code>if / else if / else if / else</code>.</li><li>Declara <code>multa</code> abans de la cadena: totes les branques li donen valor.</li><li>Prova els valors frontera: 120, 121, 140, 141, 160 i 161 km/h.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Cada <code>SiNo</code> seguit d'un <code>Si</code> es converteix en <code>} else if (…) {</code>. L'últim <code>SiNo</code>, que ja no té cap <code>Si</code> a dins, és l'<code>else</code> final.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Velocitat: 147 km/h (límit 120)
+Excés: 27 km/h
+Multa: 300 €</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Quan no hi ha excés el programa mostra un excés negatiu. Fes que en aquest cas mostri <code>Sense excés de velocitat</code> en lloc de les línies d'excés i multa.</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span></div>
 </div>
 </section><section class="section" id="demos">
   <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Tres exercicis ràpids per repassar tota la subpàgina</p></div></div>
@@ -637,11 +646,31 @@ Multa: 300 €</pre></div><div class="box box-costum repte"><span class="box-lab
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Baixa el PSeInt perquè «Algoritmo» quedi a l'alçada del main de la solució
+  function alinearPseudo(grid) {
+    const ps = grid.querySelector('.pseudo');
+    ps.style.marginTop = '';
+    const wrap = grid.querySelector('.solucio-wrap');
+    const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
+    if (!wrap.classList.contains('obert') || !dosCols) return;
+    const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
+    if (!main) return;
+    const r = document.createRange();
+    r.setStart(ps.firstChild, 0); r.setEnd(ps.firstChild, 1);
+    const dif = main.getBoundingClientRect().top - r.getBoundingClientRect().top;
+    if (dif > 0) ps.style.marginTop = dif + 'px';
+  }
+  window.addEventListener('resize', function () { document.querySelectorAll('.ex-grid').forEach(alinearPseudo); });
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
+    if (grid) alinearPseudo(grid);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }

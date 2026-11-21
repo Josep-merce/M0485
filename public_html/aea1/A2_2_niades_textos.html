@@ -151,6 +151,15 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:stretch; margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0; font-size:.76rem; line-height:1.75; padding:.9rem; align-self:start; }
+    .ex-grid .solucio-wrap { padding:.75rem; border:1px dashed var(--border); border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
+    .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
+    .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
+    @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -318,7 +327,7 @@ Pot conduir</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El préstec de la biblioteca</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Per endur-se un llibre cal ser soci i no tenir ja el màxim de llibres en préstec. Cada cas dona un missatge diferent, per això l'algorisme fa servir <code>Si</code> niats. Classe <code>Prestec</code>.</p><div class="pseudo">Algoritmo Prestec
+    <p>Per endur-se un llibre cal ser soci i no tenir ja el màxim de llibres en préstec. Cada cas dona un missatge diferent, per això l'algorisme fa servir <code>Si</code> niats. Classe <code>Prestec</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Prestec
     Definir esSoci Como Logico
     Definir llibresPrestats Como Entero
 
@@ -334,9 +343,8 @@ Pot conduir</pre></div>
     SiNo
         Escribir "Cal fer-se soci per endur-se llibres."
     FinSi
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix el màxim de llibres en una constant <code>MAX_LLIBRES</code>.</li><li>Respecta la sagnia: l'<code>if</code> interior va un nivell més a dins.</li><li>Prova els tres camins: soci amb 1 llibre, soci amb 3 llibres i no soci.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Ja tens 3 llibres: retorna'n un abans.</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Hi ha un camí que es pot escriure amb una sola condició <code>esSoci &amp;&amp; llibresPrestats &lt; MAX_LLIBRES</code>. Per què, tot i així, no podem eliminar l'<code>if</code> niat sense perdre informació?</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -361,8 +369,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix el màxim de llibr
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>L'estructura niada és la mateixa que al pseudocodi.</li><li>El límit és una constant i també s'usa al missatge.</li><li>S'han provat els tres camins.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'estructura niada és la mateixa que al pseudocodi.</li><li>El límit és una constant i també s'usa al missatge.</li><li>S'han provat els tres camins.</li></ul></div><ul class="exercici-tasques"><li>Converteix el màxim de llibres en una constant <code>MAX_LLIBRES</code>.</li><li>Respecta la sagnia: l'<code>if</code> interior va un nivell més a dins.</li><li>Prova els tres camins: soci amb 1 llibre, soci amb 3 llibres i no soci.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Ja tens 3 llibres: retorna'n un abans.</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Hi ha un camí que es pot escriure amb una sola condició <code>esSoci &amp;&amp; llibresPrestats &lt; MAX_LLIBRES</code>. Per què, tot i així, no podem eliminar l'<code>if</code> niat sense perdre informació?</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="textos">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Comparar textos</h2><p class="sec-sub">equals, no ==</p></div></div>
@@ -391,7 +400,7 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix el màxim de llibr
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'inici de sessió</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un programa comprova l'usuari i la contrasenya. L'usuari no distingeix majúscules, però la contrasenya sí. Tradueix-lo a la classe <code>Login</code>.</p><div class="pseudo">Algoritmo Login
+    <p>Un programa comprova l'usuari i la contrasenya. L'usuari no distingeix majúscules, però la contrasenya sí. Tradueix-lo a la classe <code>Login</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Login
     Definir usuari, contrasenya Como Cadena
 
     usuari &lt;- "Admin"
@@ -406,9 +415,8 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix el màxim de llibr
             Escribir "Usuari o contrasenya incorrectes."
         FinSi
     FinSi
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>=</code> entre textos es converteix en <code>equals</code> o <code>equalsIgnoreCase</code>, segons si importen les majúscules.</li><li>El <code>Si</code> dins del <code>SiNo</code> es pot escriure com un <code>else if</code>.</li><li>Prova: <code>"ADMIN"</code> / <code>"daw2026"</code> (entra), <code>"admin"</code> / <code>"DAW2026"</code> (no entra) i contrasenya buida.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Minusculas(usuari) = "admin"</code> vol dir "l'usuari és admin sense mirar majúscules". A Java és exactament <code>usuari.equalsIgnoreCase("admin")</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Benvingut, Admin</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -430,8 +438,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>=</code> entre tex
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>No hi ha cap <code>==</code> entre textos.</li><li>S'ha triat bé entre <code>equals</code> i <code>equalsIgnoreCase</code>.</li><li>La contrasenya buida es comprova primer.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>No hi ha cap <code>==</code> entre textos.</li><li>S'ha triat bé entre <code>equals</code> i <code>equalsIgnoreCase</code>.</li><li>La contrasenya buida es comprova primer.</li></ul></div><ul class="exercici-tasques"><li>Cada <code>=</code> entre textos es converteix en <code>equals</code> o <code>equalsIgnoreCase</code>, segons si importen les majúscules.</li><li>El <code>Si</code> dins del <code>SiNo</code> es pot escriure com un <code>else if</code>.</li><li>Prova: <code>"ADMIN"</code> / <code>"daw2026"</code> (entra), <code>"admin"</code> / <code>"DAW2026"</code> (no entra) i contrasenya buida.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Minusculas(usuari) = "admin"</code> vol dir "l'usuari és admin sense mirar majúscules". A Java és exactament <code>usuari.equalsIgnoreCase("admin")</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Benvingut, Admin</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="demos">
   <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
@@ -449,11 +458,31 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>=</code> entre tex
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Baixa el PSeInt perquè «Algoritmo» quedi a l'alçada del main de la solució
+  function alinearPseudo(grid) {
+    const ps = grid.querySelector('.pseudo');
+    ps.style.marginTop = '';
+    const wrap = grid.querySelector('.solucio-wrap');
+    const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
+    if (!wrap.classList.contains('obert') || !dosCols) return;
+    const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
+    if (!main) return;
+    const r = document.createRange();
+    r.setStart(ps.firstChild, 0); r.setEnd(ps.firstChild, 1);
+    const dif = main.getBoundingClientRect().top - r.getBoundingClientRect().top;
+    if (dif > 0) ps.style.marginTop = dif + 'px';
+  }
+  window.addEventListener('resize', function () { document.querySelectorAll('.ex-grid').forEach(alinearPseudo); });
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
+    if (grid) alinearPseudo(grid);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
