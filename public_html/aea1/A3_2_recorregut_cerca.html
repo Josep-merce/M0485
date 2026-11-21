@@ -252,57 +252,43 @@ PER A cada element FER    PER A cada element FER   PER A cada element FER
 FI PER A                      comptador ← comp + 1     màxim ← x
                             FI PER A                 FI PER A</div>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Estadístiques dels números de l'1 al 50</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Recorregut</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> suma = <span class="num">0</span>;           <span class="cmt">// acumulador</span>
-        <span class="kw">int</span> multiples7 = <span class="num">0</span>;     <span class="cmt">// comptador</span>
-
-        <span class="kw">for</span> (<span class="kw">int</span> n = <span class="num">1</span>; n &lt;= <span class="num">50</span>; n++) {
-            suma += n;
-            <span class="kw">if</span> (n % <span class="num">7</span> == <span class="num">0</span>) {
-                multiples7++;
-            }
-        }
-
-        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / <span class="num">50</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + mitjana);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Múltiples de 7: "</span> + multiples7);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Suma: 1275
-Mitjana: 25.5
-Múltiples de 7: 7</pre></div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Xifra més gran d'un número (recorregut de les xifres)</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">XifraMaxima</span> {
+  <div class="exemple-header"><span>Estadístiques de les xifres d'un número</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EstadistiquesXifres</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> numero = <span class="num">528174</span>;
         <span class="kw">int</span> n = numero;
-        <span class="kw">int</span> maxim = <span class="num">0</span>;
+        <span class="kw">int</span> suma = <span class="num">0</span>;        <span class="cmt">// acumulador</span>
+        <span class="kw">int</span> parelles = <span class="num">0</span>;    <span class="cmt">// comptador</span>
+        <span class="kw">int</span> maxim = <span class="num">0</span>;       <span class="cmt">// màxim: cap xifra és menor que 0</span>
 
+        <span class="cmt">// Recorregut de totes les xifres, de dreta a esquerra</span>
         <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
-            <span class="kw">int</span> xifra = n % <span class="num">10</span>;     <span class="cmt">// última xifra</span>
+            <span class="kw">int</span> xifra = n % <span class="num">10</span>;      <span class="cmt">// última xifra</span>
+            suma += xifra;
+            <span class="kw">if</span> (xifra % <span class="num">2</span> == <span class="num">0</span>) {
+                parelles++;
+            }
             <span class="kw">if</span> (xifra &gt; maxim) {
                 maxim = xifra;
             }
-            n = n / <span class="num">10</span>;             <span class="cmt">// la traiem</span>
+            n = n / <span class="num">10</span>;              <span class="cmt">// la traiem</span>
         }
 
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"La xifra més gran de "</span> + numero + <span class="str">" és "</span> + maxim);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número: "</span> + numero);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma de les xifres: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parelles: "</span> + parelles);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifra més gran: "</span> + maxim);
 
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Número: 528174
+Suma de les xifres: 27
+Xifres parelles: 3
+Xifra més gran: 8</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>És un recorregut: es tracten <strong>totes</strong> les xifres de <code>528174</code>, de dreta a esquerra. <code>n % 10</code> dona l'última xifra i <code>n / 10</code> la treu; quan <code>n</code> arriba a 0, ja no en queden.</p><p>Dins del bucle hi ha els tres esquemes de la taula: un <strong>acumulador</strong> (<code>suma</code>), un <strong>comptador</strong> que només augmenta si es compleix una condició (<code>parelles</code>, per a les xifres 2, 4 i 8) i un <strong>màxim</strong> que s'actualitza quan apareix una xifra més gran.</p><p>Totes tres variables s'inicialitzen <strong>abans</strong> del bucle. El màxim pot començar a 0 perquè cap xifra és més petita que 0.</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>i MOD 2 = 0</code></td><td><code>i % 2 == 0</code> (fixa't en el doble <code>==</code>)</td></tr><tr><td><code>Si</code> … <code>Entonces</code> … <code>SiNo</code> … <code>FinSi</code></td><td><code>if (</code>…<code>) {</code> … <code>} else {</code> … <code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Parells i senars</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
@@ -456,10 +442,10 @@ MENTRE x ≠ -1 FER
     LLEGIR x                          ← llegim el següent al final
 FI MENTRE</div>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Recorregut d'una seqüència: quantitat, suma, màxim i mínim</span></div>
+  <div class="exemple-header"><span>Seqüència amb sentinella: quantitat, suma, màxim i múltiples de 5</span></div>
   <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaRecorregut</span> {
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaSentinella</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
@@ -468,11 +454,11 @@ FI MENTRE</div>
 
         <span class="kw">int</span> quantitat = <span class="num">0</span>;
         <span class="kw">int</span> suma = <span class="num">0</span>;
-        <span class="kw">int</span> maxim = <span class="cls">Integer</span>.MIN_VALUE;   <span class="cmt">// qualsevol valor serà més gran</span>
-        <span class="kw">int</span> minim = <span class="cls">Integer</span>.MAX_VALUE;   <span class="cmt">// qualsevol valor serà més petit</span>
+        <span class="kw">int</span> maxim = <span class="cls">Integer</span>.MIN_VALUE;  <span class="cmt">// tot valor serà més gran</span>
+        <span class="kw">boolean</span> multiple5 = <span class="kw">false</span>;      <span class="cmt">// encara no n'hem vist cap</span>
 
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
-        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());          <span class="cmt">// lectura avançada</span>
+        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>()); <span class="cmt">// lectura avançada</span>
 
         <span class="kw">while</span> (x != SENTINELLA) {
             quantitat++;
@@ -480,18 +466,19 @@ FI MENTRE</div>
             <span class="kw">if</span> (x &gt; maxim) {
                 maxim = x;
             }
-            <span class="kw">if</span> (x &lt; minim) {
-                minim = x;
+            <span class="kw">if</span> (x % <span class="num">5</span> == <span class="num">0</span>) {
+                multiple5 = <span class="kw">true</span>;
             }
             <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
-            x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());          <span class="cmt">// següent valor</span>
+            x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>()); <span class="cmt">// següent valor</span>
         }
 
         <span class="kw">if</span> (quantitat == <span class="num">0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No s'ha introduït cap número."</span>);
         } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quantitat: "</span> + quantitat + <span class="str">" · Suma: "</span> + suma
-                    + <span class="str">" · Màxim: "</span> + maxim + <span class="str">" · Mínim: "</span> + minim);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quantitat: "</span> + quantitat
+                    + <span class="str">" · Suma: "</span> + suma + <span class="str">" · Màxim: "</span> + maxim);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Algun múltiple de 5? "</span> + multiple5);
         }
         sc.<span class="fn">close</span>();
 
@@ -499,50 +486,12 @@ FI MENTRE</div>
 
 }</div>
   <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (-1 per acabar): 7
-Número (-1 per acabar): 12
-Número (-1 per acabar): 3
-Número (-1 per acabar): -1
-Quantitat: 3 · Suma: 22 · Màxim: 12 · Mínim: 3</pre></div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Cerca en una seqüència: hi ha algun múltiple de 5?</span></div>
-  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaCerca</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
-        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
-        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
-        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
-
-        <span class="cmt">// Ens aturem si arriba el sentinella O si ja l'hem trobat</span>
-        <span class="kw">while</span> (x != SENTINELLA &amp;&amp; !trobat) {
-            <span class="kw">if</span> (x % <span class="num">5</span> == <span class="num">0</span>) {
-                trobat = <span class="kw">true</span>;
-            } <span class="kw">else</span> {
-                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
-                x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
-            }
-        }
-
-        <span class="kw">if</span> (trobat) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sí: el "</span> + x + <span class="str">" és múltiple de 5."</span>);
-        } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha cap múltiple de 5."</span>);
-        }
-        sc.<span class="fn">close</span>();
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (-1 per acabar): 8
-Número (-1 per acabar): 13
 Número (-1 per acabar): 25
-Sí: el 25 és múltiple de 5.</pre></div>
+Número (-1 per acabar): 12
+Número (-1 per acabar): -1
+Quantitat: 3 · Suma: 44 · Màxim: 25
+Algun múltiple de 5? true</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa segueix l'esquema de la <strong>lectura avançada</strong>: llegeix el primer número abans del bucle i el següent al final de cada volta. Així, quan arriba el <code>-1</code>, la condició del <code>while</code> és falsa i el sentinella no es tracta mai com una dada.</p><p>Dins del bucle es comptabilitza cada número (<code>quantitat</code>), s'acumula (<code>suma</code>) i es compara amb el màxim, que comença a <code>Integer.MIN_VALUE</code> perquè el primer número ja el superi. La variable booleana <code>multiple5</code> comença a <code>false</code> i passa a <code>true</code> quan apareix un múltiple de 5; un cop és <code>true</code>, ja no torna a canviar.</p><p>Com que calen la suma i el màxim, s'han de llegir tots els números. Si només volguéssim saber si hi ha algun múltiple de 5, seria una <strong>cerca</strong>: afegiríem <code>&amp;&amp; !multiple5</code> a la condició per parar tan aviat com el trobem. Si el primer valor ja és el <code>-1</code>, el bucle no fa cap volta i el programa avisa que no s'ha introduït cap número.</p></div>
 </div>
 <div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = Integer.parseInt(sc.nextLine());</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Mitjana de notes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>

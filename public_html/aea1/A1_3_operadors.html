@@ -237,7 +237,7 @@
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Operadors aritmètics</h2><p class="sec-sub">Fer càlculs amb números</p></div></div>
   <p class="lead">Un <strong>operador</strong> és un símbol que fa una operació sobre un o més valors (<em>operands</em>). Una <strong>expressió</strong> és una combinació d'operands i operadors que produeix un resultat. Aquestes són les famílies d'operadors que veurem en aquesta subpàgina:</p><div class="table-wrap"><table><thead><tr><th>Categoria</th><th>Operadors</th><th>Exemple</th><th>Resultat</th></tr></thead><tbody><tr><td><strong>Aritmètics</strong></td><td><code>+ - * / %</code></td><td><code>7 % 3</code></td><td><code>1</code></td></tr><tr><td><strong>Assignació</strong></td><td><code>= += -= *= /= %=</code></td><td><code>a += 5</code></td><td>a = a + 5</td></tr><tr><td><strong>Increment / decrement</strong></td><td><code>++ --</code></td><td><code>a++</code></td><td>a = a + 1</td></tr><tr><td><strong>Relacionals</strong></td><td><code>== != &gt; &lt; &gt;= &lt;=</code></td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr><tr><td><strong>Lògics</strong></td><td><code>&amp;&amp; || !</code></td><td><code>true &amp;&amp; false</code></td><td><code>false</code></td></tr><tr><td><strong>Concatenació</strong></td><td><code>+</code> amb <code>String</code></td><td><code>"Nota: " + 8</code></td><td><code>"Nota: 8"</code></td></tr></tbody></table></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Operadors aritmètics bàsics</span></div>
+  <div class="exemple-header"><span>Operadors aritmètics i divisió entera</span></div>
   <div class="code-block" data-run="r1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsAritmetics</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -250,7 +250,19 @@
         <span class="cls">System</span>.out.<span class="fn">println</span>(a * b);     <span class="cmt">// 30  multiplicació</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(a / b);     <span class="cmt">// 3   divisió ENTERA</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(a % b);     <span class="cmt">// 1   residu de 10 / 3</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">10.0</span> / b);  <span class="cmt">// 3.3333333333333335  divisió decimal</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="num">10.0</span> / b);  <span class="cmt">// 3.3333333333333335</span>
+
+        <span class="cmt">// Divisió entera i residu en parella: minuts a hores</span>
+        <span class="kw">int</span> minutsTotals = <span class="num">137</span>;
+        <span class="kw">int</span> hores = minutsTotals / <span class="num">60</span>;   <span class="cmt">// 2</span>
+        <span class="kw">int</span> minuts = minutsTotals % <span class="num">60</span>;  <span class="cmt">// 17</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(minutsTotals + <span class="str">" minuts = "</span>
+                + hores + <span class="str">" h "</span> + minuts + <span class="str">" min"</span>);
+
+        <span class="cmt">// El residu també diu si un número és parell</span>
+        <span class="kw">int</span> numero = <span class="num">14</span>;
+        <span class="kw">boolean</span> esParell = numero % <span class="num">2</span> == <span class="num">0</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és parell: "</span> + esParell);
 
     }
 
@@ -260,34 +272,10 @@
 30
 3
 1
-3.3333333333333335</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Suma, resta i multiplicació funcionen com a matemàtiques. La divisió <code>a / b</code> dona <code>3</code> perquè <strong>els dos operands són enters</strong>: Java fa una divisió entera i descarta els decimals. L'operador <code>%</code> dona el <strong>residu</strong> d'aquesta divisió: 10 = 3 · 3 + <strong>1</strong>.</p><p>A la darrera línia, <code>10.0</code> és decimal, així que la divisió també ho és. L'últim dígit (<code>…35</code>) surt perquè els decimals es guarden en binari i no sempre són exactes.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Divisió entera i residu: minuts a hores</span></div>
-  <div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConvertirMinuts</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> minutsTotals = <span class="num">137</span>;
-
-        <span class="kw">int</span> hores = minutsTotals / <span class="num">60</span>;   <span class="cmt">// 2</span>
-        <span class="kw">int</span> minuts = minutsTotals % <span class="num">60</span>;  <span class="cmt">// 17</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(minutsTotals + <span class="str">" minuts = "</span> + hores + <span class="str">" h "</span> + minuts + <span class="str">" min"</span>);
-
-        <span class="cmt">// El residu també serveix per saber si un número és parell</span>
-        <span class="kw">int</span> numero = <span class="num">14</span>;
-        <span class="kw">boolean</span> esParell = numero % <span class="num">2</span> == <span class="num">0</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és parell: "</span> + esParell);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r2">137 minuts = 2 h 17 min
+3.3333333333333335
+137 minuts = 2 h 17 min
 14 és parell: true</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La divisió entera i el residu treballen en parella: <code>137 / 60</code> diu quantes hores <strong>senceres</strong> hi caben (2) i <code>137 % 60</code> quants minuts <strong>sobren</strong> (17). És la mateixa idea que farem servir per descompondre segons o per donar canvi.</p><p>Un número és parell quan el residu de dividir-lo entre 2 és 0. <code>numero % 2 == 0</code> fa primer el residu i després la comparació, i el resultat (<code>true</code>) es guarda en un <code>boolean</code>.</p></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Suma, resta i multiplicació funcionen com a matemàtiques. La divisió <code>a / b</code> dona <code>3</code> perquè <strong>els dos operands són enters</strong>: Java fa una divisió entera i descarta els decimals. L'operador <code>%</code> dona el <strong>residu</strong> d'aquesta divisió: 10 = 3 · 3 + <strong>1</strong>. Amb <code>10.0</code>, que és decimal, la divisió també ho és; l'últim dígit (<code>…35</code>) surt perquè els decimals es guarden en binari i no sempre són exactes.</p><p>La divisió entera i el residu treballen en parella: <code>137 / 60</code> diu quantes hores <strong>senceres</strong> hi caben (2) i <code>137 % 60</code> quants minuts <strong>sobren</strong> (17). És la mateixa idea que farem servir per descompondre segons o per donar canvi.</p><p>Un número és parell quan el residu de dividir-lo entre 2 és 0. <code>numero % 2 == 0</code> fa primer el residu i després la comparació, i el resultat (<code>true</code>) es guarda en un <code>boolean</code>.</p></div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Divisió entera:</strong> si els dos operands són enters, <code>/</code> descarta els decimals: <code>10 / 3</code> dona <code>3</code>. Perquè doni <code>3.333…</code> cal que almenys un sigui decimal: <code>10.0 / 3</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>7 / 2</code> → <code>3.5</code> (sempre decimal)</td><td><code>7 / 2</code> → <code>3</code> (enters) · <code>7.0 / 2</code> → <code>3.5</code></td></tr><tr><td><code>MOD</code> o <code>%</code></td><td><code>%</code></td></tr><tr><td><code>2 ^ 3</code></td><td>No hi ha operador de potència: <code>Math.pow(2, 3)</code> (secció 6)</td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El cronòmetre</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
@@ -337,50 +325,37 @@ FinAlgoritmo</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Increment, decrement i assignació composta</h2><p class="sec-sub">Dreceres per modificar variables</p></div></div>
   <p class="lead">Modificar una variable a partir del seu propi valor és tan habitual que Java té operadors abreujats: <code>a++</code> suma 1, <code>a--</code> resta 1 i <code>a += 5</code> és el mateix que <code>a = a + 5</code>.</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Pre-increment i post-increment</span></div>
-  <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">OperadorsUnaris</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> a = <span class="num">5</span>;
-        <span class="kw">int</span> resultat;
-
-        resultat = ++a;   <span class="cmt">// primer incrementa (a = 6), després assigna</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + a);  <span class="cmt">// 6 6</span>
-
-        a = <span class="num">5</span>;
-        resultat = a++;   <span class="cmt">// primer assigna (5), després incrementa (a = 6)</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + a);  <span class="cmt">// 5 6</span>
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">6 6
-5 6</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Totes dues formes deixen <code>a</code> valent 6. La diferència és <strong>quin valor fa servir l'expressió</strong>: amb <code>++a</code> (davant) primer s'incrementa i després s'usa el valor nou; amb <code>a++</code> (darrere) primer s'usa el valor antic i després s'incrementa.</p><p>Quan <code>a++</code> va sol en una línia (<code>a++;</code>), no hi ha cap diferència. Només importa si el fem servir dins d'una altra expressió.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Assignació composta: puntuació d'un joc</span></div>
-  <div class="code-block" data-run="r4"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AssignacioComposta</span> {
+  <div class="exemple-header"><span>Operadors abreujats: puntuació i vides d'un joc</span></div>
+  <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AssignacioComposta</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> punts = <span class="num">100</span>;
+        <span class="kw">int</span> vides = <span class="num">3</span>;
 
+        <span class="cmt">// Assignació composta: operar i guardar en un sol pas</span>
         punts += <span class="num">50</span>;   <span class="cmt">// punts = punts + 50  → 150</span>
         punts -= <span class="num">30</span>;   <span class="cmt">// punts = punts - 30  → 120</span>
         punts *= <span class="num">2</span>;    <span class="cmt">// punts = punts * 2   → 240</span>
         punts /= <span class="num">4</span>;    <span class="cmt">// punts = punts / 4   → 60</span>
         punts %= <span class="num">7</span>;    <span class="cmt">// punts = punts % 7   → 4</span>
-
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts finals: "</span> + punts);
+
+        <span class="cmt">// Post-increment: primer assigna (3), després incrementa</span>
+        <span class="kw">int</span> resultat = vides++;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + vides);  <span class="cmt">// 3 4</span>
+
+        <span class="cmt">// Pre-increment: primer incrementa (5), després assigna</span>
+        resultat = ++vides;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(resultat + <span class="str">" "</span> + vides);  <span class="cmt">// 5 5</span>
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Punts finals: 4</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada operador compost agafa el valor actual de <code>punts</code>, hi fa l'operació i hi guarda el resultat. Les instruccions s'executen en ordre, de manera que cada línia parteix del valor que ha deixat l'anterior: 100 → 150 → 120 → 240 → 60 → 4.</p></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">Punts finals: 4
+3 4
+5 5</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada operador compost agafa el valor actual de <code>punts</code>, hi fa l'operació i hi guarda el resultat. Les instruccions s'executen en ordre, de manera que cada línia parteix del valor que ha deixat l'anterior: 100 → 150 → 120 → 240 → 60 → 4.</p><p>Amb <code>++</code> totes dues formes sumen 1 a <code>vides</code>; la diferència és <strong>quin valor fa servir l'expressió</strong>. Amb <code>vides++</code> (darrere) primer s'usa el valor antic (3) i després s'incrementa; amb <code>++vides</code> (davant) primer s'incrementa i després s'usa el valor nou (5).</p><p>Quan <code>vides++</code> va sol en una línia (<code>vides++;</code>), no hi ha cap diferència. Només importa si el fem servir dins d'una altra expressió.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Fes servir <code>++</code> i <code>--</code> en una línia pròpia (<code>comptador++;</code>). Posar-los dins d'expressions més llargues fa el codi difícil de llegir i és una font d'errors.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>a &lt;- a + 1</code></td><td><code>a++;</code> o <code>a += 1;</code></td></tr><tr><td><code>total &lt;- total + preu</code></td><td><code>total += preu;</code></td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La targeta de fidelitat</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
@@ -464,7 +439,7 @@ true</pre></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Operadors lògics</h2><p class="sec-sub">Combinar condicions</p></div></div>
   <p class="lead">Els operadors lògics combinen valors <code>boolean</code>. Permeten expressar condicions compostes com «té compte <em>i</em> la contrasenya és correcta».</p><div class="table-wrap"><table><thead><tr><th>Operador</th><th>Nom</th><th>Retorna <code>true</code> quan…</th></tr></thead><tbody><tr><td><code>&amp;&amp;</code></td><td>I (AND)</td><td>els <strong>dos</strong> operands són <code>true</code></td></tr><tr><td><code>||</code></td><td>O (OR)</td><td><strong>almenys un</strong> operand és <code>true</code></td></tr><tr><td><code>!</code></td><td>NO (NOT)</td><td>l'operand és <code>false</code> (l'inverteix)</td></tr></tbody></table></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Condicions d'accés a una plataforma</span></div>
+  <div class="exemple-header"><span>Condicions d'accés a una plataforma</span></div>
   <div class="code-block" data-run="r6"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AccesPlataforma</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -474,41 +449,27 @@ true</pre></div>
         <span class="kw">boolean</span> estaBloquejat = <span class="kw">false</span>;
         <span class="kw">int</span> intentsFallits = <span class="num">2</span>;
 
-        <span class="cmt">// Pot entrar si té compte, la contrasenya és correcta i no està bloquejat</span>
+        <span class="cmt">// Entra si té compte, contrasenya bona i no està bloquejat</span>
         <span class="kw">boolean</span> potEntrar = teCompte &amp;&amp; contrasenyaOk &amp;&amp; !estaBloquejat;
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot entrar: "</span> + potEntrar);  <span class="cmt">// false</span>
 
-        <span class="cmt">// Mostrem un avís si la contrasenya és incorrecta o ja porta 2 intents fallits</span>
+        <span class="cmt">// Avís si la contrasenya falla o porta 2 intents fallits</span>
         <span class="kw">boolean</span> mostrarAvis = !contrasenyaOk || intentsFallits &gt;= <span class="num">2</span>;
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mostrar avís: "</span> + mostrarAvis);  <span class="cmt">// true</span>
+
+        <span class="cmt">// Els anys de traspàs la plataforma regala un mes gratis</span>
+        <span class="kw">int</span> any = <span class="num">2024</span>;
+        <span class="kw">boolean</span> esTraspas = (any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>)
+                || any % <span class="num">400</span> == <span class="num">0</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(any + <span class="str">" és de traspàs: "</span> + esTraspas);
 
     }
 
 }</div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r6">Pot entrar: false
-Mostrar avís: true</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Amb <code>&amp;&amp;</code> cal que <strong>totes</strong> les condicions es compleixin: com que <code>contrasenyaOk</code> és <code>false</code>, <code>potEntrar</code> és <code>false</code>. <code>!estaBloquejat</code> inverteix el valor: «no està bloquejat» és <code>true</code>.</p><p>Amb <code>||</code> n'hi ha prou que se'n compleixi <strong>una</strong>: la contrasenya és incorrecta, per tant <code>mostrarAvis</code> ja és <code>true</code>.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Any de traspàs amb una expressió lògica</span></div>
-  <div class="code-block" data-run="r7"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnyTraspas</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cmt">// Un any és de traspàs si és divisible per 4 i no per 100,</span>
-        <span class="cmt">// o bé si és divisible per 400</span>
-        <span class="kw">int</span> any = <span class="num">1900</span>;
-
-        <span class="kw">boolean</span> esTraspas = (any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(any + <span class="str">" és de traspàs: "</span> + esTraspas);  <span class="cmt">// false</span>
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r7">1900 és de traspàs: false</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'expressió tradueix la regla del calendari. Per a 1900: és divisible per 4 (<code>true</code>) però també per 100, així que el parèntesi dona <code>false</code>; i no és divisible per 400 (<code>false</code>). <code>false || false</code> és <code>false</code>.</p><p>Els parèntesis agrupen la primera condició i fan l'expressió més fàcil de llegir. Prova-ho amb 2024 (<code>true</code>) i amb 2000 (<code>true</code>).</p></div>
+Mostrar avís: true
+2024 és de traspàs: true</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Amb <code>&amp;&amp;</code> cal que <strong>totes</strong> les condicions es compleixin: com que <code>contrasenyaOk</code> és <code>false</code>, <code>potEntrar</code> és <code>false</code>. <code>!estaBloquejat</code> inverteix el valor: «no està bloquejat» és <code>true</code>. Amb <code>||</code> n'hi ha prou que se'n compleixi <strong>una</strong>: la contrasenya és incorrecta, per tant <code>mostrarAvis</code> ja és <code>true</code>.</p><p>L'última expressió tradueix la regla del calendari: un any és de traspàs si és divisible per 4 i no per 100, o bé si és divisible per 400. Per a 2024, el parèntesi dona <code>true &amp;&amp; true</code>, i amb això ja n'hi ha prou: <code>true || false</code> és <code>true</code>.</p><p>Els parèntesis agrupen la primera condició i fan l'expressió més fàcil de llegir. Prova-ho amb 1900 (<code>false</code>) i amb 2000 (<code>true</code>).</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Y</code> (o <code>&amp;</code>)</td><td><code>&amp;&amp;</code></td></tr><tr><td><code>O</code> (o <code>|</code>)</td><td><code>||</code></td></tr><tr><td><code>NO</code> (o <code>~</code>)</td><td><code>!</code></td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">L'accés a un concert</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>

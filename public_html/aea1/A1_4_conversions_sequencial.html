@@ -267,14 +267,14 @@
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Conversió explícita (casting)</h2><p class="sec-sub">Quan som nosaltres qui forcem el canvi</p></div></div>
   <p class="lead">Per passar d'un tipus gran a un de més petit cal indicar-ho escrivint el tipus de destinació entre parèntesis: <code>(int) 9.99</code>. Amb això diem al compilador «ja sé que puc perdre informació».</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Casting: truncament i desbordament</span></div>
+  <div class="exemple-header"><span>Casting: truncament, desbordament i mitjanes</span></div>
   <div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Casting</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">double</span> preu = <span class="num">19.99</span>;
         <span class="kw">int</span> preuEnter = (<span class="kw">int</span>) preu;       <span class="cmt">// cal indicar (int)</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(preuEnter);    <span class="cmt">// 19 → trunca, NO arrodoneix</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(preuEnter);    <span class="cmt">// 19 → trunca</span>
 
         <span class="kw">long</span> arrodonit = <span class="cls">Math</span>.<span class="fn">round</span>(preu);
         <span class="cls">System</span>.out.<span class="fn">println</span>(arrodonit);    <span class="cmt">// 20 → arrodoneix</span>
@@ -283,9 +283,13 @@
         <span class="kw">byte</span> petit = (<span class="kw">byte</span>) gran;         <span class="cmt">// byte només arriba a 127</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(petit);        <span class="cmt">// -126 → desbordament!</span>
 
-        <span class="kw">int</span> codi = <span class="num">66</span>;
-        <span class="kw">char</span> lletra = (<span class="kw">char</span>) codi;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(lletra);       <span class="cmt">// B</span>
+        <span class="cmt">// Mitjana decimal a partir de dos enters</span>
+        <span class="kw">int</span> suma = <span class="num">17</span>;
+        <span class="kw">int</span> quantitat = <span class="num">2</span>;
+        <span class="kw">double</span> malament = suma / quantitat;     <span class="cmt">// 8.0</span>
+        <span class="kw">double</span> be = (<span class="kw">double</span>) suma / quantitat;  <span class="cmt">// 8.5</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Malament: "</span> + malament);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bé: "</span> + be);
 
     }
 
@@ -293,37 +297,9 @@
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r2">19
 20
 -126
-B</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p><code>(int) 19.99</code> no arrodoneix: <strong>talla</strong> els decimals i queda 19. Si volem arrodonir, fem servir <code>Math.round</code>, que dona 20.</p><p>Un <code>byte</code> només arriba a 127. En forçar-hi 130, el valor «dona la volta» pel costat negatiu i surt −126: és un <strong>desbordament</strong>, i Java no avisa. L'últim cas fa el camí invers de l'apartat anterior: el codi 66 és la lletra <code>B</code>.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Obtenir una mitjana decimal a partir d'enters</span></div>
-  <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaEnters</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> suma = <span class="num">17</span>;
-        <span class="kw">int</span> quantitat = <span class="num">2</span>;
-
-        <span class="kw">double</span> malament = suma / quantitat;          <span class="cmt">// 8.0 → la divisió ja és entera!</span>
-        <span class="kw">double</span> be = (<span class="kw">double</span>) suma / quantitat;       <span class="cmt">// 8.5 → convertim abans de dividir</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Malament: "</span> + malament);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Bé: "</span> + be);
-
-        <span class="cmt">// Arrodonir a 2 decimals: multipliquem, arrodonim i tornem a dividir</span>
-        <span class="kw">double</span> preu = <span class="num">10.0</span> / <span class="num">3</span>;                      <span class="cmt">// 3.3333333333333335</span>
-        <span class="kw">double</span> preu2 = <span class="cls">Math</span>.<span class="fn">round</span>(preu * <span class="num">100</span>) / <span class="num">100.0</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu: "</span> + preu2);        <span class="cmt">// 3.33</span>
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">Malament: 8.0
-Bé: 8.5
-Preu: 3.33</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>A <code>malament</code>, <code>17 / 2</code> es fa entre enters i dona 8; després es guarda en un <code>double</code> i passa a ser <code>8.0</code>, però els decimals ja s'han perdut. A <code>be</code>, el casting converteix <code>suma</code> a <code>double</code> <strong>abans</strong> de dividir, i la divisió ja és decimal.</p><p>Per arrodonir a 2 decimals: <code>3.333… * 100</code> = 333.33…, <code>Math.round</code> el deixa en 333 i, en dividir per <code>100.0</code> (decimal!), queda 3.33.</p></div>
+Malament: 8.0
+Bé: 8.5</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p><code>(int) 19.99</code> no arrodoneix: <strong>talla</strong> els decimals i queda 19. Si volem arrodonir, fem servir <code>Math.round</code>, que dona 20.</p><p>Un <code>byte</code> només arriba a 127. En forçar-hi 130, el valor «dona la volta» pel costat negatiu i surt −126: és un <strong>desbordament</strong>, i Java no avisa.</p><p>A <code>malament</code>, <code>17 / 2</code> es fa entre enters i dona 8; després es guarda en un <code>double</code> i passa a ser <code>8.0</code>, però els decimals ja s'han perdut. A <code>be</code>, el casting converteix <code>suma</code> a <code>double</code> <strong>abans</strong> de dividir, i la divisió ja és decimal.</p></div>
 </div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>El casting trunca:</strong> <code>(int) 9.99</code> dona <code>9</code>. Per arrodonir usa <code>Math.round()</code>. I compte amb l'ordre: <code>(double) (17 / 2)</code> dona <code>8.0</code> perquè la divisió entera es fa abans del casting.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>Els decimals no sempre són exactes.</strong> Els tipus <code>double</code> i <code>float</code> guarden els números en binari i alguns valors no es poden representar exactament: <code>0.1 + 0.2</code> dona <code>0.30000000000000004</code>. Per això arrodonim els imports amb <code>Math.round(x * 100) / 100.0</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>TRUNC(x)</code></td><td><code>(int) x</code></td></tr><tr><td><code>REDON(x)</code></td><td><code>Math.round(x)</code></td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La mitjana de tres notes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
@@ -375,7 +351,7 @@ FinAlgoritmo</div>
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <em>casting</em> es fa abans de dividir: <code>(double) (suma / 3)</code> continuaria donant <code>7.0</code>, perquè la divisió entera ja s'ha fet.</li><li>Arrodoneix a 2 decimals amb <code>Math.round(x * 100) / 100.0</code> (el <code>.0</code> és imprescindible).</li><li><code>Math.round</code> retorna un <code>long</code>: per això <code>notaFinal</code> és <code>long</code> (o cal fer <code>(int)</code>).</li><li>Hi ha un comentari que explica l'error de la primera mitjana.</li></ul></div><ul class="exercici-tasques"><li>Primer tradueix <code>suma / 3</code> tal qual, guarda-ho en un <code>double</code> i mostra-ho com a <em>Mitjana (malament)</em>.</li><li>Després calcula-la bé amb un <em>casting</em> a <code>double</code>. Compte amb on poses el <code>(double)</code>!</li><li>Arrodoneix la mitjana a 2 decimals i la nota final a l'enter més proper amb <code>Math.round</code>.</li><li>Explica amb un comentari per què la primera mitjana és incorrecta.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Torna a mirar l'exemple <em>Obtenir una mitjana decimal a partir d'enters</em> d'aquí dalt.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Mitjana (malament): 7.0
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <em>casting</em> es fa abans de dividir: <code>(double) (suma / 3)</code> continuaria donant <code>7.0</code>, perquè la divisió entera ja s'ha fet.</li><li>Arrodoneix a 2 decimals amb <code>Math.round(x * 100) / 100.0</code> (el <code>.0</code> és imprescindible).</li><li><code>Math.round</code> retorna un <code>long</code>: per això <code>notaFinal</code> és <code>long</code> (o cal fer <code>(int)</code>).</li><li>Hi ha un comentari que explica l'error de la primera mitjana.</li></ul></div><ul class="exercici-tasques"><li>Primer tradueix <code>suma / 3</code> tal qual, guarda-ho en un <code>double</code> i mostra-ho com a <em>Mitjana (malament)</em>.</li><li>Després calcula-la bé amb un <em>casting</em> a <code>double</code>. Compte amb on poses el <code>(double)</code>!</li><li>Arrodoneix la mitjana a 2 decimals i la nota final a l'enter més proper amb <code>Math.round</code>.</li><li>Explica amb un comentari per què la primera mitjana és incorrecta.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Torna a mirar la part de la mitjana de l'exemple <em>Casting: truncament, desbordament i mitjanes</em> d'aquí dalt.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Mitjana (malament): 7.0
 Mitjana (bé): 7.67
 Nota final: 8</pre></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.7 · 1.8</span></div>
@@ -482,52 +458,39 @@ Codi de grup: 18A</pre></div></div>
   DADES:    preu = 25, IVA = 0.21        ← entrada
   CÀLCUL:   total ← preu × (1 + IVA)     ← procés
   ESCRIURE  "Total: ", total            ← sortida
-FI ALGORISME</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>L'algorisme PreuAmbIva en Java</span></div>
+FI ALGORISME</div><h3 class="sub-title">L'ordre de les instruccions importa</h3><p class="text">En un algorisme seqüencial, cada instrucció fa servir els valors que han deixat les anteriors. Si canviem l'ordre, el resultat canvia. L'exemple clàssic és <strong>intercanviar</strong> el valor de dues variables: cal una variable auxiliar.</p><div class="exemple">
+  <div class="exemple-header"><span>PreuAmbIva amb un intercanvi de preus</span></div>
   <div class="code-block" data-run="r5"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">PreuAmbIva</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Dades d'entrada</span>
+        <span class="cmt">// Dades d'entrada: les etiquetes s'han intercanviat!</span>
         <span class="kw">final</span> <span class="kw">double</span> IVA = <span class="num">0.21</span>;
-        <span class="kw">double</span> preu = <span class="num">25</span>;
+        <span class="kw">double</span> samarreta = <span class="num">9</span>;   <span class="cmt">// hauria de valer 25</span>
+        <span class="kw">double</span> gorra = <span class="num">25</span>;      <span class="cmt">// hauria de valer 9</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Abans:   samarreta = "</span> + samarreta
+                + <span class="str">", gorra = "</span> + gorra);
 
-        <span class="cmt">// Procés</span>
-        <span class="kw">double</span> total = preu * (<span class="num">1</span> + IVA);
+        <span class="cmt">// Procés 1: intercanviem els preus amb una variable auxiliar</span>
+        <span class="kw">double</span> aux = samarreta;   <span class="cmt">// guardem el preu de la samarreta</span>
+        samarreta = gorra;        <span class="cmt">// la samarreta rep el de la gorra</span>
+        gorra = aux;              <span class="cmt">// la gorra rep l'original</span>
+
+        <span class="cmt">// Procés 2: ara sí, calculem amb el preu correcte</span>
+        <span class="kw">double</span> total = samarreta * (<span class="num">1</span> + IVA);
 
         <span class="cmt">// Sortida</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Després: samarreta = "</span> + samarreta
+                + <span class="str">", gorra = "</span> + gorra);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Samarreta amb IVA: "</span> + total);
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">Total: 30.25</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada línia del pseudocodi es converteix en una o dues instruccions Java, en el mateix ordre. El programa no pren cap decisió ni repeteix res: s'executa de dalt a baix una sola vegada.</p></div>
-</div><h3 class="sub-title">L'ordre de les instruccions importa</h3><p class="text">En un algorisme seqüencial, cada instrucció fa servir els valors que han deixat les anteriors. Si canviem l'ordre, el resultat canvia. L'exemple clàssic és <strong>intercanviar</strong> el valor de dues variables: cal una variable auxiliar.</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Intercanviar dues variables</span></div>
-  <div class="code-block" data-run="r6"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Intercanvi</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> a = <span class="num">5</span>;
-        <span class="kw">int</span> b = <span class="num">9</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Abans:   a = "</span> + a + <span class="str">", b = "</span> + b);
-
-        <span class="cmt">// Malament: a = b; b = a;  → les dues acabarien valent 9</span>
-        <span class="kw">int</span> aux = a;   <span class="cmt">// 1. guardem el valor d'a</span>
-        a = b;         <span class="cmt">// 2. a rep el valor de b</span>
-        b = aux;       <span class="cmt">// 3. b rep el valor original d'a</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Després: a = "</span> + a + <span class="str">", b = "</span> + b);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r6">Abans:   a = 5, b = 9
-Després: a = 9, b = 5</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Si fem directament <code>a = b;</code>, el 5 que hi havia a <code>a</code> es perd per sempre, i <code>b = a;</code> hi tornaria a posar un 9. Per això primer el guardem a <code>aux</code>. És com intercanviar el contingut de dos gots: cal un tercer got.</p></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">Abans:   samarreta = 9.0, gorra = 25.0
+Després: samarreta = 25.0, gorra = 9.0
+Samarreta amb IVA: 30.25</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa segueix les tres parts del pseudocodi en el mateix ordre: <strong>dades d'entrada</strong> (l'IVA i els preus), <strong>procés</strong> (corregir els preus i calcular el total) i <strong>sortida</strong>. No pren cap decisió ni repeteix res: s'executa de dalt a baix una sola vegada.</p><p>Per intercanviar els preus cal una variable auxiliar. Si fem directament <code>samarreta = gorra;</code>, el 9 que hi havia es perd per sempre, i <code>gorra = samarreta;</code> hi tornaria a posar un 25. Per això primer el guardem a <code>aux</code>: és com intercanviar el contingut de dos gots, cal un tercer got.</p><p>L'ordre també importa entre els dos processos: si calculéssim <code>total</code> abans de l'intercanvi, faríem servir el preu equivocat (9) i el resultat seria incorrecte.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Abans de programar, escriu en paper les tres parts (dades, procés i sortida) i <strong>en quin ordre</strong> s'han de calcular els valors: un valor només es pot fer servir després d'haver-lo calculat.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Algoritmo</code> amb instruccions una rere l'altra</td><td><code>main</code> amb instruccions una rere l'altra: la mateixa estructura</td></tr><tr><td><code>aux &lt;- a</code> · <code>a &lt;- b</code> · <code>b &lt;- aux</code></td><td><code>int aux = a;</code> · <code>a = b;</code> · <code>b = aux;</code></td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El tiquet amb IVA</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>

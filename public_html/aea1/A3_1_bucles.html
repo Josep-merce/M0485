@@ -308,54 +308,40 @@ FinAlgoritmo</div>
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">El bucle while</h2><p class="sec-sub">Quan no sabem quantes voltes farà</p></div></div>
   <p class="lead"><code>while (condició) { cos }</code>: mentre la condició sigui <code>true</code>, s'executa el cos. Si d'entrada és <code>false</code>, el cos no s'executa cap vegada.</p>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Compte enrere</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CompteEnrere</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> comptador = <span class="num">5</span>;                <span class="cmt">// 1. inicialització</span>
-
-        <span class="kw">while</span> (comptador &gt; <span class="num">0</span>) {           <span class="cmt">// 2. condició</span>
-            <span class="cls">System</span>.out.<span class="fn">println</span>(comptador); <span class="cmt">// 3. cos</span>
-            comptador--;                   <span class="cmt">// 4. actualització</span>
-        }
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Enlairament!"</span>);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>5
-4
-3
-2
-1
-Enlairament!</pre></div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Quants anys calen per doblar uns estalvis?</span></div>
+  <div class="exemple-header"><span>Quants anys calen per doblar uns estalvis?</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DoblarEstalvis</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">final</span> <span class="kw">double</span> INTERES_ANUAL = <span class="num">0.05</span>;   <span class="cmt">// 5 % anual</span>
+        <span class="kw">final</span> <span class="kw">double</span> INTERES_ANUAL = <span class="num">0.10</span>;   <span class="cmt">// 10 % anual</span>
 
         <span class="kw">double</span> inicial = <span class="num">1000.0</span>;
-        <span class="kw">double</span> saldo = inicial;
+        <span class="kw">double</span> saldo = inicial;              <span class="cmt">// 1. inicialització</span>
         <span class="kw">int</span> anys = <span class="num">0</span>;
 
         <span class="cmt">// No sabem quantes voltes farà: per això fem servir while</span>
-        <span class="kw">while</span> (saldo &lt; <span class="num">2</span> * inicial) {
-            saldo = saldo + saldo * INTERES_ANUAL;
+        <span class="kw">while</span> (saldo &lt; <span class="num">2</span> * inicial) {        <span class="cmt">// 2. condició</span>
+            saldo = saldo * (<span class="num">1</span> + INTERES_ANUAL);  <span class="cmt">// 3. actualització</span>
             anys++;
+            <span class="kw">double</span> euros = <span class="cls">Math</span>.<span class="fn">round</span>(saldo * <span class="num">100</span>) / <span class="num">100.0</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Any "</span> + anys + <span class="str">": "</span> + euros + <span class="str">" €"</span>);
         }
 
-        saldo = <span class="cls">Math</span>.<span class="fn">round</span>(saldo * <span class="num">100</span>) / <span class="num">100.0</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Calen "</span> + anys + <span class="str">" anys. Saldo final: "</span> + saldo + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Calen "</span> + anys + <span class="str">" anys per doblar-los."</span>);
 
     }
 
 }</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Any 1: 1100.0 €
+Any 2: 1210.0 €
+Any 3: 1331.0 €
+Any 4: 1464.1 €
+Any 5: 1610.51 €
+Any 6: 1771.56 €
+Any 7: 1948.72 €
+Any 8: 2143.59 €
+Calen 8 anys per doblar-los.</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els comentaris numerats marquen les parts de control de tot bucle <code>while</code>: la <strong>inicialització</strong> (<code>saldo</code> comença valent 1000), la <strong>condició</strong> que es comprova abans de cada volta i l'<strong>actualització</strong> dins del cos, que fa créixer el saldo un 10 %. Sense l'actualització, la condició no canviaria mai i el bucle seria infinit.</p><p>No sabem d'entrada quantes voltes farà: depèn de quan el saldo arribi al doble. Per això és un <code>while</code> i no un <code>for</code>. A cada volta <code>anys++</code> compta un any més i es mostra el saldo arrodonit a dos decimals.</p><p>Si la condició fos <code>false</code> des del principi (per exemple, amb un saldo inicial que ja fos el doble), el cos no s'executaria cap vegada i el programa diria que calen 0 anys.</p></div>
 </div><div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Sumar fins a passar de 100</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
@@ -405,65 +391,48 @@ Suma: 105</pre></div></div>
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">El bucle do-while</h2><p class="sec-sub">Primer fa, després pregunta</p></div></div>
   <p class="lead"><code>do { cos } while (condició);</code>: primer executa el cos i després comprova la condició. Per tant, el cos s'executa <strong>com a mínim una vegada</strong>. Fixa't en el punt i coma final.</p>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Comptar les xifres d'un número</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ComptarXifres</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> numero = <span class="num">0</span>;
-        <span class="kw">int</span> xifres = <span class="num">0</span>;
-        <span class="kw">int</span> n = numero;
-
-        <span class="cmt">// do-while: el 0 també té 1 xifra, i amb un while no entraríem mai</span>
-        <span class="kw">do</span> {
-            xifres++;
-            n = n / <span class="num">10</span>;      <span class="cmt">// traiem l'última xifra</span>
-        } <span class="kw">while</span> (n != <span class="num">0</span>);
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El número "</span> + numero + <span class="str">" té "</span> + xifres + <span class="str">" xifra/es"</span>);
-
-    }
-
-}</div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Menú que es repeteix fins que l'usuari surt</span></div>
+  <div class="exemple-header"><span>Comptar xifres fins que l'usuari vulgui parar</span></div>
   <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">MenuBasic</span> {
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ComptarXifres</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
-        <span class="cls">String</span> opcio;
+        <span class="cls">String</span> resposta;
 
+        <span class="cmt">// Bucle extern: es repeteix fins que l'usuari no diu "s"</span>
         <span class="kw">do</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"1) Saludar  2) Acomiadar  0) Sortir"</span>);
-            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Opció: "</span>);
-            opcio = sc.<span class="fn">nextLine</span>();
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número: "</span>);
+            <span class="kw">int</span> numero = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            <span class="kw">int</span> n = numero;
+            <span class="kw">int</span> xifres = <span class="num">0</span>;
 
-            <span class="kw">switch</span> (opcio) {
-                <span class="kw">case</span> <span class="str">"1"</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola!"</span>);
-                <span class="kw">case</span> <span class="str">"2"</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Adéu!"</span>);
-                <span class="kw">case</span> <span class="str">"0"</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fins aviat."</span>);
-                <span class="kw">default</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Opció no vàlida."</span>);
-            }
-        } <span class="kw">while</span> (!opcio.<span class="fn">equals</span>(<span class="str">"0"</span>));
+            <span class="cmt">// Bucle intern: el 0 també té 1 xifra</span>
+            <span class="kw">do</span> {
+                xifres++;
+                n = n / <span class="num">10</span>;          <span class="cmt">// traiem l'última xifra</span>
+            } <span class="kw">while</span> (n != <span class="num">0</span>);
 
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té "</span> + xifres + <span class="str">" xifra/es"</span>);
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Un altre? (s/n): "</span>);
+            resposta = sc.<span class="fn">nextLine</span>();
+        } <span class="kw">while</span> (resposta.<span class="fn">equals</span>(<span class="str">"s"</span>));
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fins aviat."</span>);
         sc.<span class="fn">close</span>();
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>1) Saludar  2) Acomiadar  0) Sortir
-Opció: 1
-Hola!
-1) Saludar  2) Acomiadar  0) Sortir
-Opció: 7
-Opció no vàlida.
-1) Saludar  2) Acomiadar  0) Sortir
-Opció: 0
+  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número: 2024
+Té 4 xifra/es
+Un altre? (s/n): s
+Número: 0
+Té 1 xifra/es
+Un altre? (s/n): n
 Fins aviat.</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El <code>do-while</code> extern fa la típica estructura de menú: primer demana un número i el tracta, i <strong>després</strong> pregunta si se'n vol un altre. Com que la pregunta es fa al final, el programa sempre s'executa com a mínim una vegada.</p><p>El <code>do-while</code> intern compta les xifres: a cada volta en suma una i treu l'última amb <code>n / 10</code>, fins que <code>n</code> val 0. Amb un <code>while</code> normal, el número 0 no entraria mai al bucle i diria que té 0 xifres; amb el <code>do-while</code> en surt 1, que és correcte.</p><p>La condició <code>resposta.equals("s")</code> compara textos: amb <code>String</code> no es fa servir <code>==</code>. Qualsevol resposta diferent de <code>s</code> fa sortir del bucle.</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Repetir</code> … <code>Hasta Que condició</code></td><td><code>do {</code> … <code>} while (!condició);</code></td></tr><tr><td><code>Hasta Que n = 0</code> (repeteix <em>fins que</em> és cert)</td><td><code>while (n != 0);</code> (repeteix <em>mentre</em> és cert)</td></tr><tr><td><code>trunc(n / 2)</code></td><td><code>n / 2</code> (entre enters, la divisió ja és entera)</td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Dividir per 2 fins arribar a 0</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
@@ -512,44 +481,40 @@ FinAlgoritmo</div>
   <p class="lead">El <code>for</code> reuneix en una sola línia les tres parts de control del bucle. És la millor opció quan sabem <strong>quantes iteracions</strong> farem.</p>
 <div class="box box-fixat"><span class="box-label">📌 Sintaxi</span><code>for (inicialització; condició; actualització) { cos }</code><br>La inicialització s'executa un sol cop. La condició es comprova abans de cada volta. L'actualització s'executa al final de cada volta.</div>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Taula de multiplicar</span></div>
+  <div class="exemple-header"><span>Taula de multiplicar, endavant i cap enrere</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">TaulaMultiplicar</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> taula = <span class="num">7</span>;
 
+        <span class="cmt">// D'1 a 10, d'1 en 1</span>
         <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">10</span>; i++) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(taula + <span class="str">" x "</span> + i + <span class="str">" = "</span> + taula * i);
         }
 
-    }
-
-}</div>
-</div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Diferents maneres de comptar</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ComptarAmbFor</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cmt">// De 2 en 2</span>
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt;= <span class="num">10</span>; i += <span class="num">2</span>) {
-            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>);
-        }
-        <span class="cls">System</span>.out.<span class="fn">println</span>();
-
-        <span class="cmt">// Cap enrere</span>
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">10</span>; i &gt;= <span class="num">1</span>; i--) {
-            <span class="cls">System</span>.out.<span class="fn">print</span>(i + <span class="str">" "</span>);
+        <span class="cmt">// De 10 a 2, cap enrere i de 2 en 2</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Cap enrere:"</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">10</span>; i &gt;= <span class="num">2</span>; i -= <span class="num">2</span>) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span> + taula * i);
         }
         <span class="cls">System</span>.out.<span class="fn">println</span>();
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>0 2 4 6 8 10
-10 9 8 7 6 5 4 3 2 1</pre></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>7 x 1 = 7
+7 x 2 = 14
+7 x 3 = 21
+7 x 4 = 28
+7 x 5 = 35
+7 x 6 = 42
+7 x 7 = 49
+7 x 8 = 56
+7 x 9 = 63
+7 x 10 = 70
+Cap enrere: 70 56 42 28 14</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El primer <code>for</code> és el cas més habitual: <code>i</code> va d'1 a 10 sumant 1 a cada volta (<code>i++</code>), i a cada volta es mostra una línia de la taula. Sabem que farà exactament 10 voltes.</p><p>El segon <code>for</code> canvia les tres parts: comença a 10, continua mentre <code>i &gt;= 2</code> i resta 2 a cada volta (<code>i -= 2</code>). Així recorre 10, 8, 6, 4 i 2, i mostra els productes en una sola línia amb <code>print</code>. El <code>println()</code> final només fa el salt de línia.</p><p>Totes dues <code>i</code> es poden dir igual perquè cadascuna només existeix dins del seu <code>for</code>.</p></div>
 </div>
 <div class="box box-costum"><span class="box-label">💡 Àmbit de la variable del <code>for</code></span>La <code>i</code> declarada dins del <code>for</code> només existeix dins del bucle. Si la fas servir després, el compilador donarà l'error <em>cannot find symbol</em>. Per això podem tornar a declarar <code>int i</code> al segon bucle.</div>
 <div class="table-wrap">
