@@ -151,6 +151,15 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { display:grid; grid-template-columns:auto minmax(0,1fr); gap:.75rem; align-items:stretch; margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0; font-size:.76rem; line-height:1.75; padding:.9rem; align-self:start; }
+    .ex-grid .solucio-wrap { padding:.75rem; border:1px dashed var(--border); border-radius:var(--radius); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
+    .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
+    .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
+    @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -257,7 +266,7 @@ Suspès</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El bitllet de tren</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Aquest algorisme té dos <code>Si … SiNo</code> que només assignen un valor. A Java, escriu cadascun amb un <strong>operador ternari</strong> en una sola línia. Classe <code>Bitllet</code>.</p><div class="pseudo">Algoritmo Bitllet
+    <p>Aquest algorisme té dos <code>Si … SiNo</code> que només assignen un valor. A Java, escriu cadascun amb un <strong>operador ternari</strong> en una sola línia. Classe <code>Bitllet</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Bitllet
     Definir edat Como Entero
     Definir preu Como Real
     Definir tipus Como Cadena
@@ -277,9 +286,8 @@ Suspès</pre></div>
     FinSi
 
     Escribir "Bitllet ", tipus, ": ", preu, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada bloc <code>Si … FinSi</code> es converteix en una línia: <code>variable = condició ? valor1 : valor2;</code></li><li>Guarda la condició en un <code>boolean esInfantil</code> per no escriure-la dues vegades.</li><li>Prova-ho amb 13 i amb 14 anys.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Bitllet Infantil: 2.5 €</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -299,8 +307,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada bloc <code>Si … FinSi<
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha dos ternaris, un per a cada variable.</li><li>La condició s'escriu un sol cop.</li><li>S'ha provat el valor frontera (14).</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha dos ternaris, un per a cada variable.</li><li>La condició s'escriu un sol cop.</li><li>S'ha provat el valor frontera (14).</li></ul></div><ul class="exercici-tasques"><li>Cada bloc <code>Si … FinSi</code> es converteix en una línia: <code>variable = condició ? valor1 : valor2;</code></li><li>Guarda la condició en un <code>boolean esInfantil</code> per no escriure-la dues vegades.</li><li>Prova-ho amb 13 i amb 14 anys.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Bitllet Infantil: 2.5 €</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="switch">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">La sentència switch</h2><p class="sec-sub">Una variable, molts valors</p></div></div>
@@ -314,12 +323,13 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada bloc <code>Si … FinSi<
     De Otro Modo:
         Escribir "Dia no vàlid"
 FinSegun</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Nom del dia de la setmana</span></div>
+  <div class="exemple-header"><span>Dia de la setmana i torn de treball</span></div>
   <div class="code-block" data-run="r11"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiaSetmana</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> dia = <span class="num">3</span>;
+        <span class="kw">char</span> torn = <span class="str">'T'</span>;   <span class="cmt">// 'M' = matí, 'T' = tarda</span>
 
         <span class="kw">switch</span> (dia) {
             <span class="kw">case</span> <span class="num">1</span>:
@@ -345,51 +355,33 @@ FinSegun</div><div class="exemple">
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dia no vàlid"</span>);
         }
 
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r11">Dimecres</pre></div>
-</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>No oblidis el <code>break</code>.</strong> Sense <code>break</code>, Java continua executant els <code>case</code> següents sense comprovar-los (<em>fall-through</em>). Només l'ometem a propòsit per agrupar casos, com el 6 i el 7 de l'exemple.</p></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Calculadora amb switch sobre un char</span></div>
-  <div class="code-block" data-run="r12"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Calculadora</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">double</span> a = <span class="num">10.0</span>;
-        <span class="kw">double</span> b = <span class="num">4.0</span>;
-        <span class="kw">char</span> operador = <span class="str">'/'</span>;
-
-        <span class="kw">switch</span> (operador) {
-            <span class="kw">case</span> <span class="str">'+'</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" + "</span> + b + <span class="str">" = "</span> + (a + b));
+        <span class="cmt">// switch sobre un char: els valors van entre cometes simples</span>
+        <span class="kw">switch</span> (torn) {
+            <span class="kw">case</span> <span class="str">'M'</span>:
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn de matí: de 9 a 14 h"</span>);
                 <span class="kw">break</span>;
-            <span class="kw">case</span> <span class="str">'-'</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" - "</span> + b + <span class="str">" = "</span> + (a - b));
-                <span class="kw">break</span>;
-            <span class="kw">case</span> <span class="str">'*'</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" * "</span> + b + <span class="str">" = "</span> + (a * b));
-                <span class="kw">break</span>;
-            <span class="kw">case</span> <span class="str">'/'</span>:
-                <span class="kw">if</span> (b != <span class="num">0</span>) {
-                    <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" / "</span> + b + <span class="str">" = "</span> + (a / b));
+            <span class="kw">case</span> <span class="str">'T'</span>:
+                <span class="kw">if</span> (dia == <span class="num">5</span>) {
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Divendres tarda: tancat"</span>);
                 } <span class="kw">else</span> {
-                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: divisió per zero"</span>);
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn de tarda: de 16 a 20 h"</span>);
                 }
                 <span class="kw">break</span>;
             <span class="kw">default</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Operador desconegut: "</span> + operador);
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn desconegut: "</span> + torn);
         }
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r12">10.0 / 4.0 = 2.5</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els valors <code>char</code> s'escriuen entre cometes simples (<code>'+'</code>). Dins d'un <code>case</code> hi pot haver qualsevol instrucció, també un <code>if</code>: aquí evitem la divisió per zero.</p></div>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Segun variable Hacer</code></td><td><code>switch (variable) {</code></td></tr><tr><td><code>1:</code></td><td><code>case 1:</code> … <code>break;</code></td></tr><tr><td><code>6, 7:</code></td><td><code>case 6:</code> <code>case 7:</code></td></tr><tr><td><code>De Otro Modo:</code></td><td><code>default:</code></td></tr><tr><td><code>FinSegun</code></td><td><code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r11">Dimecres
+Torn de tarda: de 16 a 20 h</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El primer <code>switch</code> compara <code>dia</code> amb cada <code>case</code>: amb 3 mostra "Dimecres" i el <code>break</code> en surt. Els casos 6 i 7 estan apilats sense <code>break</code> entre ells, de manera que tots dos executen el mateix codi.</p><p>El segon <code>switch</code> treballa amb un <code>char</code>, que s'escriu entre cometes simples (<code>'T'</code>). Dins d'un <code>case</code> hi pot haver qualsevol instrucció, també un <code>if</code>: aquí la tarda del divendres té un missatge propi. Si <code>torn</code> no és ni <code>'M'</code> ni <code>'T'</code>, s'executa el <code>default</code>.</p></div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>No oblidis el <code>break</code>.</strong> Sense <code>break</code>, Java continua executant els <code>case</code> següents sense comprovar-los (<em>fall-through</em>). Només l'ometem a propòsit per agrupar casos, com el 6 i el 7 de l'exemple.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Segun variable Hacer</code></td><td><code>switch (variable) {</code></td></tr><tr><td><code>1:</code></td><td><code>case 1:</code> … <code>break;</code></td></tr><tr><td><code>6, 7:</code></td><td><code>case 6:</code> <code>case 7:</code></td></tr><tr><td><code>De Otro Modo:</code></td><td><code>default:</code></td></tr><tr><td><code>FinSegun</code></td><td><code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">El menú del caixer</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un caixer automàtic mostra un missatge segons l'opció triada. Tradueix el <code>Segun</code> a un <code>switch</code> clàssic (amb <code>case</code> i <code>break</code>). Classe <code>MenuCaixer</code>.</p><div class="pseudo">Algoritmo MenuCaixer
+    <p>Un caixer automàtic mostra un missatge segons l'opció triada. Tradueix el <code>Segun</code> a un <code>switch</code> clàssic (amb <code>case</code> i <code>break</code>). Classe <code>MenuCaixer</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo MenuCaixer
     Definir opcio Como Entero
     Definir saldo Como Real
 
@@ -408,9 +400,8 @@ FinSegun</div><div class="exemple">
         De Otro Modo:
             Escribir "Opció no vàlida: ", opcio
     FinSegun
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada opció és un <code>case</code> acabat en <code>break;</code>.</li><li><code>De Otro Modo</code> → <code>default</code>.</li><li>Prova les opcions 1, 4 i 7.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Quants diners vols retirar?</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Esborra el <code>break</code> del <code>case 3</code> i executa-ho amb <code>opcio = 3</code>. Què es mostra? Escriu en un comentari què és el <em>fall-through</em>.</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -440,37 +431,15 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada opció és un <code>case
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un <code>break</code> a cada <code>case</code>.</li><li>El <code>default</code> recull les opcions inexistents.</li><li>S'han provat una opció vàlida i una de no vàlida.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un <code>break</code> a cada <code>case</code>.</li><li>El <code>default</code> recull les opcions inexistents.</li><li>S'han provat una opció vàlida i una de no vàlida.</li></ul></div><ul class="exercici-tasques"><li>Cada opció és un <code>case</code> acabat en <code>break;</code>.</li><li><code>De Otro Modo</code> → <code>default</code>.</li><li>Prova les opcions 1, 4 i 7.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Quants diners vols retirar?</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Esborra el <code>break</code> del <code>case 3</code> i executa-ho amb <code>opcio = 3</code>. Què es mostra? Escriu en un comentari què és el <em>fall-through</em>.</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="switchnou">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">switch amb fletxa (Java 14+)</h2><p class="sec-sub">Més curt i sense break</p></div></div>
   <p class="lead">Des de Java 14 hi ha una sintaxi més curta amb <code>-&gt;</code>. Té dos avantatges: <strong>no cal <code>break</code></strong> (no hi ha fall-through) i el <code>switch</code> pot <strong>retornar un valor</strong> que guardem en una variable. S'assembla més al <code>Segun</code> de PSeInt, que també permet <code>1, 2, 3:</code>.</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Estació de l'any amb switch com a expressió</span></div>
-  <div class="code-block" data-run="r13"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EstacioAny</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> mes = <span class="num">7</span>;
-
-        <span class="cls">String</span> estacio = <span class="kw">switch</span> (mes) {
-            <span class="kw">case</span> <span class="num">12</span>, <span class="num">1</span>, <span class="num">2</span> -&gt; <span class="str">"Hivern"</span>;
-            <span class="kw">case</span> <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span> -&gt; <span class="str">"Primavera"</span>;
-            <span class="kw">case</span> <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span> -&gt; <span class="str">"Estiu"</span>;
-            <span class="kw">case</span> <span class="num">9</span>, <span class="num">10</span>, <span class="num">11</span> -&gt; <span class="str">"Tardor"</span>;
-            <span class="kw">default</span> -&gt; <span class="str">"Mes no vàlid"</span>;
-        };
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mes "</span> + mes + <span class="str">": "</span> + estacio);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r13">Mes 7: Estiu</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El resultat del <code>switch</code> es guarda directament a <code>estacio</code>. Diversos valors al mateix <code>case</code> se separen amb comes. Fixa't en el <code>;</code> final, després de la clau: tota la línia és una assignació.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>switch amb String i blocs d'instruccions</span></div>
-  <div class="code-block" data-run="r14"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MenuCafeteria</span> {
+  <div class="exemple-header"><span>Preu d'un producte amb switch com a expressió</span></div>
+  <div class="code-block" data-run="r13"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MenuCafeteria</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
@@ -478,11 +447,11 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada opció és un <code>case
         <span class="kw">int</span> quantitat = <span class="num">2</span>;
 
         <span class="kw">double</span> preu = <span class="kw">switch</span> (producte) {
-            <span class="kw">case</span> <span class="str">"cafè"</span> -&gt; <span class="num">1.30</span>;
+            <span class="kw">case</span> <span class="str">"cafè"</span>, <span class="str">"tallat"</span> -&gt; <span class="num">1.30</span>;
             <span class="kw">case</span> <span class="str">"suc"</span> -&gt; <span class="num">2.10</span>;
             <span class="kw">case</span> <span class="str">"entrepà"</span> -&gt; {
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"(Entrepà del dia: truita)"</span>);
-                <span class="kw">yield</span> <span class="num">3.50</span>;   <span class="cmt">// yield retorna el valor quan el cas té un bloc { }</span>
+                <span class="kw">yield</span> <span class="num">3.50</span>;   <span class="cmt">// yield retorna el valor del bloc { }</span>
             }
             <span class="kw">default</span> -&gt; <span class="num">0.0</span>;
         };
@@ -490,20 +459,22 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada opció és un <code>case
         <span class="kw">if</span> (preu == <span class="num">0.0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte no disponible: "</span> + producte);
         } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" x "</span> + producte + <span class="str">" = "</span> + (quantitat * preu) + <span class="str">" €"</span>);
+            <span class="kw">double</span> total = quantitat * preu;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" x "</span> + producte
+                    + <span class="str">" = "</span> + total + <span class="str">" €"</span>);
         }
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r14">(Entrepà del dia: truita)
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r13">(Entrepà del dia: truita)
 2 x entrepà = 7.0 €</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Quan un cas necessita més d'una instrucció, s'escriu un bloc <code>{ }</code> i el valor es retorna amb <code>yield</code>.</p></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El resultat del <code>switch</code> es guarda directament a <code>preu</code>. Funciona també amb <code>String</code>, i diversos valors al mateix <code>case</code> se separen amb comes: <code>"cafè"</code> i <code>"tallat"</code> tenen el mateix preu. Fixa't en el <code>;</code> final, després de la clau: tota la instrucció és una assignació.</p><p>Quan un cas necessita més d'una instrucció, s'escriu un bloc <code>{ }</code> i el valor es retorna amb <code>yield</code>. El <code>default</code> dona 0.0 als productes que no són a la carta, i l'<code>if</code> posterior ho aprofita per avisar.</p></div>
 </div><div class="table-wrap"><table><thead><tr><th></th><th>switch clàssic (<code>:</code>)</th><th>switch amb fletxa (<code>-&gt;</code>)</th></tr></thead><tbody><tr><td>Cal <code>break</code></td><td>Sí</td><td>No</td></tr><tr><td>Diversos valors per cas</td><td>Apilant <code>case</code></td><td><code>case 6, 7 -&gt;</code></td></tr><tr><td>Pot retornar un valor</td><td>No</td><td>Sí (amb <code>yield</code> si és un bloc)</td></tr><tr><td>Versió de Java</td><td>Totes</td><td>14 o superior</td></tr></tbody></table></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>1, 2, 3:</code></td><td><code>case 1, 2, 3 -&gt;</code></td></tr><tr><td><code>Segun</code> que només assigna una variable</td><td><code>x = switch (v) { … };</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El trimestre del mes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Cada branca del <code>Segun</code> només assigna un valor a <code>trimestre</code>. A Java, escriu-ho amb un <strong>switch amb fletxa que retorna el valor</strong>. Classe <code>Trimestre</code>.</p><div class="pseudo">Algoritmo Trimestre
+    <p>Cada branca del <code>Segun</code> només assigna un valor a <code>trimestre</code>. A Java, escriu-ho amb un <strong>switch amb fletxa que retorna el valor</strong>. Classe <code>Trimestre</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Trimestre
     Definir mes, trimestre Como Entero
 
     mes &lt;- 8
@@ -526,9 +497,8 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada opció és un <code>case
     SiNo
         Escribir "El mes ", mes, " és del trimestre ", trimestre
     FinSi
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Declara i assigna alhora: <code>int trimestre = switch (mes) { … };</code></li><li>No cal cap <code>break</code>.</li><li>Prova els mesos 1, 12 i 13.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">No oblidis el <code>;</code> després de la clau de tancament del <code>switch</code>: és el final de la instrucció <code>int trimestre = …;</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">El mes 8 és del trimestre 3</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Es podria calcular el trimestre sense <code>switch</code> amb una sola expressió aritmètica: <code>(mes - 1) / 3 + 1</code>. Comprova que funciona per als 12 mesos. Què passa amb el mes 13?</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-  <div class="solucio-wrap">
+FinAlgoritmo</div>
+<div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -555,8 +525,9 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Declara i assigna alhora: <co
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El <code>switch</code> és una expressió que retorna el valor.</li><li>Els mesos s'agrupen amb comes en lloc de repetir 12 casos.</li><li>Hi ha <code>default</code> i es comprova el mes no vàlid.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>switch</code> és una expressió que retorna el valor.</li><li>Els mesos s'agrupen amb comes en lloc de repetir 12 casos.</li><li>Hi ha <code>default</code> i es comprova el mes no vàlid.</li></ul></div><ul class="exercici-tasques"><li>Declara i assigna alhora: <code>int trimestre = switch (mes) { … };</code></li><li>No cal cap <code>break</code>.</li><li>Prova els mesos 1, 12 i 13.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">No oblidis el <code>;</code> després de la clau de tancament del <code>switch</code>: és el final de la instrucció <code>int trimestre = …;</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">El mes 8 és del trimestre 3</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Es podria calcular el trimestre sense <code>switch</code> amb una sola expressió aritmètica: <code>(mes - 1) / 3 + 1</code>. Comprova que funciona per als 12 mesos. Què passa amb el mes 13?</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section><section class="section" id="demos">
   <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
@@ -574,11 +545,31 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Declara i assigna alhora: <co
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Baixa el PSeInt perquè «Algoritmo» quedi a l'alçada del main de la solució
+  function alinearPseudo(grid) {
+    const ps = grid.querySelector('.pseudo');
+    ps.style.marginTop = '';
+    const wrap = grid.querySelector('.solucio-wrap');
+    const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
+    if (!wrap.classList.contains('obert') || !dosCols) return;
+    const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
+    if (!main) return;
+    const r = document.createRange();
+    r.setStart(ps.firstChild, 0); r.setEnd(ps.firstChild, 1);
+    const dif = main.getBoundingClientRect().top - r.getBoundingClientRect().top;
+    if (dif > 0) ps.style.marginTop = dif + 'px';
+  }
+  window.addEventListener('resize', function () { document.querySelectorAll('.ex-grid').forEach(alinearPseudo); });
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
+    if (grid) alinearPseudo(grid);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
