@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2.2 — Alternatives niades i textos · A2 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A2 · La composició alternativa</p>
+  <h1>A2.2 — Alternatives niades i textos</h1>
+  <p>Decisions que depenen d'altres decisions, quan niar i quan combinar condicions, i com es comparen els textos amb <code>equals</code>.</p>
+  <div class="hero-pills"><span class="pill">RA3</span><span class="pill">CA 3.1 · 3.5</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A2_composicio_alternativa.html">A2</a><span>›</span>
+  A2.2
+</nav>
+<main>
+<a class="backlink" href="A2_composicio_alternativa.html">← A2 · La composició alternativa</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.1 i 3.5</div><div class="obj-text">Escriure programes amb alternatives niades, decidir quan convé niar i quan combinar condicions amb operadors lògics, i comparar correctament textos (<code>String</code>) amb <code>equals</code> i <code>equalsIgnoreCase</code>.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<section class="section" id="niades">
+  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Alternatives niades</h2><p class="sec-sub">Una decisió dins d'una altra</p></div></div>
+  <p class="lead">Una alternativa pot contenir-ne una altra a dins. Ho fem quan una decisió <strong>depèn d'una decisió anterior</strong>: per exemple, primer validem les dades i, només si són correctes, fem el càlcul.</p><div class="pseudo">Algoritmo ReservaHotel
+    Definir nits Como Entero
+    Definir vistesAlMar Como Logico
+    Definir preuNit, total Como Real
+    nits &lt;- 5
+    vistesAlMar &lt;- Verdadero
+
+    Si nits &lt;= 0 Entonces
+        Escribir "Error: el nombre de nits ha de ser positiu."
+    SiNo
+        Si vistesAlMar Entonces
+            preuNit &lt;- 190.50
+        SiNo
+            preuNit &lt;- 150.50
+        FinSi
+        total &lt;- nits * preuNit
+        Escribir "Total: ", total, " €"
+    FinSi
+FinAlgoritmo</div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Reserva d'hotel amb validació i tarifes</span></div>
+  <div class="code-block" data-run="r7"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ReservaHotel</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">double</span> TARIFA_SENSE_MAR = <span class="num">150.50</span>;
+        <span class="kw">final</span> <span class="kw">double</span> TARIFA_AMB_MAR = <span class="num">190.50</span>;
+
+        <span class="cls">String</span> client = <span class="str">"Anna Garcia"</span>;
+        <span class="kw">int</span> nits = <span class="num">5</span>;
+        <span class="kw">boolean</span> vistesAlMar = <span class="kw">true</span>;
+
+        <span class="kw">if</span> (nits &lt;= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: el nombre de nits ha de ser positiu."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="kw">double</span> preuNit;
+            <span class="kw">if</span> (vistesAlMar) {
+                preuNit = TARIFA_AMB_MAR;
+            } <span class="kw">else</span> {
+                preuNit = TARIFA_SENSE_MAR;
+            }
+
+            <span class="kw">double</span> total = nits * preuNit;
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Client: "</span> + client);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nits: "</span> + nits + <span class="str">" a "</span> + preuNit + <span class="str">" €/nit"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total + <span class="str">" €"</span>);
+
+        }
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r7">Client: Anna Garcia
+Nits: 5 a 190.5 €/nit
+Total: 952.5 €</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'<code>if</code> exterior <strong>valida</strong> les dades. L'<code>if</code> interior només s'arriba a avaluar quan les nits són correctes, i tria la tarifa. Fixa't que <code>vistesAlMar</code> ja és un <code>boolean</code>: no cal escriure <code>vistesAlMar == true</code>.</p></div>
+</div><h3 class="sub-title">Niar o combinar condicions?</h3><p class="text">Moltes vegades dues condicions niades es poden ajuntar amb <code>&amp;&amp;</code>. Quina triar depèn de si cada cas necessita una resposta diferent:</p><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Niar o combinar: dues solucions</span></div>
+  <div class="code-block" data-run="r8"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CarnetConduir</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> edat = <span class="num">19</span>;
+        <span class="kw">boolean</span> teCarnet = <span class="kw">true</span>;
+
+        <span class="cmt">// Opció 1: if niats</span>
+        <span class="kw">if</span> (edat &gt;= <span class="num">18</span>) {
+            <span class="kw">if</span> (teCarnet) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot conduir"</span>);
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ha de treure's el carnet"</span>);
+            }
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Encara és menor d'edat"</span>);
+        }
+
+        <span class="cmt">// Opció 2: condició combinada (només si no cal distingir el motiu)</span>
+        <span class="kw">if</span> (edat &gt;= <span class="num">18</span> &amp;&amp; teCarnet) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot conduir"</span>);
+        }
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r8">Pot conduir
+Pot conduir</pre></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Si cada cas necessita un <strong>missatge diferent</strong>, fes servir <code>if</code> niats. Si només t'interessa saber si es compleixen <strong>totes</strong> les condicions alhora, una condició amb <code>&amp;&amp;</code> és més curta i clara. Evita niar més de 2 o 3 nivells: el codi es fa difícil de llegir.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Si a Entonces</code> + <code>Si b Entonces</code> (niats)</td><td><code>if (a) { if (b) { … } }</code></td></tr><tr><td><code>Si a Y b Entonces</code></td><td><code>if (a &amp;&amp; b) {</code></td></tr><tr><td><code>Verdadero</code></td><td><code>true</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El préstec de la biblioteca</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Per endur-se un llibre cal ser soci i no tenir ja el màxim de llibres en préstec. Cada cas dona un missatge diferent, per això l'algorisme fa servir <code>Si</code> niats. Classe <code>Prestec</code>.</p><div class="pseudo">Algoritmo Prestec
+    Definir esSoci Como Logico
+    Definir llibresPrestats Como Entero
+
+    esSoci &lt;- Verdadero
+    llibresPrestats &lt;- 3
+
+    Si esSoci Entonces
+        Si llibresPrestats &lt; 3 Entonces
+            Escribir "Pots endur-te el llibre."
+        SiNo
+            Escribir "Ja tens 3 llibres: retorna'n un abans."
+        FinSi
+    SiNo
+        Escribir "Cal fer-se soci per endur-se llibres."
+    FinSi
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Converteix el màxim de llibres en una constant <code>MAX_LLIBRES</code>.</li><li>Respecta la sagnia: l'<code>if</code> interior va un nivell més a dins.</li><li>Prova els tres camins: soci amb 1 llibre, soci amb 3 llibres i no soci.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Ja tens 3 llibres: retorna'n un abans.</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Hi ha un camí que es pot escriure amb una sola condició <code>esSoci &amp;&amp; llibresPrestats &lt; MAX_LLIBRES</code>. Per què, tot i així, no podem eliminar l'<code>if</code> niat sense perdre informació?</p></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Prestec</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> MAX_LLIBRES = <span class="num">3</span>;
+
+        <span class="kw">boolean</span> esSoci = <span class="kw">true</span>;
+        <span class="kw">int</span> llibresPrestats = <span class="num">3</span>;
+
+        <span class="kw">if</span> (esSoci) {
+            <span class="kw">if</span> (llibresPrestats &lt; MAX_LLIBRES) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pots endur-te el llibre."</span>);
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ja tens "</span> + MAX_LLIBRES + <span class="str">" llibres: retorna'n un abans."</span>);
+            }
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cal fer-se soci per endur-se llibres."</span>);
+        }
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>L'estructura niada és la mateixa que al pseudocodi.</li><li>El límit és una constant i també s'usa al missatge.</li><li>S'han provat els tres camins.</li></ul></div></div>
+  </div>
+</div>
+</section><section class="section" id="textos">
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Comparar textos</h2><p class="sec-sub">equals, no ==</p></div></div>
+  <p class="lead">A PSeInt els textos es comparen amb <code>=</code>. A Java, els valors de tipus <code>String</code> <strong>no es comparen amb <code>==</code></strong>: cal fer servir els mètodes <code>equals()</code> o <code>equalsIgnoreCase()</code>.</p><div class="table-wrap"><table><thead><tr><th>Expressió</th><th>Retorna <code>true</code> quan…</th></tr></thead><tbody><tr><td><code>text.equals("sí")</code></td><td>el text és exactament "sí" (distingeix majúscules)</td></tr><tr><td><code>text.equalsIgnoreCase("sí")</code></td><td>el text és "sí", "SÍ", "Sí"… (no distingeix majúscules)</td></tr><tr><td><code>text.isEmpty()</code></td><td>el text és buit (<code>""</code>)</td></tr></tbody></table></div><div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Validar una resposta de l'usuari</span></div>
+  <div class="code-block" data-run="r9"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Resposta</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> resposta = <span class="str">"SI"</span>;
+
+        <span class="kw">if</span> (resposta.<span class="fn">equalsIgnoreCase</span>(<span class="str">"si"</span>)) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has acceptat les condicions."</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (resposta.<span class="fn">equalsIgnoreCase</span>(<span class="str">"no"</span>)) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has rebutjat les condicions."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Resposta no vàlida: "</span> + resposta);
+        }
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r9">Has acceptat les condicions.</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Amb <code>equalsIgnoreCase</code>, "SI", "si" i "Si" són la mateixa resposta. Si la resposta no és cap de les dues, l'<code>else</code> final la marca com a no vàlida.</p></div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Per què no <code>==</code>?</strong> Amb textos, <code>==</code> comprova si les dues variables apunten al <em>mateix objecte</em> a la memòria, no si el contingut és igual. De vegades sembla que funciona i d'altres no. Entendràs el motiu quan estudiem els objectes a l'AEA2; de moment, recorda: <strong>textos → <code>equals</code></strong>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>nom = "Anna"</code> (comparar)</td><td><code>nom.equals("Anna")</code></td></tr><tr><td><code>Minusculas(nom) = "anna"</code></td><td><code>nom.equalsIgnoreCase("anna")</code></td></tr><tr><td><code>nom = ""</code></td><td><code>nom.isEmpty()</code></td></tr><tr><td><code>nom &lt;&gt; "Anna"</code></td><td><code>!nom.equals("Anna")</code></td></tr><tr><td><code>Cadena</code></td><td><code>String</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'inici de sessió</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un programa comprova l'usuari i la contrasenya. L'usuari no distingeix majúscules, però la contrasenya sí. Tradueix-lo a la classe <code>Login</code>.</p><div class="pseudo">Algoritmo Login
+    Definir usuari, contrasenya Como Cadena
+
+    usuari &lt;- "Admin"
+    contrasenya &lt;- "daw2026"
+
+    Si contrasenya = "" Entonces
+        Escribir "Has d'escriure la contrasenya."
+    SiNo
+        Si Minusculas(usuari) = "admin" Y contrasenya = "daw2026" Entonces
+            Escribir "Benvingut, ", usuari
+        SiNo
+            Escribir "Usuari o contrasenya incorrectes."
+        FinSi
+    FinSi
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>=</code> entre textos es converteix en <code>equals</code> o <code>equalsIgnoreCase</code>, segons si importen les majúscules.</li><li>El <code>Si</code> dins del <code>SiNo</code> es pot escriure com un <code>else if</code>.</li><li>Prova: <code>"ADMIN"</code> / <code>"daw2026"</code> (entra), <code>"admin"</code> / <code>"DAW2026"</code> (no entra) i contrasenya buida.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Minusculas(usuari) = "admin"</code> vol dir "l'usuari és admin sense mirar majúscules". A Java és exactament <code>usuari.equalsIgnoreCase("admin")</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Benvingut, Admin</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Login</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">String</span> usuari = <span class="str">"Admin"</span>;
+        <span class="cls">String</span> contrasenya = <span class="str">"daw2026"</span>;
+
+        <span class="kw">if</span> (contrasenya.<span class="fn">isEmpty</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has d'escriure la contrasenya."</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (usuari.<span class="fn">equalsIgnoreCase</span>(<span class="str">"admin"</span>) &amp;&amp; contrasenya.<span class="fn">equals</span>(<span class="str">"daw2026"</span>)) {
+            <span class="cmt">// L'usuari no distingeix majúscules; la contrasenya sí</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvingut, "</span> + usuari);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Usuari o contrasenya incorrectes."</span>);
+        }
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>No hi ha cap <code>==</code> entre textos.</li><li>S'ha triat bé entre <code>equals</code> i <code>equalsIgnoreCase</code>.</li><li>La contrasenya buida es comprova primer.</li></ul></div></div>
+  </div>
+</div>
+</section><section class="section" id="demos">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
+  <p class="lead">Comprova que saps decidir quan cal niar i que comprens com es comparen els textos.</p><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Niar o combinar?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Per a cada situació, tria si cal <code>if</code> niats o n'hi ha prou amb una condició amb <code>&amp;&amp;</code>.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Si és major d'edat i té carnet, mostrar "Pot conduir". Si no, no cal dir res.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">if niats</button><button type="button" class="qi-btn" data-ok="1">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Només hi ha un missatge: n'hi ha prou amb <code>if (edat &gt;= 18 &amp;&amp; teCarnet)</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Missatges diferents si és menor d'edat i si és major però no té carnet.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">if niats</button><button type="button" class="qi-btn" data-ok="0">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cada motiu té el seu missatge: cal saber quina condició ha fallat.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> Validar que les dades són correctes i, només llavors, fer el càlcul; si no, mostrar un error.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">if niats</button><button type="button" class="qi-btn" data-ok="0">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El càlcul va dins de la branca de dades correctes, que pot tenir les seves pròpies decisions.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> Descompte si és soci i la compra supera 50 €.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">if niats</button><button type="button" class="qi-btn" data-ok="1">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Una sola acció quan es compleixen les dues condicions.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">true o false?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Tenim <code>String a = "Hola";</code>. Tria què val cada expressió.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>a.equals("hola")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">true</button><button type="button" class="qi-btn" data-ok="1">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>equals</code> distingeix majúscules: "Hola" i "hola" no són iguals.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>a.equalsIgnoreCase("HOLA")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>No mira majúscules ni minúscules.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>a.isEmpty()</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">true</button><button type="button" class="qi-btn" data-ok="1">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>"Hola" té 4 caràcters.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>"".isEmpty()</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El text buit no té cap caràcter.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>!a.equals("Adeu")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>a.equals("Adeu")</code> és false i <code>!</code> l'inverteix.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div>
+</section>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A2_1_if_else.html">← A2.1 Decidir amb if</a><a href="A2_composicio_alternativa.html" class="nav-hub">A2 · Índex</a><a href="A2_3_ternari_switch.html">A2.3 Ternari i switch →</a></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>
