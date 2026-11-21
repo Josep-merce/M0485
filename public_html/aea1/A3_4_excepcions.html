@@ -151,6 +151,12 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0 0 .75rem; }
+    .ex-grid .solucio-wrap { padding:0; }
+    .ex-grid { margin-top:0; }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -302,10 +308,7 @@ El programa continua...</pre></div>
 
     }
 
-}</div><ul class="exercici-tasques"><li>Posa el codi que pot fallar dins d'un <code>try</code>.</li><li>Afegeix un <code>catch</code> per a la <code>NumberFormatException</code> i un altre per a l'<code>ArithmeticException</code>, cadascun amb el seu missatge.</li><li>Afegeix un <code>finally</code> que mostri <code>Càlcul acabat.</code></li><li>Prova-ho tres vegades: amb <code>"8,5"</code>; amb <code>"85"</code> i 0 jugadors; i amb <code>"85"</code> i 4 jugadors.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Executa primer el programa sense canviar res i llegeix el missatge d'error de la consola: el nom de l'excepció és el que has de posar al <code>catch</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Error: '8,5' no és un número enter.
-Càlcul acabat.</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
-  <div class="solucio-wrap">
+}</div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -331,8 +334,10 @@ Càlcul acabat.</pre></div></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Cada tipus d'error té el seu <code>catch</code> i el seu missatge.</li><li>El <code>finally</code> s'executa en els tres casos.</li><li>Amb <code>"85"</code> i 4 jugadors surt <code>Punts per jugador: 21</code> (divisió entera).</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Cada tipus d'error té el seu <code>catch</code> i el seu missatge.</li><li>El <code>finally</code> s'executa en els tres casos.</li><li>Amb <code>"85"</code> i 4 jugadors surt <code>Punts per jugador: 21</code> (divisió entera).</li></ul></div><ul class="exercici-tasques"><li>Posa el codi que pot fallar dins d'un <code>try</code>.</li><li>Afegeix un <code>catch</code> per a la <code>NumberFormatException</code> i un altre per a l'<code>ArithmeticException</code>, cadascun amb el seu missatge.</li><li>Afegeix un <code>finally</code> que mostri <code>Càlcul acabat.</code></li><li>Prova-ho tres vegades: amb <code>"8,5"</code>; amb <code>"85"</code> i 0 jugadors; i amb <code>"85"</code> i 4 jugadors.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Executa primer el programa sense canviar res i llegeix el missatge d'error de la consola: el nom de l'excepció és el que has de posar al <code>catch</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Error: '8,5' no és un número enter.
+Càlcul acabat.</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
 </div>
 </section>
 <section class="section">
@@ -386,19 +391,7 @@ Has escrit el 21. El doble és 42</pre></div>
       <li>Captura la <code>NumberFormatException</code>.</li>
       <li>Per al rang, pots fer un simple <code>if</code> o llançar una <code>IllegalArgumentException</code> amb <code>throw</code>.</li>
       <li>Al final, mostra l'edat i si és major d'edat.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quina edat tens? divuit
-&#x27;divuit&#x27; no és un número enter.
-Quina edat tens? 150
-L&#x27;edat ha de ser entre 0 i 120.
-Quina edat tens? 18
-Tens 18 anys: ets major d&#x27;edat.</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.2 · 3.4 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -437,8 +430,19 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El bucle només acaba quan la dada és correcta.</li><li>Cada tipus d'error té el seu missatge.</li><li>L'ordre dels <code>catch</code> és correcte: <code>NumberFormatException</code> hereta d'<code>IllegalArgumentException</code>, per això ha d'anar primer.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El bucle només acaba quan la dada és correcta.</li><li>Cada tipus d'error té el seu missatge.</li><li>L'ordre dels <code>catch</code> és correcte: <code>NumberFormatException</code> hereta d'<code>IllegalArgumentException</code>, per això ha d'anar primer.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quina edat tens? divuit
+&#x27;divuit&#x27; no és un número enter.
+Quina edat tens? 150
+L&#x27;edat ha de ser entre 0 i 120.
+Quina edat tens? 18
+Tens 18 anys: ets major d&#x27;edat.</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.2 · 3.4 · 3.6</span>
   </div>
 </div>
 </section>
@@ -469,9 +473,7 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Temperatura impossible</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'enunciat</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i prova</span></div>
-    <p>Cap temperatura pot ser inferior al zero absolut (−273,15 °C). Escriu la classe <code>Temperatura</code>: si els graus són més baixos, ha de llançar una <code>IllegalArgumentException</code>; si són correctes, ha de mostrar-los convertits a Fahrenheit (°F = °C · 9 / 5 + 32).</p><ul class="exercici-tasques"><li>Declara <code>double graus = -300.0;</code> i el zero absolut com a constant <code>final</code>.</li><li>Llança l'excepció amb un missatge que inclogui el valor incorrecte, i captura-la per mostrar-lo.</li><li>Prova-ho també amb <code>25.0</code>: ha de sortir <code>25.0 °C = 77.0 °F</code>.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>Llançar una excepció si una dada no és vàlida</em>: el <code>throw</code> va dins d'un <code>if</code> i el càlcul va després.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Error: Temperatura impossible: -300.0 °C és per sota del zero absolut.</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
-  <div class="solucio-wrap">
+    <p>Cap temperatura pot ser inferior al zero absolut (−273,15 °C). Escriu la classe <code>Temperatura</code>: si els graus són més baixos, ha de llançar una <code>IllegalArgumentException</code>; si són correctes, ha de mostrar-los convertits a Fahrenheit (°F = °C · 9 / 5 + 32).</p><ul class="exercici-tasques"><li>Declara <code>double graus = -300.0;</code> i el zero absolut com a constant <code>final</code>.</li><li>Llança l'excepció amb un missatge que inclogui el valor incorrecte, i captura-la per mostrar-lo.</li><li>Prova-ho també amb <code>25.0</code>: ha de sortir <code>25.0 °C = 77.0 °F</code>.</li></ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -496,8 +498,9 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
 
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El <code>throw</code> és dins del <code>try</code> i el missatge es recupera amb <code>getMessage()</code>.</li><li>Si es llança l'excepció, el càlcul de Fahrenheit no s'executa.</li><li>El zero absolut és una constant amb <code>final</code>.</li></ul></div></div>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>throw</code> és dins del <code>try</code> i el missatge es recupera amb <code>getMessage()</code>.</li><li>Si es llança l'excepció, el càlcul de Fahrenheit no s'executa.</li><li>El zero absolut és una constant amb <code>final</code>.</li></ul></div><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>Llançar una excepció si una dada no és vàlida</em>: el <code>throw</code> va dins d'un <code>if</code> i el càlcul va després.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Error: Temperatura impossible: -300.0 °C és per sota del zero absolut.</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
 </div>
 </section>
 <section class="section">
@@ -556,19 +559,7 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
       <li>Crea la classe <code>SaldoInsuficientException</code> seguint la plantilla de l'apartat 4.</li>
       <li>Fes un <code>for</code> de 3 iteracions; l'import de cada reintegrament es pot calcular amb un <code>switch</code> sobre el número d'iteració.</li>
       <li>Dins del bucle, un <code>try-catch</code> per a cada reintegrament; al <code>finally</code>, mostra el saldo actual.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Retirats 50.0 €.
-  Saldo actual: 150.0 €
-Error: No es poden retirar 180.0 €: saldo insuficient.
-  Saldo actual: 150.0 €
-Retirats 30.0 €.
-  Saldo actual: 120.0 €</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.2 · 3.4 · 3.7 · 3.8</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -615,8 +606,19 @@ Retirats 30.0 €.
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>L'excepció pròpia hereta d'<code>Exception</code> i passa el missatge amb <code>super</code>.</li><li>Quan hi ha error el saldo no es modifica (el <code>saldo -= quantitat</code> va després del <code>throw</code>).</li><li>El <code>finally</code> s'executa en tots els casos.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'excepció pròpia hereta d'<code>Exception</code> i passa el missatge amb <code>super</code>.</li><li>Quan hi ha error el saldo no es modifica (el <code>saldo -= quantitat</code> va després del <code>throw</code>).</li><li>El <code>finally</code> s'executa en tots els casos.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Retirats 50.0 €.
+  Saldo actual: 150.0 €
+Error: No es poden retirar 180.0 €: saldo insuficient.
+  Saldo actual: 150.0 €
+Retirats 30.0 €.
+  Saldo actual: 120.0 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.2 · 3.4 · 3.7 · 3.8</span>
   </div>
 </div>
 </section>
@@ -631,6 +633,10 @@ Retirats 30.0 €.
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
