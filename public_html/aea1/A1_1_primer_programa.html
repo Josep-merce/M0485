@@ -74,7 +74,7 @@
     .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
     .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
     .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
-    .ps-java { display:grid; grid-template-columns:auto minmax(0,1fr); gap:1rem; align-items:start; margin:.6rem 0 1rem; }
+    .ps-java { display:grid; grid-template-columns:auto minmax(0,auto); justify-content:start; gap:1rem; align-items:start; margin:.6rem 0 1rem; }
     .ps-java .pseudo, .ps-java .code-block { margin:0; font-size:.78rem; }
     .ps-java .pseudo { padding:1rem; }
     .ps-java .code-block { padding:1rem 1.1rem; }
@@ -250,25 +250,16 @@
     // Sortida
     Escribir "Àrea: ", area
     Escribir "Perímetre: ", perimetre
-FinAlgoritmo</div></div><div><span class="col-label">Java</span><div class="code-block" data-run="r1"><span class="cmt">// public: la classe és accessible</span>
-<span class="cmt">// des de qualsevol lloc</span>
-<span class="cmt">// class: declara una classe,</span>
-<span class="cmt">// el "contenidor" del programa</span>
-<span class="cmt">// El nom (Rectangle) ha de coincidir</span>
-<span class="cmt">// amb el del fitxer (Rectangle.java)</span>
+FinAlgoritmo</div></div><div><span class="col-label">Java</span><div class="code-block" data-run="r1"><span class="cmt">// public: la classe és accessible des de qualsevol lloc</span>
+<span class="cmt">// class: declara la classe, el "contenidor" del programa</span>
+<span class="cmt">// El nom ha de coincidir amb el del fitxer: Rectangle.java</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Rectangle</span> {
 
-    <span class="cmt">// main: mètode principal, punt d'entrada; és el</span>
-    <span class="cmt">// primer que s'executa en arrencar el programa</span>
-    <span class="cmt">// public: es pot cridar des de fora;</span>
-    <span class="cmt">// així Java el pot trobar i executar</span>
-    <span class="cmt">// static: el mètode és de la</span>
-    <span class="cmt">// classe, no d'un objecte.</span>
-    <span class="cmt">// void: no retorna cap resultat,</span>
-    <span class="cmt">// només fa les instruccions que conté</span>
-    <span class="cmt">// String[] args: llista (array) de</span>
-    <span class="cmt">// textos amb els arguments que es poden</span>
-    <span class="cmt">// passar al programa en executar-lo</span>
+    <span class="cmt">// main: punt d'entrada; és el primer que s'executa</span>
+    <span class="cmt">// public: es pot cridar des de fora; així Java el troba</span>
+    <span class="cmt">// static: el mètode és de la classe, no d'un objecte</span>
+    <span class="cmt">// void: no retorna cap resultat</span>
+    <span class="cmt">// String[] args: arguments que es passen en executar-lo</span>
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="cmt">// Dades d'entrada</span>
@@ -280,11 +271,8 @@ FinAlgoritmo</div></div><div><span class="col-label">Java</span><div class="code
         <span class="kw">int</span> perimetre = <span class="num">2</span> * (base + altura);
 
         <span class="cmt">// Sortida</span>
-        <span class="cmt">// System.out.println: escriu per</span>
-        <span class="cmt">// pantalla el que hi ha entre</span>
-        <span class="cmt">// parèntesis i després salta de línia</span>
-        <span class="cmt">// El + uneix el text entre cometes</span>
-        <span class="cmt">// amb el valor de la variable</span>
+        <span class="cmt">// println: escriu per pantalla i salta de línia</span>
+        <span class="cmt">// El + uneix el text entre cometes amb la variable</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Perímetre: "</span> + perimetre);
 
