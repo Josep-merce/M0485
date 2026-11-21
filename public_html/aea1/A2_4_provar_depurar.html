@@ -159,6 +159,7 @@
     .ex-grid .solucio-wrap.obert { align-items:stretch; justify-content:flex-start; padding:0; border-color:transparent; }
     .ex-grid .solucio-wrap.obert .btn-solucio { align-self:flex-start; }
     .ex-grid .solucio-body .code-block { font-size:.76rem; padding:1rem; }
+    .ex-grid.apilat { grid-template-columns:minmax(0,1fr); }
     @media(max-width:959px){ .ex-grid { grid-template-columns:minmax(0,1fr); } }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
@@ -452,9 +453,16 @@ Nota final: 6.5</pre></div></div>
   function alinearPseudo(grid) {
     const ps = grid.querySelector('.pseudo');
     ps.style.marginTop = '';
+    grid.classList.remove('apilat');
     const wrap = grid.querySelector('.solucio-wrap');
     const dosCols = getComputedStyle(grid).gridTemplateColumns.split(' ').length > 1;
     if (!wrap.classList.contains('obert') || !dosCols) return;
+    // Si el codi no hi cap al costat del PSeInt, la solució va a sota
+    const codi = grid.querySelector('.solucio-body .code-block');
+    if (codi && codi.scrollWidth > codi.clientWidth + 1) {
+      grid.classList.add('apilat');
+      return;
+    }
     const main = Array.from(grid.querySelectorAll('.code-block .fn')).find(function (e) { return e.textContent === 'main'; });
     if (!main) return;
     const r = document.createRange();
