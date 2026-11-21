@@ -74,12 +74,13 @@
     .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
     .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
     .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
-    .ps-java { display:grid; grid-template-columns:auto minmax(0,1fr); gap:1rem; align-items:start; margin:.6rem 0 1rem; }
+    .ps-java { display:grid; grid-template-columns:auto minmax(0,auto); justify-content:start; gap:1rem; align-items:start; margin:.6rem 0 1rem; }
     .ps-java .pseudo, .ps-java .code-block { margin:0; font-size:.78rem; }
-    .ps-java .pseudo { padding:1rem; }
+    .ps-java .pseudo { padding:1rem; line-height:1.75; }
+    .ps-java .ps-col { margin-top:calc(var(--offset,0) * 1.75 * .78rem - 1px); }
     .ps-java .code-block { padding:1rem 1.1rem; }
     .col-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-soft); margin-bottom:.35rem; }
-    @media(max-width:959px){ .ps-java { grid-template-columns:minmax(0,1fr); } }
+    @media(max-width:959px){ .ps-java { grid-template-columns:minmax(0,1fr); } .ps-java .ps-col { margin-top:0; } }
     .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
     code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
     .code-block code { background:none; padding:0; color:inherit; }
@@ -235,7 +236,7 @@
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Com es construeix un programa</h2><p class="sec-sub">Primer es pensa, després es programa</p></div></div>
   <p class="lead">Un <strong>programa</strong> és una seqüència d'instruccions que un ordinador executa per resoldre un problema. Abans d'escriure codi cal entendre bé el problema i dissenyar-ne la solució: <strong>primer es pensa, després es programa</strong>.</p><div class="cards"><div class="card"><span class="card-num">1</span><span class="card-title">Anàlisi</span><span class="card-desc">Què ens demanen? Quines dades tenim (entrada) i quin resultat volem (sortida)?</span></div><div class="card"><span class="card-num">2</span><span class="card-title">Disseny de l'algorisme</span><span class="card-desc">Escrivim els passos en <strong>pseudocodi</strong> o amb un diagrama, amb paper i llapis, sense pensar encara en Java.</span></div><div class="card"><span class="card-num">3</span><span class="card-title">Codificació</span><span class="card-desc">Traduïm l'algorisme al llenguatge de programació (Java) dins de l'entorn de desenvolupament.</span></div><div class="card"><span class="card-num">4</span><span class="card-title">Compilació</span><span class="card-desc">El compilador revisa que el codi estigui ben escrit i el tradueix a un format executable.</span></div><div class="card"><span class="card-num">5</span><span class="card-title">Prova i depuració</span><span class="card-desc">Executem el programa amb diferents valors i comprovem que el resultat és correcte. Si no ho és, busquem l'error.</span></div></div><h3 class="sub-title">Exemple: calcular l'àrea i el perímetre d'un rectangle</h3><p class="text">Primer escrivim l'algorisme en <strong>pseudocodi</strong> (llenguatge natural estructurat) amb <strong>PSeInt</strong> i després el traduïm a Java. Aquest tipus d'algorisme, en què les instruccions s'executen una rere l'altra de dalt a baix, s'anomena <strong>composició seqüencial</strong>.</p><div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>De l'algorisme al codi Java</span></div>
-  <div class="ps-java"><div><span class="col-label">PSeInt</span><div class="pseudo">Algoritmo Rectangle
+  <div class="ps-java"><div class="ps-col" style="--offset:10"><span class="col-label">PSeInt</span><div class="pseudo">Algoritmo Rectangle
     // Declaració de variables
     Definir base, altura, area, perimetre Como Entero
 
@@ -250,25 +251,16 @@
     // Sortida
     Escribir "Àrea: ", area
     Escribir "Perímetre: ", perimetre
-FinAlgoritmo</div></div><div><span class="col-label">Java</span><div class="code-block" data-run="r1"><span class="cmt">// public: la classe és accessible</span>
-<span class="cmt">// des de qualsevol lloc</span>
-<span class="cmt">// class: declara una classe,</span>
-<span class="cmt">// el "contenidor" del programa</span>
-<span class="cmt">// El nom (Rectangle) ha de coincidir</span>
-<span class="cmt">// amb el del fitxer (Rectangle.java)</span>
+FinAlgoritmo</div></div><div><span class="col-label">Java</span><div class="code-block" data-run="r1"><span class="cmt">// public: la classe és accessible des de qualsevol lloc</span>
+<span class="cmt">// class: declara la classe, el "contenidor" del programa</span>
+<span class="cmt">// El nom ha de coincidir amb el del fitxer: Rectangle.java</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Rectangle</span> {
 
-    <span class="cmt">// main: mètode principal, punt d'entrada; és el</span>
-    <span class="cmt">// primer que s'executa en arrencar el programa</span>
-    <span class="cmt">// public: es pot cridar des de fora;</span>
-    <span class="cmt">// així Java el pot trobar i executar</span>
-    <span class="cmt">// static: el mètode és de la</span>
-    <span class="cmt">// classe, no d'un objecte.</span>
-    <span class="cmt">// void: no retorna cap resultat,</span>
-    <span class="cmt">// només fa les instruccions que conté</span>
-    <span class="cmt">// String[] args: llista (array) de</span>
-    <span class="cmt">// textos amb els arguments que es poden</span>
-    <span class="cmt">// passar al programa en executar-lo</span>
+    <span class="cmt">// main: punt d'entrada; és el primer que s'executa</span>
+    <span class="cmt">// public: es pot cridar des de fora; així Java el troba</span>
+    <span class="cmt">// static: el mètode és de la classe, no d'un objecte</span>
+    <span class="cmt">// void: no retorna cap resultat</span>
+    <span class="cmt">// String[] args: arguments que es passen en executar-lo</span>
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="cmt">// Dades d'entrada</span>
@@ -280,11 +272,8 @@ FinAlgoritmo</div></div><div><span class="col-label">Java</span><div class="code
         <span class="kw">int</span> perimetre = <span class="num">2</span> * (base + altura);
 
         <span class="cmt">// Sortida</span>
-        <span class="cmt">// System.out.println: escriu per</span>
-        <span class="cmt">// pantalla el que hi ha entre</span>
-        <span class="cmt">// parèntesis i després salta de línia</span>
-        <span class="cmt">// El + uneix el text entre cometes</span>
-        <span class="cmt">// amb el valor de la variable</span>
+        <span class="cmt">// println: escriu per pantalla i salta de línia</span>
+        <span class="cmt">// El + uneix el text entre cometes amb la variable</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Perímetre: "</span> + perimetre);
 
