@@ -420,12 +420,13 @@ Total: 47.45 €</pre></div></div>
         Escribir numero, " és senar"
     FinSi
 FinAlgoritmo</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Parell o senar</span></div>
+  <div class="exemple-header"><span>Parell o senar i control d'accés</span></div>
   <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ParellSenar</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> numero = <span class="num">17</span>;
+        <span class="kw">int</span> edat = <span class="num">16</span>;
 
         <span class="cmt">// Un número és parell si el residu de dividir-lo entre 2 és 0</span>
         <span class="kw">if</span> (numero % <span class="num">2</span> == <span class="num">0</span>) {
@@ -434,19 +435,7 @@ FinAlgoritmo</div><div class="exemple">
             <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és senar"</span>);
         }
 
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">17 és senar</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El residu <code>numero % 2</code> només pot ser 0 o 1. Si és 0 el número és parell; en qualsevol altre cas entra a l'<code>else</code>. No cal escriure cap condició a l'<code>else</code>: és "tota la resta".</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Control d'accés per edat</span></div>
-  <div class="code-block" data-run="r4"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ControlAcces</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> edat = <span class="num">16</span>;
-
+        <span class="cmt">// Accés: o és major d'edat o no ho és</span>
         <span class="kw">if</span> (edat &gt;= <span class="num">18</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Accés permès."</span>);
         } <span class="kw">else</span> {
@@ -456,7 +445,9 @@ FinAlgoritmo</div><div class="exemple">
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Accés denegat: cal ser major d'edat.</pre></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">17 és senar
+Accés denegat: cal ser major d'edat.</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El residu <code>numero % 2</code> només pot ser 0 o 1. Si és 0 el número és parell; en qualsevol altre cas entra a l'<code>else</code>. No cal escriure cap condició a l'<code>else</code>: és "tota la resta".</p><p>La segona decisió segueix el mateix patró amb una comparació: si <code>edat &gt;= 18</code> és cert es mostra "Accés permès."; si és fals, com passa amb 16 anys, s'executa el bloc de l'<code>else</code>. En cada <code>if / else</code> s'executa sempre un i només un dels dos missatges.</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>numero MOD 2</code></td><td><code>numero % 2</code></td></tr><tr><td><code>Si … SiNo … FinSi</code></td><td><code>if (…) { … } else { … }</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El caixer automàtic</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
@@ -514,13 +505,15 @@ FinAlgoritmo</div>
         FinSi
     FinSi
 FinAlgoritmo</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Valor positiu, negatiu o zero</span></div>
-  <div class="code-block" data-run="r5"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Signe</span> {
+  <div class="exemple-header"><span>Signe d'un valor i qualificació d'una nota</span></div>
+  <div class="code-block" data-run="r5"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Qualificacio</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> valor = -<span class="num">5</span>;
+        <span class="kw">double</span> nota = <span class="num">7.4</span>;
 
+        <span class="cmt">// Tres casos: el Si niat de PSeInt aplanat amb else if</span>
         <span class="kw">if</span> (valor &gt; <span class="num">0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(valor + <span class="str">" és positiu"</span>);
         } <span class="kw">else</span> <span class="kw">if</span> (valor &lt; <span class="num">0</span>) {
@@ -529,19 +522,8 @@ FinAlgoritmo</div><div class="exemple">
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El valor és zero"</span>);
         }
 
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">-5 és negatiu</pre></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Qualificació d'una nota</span></div>
-  <div class="code-block" data-run="r6"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Qualificacio</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">double</span> nota = <span class="num">7.4</span>;
+        <span class="cmt">// Molts casos: de la condició més restrictiva a la menys</span>
         <span class="cls">String</span> qualificacio;
-
         <span class="kw">if</span> (nota &lt; <span class="num">0</span> || nota &gt; <span class="num">10</span>) {
             qualificacio = <span class="str">"Nota incorrecta"</span>;
         } <span class="kw">else</span> <span class="kw">if</span> (nota &gt;= <span class="num">9</span>) {
@@ -561,8 +543,9 @@ FinAlgoritmo</div><div class="exemple">
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r6">Nota 7.4: Notable</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Si el programa arriba a <code>else if (nota &gt;= 7)</code> és perquè <code>nota &gt;= 9</code> ha estat fals: ja sabem que <code>nota &lt; 9</code>. Per això no cal escriure <code>nota &gt;= 7 &amp;&amp; nota &lt; 9</code>.</p></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">-5 és negatiu
+Nota 7.4: Notable</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El primer bloc és la traducció del pseudocodi: el <code>Si</code> que hi havia dins del <code>SiNo</code> s'ha convertit en un <code>else if</code>. Amb −5, la primera condició és falsa, la segona és certa i ja no es comprova res més.</p><p>El segon bloc encadena més casos. Primer descarta les notes fora de rang amb <code>||</code>. Si el programa arriba a <code>else if (nota &gt;= 7)</code> és perquè <code>nota &gt;= 9</code> ha estat fals: ja sabem que <code>nota &lt; 9</code>. Per això no cal escriure <code>nota &gt;= 7 &amp;&amp; nota &lt; 9</code>.</p><p>Totes les branques donen valor a <code>qualificacio</code>, per això es pot mostrar en una sola línia després de la cadena.</p></div>
 </div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>L'ordre de les condicions és important.</strong> Si posessis primer <code>nota &gt;= 5</code>, un 9.5 donaria "Suficient", perquè és la primera condició certa. Ordena-les de la més restrictiva a la menys restrictiva.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>SiNo</code> + <code>Si cond Entonces</code> (niat)</td><td><code>} else if (cond) {</code></td></tr><tr><td>un <code>FinSi</code> per cada <code>Si</code></td><td>una sola <code>}</code> al final de la cadena</td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex4">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">La multa de velocitat</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">

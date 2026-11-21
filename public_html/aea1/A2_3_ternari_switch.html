@@ -323,12 +323,13 @@ FinAlgoritmo</div>
     De Otro Modo:
         Escribir "Dia no vàlid"
 FinSegun</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Nom del dia de la setmana</span></div>
+  <div class="exemple-header"><span>Dia de la setmana i torn de treball</span></div>
   <div class="code-block" data-run="r11"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiaSetmana</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> dia = <span class="num">3</span>;
+        <span class="kw">char</span> torn = <span class="str">'T'</span>;   <span class="cmt">// 'M' = matí, 'T' = tarda</span>
 
         <span class="kw">switch</span> (dia) {
             <span class="kw">case</span> <span class="num">1</span>:
@@ -354,47 +355,29 @@ FinSegun</div><div class="exemple">
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dia no vàlid"</span>);
         }
 
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r11">Dimecres</pre></div>
-</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>No oblidis el <code>break</code>.</strong> Sense <code>break</code>, Java continua executant els <code>case</code> següents sense comprovar-los (<em>fall-through</em>). Només l'ometem a propòsit per agrupar casos, com el 6 i el 7 de l'exemple.</p></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Calculadora amb switch sobre un char</span></div>
-  <div class="code-block" data-run="r12"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Calculadora</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">double</span> a = <span class="num">10.0</span>;
-        <span class="kw">double</span> b = <span class="num">4.0</span>;
-        <span class="kw">char</span> operador = <span class="str">'/'</span>;
-
-        <span class="kw">switch</span> (operador) {
-            <span class="kw">case</span> <span class="str">'+'</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" + "</span> + b + <span class="str">" = "</span> + (a + b));
+        <span class="cmt">// switch sobre un char: els valors van entre cometes simples</span>
+        <span class="kw">switch</span> (torn) {
+            <span class="kw">case</span> <span class="str">'M'</span>:
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn de matí: de 9 a 14 h"</span>);
                 <span class="kw">break</span>;
-            <span class="kw">case</span> <span class="str">'-'</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" - "</span> + b + <span class="str">" = "</span> + (a - b));
-                <span class="kw">break</span>;
-            <span class="kw">case</span> <span class="str">'*'</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" * "</span> + b + <span class="str">" = "</span> + (a * b));
-                <span class="kw">break</span>;
-            <span class="kw">case</span> <span class="str">'/'</span>:
-                <span class="kw">if</span> (b != <span class="num">0</span>) {
-                    <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" / "</span> + b + <span class="str">" = "</span> + (a / b));
+            <span class="kw">case</span> <span class="str">'T'</span>:
+                <span class="kw">if</span> (dia == <span class="num">5</span>) {
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Divendres tarda: tancat"</span>);
                 } <span class="kw">else</span> {
-                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: divisió per zero"</span>);
+                    <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn de tarda: de 16 a 20 h"</span>);
                 }
                 <span class="kw">break</span>;
             <span class="kw">default</span>:
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Operador desconegut: "</span> + operador);
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn desconegut: "</span> + torn);
         }
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r12">10.0 / 4.0 = 2.5</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els valors <code>char</code> s'escriuen entre cometes simples (<code>'+'</code>). Dins d'un <code>case</code> hi pot haver qualsevol instrucció, també un <code>if</code>: aquí evitem la divisió per zero.</p></div>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Segun variable Hacer</code></td><td><code>switch (variable) {</code></td></tr><tr><td><code>1:</code></td><td><code>case 1:</code> … <code>break;</code></td></tr><tr><td><code>6, 7:</code></td><td><code>case 6:</code> <code>case 7:</code></td></tr><tr><td><code>De Otro Modo:</code></td><td><code>default:</code></td></tr><tr><td><code>FinSegun</code></td><td><code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r11">Dimecres
+Torn de tarda: de 16 a 20 h</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El primer <code>switch</code> compara <code>dia</code> amb cada <code>case</code>: amb 3 mostra "Dimecres" i el <code>break</code> en surt. Els casos 6 i 7 estan apilats sense <code>break</code> entre ells, de manera que tots dos executen el mateix codi.</p><p>El segon <code>switch</code> treballa amb un <code>char</code>, que s'escriu entre cometes simples (<code>'T'</code>). Dins d'un <code>case</code> hi pot haver qualsevol instrucció, també un <code>if</code>: aquí la tarda del divendres té un missatge propi. Si <code>torn</code> no és ni <code>'M'</code> ni <code>'T'</code>, s'executa el <code>default</code>.</p></div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>No oblidis el <code>break</code>.</strong> Sense <code>break</code>, Java continua executant els <code>case</code> següents sense comprovar-los (<em>fall-through</em>). Només l'ometem a propòsit per agrupar casos, com el 6 i el 7 de l'exemple.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Segun variable Hacer</code></td><td><code>switch (variable) {</code></td></tr><tr><td><code>1:</code></td><td><code>case 1:</code> … <code>break;</code></td></tr><tr><td><code>6, 7:</code></td><td><code>case 6:</code> <code>case 7:</code></td></tr><tr><td><code>De Otro Modo:</code></td><td><code>default:</code></td></tr><tr><td><code>FinSegun</code></td><td><code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">El menú del caixer</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
@@ -455,31 +438,8 @@ FinAlgoritmo</div>
 </section><section class="section" id="switchnou">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">switch amb fletxa (Java 14+)</h2><p class="sec-sub">Més curt i sense break</p></div></div>
   <p class="lead">Des de Java 14 hi ha una sintaxi més curta amb <code>-&gt;</code>. Té dos avantatges: <strong>no cal <code>break</code></strong> (no hi ha fall-through) i el <code>switch</code> pot <strong>retornar un valor</strong> que guardem en una variable. S'assembla més al <code>Segun</code> de PSeInt, que també permet <code>1, 2, 3:</code>.</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Estació de l'any amb switch com a expressió</span></div>
-  <div class="code-block" data-run="r13"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EstacioAny</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> mes = <span class="num">7</span>;
-
-        <span class="cls">String</span> estacio = <span class="kw">switch</span> (mes) {
-            <span class="kw">case</span> <span class="num">12</span>, <span class="num">1</span>, <span class="num">2</span> -&gt; <span class="str">"Hivern"</span>;
-            <span class="kw">case</span> <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span> -&gt; <span class="str">"Primavera"</span>;
-            <span class="kw">case</span> <span class="num">6</span>, <span class="num">7</span>, <span class="num">8</span> -&gt; <span class="str">"Estiu"</span>;
-            <span class="kw">case</span> <span class="num">9</span>, <span class="num">10</span>, <span class="num">11</span> -&gt; <span class="str">"Tardor"</span>;
-            <span class="kw">default</span> -&gt; <span class="str">"Mes no vàlid"</span>;
-        };
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mes "</span> + mes + <span class="str">": "</span> + estacio);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r13">Mes 7: Estiu</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El resultat del <code>switch</code> es guarda directament a <code>estacio</code>. Diversos valors al mateix <code>case</code> se separen amb comes. Fixa't en el <code>;</code> final, després de la clau: tota la línia és una assignació.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>switch amb String i blocs d'instruccions</span></div>
-  <div class="code-block" data-run="r14"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MenuCafeteria</span> {
+  <div class="exemple-header"><span>Preu d'un producte amb switch com a expressió</span></div>
+  <div class="code-block" data-run="r13"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MenuCafeteria</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
@@ -487,11 +447,11 @@ FinAlgoritmo</div>
         <span class="kw">int</span> quantitat = <span class="num">2</span>;
 
         <span class="kw">double</span> preu = <span class="kw">switch</span> (producte) {
-            <span class="kw">case</span> <span class="str">"cafè"</span> -&gt; <span class="num">1.30</span>;
+            <span class="kw">case</span> <span class="str">"cafè"</span>, <span class="str">"tallat"</span> -&gt; <span class="num">1.30</span>;
             <span class="kw">case</span> <span class="str">"suc"</span> -&gt; <span class="num">2.10</span>;
             <span class="kw">case</span> <span class="str">"entrepà"</span> -&gt; {
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"(Entrepà del dia: truita)"</span>);
-                <span class="kw">yield</span> <span class="num">3.50</span>;   <span class="cmt">// yield retorna el valor quan el cas té un bloc { }</span>
+                <span class="kw">yield</span> <span class="num">3.50</span>;   <span class="cmt">// yield retorna el valor del bloc { }</span>
             }
             <span class="kw">default</span> -&gt; <span class="num">0.0</span>;
         };
@@ -499,15 +459,17 @@ FinAlgoritmo</div>
         <span class="kw">if</span> (preu == <span class="num">0.0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte no disponible: "</span> + producte);
         } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" x "</span> + producte + <span class="str">" = "</span> + (quantitat * preu) + <span class="str">" €"</span>);
+            <span class="kw">double</span> total = quantitat * preu;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" x "</span> + producte
+                    + <span class="str">" = "</span> + total + <span class="str">" €"</span>);
         }
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r14">(Entrepà del dia: truita)
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r13">(Entrepà del dia: truita)
 2 x entrepà = 7.0 €</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Quan un cas necessita més d'una instrucció, s'escriu un bloc <code>{ }</code> i el valor es retorna amb <code>yield</code>.</p></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El resultat del <code>switch</code> es guarda directament a <code>preu</code>. Funciona també amb <code>String</code>, i diversos valors al mateix <code>case</code> se separen amb comes: <code>"cafè"</code> i <code>"tallat"</code> tenen el mateix preu. Fixa't en el <code>;</code> final, després de la clau: tota la instrucció és una assignació.</p><p>Quan un cas necessita més d'una instrucció, s'escriu un bloc <code>{ }</code> i el valor es retorna amb <code>yield</code>. El <code>default</code> dona 0.0 als productes que no són a la carta, i l'<code>if</code> posterior ho aprofita per avisar.</p></div>
 </div><div class="table-wrap"><table><thead><tr><th></th><th>switch clàssic (<code>:</code>)</th><th>switch amb fletxa (<code>-&gt;</code>)</th></tr></thead><tbody><tr><td>Cal <code>break</code></td><td>Sí</td><td>No</td></tr><tr><td>Diversos valors per cas</td><td>Apilant <code>case</code></td><td><code>case 6, 7 -&gt;</code></td></tr><tr><td>Pot retornar un valor</td><td>No</td><td>Sí (amb <code>yield</code> si és un bloc)</td></tr><tr><td>Versió de Java</td><td>Totes</td><td>14 o superior</td></tr></tbody></table></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>1, 2, 3:</code></td><td><code>case 1, 2, 3 -&gt;</code></td></tr><tr><td><code>Segun</code> que només assigna una variable</td><td><code>x = switch (v) { … };</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">El trimestre del mes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">

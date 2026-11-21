@@ -255,7 +255,7 @@
         Escribir "Total: ", total, " €"
     FinSi
 FinAlgoritmo</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Reserva d'hotel amb validació i tarifes</span></div>
+  <div class="exemple-header"><span>Reserva d'hotel: niar o combinar condicions</span></div>
   <div class="code-block" data-run="r7"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ReservaHotel</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -263,10 +263,10 @@ FinAlgoritmo</div><div class="exemple">
         <span class="kw">final</span> <span class="kw">double</span> TARIFA_SENSE_MAR = <span class="num">150.50</span>;
         <span class="kw">final</span> <span class="kw">double</span> TARIFA_AMB_MAR = <span class="num">190.50</span>;
 
-        <span class="cls">String</span> client = <span class="str">"Anna Garcia"</span>;
         <span class="kw">int</span> nits = <span class="num">5</span>;
         <span class="kw">boolean</span> vistesAlMar = <span class="kw">true</span>;
 
+        <span class="cmt">// Niats: cada cas necessita una resposta diferent</span>
         <span class="kw">if</span> (nits &lt;= <span class="num">0</span>) {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: el nombre de nits ha de ser positiu."</span>);
         } <span class="kw">else</span> {
@@ -279,51 +279,24 @@ FinAlgoritmo</div><div class="exemple">
             }
 
             <span class="kw">double</span> total = nits * preuNit;
-
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Client: "</span> + client);
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nits: "</span> + nits + <span class="str">" a "</span> + preuNit + <span class="str">" €/nit"</span>);
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total + <span class="str">" €"</span>);
 
         }
 
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r7">Client: Anna Garcia
-Nits: 5 a 190.5 €/nit
-Total: 952.5 €</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'<code>if</code> exterior <strong>valida</strong> les dades. L'<code>if</code> interior només s'arriba a avaluar quan les nits són correctes, i tria la tarifa. Fixa't que <code>vistesAlMar</code> ja és un <code>boolean</code>: no cal escriure <code>vistesAlMar == true</code>.</p></div>
-</div><h3 class="sub-title">Niar o combinar condicions?</h3><p class="text">Moltes vegades dues condicions niades es poden ajuntar amb <code>&amp;&amp;</code>. Quina triar depèn de si cada cas necessita una resposta diferent:</p><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Niar o combinar: dues solucions</span></div>
-  <div class="code-block" data-run="r8"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CarnetConduir</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> edat = <span class="num">19</span>;
-        <span class="kw">boolean</span> teCarnet = <span class="kw">true</span>;
-
-        <span class="cmt">// Opció 1: if niats</span>
-        <span class="kw">if</span> (edat &gt;= <span class="num">18</span>) {
-            <span class="kw">if</span> (teCarnet) {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot conduir"</span>);
-            } <span class="kw">else</span> {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ha de treure's el carnet"</span>);
-            }
-        } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Encara és menor d'edat"</span>);
-        }
-
-        <span class="cmt">// Opció 2: condició combinada (només si no cal distingir el motiu)</span>
-        <span class="kw">if</span> (edat &gt;= <span class="num">18</span> &amp;&amp; teCarnet) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pot conduir"</span>);
+        <span class="cmt">// Combinada: només importa si es compleixen totes dues</span>
+        <span class="kw">if</span> (nits &gt;= <span class="num">5</span> &amp;&amp; vistesAlMar) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Regal: esmorzar a la terrassa!"</span>);
         }
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r8">Pot conduir
-Pot conduir</pre></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Si cada cas necessita un <strong>missatge diferent</strong>, fes servir <code>if</code> niats. Si només t'interessa saber si es compleixen <strong>totes</strong> les condicions alhora, una condició amb <code>&amp;&amp;</code> és més curta i clara. Evita niar més de 2 o 3 nivells: el codi es fa difícil de llegir.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Si a Entonces</code> + <code>Si b Entonces</code> (niats)</td><td><code>if (a) { if (b) { … } }</code></td></tr><tr><td><code>Si a Y b Entonces</code></td><td><code>if (a &amp;&amp; b) {</code></td></tr><tr><td><code>Verdadero</code></td><td><code>true</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r7">Nits: 5 a 190.5 €/nit
+Total: 952.5 €
+Regal: esmorzar a la terrassa!</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'<code>if</code> exterior <strong>valida</strong> les dades. L'<code>if</code> interior només s'arriba a avaluar quan les nits són correctes, i tria la tarifa. Aquí cal niar perquè cada cas té una resposta diferent: un missatge d'error o el càlcul del preu.</p><p>L'últim <code>if</code> combina dues condicions amb <code>&amp;&amp;</code>: el regal només depèn que es compleixin <strong>totes dues</strong> alhora i, si no es compleixen, no cal dir res. Es podria escriure amb dos <code>if</code> niats, però seria més llarg sense aportar res.</p><p>Fixa't que <code>vistesAlMar</code> ja és un <code>boolean</code>: no cal escriure <code>vistesAlMar == true</code>.</p></div>
+</div><h3 class="sub-title">Niar o combinar condicions?</h3><p class="text">Moltes vegades dues condicions niades es poden ajuntar amb <code>&amp;&amp;</code>. Quina triar depèn de si cada cas necessita una resposta diferent:</p><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Si cada cas necessita un <strong>missatge diferent</strong>, fes servir <code>if</code> niats. Si només t'interessa saber si es compleixen <strong>totes</strong> les condicions alhora, una condició amb <code>&amp;&amp;</code> és més curta i clara. Evita niar més de 2 o 3 nivells: el codi es fa difícil de llegir.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Si a Entonces</code> + <code>Si b Entonces</code> (niats)</td><td><code>if (a) { if (b) { … } }</code></td></tr><tr><td><code>Si a Y b Entonces</code></td><td><code>if (a &amp;&amp; b) {</code></td></tr><tr><td><code>Verdadero</code></td><td><code>true</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El préstec de la biblioteca</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
