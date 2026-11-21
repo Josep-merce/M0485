@@ -372,7 +372,7 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>A PSeInt <code>/</code> sempr
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Punts finals: 4</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada operador compost agafa el valor actual de <code>punts</code>, hi fa l'operació i hi guarda el resultat. Les instruccions s'executen en ordre, de manera que cada línia parteix del valor que ha deixat l'anterior: 100 → 150 → 120 → 240 → 60 → 4.</p></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Fes servir <code>++</code> i <code>--</code> en una línia pròpia (<code>comptador++;</code>). Posar-los dins d'expressions més llargues fa el codi difícil de llegir i és una font d'errors.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>a &lt;- a + 1</code></td><td><code>a++;</code> o <code>a += 1;</code></td></tr><tr><td><code>total &lt;- total + preu</code></td><td><code>total += preu;</code></td></tr></tbody></table></div></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Fes servir <code>++</code> i <code>--</code> en una línia pròpia (<code>comptador++;</code>). Posar-los dins d'expressions més llargues fa el codi difícil de llegir i és una font d'errors.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>a &lt;- a + 1</code></td><td><code>a++;</code> o <code>a += 1;</code></td></tr><tr><td><code>total &lt;- total + preu</code></td><td><code>total += preu;</code></td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La targeta de fidelitat</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
@@ -579,7 +579,7 @@ Resultat: 8
 8 és la suma</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els <code>+</code> s'avaluen d'<strong>esquerra a dreta</strong>. A la primera línia, <code>"Resultat: " + a</code> ja és un text, i en afegir-hi <code>b</code> s'enganxa un <code>3</code>: surt <code>53</code>. Els parèntesis de la segona línia obliguen a sumar primer.</p><p>A la tercera, <code>a + b</code> són dos enters i se sumen (8) abans de trobar el text.</p></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Quan vulguis mostrar el resultat d'un càlcul dins d'un text, posa el càlcul <strong>entre parèntesis</strong>: <code>"Total: " + (preu * quantitat)</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir "Nota: ", 8</code> (amb coma)</td><td><code>"Nota: " + 8</code> (amb <code>+</code>)</td></tr></tbody></table></div></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Quan vulguis mostrar el resultat d'un càlcul dins d'un text, posa el càlcul <strong>entre parèntesis</strong>: <code>"Total: " + (preu * quantitat)</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir "Nota: ", 8</code> (amb coma)</td><td><code>"Nota: " + 8</code> (amb <code>+</code>)</td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex4">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">El rebut del gimnàs</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
@@ -596,7 +596,7 @@ Resultat: 8
     Escribir "Mesos pagats: ", mesos
     Escribir "Mesos amb el regal: ", mesos + 1
     Escribir "Total: ", mesos * quota, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Tradueix primer sense parèntesis i executa-ho. Quina línia surt malament i per què?</li><li>Corregeix-la amb parèntesis. Posa'ls també al total, encara que funcioni sense: és el bon costum.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Sòcia: Júlia
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Tradueix primer sense parèntesis i executa-ho. Quina línia surt malament i per què?</li><li>Corregeix-la amb parèntesis. Posa'ls també al total, encara que funcioni sense: és una bona pràctica.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Sòcia: Júlia
 Mesos pagats: 3
 Mesos amb el regal: 4
 Total: 105 €</pre></div></div>
@@ -683,7 +683,7 @@ Hipotenusa: 5.0</pre></div>
 true</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>A <code>2 + 3 * 4</code> es multiplica primer (12) i després se suma: 14. Els parèntesis canvien l'ordre: <code>(2 + 3) * 4</code> = 20. Quan els operadors tenen la mateixa prioritat, es va d'esquerra a dreta: <code>20 - 8 - 2</code> = 10 i <code>20 / 4 * 2</code> = 10.</p><p>A la darrera línia es fan primer els càlculs (7 i 10), després les comparacions (<code>true</code> i <code>true</code>) i finalment el <code>&amp;&amp;</code>.</p></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bon costum</span><p>Quan tinguis dubtes, fes servir <strong>parèntesis</strong>: no costen res i fan el codi més clar per a qui el llegeix.</p></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Quan tinguis dubtes, fes servir <strong>parèntesis</strong>: no costen res i fan el codi més clar per a qui el llegeix.</p></div>
 <div class="exercici-card practica" id="ex5">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 5</span><span class="exercici-title">Quina pizza surt més a compte?</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
   <div class="exercici-body">
