@@ -229,213 +229,116 @@
 </nav>
 <main>
 <a class="backlink" href="A2_composicio_alternativa.html">← A2 · La composició alternativa</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.6 i 3.7</div><div class="obj-text">Dissenyar casos de prova que recorrin tots els camins d'un programa i els seus valors frontera, localitzar errors amb el depurador de NetBeans i documentar les decisions del codi amb comentaris útils.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.6 i 3.7</div><div class="obj-text">Dissenyar casos de prova que recorrin tots els camins d'un programa i els seus valors frontera, localitzar errors amb el depurador de NetBeans i documentar les decisions del codi amb comentaris útils.</div><div class="obj-text" style="margin-top:.5rem">✍️ Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java.</div></div></div>
 <section class="section" id="proves">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Casos de prova</h2><p class="sec-sub">Provar tots els camins</p></div></div>
-  <p class="lead">Un programa amb alternatives té diversos <strong>camins</strong>. Per estar segurs que funciona cal provar-los <strong>tots</strong>, amb especial atenció als <strong>valors límit</strong> (o frontera), que és on s'amaguen la majoria d'errors: un <code>&lt;</code> que hauria de ser <code>&lt;=</code>, una condició en mal ordre…</p><p class="text">Abans de donar per bo el programa de qualificacions de l'<a href="A2_1_if_else.html#multiple">A2.1</a>, preparem una taula amb un valor de cada rang i els valors frontera:</p><div class="table-wrap"><table><thead><tr><th>Nota de prova</th><th>Per què la provem</th><th>Resultat esperat</th></tr></thead><tbody><tr><td><code>-1</code> i <code>11</code></td><td>fora de rang</td><td>Nota incorrecta</td></tr><tr><td><code>0</code> i <code>4.99</code></td><td>límits d'Insuficient</td><td>Insuficient</td></tr><tr><td><code>5</code></td><td>frontera Insuficient / Suficient</td><td>Suficient</td></tr><tr><td><code>6</code></td><td>frontera Suficient / Bé</td><td>Bé</td></tr><tr><td><code>7</code></td><td>frontera Bé / Notable</td><td>Notable</td></tr><tr><td><code>9</code> i <code>10</code></td><td>frontera i màxim</td><td>Excel·lent</td></tr></tbody></table></div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Com triar els casos de prova:</strong> un valor qualsevol de cada camí, els dos valors de cada frontera (el darrer d'un rang i el primer del següent) i algun valor no vàlid. Afegeix una columna <em>Resultat obtingut</em> i marca ✔ o ✘ després d'executar.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>A PSeInt proves canviant el valor i prement <strong>Ejecutar</strong>.</td><td>A Java canvies el valor de la variable i tornes a fer <strong>Run File</strong> (<code>Maj</code>+<code>F6</code>).</td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La categoria esportiva</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <p class="lead">Un programa amb alternatives té diversos <strong>camins</strong>. Per estar segurs que funciona cal provar-los <strong>tots</strong>, amb especial atenció als <strong>valors límit</strong> (o frontera), que és on s'amaguen la majoria d'errors: un <code>&lt;</code> que hauria de ser <code>&lt;=</code>, una condició en mal ordre…</p><p class="text">Abans de donar per bo el programa de qualificacions de l'<a href="A2_1_if_else.html#multiple">A2.1</a>, preparem una taula amb un valor de cada rang i els valors frontera:</p><div class="table-wrap"><table><thead><tr><th>Nota de prova</th><th>Per què la provem</th><th>Resultat esperat</th></tr></thead><tbody><tr><td><code>-1</code> i <code>11</code></td><td>fora de rang</td><td>Nota incorrecta</td></tr><tr><td><code>0</code> i <code>4.99</code></td><td>límits d'Insuficient</td><td>Insuficient</td></tr><tr><td><code>5</code></td><td>frontera Insuficient / Suficient</td><td>Suficient</td></tr><tr><td><code>6</code></td><td>frontera Suficient / Bé</td><td>Bé</td></tr><tr><td><code>7</code></td><td>frontera Bé / Notable</td><td>Notable</td></tr><tr><td><code>9</code> i <code>10</code></td><td>frontera i màxim</td><td>Excel·lent</td></tr></tbody></table></div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Com triar els casos de prova:</strong> un valor qualsevol de cada camí, els dos valors de cada frontera (el darrer d'un rang i el primer del següent) i algun valor no vàlid. Afegeix una columna <em>Resultat obtingut</em> i marca ✔ o ✘ després d'executar.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>A PSeInt proves canviant el valor i prement <strong>Ejecutar</strong>.</td><td>A Java canvies el valor de la variable i tornes a fer <strong>Run File</strong> (<code>Maj</code>+<code>F6</code>).</td></tr></tbody></table></div></div></section><section class="section" id="depurador">
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">El depurador de NetBeans</h2><p class="sec-sub">Veure el programa per dins</p></div></div>
+  <p class="lead">Quan un programa dona un resultat incorrecte, el <strong>depurador</strong> (<em>debugger</em>) permet executar-lo <strong>línia a línia</strong> i veure el valor de les variables en cada moment. Així es veu clarament per quina branca de l'<code>if</code> entra.</p><div class="cards"><div class="card"><span class="card-num">1</span><span class="card-title">Posar un punt d'interrupció</span><span class="card-desc">Fes clic al número de línia on vols aturar l'execució. Apareix un quadrat vermell (<em>breakpoint</em>).</span></div><div class="card"><span class="card-num">2</span><span class="card-title">Iniciar la depuració</span><span class="card-desc">Clic dret al fitxer → <strong>Debug File</strong> (<code>Ctrl</code>+<code>Maj</code>+<code>F5</code>). El programa s'atura a la línia marcada.</span></div><div class="card"><span class="card-num">3</span><span class="card-title">Avançar pas a pas</span><span class="card-desc"><code>F8</code> executa la línia actual i passa a la següent. Observa per quin bloc de l'<code>if</code> entra el programa.</span></div><div class="card"><span class="card-num">4</span><span class="card-title">Inspeccionar variables</span><span class="card-desc">La finestra <strong>Variables</strong> mostra el valor de cada variable. També pots passar el ratolí per sobre d'una variable.</span></div></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>PSeInt també té un mode pas a pas (<strong>Ejecutar paso a paso</strong>). El depurador de NetBeans fa el mateix, però amb programes reals i amb la llista de variables sempre visible.</p></div></section><section class="section" id="documentar">
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Documentar les decisions</h2><p class="sec-sub">Comentaris que expliquen el perquè</p></div></div>
+  <p class="lead">Un bon comentari en una alternativa explica la <strong>regla de negoci</strong> que hi ha darrere de la condició o una <strong>decisió de disseny</strong>, no la sintaxi. Qui llegeix el codi ja veu <em>què</em> es compara; el comentari ha de dir <em>per què</em>.</p><div class="table-wrap"><table><thead><tr><th>Comentari</th><th>Valoració</th></tr></thead><tbody><tr><td><code>// si preu és més gran o igual que 100</code></td><td>✘ Repeteix el codi</td></tr><tr><td><code>// Les compres de 100 € o més tenen un 10 % de descompte</code></td><td>✔ Explica la regla</td></tr><tr><td><code>// L'ordre importa: primer descartem les notes fora de rang</code></td><td>✔ Explica una decisió de disseny</td></tr></tbody></table></div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Converteix els números de les regles en <strong>constants amb nom</strong> (<code>IMPORT_MINIM_DESCOMPTE</code>, <code>PERCENT_DESCOMPTE</code>). Moltes vegades un bon nom de constant fa la meitat de la feina del comentari.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>// comentari</code></td><td><code>// comentari</code> (igual)</td></tr></tbody></table></div></div></section><section class="section" id="demos">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
+  <p class="lead">Comprova que saps triar bons casos de prova, fer servir el depurador i reconèixer un bon comentari. Tots dos són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Provar i depurar</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Tria la millor resposta.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Quins valors provaries per a <code>if (preu &gt;= 100)</code>?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">50 i 150</button><button type="button" class="qi-btn" data-ok="1">99, 100 i 101</button><button type="button" class="qi-btn" data-ok="0">100 i 200</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cal provar els dos costats de la frontera i la frontera mateixa.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Quina tecla avança una línia amb el depurador de NetBeans?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1"><code>F8</code></button><button type="button" class="qi-btn" data-ok="0"><code>Maj</code>+<code>F6</code></button><button type="button" class="qi-btn" data-ok="0"><code>F11</code></button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>F8</code> és <em>Step Over</em>. <code>Maj</code>+<code>F6</code> executa el fitxer sense depurar.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> On posaries el <em>breakpoint</em> per veure per quina branca entra?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">A la línia de l'<code>if</code></button><button type="button" class="qi-btn" data-ok="0">Al final del <code>main</code></button><button type="button" class="qi-btn" data-ok="0">A la declaració de la classe</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Així el programa s'atura just abans de decidir i pots avançar amb <code>F8</code>.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Bon o mal comentari?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Decideix si cada comentari ajuda a entendre el codi.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>if (edat &gt;= 65) { // si edat és més gran o igual que 65</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Bon comentari</button><button type="button" class="qi-btn" data-ok="1">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Repeteix el codi. No diu per què 65.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>if (edat &gt;= 65) { // Jubilats: 40 % de descompte</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Explica la regla de negoci.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>if (b != 0) { // Evitem la divisió per zero</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Diu per què hi ha aquesta condició.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div>
+</section><section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir tot el que has vist: dissenyar casos de prova amb els valors frontera, trobar un error amb el depurador de NetBeans i documentar les decisions amb comentaris i constants. Escriu-los i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El radar de la carretera</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un club classifica els jugadors per edat: Benjamí (8–9), Aleví (10–11), Infantil (12–13) i Cadet (14–15). Tradueix l'algorisme a la classe <code>Categoria</code> amb una cadena <code>else if</code> i, després, omple una <strong>taula de casos de prova</strong>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Categoria
-    Definir edat Como Entero
-    Definir categoria Como Cadena
-
-    edat &lt;- 12
-
-    Si edat &lt; 8 O edat &gt; 15 Entonces
-        categoria &lt;- "Fora de categoria"
+    <p>En una carretera limitada a 90 km/h, un radar classifica cada cotxe: fins a 90 km/h és correcte, fins a 110 km/h és multa lleu i per sobre, multa greu. Una velocitat negativa vol dir que el radar ha fallat. Tradueix l'algorisme a la classe <code>Radar</code> i, després, omple una <strong>taula de casos de prova</strong>.</p><div class="pseudo">Algoritmo Radar
+    Definir velocitat Como Entero
+    Definir resultat Como Cadena
+    velocitat &lt;- 105
+    Si velocitat &lt; 0 Entonces
+        resultat &lt;- "Velocitat no vàlida"
     SiNo
-        Si edat &lt;= 9 Entonces
-            categoria &lt;- "Benjamí"
+        Si velocitat &lt;= 90 Entonces
+            resultat &lt;- "Correcte"
         SiNo
-            Si edat &lt;= 11 Entonces
-                categoria &lt;- "Aleví"
+            Si velocitat &lt;= 110 Entonces
+                resultat &lt;- "Multa lleu"
             SiNo
-                Si edat &lt;= 13 Entonces
-                    categoria &lt;- "Infantil"
-                SiNo
-                    categoria &lt;- "Cadet"
-                FinSi
+                resultat &lt;- "Multa greu"
             FinSi
         FinSi
     FinSi
-
-    Escribir "Edat ", edat, ": ", categoria
-FinAlgoritmo</div>
-<div class="solucio-wrap">
+    Escribir "Velocitat ", velocitat, " km/h: ", resultat
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Els <code>Si</code> niats → <code>else if</code>. Converteix els límits 90 i 110 en constants.</li><li>Fes una taula amb les columnes <em>Velocitat</em>, <em>Per què la provem</em>, <em>Resultat esperat</em> i <em>Resultat obtingut</em>.</li><li>Prova totes les fronteres: -1, 0, 90, 91, 110 i 111.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Velocitat 105 km/h: Multa lleu</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Categoria</span> {
-
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Radar</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> edat = <span class="num">12</span>;
-        <span class="cls">String</span> categoria;
-
-        <span class="cmt">// Primer descartem les edats que no tenen categoria</span>
-        <span class="kw">if</span> (edat &lt; <span class="num">8</span> || edat &gt; <span class="num">15</span>) {
-            categoria = <span class="str">"Fora de categoria"</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> (edat &lt;= <span class="num">9</span>) {
-            categoria = <span class="str">"Benjamí"</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> (edat &lt;= <span class="num">11</span>) {
-            categoria = <span class="str">"Aleví"</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> (edat &lt;= <span class="num">13</span>) {
-            categoria = <span class="str">"Infantil"</span>;
+        <span class="kw">final</span> <span class="kw">int</span> LIMIT_VELOCITAT = <span class="num">90</span>;    <span class="cmt">// km/h permesos</span>
+        <span class="kw">final</span> <span class="kw">int</span> LIMIT_MULTA_LLEU = <span class="num">110</span>;  <span class="cmt">// fins aquí la multa és lleu</span>
+        <span class="kw">int</span> velocitat = <span class="num">105</span>;
+        <span class="cls">String</span> resultat;
+        <span class="cmt">// Primer descartem els valors impossibles</span>
+        <span class="kw">if</span> (velocitat &lt; <span class="num">0</span>) {
+            resultat = <span class="str">"Velocitat no vàlida"</span>;
+        } <span class="kw">else</span> <span class="kw">if</span> (velocitat &lt;= LIMIT_VELOCITAT) {
+            resultat = <span class="str">"Correcte"</span>;
+        } <span class="kw">else</span> <span class="kw">if</span> (velocitat &lt;= LIMIT_MULTA_LLEU) {
+            resultat = <span class="str">"Multa lleu"</span>;
         } <span class="kw">else</span> {
-            categoria = <span class="str">"Cadet"</span>;
+            resultat = <span class="str">"Multa greu"</span>;
         }
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat "</span> + edat + <span class="str">": "</span> + categoria);
-
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Velocitat "</span> + velocitat + <span class="str">" km/h: "</span> + resultat);
     }
-
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La traducció és correcta i fa servir <code>else if</code>.</li><li>La taula de proves té els 10 valors frontera: 7 i 16 → Fora de categoria; 8, 9 → Benjamí; 10, 11 → Aleví; 12, 13 → Infantil; 14, 15 → Cadet.</li><li>Cada fila té el resultat esperat i l'obtingut.</li></ul></div><ul class="exercici-tasques"><li><code>O</code> → <code>||</code>. Els <code>Si</code> niats → <code>else if</code>.</li><li>Fes una taula amb les columnes <em>Edat</em>, <em>Resultat esperat</em> i <em>Resultat obtingut</em>.</li><li>Prova totes les fronteres: 7, 8, 9, 10, 11, 12, 13, 14, 15 i 16.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Edat 12: Infantil</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.6</span></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La traducció és correcta i fa servir <code>else if</code>.</li><li>La taula té les fronteres: -1 → no vàlida; 0 i 90 → Correcte; 91 i 110 → Multa lleu; 111 → Multa greu.</li><li>Cada fila té el resultat esperat i l'obtingut.</li><li>Els límits són constants amb nom.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.6</span></div>
 </div>
-</section><section class="section" id="depurador">
-  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">El depurador de NetBeans</h2><p class="sec-sub">Veure el programa per dins</p></div></div>
-  <p class="lead">Quan un programa dona un resultat incorrecte, el <strong>depurador</strong> (<em>debugger</em>) permet executar-lo <strong>línia a línia</strong> i veure el valor de les variables en cada moment. Així es veu clarament per quina branca de l'<code>if</code> entra.</p><div class="cards"><div class="card"><span class="card-num">1</span><span class="card-title">Posar un punt d'interrupció</span><span class="card-desc">Fes clic al número de línia on vols aturar l'execució. Apareix un quadrat vermell (<em>breakpoint</em>).</span></div><div class="card"><span class="card-num">2</span><span class="card-title">Iniciar la depuració</span><span class="card-desc">Clic dret al fitxer → <strong>Debug File</strong> (<code>Ctrl</code>+<code>Maj</code>+<code>F5</code>). El programa s'atura a la línia marcada.</span></div><div class="card"><span class="card-num">3</span><span class="card-title">Avançar pas a pas</span><span class="card-desc"><code>F8</code> executa la línia actual i passa a la següent. Observa per quin bloc de l'<code>if</code> entra el programa.</span></div><div class="card"><span class="card-num">4</span><span class="card-title">Inspeccionar variables</span><span class="card-desc">La finestra <strong>Variables</strong> mostra el valor de cada variable. També pots passar el ratolí per sobre d'una variable.</span></div></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>PSeInt també té un mode pas a pas (<strong>Ejecutar paso a paso</strong>). El depurador de NetBeans fa el mateix, però amb programes reals i amb la llista de variables sempre visible.</p></div><div class="exercici-card practica" id="ex2">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">El descompte per quantitat (amb error)</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'enviament gratuït (amb error)</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>La regla de la botiga és: <strong>50 unitats o més → 15 % de descompte; de 10 a 49 → 5 %</strong>. Però l'algorisme té un error. Tradueix-lo a Java <strong>tal com està</strong> (classe <code>DescompteQuantitat</code>), executa'l amb 60 unitats i, amb el depurador, troba per quina branca entra. Després corregeix-lo.</p><div class="ex-grid"><div class="pseudo">Algoritmo DescompteQuantitat
-    Definir unitats, descompte Como Entero
-    Definir preuUnitat, total Como Real
-
-    unitats &lt;- 60
-    preuUnitat &lt;- 2
-
-    Si unitats &gt;= 10 Entonces
-        descompte &lt;- 5
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Depura i corregeix</span></div>
+    <p>La regla de la botiga és: <strong>els clients prèmium i les compres de 50 € o més no paguen enviament</strong>; la resta paga 5 €. Però l'algorisme té un error. Tradueix-lo a Java <strong>tal com està</strong> (classe <code>Enviament</code>), executa'l amb una compra de 50 € i, amb el depurador, troba per quina branca entra. Després corregeix-lo i <strong>documenta</strong> la regla.</p><div class="pseudo">Algoritmo Enviament
+    Definir importCompra, costEnviament, total Como Entero
+    Definir esPremium Como Logico
+    importCompra &lt;- 50
+    esPremium &lt;- Falso
+    Si esPremium O importCompra &gt; 50 Entonces
+        costEnviament &lt;- 0
     SiNo
-        Si unitats &gt;= 50 Entonces
-            descompte &lt;- 15
-        SiNo
-            descompte &lt;- 0
-        FinSi
+        costEnviament &lt;- 5
     FinSi
-
-    total &lt;- unitats * preuUnitat * (100 - descompte) / 100
-
-    Escribir "Unitats: ", unitats, " · descompte: ", descompte, " %"
+    total &lt;- importCompra + costEnviament
+    Escribir "Compra: ", importCompra, " € · enviament: ", costEnviament, " €"
     Escribir "Total: ", total, " €"
-FinAlgoritmo</div>
-<div class="solucio-wrap">
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Primer tradueix-lo sense canviar res (<code>O</code> → <code>||</code>): amb 50 € sortirà <code>enviament: 5 €</code> i <code>Total: 55 €</code>.</li><li>Posa un <em>breakpoint</em> a la línia de l'<code>if</code>, avança amb <code>F8</code> i mira els valors a la finestra <strong>Variables</strong>. Explica l'error en un comentari.</li><li>Corregeix-lo, converteix el 50 i el 5 en constants i prova amb 49, 50 i 51 € i amb un client prèmium.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Compra: 50 € · enviament: 0 €
+Total: 50 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DescompteQuantitat</span> {
-
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Enviament</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> unitats = <span class="num">60</span>;
-        <span class="kw">double</span> preuUnitat = <span class="num">2</span>;
-        <span class="kw">int</span> descompte;
-
-        <span class="cmt">// ERROR ORIGINAL: "unitats &gt;= 10" anava primer i també és cert per a 60,</span>
-        <span class="cmt">// de manera que la branca del 15 % no s'executava mai.</span>
-        <span class="cmt">// SOLUCIÓ: primer la condició més restrictiva (&gt;= 50).</span>
-        <span class="kw">if</span> (unitats &gt;= <span class="num">50</span>) {
-            descompte = <span class="num">15</span>;
-        } <span class="kw">else</span> <span class="kw">if</span> (unitats &gt;= <span class="num">10</span>) {
-            descompte = <span class="num">5</span>;
+        <span class="kw">final</span> <span class="kw">int</span> IMPORT_ENVIAMENT_GRATUIT = <span class="num">50</span>;  <span class="cmt">// euros</span>
+        <span class="kw">final</span> <span class="kw">int</span> COST_ENVIAMENT = <span class="num">5</span>;             <span class="cmt">// euros</span>
+        <span class="kw">int</span> importCompra = <span class="num">50</span>;
+        <span class="kw">boolean</span> esPremium = <span class="kw">false</span>;
+        <span class="kw">int</span> costEnviament;
+        <span class="cmt">// Els clients prèmium i les compres de 50 € o més no paguen enviament.</span>
+        <span class="cmt">// ERROR ORIGINAL: la condició era "importCompra &gt; 50" i una compra</span>
+        <span class="cmt">// de 50 € justos pagava l'enviament. Ha de ser &gt;= (frontera inclosa).</span>
+        <span class="kw">if</span> (esPremium || importCompra &gt;= IMPORT_ENVIAMENT_GRATUIT) {
+            costEnviament = <span class="num">0</span>;
         } <span class="kw">else</span> {
-            descompte = <span class="num">0</span>;
+            costEnviament = COST_ENVIAMENT;
         }
-
-        <span class="kw">double</span> total = unitats * preuUnitat * (<span class="num">100</span> - descompte) / <span class="num">100</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Unitats: "</span> + unitats + <span class="str">" · descompte: "</span> + descompte + <span class="str">" %"</span>);
+        <span class="kw">int</span> total = importCompra + costEnviament;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Compra: "</span> + importCompra + <span class="str">" € · enviament: "</span> + costEnviament + <span class="str">" €"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total + <span class="str">" €"</span>);
-
     }
-
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>S'ha fet servir el depurador per veure la branca on entra.</li><li>Un comentari explica la causa de l'error (ordre de les condicions).</li><li>S'han provat les fronteres 9, 10, 49 i 50.</li></ul></div><ul class="exercici-tasques"><li>Primer tradueix-lo sense canviar res: amb 60 unitats sortirà <code>descompte: 5 %</code> i <code>Total: 114.0 €</code>.</li><li>Posa un <em>breakpoint</em> a la línia del primer <code>if</code> i avança amb <code>F8</code>. Explica en un comentari per què mai s'arriba al 15 %.</li><li>Corregeix-lo i prova amb 9, 10, 49 i 50 unitats.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Amb 60 unitats, quina és la <strong>primera</strong> condició certa? Recorda que en una cadena d'alternatives, quan una condició és certa, les altres ja no es miren.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Unitats: 60 · descompte: 15 %
-Total: 102.0 €</pre></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>S'ha fet servir el depurador per veure la branca on entra.</li><li>Un comentari explica la regla i la causa de l'error (la frontera de 50 € no s'incloïa).</li><li>No hi ha números màgics: l'import mínim i el cost de l'enviament són constants.</li><li>S'han provat les fronteres 49, 50 i 51 i el client prèmium.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.6 · 3.7</span></div>
-</div>
-</section><section class="section" id="documentar">
-  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Documentar les decisions</h2><p class="sec-sub">Comentaris que expliquen el perquè</p></div></div>
-  <p class="lead">Un bon comentari en una alternativa explica la <strong>regla de negoci</strong> que hi ha darrere de la condició o una <strong>decisió de disseny</strong>, no la sintaxi. Qui llegeix el codi ja veu <em>què</em> es compara; el comentari ha de dir <em>per què</em>.</p><div class="table-wrap"><table><thead><tr><th>Comentari</th><th>Valoració</th></tr></thead><tbody><tr><td><code>// si preu és més gran o igual que 100</code></td><td>✘ Repeteix el codi</td></tr><tr><td><code>// Les compres de 100 € o més tenen un 10 % de descompte</code></td><td>✔ Explica la regla</td></tr><tr><td><code>// L'ordre importa: primer descartem les notes fora de rang</code></td><td>✔ Explica una decisió de disseny</td></tr></tbody></table></div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Converteix els números de les regles en <strong>constants amb nom</strong> (<code>MAX_DIES_RETARD</code>, <code>PENALITZACIO_DIA</code>). Moltes vegades un bon nom de constant fa la meitat de la feina del comentari.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>// comentari</code></td><td><code>// comentari</code> (igual)</td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">La nota de la pràctica amb retard</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Les pràctiques lliurades tard perden 1 punt per dia de retard; amb més de 3 dies no s'accepten, i la nota mai pot ser negativa. Tradueix l'algorisme a la classe <code>NotaPractica</code> i <strong>documenta</strong> cada decisió.</p><div class="ex-grid"><div class="pseudo">Algoritmo NotaPractica
-    Definir nota, notaFinal Como Real
-    Definir diesRetard Como Entero
-
-    nota &lt;- 8.5
-    diesRetard &lt;- 2
-
-    Si diesRetard = 0 Entonces
-        notaFinal &lt;- nota
-    SiNo
-        Si diesRetard &lt;= 3 Entonces
-            notaFinal &lt;- nota - diesRetard
-        SiNo
-            notaFinal &lt;- 0
-        FinSi
-    FinSi
-
-    Si notaFinal &lt; 0 Entonces
-        notaFinal &lt;- 0
-    FinSi
-
-    Escribir "Nota: ", nota, " · retard: ", diesRetard, " dies"
-    Escribir "Nota final: ", notaFinal
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">NotaPractica</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">final</span> <span class="kw">int</span> MAX_DIES_RETARD = <span class="num">3</span>;      <span class="cmt">// a partir de 4 dies no s'accepta</span>
-        <span class="kw">final</span> <span class="kw">double</span> PENALITZACIO_DIA = <span class="num">1</span>;  <span class="cmt">// punts que es perden per dia de retard</span>
-
-        <span class="kw">double</span> nota = <span class="num">8.5</span>;
-        <span class="kw">int</span> diesRetard = <span class="num">2</span>;
-        <span class="kw">double</span> notaFinal;
-
-        <span class="kw">if</span> (diesRetard == <span class="num">0</span>) {
-            <span class="cmt">// Lliurada a temps: es manté la nota</span>
-            notaFinal = nota;
-        } <span class="kw">else</span> <span class="kw">if</span> (diesRetard &lt;= MAX_DIES_RETARD) {
-            <span class="cmt">// Lliurament tardà acceptat: es resta la penalització per cada dia</span>
-            notaFinal = nota - diesRetard * PENALITZACIO_DIA;
-        } <span class="kw">else</span> {
-            <span class="cmt">// Massa retard: la pràctica no s'accepta</span>
-            notaFinal = <span class="num">0</span>;
-        }
-
-        <span class="cmt">// La penalització no pot deixar una nota negativa</span>
-        <span class="kw">if</span> (notaFinal &lt; <span class="num">0</span>) {
-            notaFinal = <span class="num">0</span>;
-        }
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota: "</span> + nota + <span class="str">" · retard: "</span> + diesRetard + <span class="str">" dies"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota final: "</span> + notaFinal);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els comentaris expliquen les regles (retard acceptat, penalització, nota mínima).</li><li>No hi ha números màgics: els valors de les regles són constants.</li><li>S'han provat els quatre casos, inclòs el de la nota negativa.</li></ul></div><ul class="exercici-tasques"><li>Converteix el <code>3</code> i l'<code>1</code> punt per dia en constants.</li><li>Escriu un comentari a cada <code>if</code> que expliqui la regla, no la sintaxi.</li><li>Prova: 0 dies, 3 dies, 4 dies i nota 2 amb 3 dies de retard.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">Nota: 8.5 · retard: 2 dies
-Nota final: 6.5</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.6 · 3.7</span></div>
-</div>
-</section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
-  <p class="lead">Comprova que saps triar bons casos de prova, fer servir el depurador i reconèixer un bon comentari.</p><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Provar i depurar</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Tria la millor resposta.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Quins valors provaries per a <code>if (preu &gt;= 100)</code>?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">50 i 150</button><button type="button" class="qi-btn" data-ok="1">99, 100 i 101</button><button type="button" class="qi-btn" data-ok="0">100 i 200</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cal provar els dos costats de la frontera i la frontera mateixa.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Per al museu (menors de 6 gratis, fins a 17 la meitat, 65 o més descompte), quins valors?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">5, 6, 17, 18, 64 i 65</button><button type="button" class="qi-btn" data-ok="0">10, 30 i 70</button><button type="button" class="qi-btn" data-ok="0">0 i 100</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Un valor a cada costat de cada frontera.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> Quina tecla avança una línia amb el depurador de NetBeans?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1"><code>F8</code></button><button type="button" class="qi-btn" data-ok="0"><code>Maj</code>+<code>F6</code></button><button type="button" class="qi-btn" data-ok="0"><code>F11</code></button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>F8</code> és <em>Step Over</em>. <code>Maj</code>+<code>F6</code> executa el fitxer sense depurar.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> On posaries el <em>breakpoint</em> per veure per quina branca entra?</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">A la línia de l'<code>if</code></button><button type="button" class="qi-btn" data-ok="0">Al final del <code>main</code></button><button type="button" class="qi-btn" data-ok="0">A la declaració de la classe</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Així el programa s'atura just abans de decidir i pots avançar amb <code>F8</code>.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
-</div><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Bon o mal comentari?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body"><p>Decideix si cada comentari ajuda a entendre el codi.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>if (edat &gt;= 65) { // si edat és més gran o igual que 65</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Bon comentari</button><button type="button" class="qi-btn" data-ok="1">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Repeteix el codi. No diu per què 65.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>if (edat &gt;= 65) { // Jubilats: 40 % de descompte</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Explica la regla de negoci.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>// L'ordre importa: primer descartem les notes fora de rang</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Explica una decisió de disseny que no és evident.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>} else { // else</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Bon comentari</button><button type="button" class="qi-btn" data-ok="1">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>No aporta res.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>if (b != 0) { // Evitem la divisió per zero</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Diu per què hi ha aquesta condició.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
 </div>
 </section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A2_3_ternari_switch.html">← A2.3 Ternari i switch</a><a href="A2_composicio_alternativa.html" class="nav-hub">A2 · Índex</a><a href="A2_exercicis.html">Exercicis pràctics →</a></nav>
