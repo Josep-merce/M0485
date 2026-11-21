@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exercicis pràctics · A2 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A2 · La composició alternativa</p>
+  <h1>Exercicis pràctics</h1>
+  <p>Disset exercicis per consolidar tota l'A2: alternatives simples, dobles i múltiples, niades, textos, ternari, <code>switch</code> i proves.</p>
+  <div class="hero-pills"><span class="pill">RA3</span><span class="pill">CA 3.1 · 3.5 · 3.6 · 3.7</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A2_composicio_alternativa.html">A2</a><span>›</span>
+  Exercicis pràctics
+</nav>
+<main>
+<a class="backlink" href="A2_composicio_alternativa.html">← A2 · La composició alternativa</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.1, 3.5, 3.6 i 3.7</div><div class="obj-text">Resoldre problemes complets que necessiten prendre decisions, triant l'estructura alternativa més adequada en cada cas, i comprovar-ne el funcionament amb casos de prova que recorrin tots els camins.</div></div></div>
+<p class="lead">Exercicis per repassar tota l'A2 combinant el que has après a les subpàgines. Estan ordenats de menys a més dificultat. Escriu primer l'algorisme en pseudocodi, programa'l i <strong>prova tots els camins</strong> canviant els valors de les variables. La sortida esperada correspon als valors indicats a l'enunciat. Crea cada exercici com una classe nova del projecte <code>AEA1_A2</code>.</p>
+<div class="exercici-card" id="ex1">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 1</span>
+    <span class="exercici-title">Parell o senar amb operació</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Si un número enter és parell, multiplica'l per 2 i suma-li 3. Si és senar, multiplica'l per 3 i resta-li 4. Mostra l'operació feta i el resultat.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int numero = 7;</code> i prova també amb un número parell.</li>
+      <li>Usa <code>if / else</code> i l'operador <code>%</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>7 és senar: 7 * 3 - 4 = 17</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ParellSenarOperacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">7</span>;
+        <span class="kw">int</span> resultat;
+
+        <span class="kw">if</span> (numero % <span class="num">2</span> == <span class="num">0</span>) {
+            resultat = numero * <span class="num">2</span> + <span class="num">3</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és parell: "</span> + numero + <span class="str">" * 2 + 3 = "</span> + resultat);
+        } <span class="kw">else</span> {
+            resultat = numero * <span class="num">3</span> - <span class="num">4</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" és senar: "</span> + numero + <span class="str">" * 3 - 4 = "</span> + resultat);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La condició de parell és <code>numero % 2 == 0</code>.</li><li>S'ha provat amb un parell i amb un senar.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex2">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 2</span>
+    <span class="exercici-title">El més gran de tres números</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donats tres números enters, mostra quin és el més gran.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int a = 14, b = 27, c = 9;</code></li>
+      <li>Resol-ho amb <code>if / else if / else</code> i operadors lògics.</li>
+      <li>Prova què passa si dos números són iguals i són els més grans (per exemple 27, 27, 9).</li>
+      <li>Ampliació: resol-ho també amb dos operadors ternaris.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El major de 14, 27 i 9 és 27
+Amb ternaris: 27</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MajorDeTres</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> a = <span class="num">14</span>;
+        <span class="kw">int</span> b = <span class="num">27</span>;
+        <span class="kw">int</span> c = <span class="num">9</span>;
+
+        <span class="kw">int</span> major;
+
+        <span class="cmt">// Fem servir &gt;= perquè els empats també funcionin</span>
+        <span class="kw">if</span> (a &gt;= b &amp;&amp; a &gt;= c) {
+            major = a;
+        } <span class="kw">else</span> <span class="kw">if</span> (b &gt;= c) {
+            major = b;       <span class="cmt">// aquí ja sabem que a no és el major</span>
+        } <span class="kw">else</span> {
+            major = c;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El major de "</span> + a + <span class="str">", "</span> + b + <span class="str">" i "</span> + c + <span class="str">" és "</span> + major);
+
+        <span class="cmt">// Ampliació amb ternaris</span>
+        <span class="kw">int</span> majorAB = (a &gt; b) ? a : b;
+        <span class="kw">int</span> majorTernari = (majorAB &gt; c) ? majorAB : c;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Amb ternaris: "</span> + majorTernari);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els empats donen un resultat correcte (per això <code>&gt;=</code> en lloc de <code>&gt;</code>).</li><li>No hi ha comparacions innecessàries a l'<code>else if</code>.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex3">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 3</span>
+    <span class="exercici-title">Preu de l'entrada al museu</span>
+    <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
+  </div>
+  <div class="exercici-body">
+    <p>L'entrada general d'un museu costa 12 €. Els menors de 6 anys entren gratis, de 6 a 17 anys paguen la meitat i els de 65 o més tenen un 40 % de descompte.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int edat = 70;</code> i el preu general com a constant.</li>
+      <li>Calcula el preu amb una alternativa múltiple.</li>
+      <li>Prova els valors límit: 5, 6, 17, 18, 64 i 65.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 70 anys → preu: 7.2 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-basic">Bàsic</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EntradaMuseu</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">double</span> PREU_GENERAL = <span class="num">12.0</span>;
+        <span class="kw">final</span> <span class="kw">double</span> DESCOMPTE_GENT_GRAN = <span class="num">0.40</span>;
+
+        <span class="kw">int</span> edat = <span class="num">70</span>;
+        <span class="kw">double</span> preu;
+
+        <span class="kw">if</span> (edat &lt; <span class="num">6</span>) {
+            preu = <span class="num">0</span>;
+        } <span class="kw">else</span> <span class="kw">if</span> (edat &lt;= <span class="num">17</span>) {
+            preu = PREU_GENERAL / <span class="num">2</span>;
+        } <span class="kw">else</span> <span class="kw">if</span> (edat &gt;= <span class="num">65</span>) {
+            preu = PREU_GENERAL - PREU_GENERAL * DESCOMPTE_GENT_GRAN;
+        } <span class="kw">else</span> {
+            preu = PREU_GENERAL;
+        }
+
+        <span class="cmt">// 12 - 4.8 dona 7.199999999999999: arrodonim a 2 decimals</span>
+        preu = <span class="cls">Math</span>.<span class="fn">round</span>(preu * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat + <span class="str">" anys → preu: "</span> + preu + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els límits (6, 17, 65) estan ben tractats: s'han provat els valors frontera.</li><li>El preu general i el descompte són constants, i el resultat s'arrodoneix.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex4">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 4</span>
+    <span class="exercici-title">Índex de massa corporal</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Calcula l'IMC (pes / alçada²) d'una persona i mostra'n la classificació: menys de 18.5 → pes baix; de 18.5 a menys de 25 → normal; de 25 a menys de 30 → sobrepès; 30 o més → obesitat.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>double pes = 82;</code> (kg) i <code>double alcada = 1.75;</code> (m).</li>
+      <li>Valida primer que pes i alçada siguin positius; si no, mostra un error.</li>
+      <li>Arrodoneix l'IMC a 2 decimals abans de mostrar-lo.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>IMC: 26.78 (Sobrepès)</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CalculIMC</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> pes = <span class="num">82</span>;
+        <span class="kw">double</span> alcada = <span class="num">1.75</span>;
+
+        <span class="cmt">// Validem les dades abans de calcular per evitar divisions per zero</span>
+        <span class="kw">if</span> (pes &lt;= <span class="num">0</span> || alcada &lt;= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: el pes i l'alçada han de ser positius."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="kw">double</span> imc = pes / (alcada * alcada);
+            imc = <span class="cls">Math</span>.<span class="fn">round</span>(imc * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+            <span class="cls">String</span> categoria;
+            <span class="kw">if</span> (imc &lt; <span class="num">18.5</span>) {
+                categoria = <span class="str">"Pes baix"</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (imc &lt; <span class="num">25</span>) {
+                categoria = <span class="str">"Normal"</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (imc &lt; <span class="num">30</span>) {
+                categoria = <span class="str">"Sobrepès"</span>;
+            } <span class="kw">else</span> {
+                categoria = <span class="str">"Obesitat"</span>;
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"IMC: "</span> + imc + <span class="str">" ("</span> + categoria + <span class="str">")"</span>);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans del càlcul.</li><li>Els parèntesis de <code>alcada * alcada</code> són necessaris.</li><li>Les condicions aprofiten l'ordre de l'<code>else if</code>.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex5">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 5</span>
+    <span class="exercici-title">Dies que té un mes</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un mes (1–12) i un any, mostra quants dies té aquell mes. Febrer té 29 dies els anys de traspàs.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int mes = 2;</code> i <code>int any = 2028;</code></li>
+      <li>Fes servir un <code>switch</code> agrupant els mesos que tenen els mateixos dies.</li>
+      <li>Per al febrer, reutilitza l'expressió de l'any de traspàs de l'A1.</li>
+      <li>Si el mes no és vàlid, mostra un missatge d'error.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El mes 2 de 2028 té 29 dies</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiesMes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> mes = <span class="num">2</span>;
+        <span class="kw">int</span> any = <span class="num">2028</span>;
+
+        <span class="kw">int</span> dies;
+
+        <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">10</span>, <span class="num">12</span> -&gt; dies = <span class="num">31</span>;
+            <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -&gt; dies = <span class="num">30</span>;
+            <span class="kw">case</span> <span class="num">2</span> -&gt; {
+                <span class="kw">boolean</span> traspas = (any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>;
+                dies = traspas ? <span class="num">29</span> : <span class="num">28</span>;
+            }
+            <span class="kw">default</span> -&gt; dies = <span class="num">0</span>;
+        }
+
+        <span class="kw">if</span> (dies == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mes no vàlid: "</span> + mes);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El mes "</span> + mes + <span class="str">" de "</span> + any + <span class="str">" té "</span> + dies + <span class="str">" dies"</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els mesos s'agrupen en lloc de repetir 12 casos.</li><li>El febrer té en compte els anys de traspàs.</li><li>Els mesos no vàlids es detecten amb <code>default</code>.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex6">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 6</span>
+    <span class="exercici-title">Menú de conversió d'unitats</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un programa rep una opció en text i una quantitat, i fa la conversió corresponent: <code>"km-milles"</code> (× 0.621371), <code>"milles-km"</code> (× 1.609344), <code>"kg-lliures"</code> (× 2.20462).</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>String opcio = "milles-km";</code> i <code>double quantitat = 26.2;</code></li>
+      <li>Usa un <code>switch</code> sobre el <code>String</code>.</li>
+      <li>Si l'opció no existeix, mostra "Opció desconeguda".</li>
+      <li>Arrodoneix el resultat a 2 decimals.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>26.2 milles = 42.16 km</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ConversorUnitats</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">double</span> KM_A_MILLES = <span class="num">0.621371</span>;
+        <span class="kw">final</span> <span class="kw">double</span> MILLES_A_KM = <span class="num">1.609344</span>;
+        <span class="kw">final</span> <span class="kw">double</span> KG_A_LLIURES = <span class="num">2.20462</span>;
+
+        <span class="cls">String</span> opcio = <span class="str">"milles-km"</span>;
+        <span class="kw">double</span> quantitat = <span class="num">26.2</span>;
+
+        <span class="kw">switch</span> (opcio) {
+            <span class="kw">case</span> <span class="str">"km-milles"</span> -&gt; {
+                <span class="kw">double</span> r = <span class="cls">Math</span>.<span class="fn">round</span>(quantitat * KM_A_MILLES * <span class="num">100</span>) / <span class="num">100.0</span>;
+                <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" km = "</span> + r + <span class="str">" milles"</span>);
+            }
+            <span class="kw">case</span> <span class="str">"milles-km"</span> -&gt; {
+                <span class="kw">double</span> r = <span class="cls">Math</span>.<span class="fn">round</span>(quantitat * MILLES_A_KM * <span class="num">100</span>) / <span class="num">100.0</span>;
+                <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" milles = "</span> + r + <span class="str">" km"</span>);
+            }
+            <span class="kw">case</span> <span class="str">"kg-lliures"</span> -&gt; {
+                <span class="kw">double</span> r = <span class="cls">Math</span>.<span class="fn">round</span>(quantitat * KG_A_LLIURES * <span class="num">100</span>) / <span class="num">100.0</span>;
+                <span class="cls">System</span>.out.<span class="fn">println</span>(quantitat + <span class="str">" kg = "</span> + r + <span class="str">" lliures"</span>);
+            }
+            <span class="kw">default</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Opció desconeguda: "</span> + opcio);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els factors de conversió són constants.</li><li>El <code>switch</code> té un <code>default</code> per a opcions no vàlides.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex7">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 7</span>
+    <span class="exercici-title">Troba l'error amb casos de prova</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Aquest programa hauria de classificar una temperatura, però dona resultats incorrectes. Fes una taula de casos de prova (−5, 0, 15, 25, 35), executa'l amb cada valor, troba l'error i corregeix-lo.</p>
+    <ul class="exercici-tasques">
+      <li><code>double temp = 35;</code><br><code>if (temp &gt;= 10) { System.out.println("Temperat"); }</code><br><code>else if (temp &gt;= 30) { System.out.println("Calorós"); }</code><br><code>else if (temp &lt;= 0) { System.out.println("Glaçat"); }</code><br><code>else { System.out.println("Fred"); }</code></li>
+      <li>Criteri correcte: 0 o menys → Glaçat; més de 0 i menys de 10 → Fred; de 10 a menys de 30 → Temperat; 30 o més → Calorós.</li>
+      <li>Fes servir el depurador (<kbd>F8</kbd>) per veure per quina branca entra amb 35.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Calorós</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ClassificarTemperatura</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> temp = <span class="num">35</span>;
+
+        <span class="cmt">// ERROR ORIGINAL: "temp &gt;= 10" anava primer i també és cert per a 35,</span>
+        <span class="cmt">// de manera que "Calorós" no s'arribava a mostrar mai.</span>
+        <span class="cmt">// SOLUCIÓ: ordenar les condicions de la més restrictiva a la menys.</span>
+        <span class="kw">if</span> (temp &gt;= <span class="num">30</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Calorós"</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (temp &gt;= <span class="num">10</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Temperat"</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (temp &gt; <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Fred"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Glaçat"</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una taula de proves amb resultat esperat i obtingut.</li><li>S'explica la causa de l'error (ordre de les condicions) en un comentari.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex8">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 8</span>
+    <span class="exercici-title">Salari diari per torns</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Els treballadors d'una fàbrica fan torn diürn o nocturn. L'hora diürna es paga a 4 € i la nocturna a 6 €. Si el dia és diumenge, la tarifa s'incrementa 2 € per hora en el torn diürn i 3 € en el nocturn. Calcula el salari d'un dia.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int hores = 8;</code>, <code>char torn = 'N';</code> (<code>'D'</code> diürn, <code>'N'</code> nocturn) i <code>String dia = "diumenge";</code></li>
+      <li>Les tarifes i els increments han de ser constants.</li>
+      <li>Usa un <code>switch</code> per al torn i un <code>if</code> per al diumenge (compara el text amb <code>equalsIgnoreCase</code>).</li>
+      <li>Si el torn no és vàlid, mostra un missatge d'error.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>8 h en torn N (diumenge) a 9 €/h
+Salari del dia: 72 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">SalariTorns</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> TARIFA_DIURNA = <span class="num">4</span>;
+        <span class="kw">final</span> <span class="kw">int</span> TARIFA_NOCTURNA = <span class="num">6</span>;
+        <span class="kw">final</span> <span class="kw">int</span> PLUS_DIUMENGE_DIURN = <span class="num">2</span>;
+        <span class="kw">final</span> <span class="kw">int</span> PLUS_DIUMENGE_NOCTURN = <span class="num">3</span>;
+
+        <span class="kw">int</span> hores = <span class="num">8</span>;
+        <span class="kw">char</span> torn = <span class="str">'N'</span>;
+        <span class="cls">String</span> dia = <span class="str">"diumenge"</span>;
+
+        <span class="kw">boolean</span> esDiumenge = dia.<span class="fn">equalsIgnoreCase</span>(<span class="str">"diumenge"</span>);
+        <span class="kw">int</span> tarifa = <span class="num">0</span>;
+
+        <span class="kw">switch</span> (torn) {
+            <span class="kw">case</span> <span class="str">'D'</span>, <span class="str">'d'</span> -&gt; {
+                tarifa = TARIFA_DIURNA;
+                <span class="kw">if</span> (esDiumenge) {
+                    tarifa += PLUS_DIUMENGE_DIURN;
+                }
+            }
+            <span class="kw">case</span> <span class="str">'N'</span>, <span class="str">'n'</span> -&gt; {
+                tarifa = TARIFA_NOCTURNA;
+                <span class="kw">if</span> (esDiumenge) {
+                    tarifa += PLUS_DIUMENGE_NOCTURN;
+                }
+            }
+            <span class="kw">default</span> -&gt; <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Torn no vàlid: "</span> + torn);
+        }
+
+        <span class="kw">if</span> (tarifa &gt; <span class="num">0</span>) {
+            <span class="kw">int</span> salari = hores * tarifa;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(hores + <span class="str">" h en torn "</span> + torn + <span class="str">" ("</span> + dia + <span class="str">") a "</span> + tarifa + <span class="str">" €/h"</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Salari del dia: "</span> + salari + <span class="str">" €"</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les tarifes són constants i l'increment de diumenge depèn del torn.</li><li>Es controla un torn no vàlid.</li><li>Proves: 8 h diürn dilluns → 32 €; 8 h diürn diumenge → 48 €.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex9">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 9</span>
+    <span class="exercici-title">Bits necessaris per escriure un número</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un enter entre 0 i 64 (inclosos), indica quants bits calen per escriure'l en binari. No es pot fer servir cap funció: només <code>if / else</code>, recordant que a cada potència de 2 cal un bit més.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int numero = 45;</code></li>
+      <li>Si el número és fora de l'interval 0–64, mostra un error.</li>
+      <li>Pista: el 0 i l'1 necessiten 1 bit; del 2 al 3, 2 bits; del 4 al 7, 3 bits…</li>
+      <li>Prova els valors frontera: 0, 1, 2, 3, 4, 31, 32, 63 i 64.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Per escriure el 45 en binari calen 6 bits</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">BitsNecessaris</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">45</span>;
+
+        <span class="kw">if</span> (numero &lt; <span class="num">0</span> || numero &gt; <span class="num">64</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: el número ha de ser entre 0 i 64."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="kw">int</span> bits;
+
+            <span class="cmt">// Cada potència de 2 (2, 4, 8, 16, 32, 64) necessita un bit més</span>
+            <span class="kw">if</span> (numero &lt; <span class="num">2</span>) {
+                bits = <span class="num">1</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">4</span>) {
+                bits = <span class="num">2</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">8</span>) {
+                bits = <span class="num">3</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">16</span>) {
+                bits = <span class="num">4</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">32</span>) {
+                bits = <span class="num">5</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (numero &lt; <span class="num">64</span>) {
+                bits = <span class="num">6</span>;
+            } <span class="kw">else</span> {
+                bits = <span class="num">7</span>;       <span class="cmt">// només el 64 (1000000)</span>
+            }
+
+            <span class="cls">String</span> unitat = (bits == <span class="num">1</span>) ? <span class="str">" bit"</span> : <span class="str">" bits"</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Per escriure el "</span> + numero + <span class="str">" en binari calen "</span> + bits + unitat);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les condicions aprofiten l'ordre de l'<code>else if</code> (no cal repetir el límit inferior).</li><li>S'han provat els valors frontera (sobretot 1–2, 31–32 i 63–64).</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex10">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 10</span>
+    <span class="exercici-title">El diumenge de Pasqua</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Calcula la data del diumenge de Pasqua d'un any amb aquest mètode:</p>
+    <ul class="exercici-tasques">
+      <li>a = any % 19; b = any % 4; c = any % 7</li>
+      <li>d = (19 · a + 24) % 30; e = (2 · b + 4 · c + 6 · d + 5) % 7</li>
+      <li>Si d + e &lt; 10, la Pasqua és el (22 + d + e) de març; si no, és el (d + e − 9) d'abril.</li>
+      <li>Declara <code>int any = 2026;</code> i comprova-ho també amb 2025 (20 d'abril) i 2027 (28 de març).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Pasqua 2026: 5 d&#x27;abril</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Pasqua</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> any = <span class="num">2026</span>;
+
+        <span class="kw">int</span> a = any % <span class="num">19</span>;
+        <span class="kw">int</span> b = any % <span class="num">4</span>;
+        <span class="kw">int</span> c = any % <span class="num">7</span>;
+        <span class="kw">int</span> d = (<span class="num">19</span> * a + <span class="num">24</span>) % <span class="num">30</span>;
+        <span class="kw">int</span> e = (<span class="num">2</span> * b + <span class="num">4</span> * c + <span class="num">6</span> * d + <span class="num">5</span>) % <span class="num">7</span>;
+
+        <span class="kw">if</span> (d + e &lt; <span class="num">10</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pasqua "</span> + any + <span class="str">": "</span> + (<span class="num">22</span> + d + e) + <span class="str">" de març"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pasqua "</span> + any + <span class="str">": "</span> + (d + e - <span class="num">9</span>) + <span class="str">" d'abril"</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Les expressions reprodueixen exactament les fórmules (atenció als parèntesis).</li><li>Els parèntesis de <code>(22 + d + e)</code> eviten que es concateni com a text.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex11">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 11</span>
+    <span class="exercici-title">Major d'edat a partir de dues dates</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>A partir de la data de naixement d'una persona i de la data actual (dia, mes, any), calcula quants anys té i indica si és major d'edat.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int diaNaix = 15, mesNaix = 10, anyNaix = 2008;</code> i <code>int diaAct = 29, mesAct = 9, anyAct = 2026;</code></li>
+      <li>L'edat és la diferència d'anys, <strong>menys 1</strong> si aquest any encara no ha fet anys (el mes actual és anterior al de naixement, o és el mateix mes però el dia és anterior).</li>
+      <li>Prova-ho també amb l'aniversari just avui (15/10/2026).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat: 17 anys
+És menor d&#x27;edat.</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">MajorEdat</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> MAJORIA_EDAT = <span class="num">18</span>;
+
+        <span class="kw">int</span> diaNaix = <span class="num">15</span>;
+        <span class="kw">int</span> mesNaix = <span class="num">10</span>;
+        <span class="kw">int</span> anyNaix = <span class="num">2008</span>;
+
+        <span class="kw">int</span> diaAct = <span class="num">29</span>;
+        <span class="kw">int</span> mesAct = <span class="num">9</span>;
+        <span class="kw">int</span> anyAct = <span class="num">2026</span>;
+
+        <span class="kw">int</span> edat = anyAct - anyNaix;
+
+        <span class="cmt">// Encara no ha fet anys aquest any?</span>
+        <span class="kw">boolean</span> noHaFetAnys = mesAct &lt; mesNaix || (mesAct == mesNaix &amp;&amp; diaAct &lt; diaNaix);
+        <span class="kw">if</span> (noHaFetAnys) {
+            edat--;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat + <span class="str">" anys"</span>);
+        <span class="kw">if</span> (edat &gt;= MAJORIA_EDAT) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És major d'edat."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És menor d'edat."</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es té en compte el mes i el dia, no només l'any.</li><li>El dia de l'aniversari ja compta com a any complert.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex12">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 12</span>
+    <span class="exercici-title">Equació de segon grau</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Resol l'equació ax² + bx + c = 0 i indica si té dues solucions, una o cap solució real.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>double a = 1, b = -3, c = 2;</code></li>
+      <li>Si <code>a == 0</code> no és de segon grau: mostra un missatge (ampliació: resol-la com a equació de primer grau si <code>b != 0</code>).</li>
+      <li>Calcula el discriminant d = b² − 4ac. Si d &gt; 0 hi ha dues solucions; si d == 0, una; si d &lt; 0, cap de real.</li>
+      <li>Solucions: x = (−b ± √d) / 2a. Fes servir <code>Math.sqrt()</code>.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dues solucions: x1 = 2.0, x2 = 1.0</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EquacioSegonGrau</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> a = <span class="num">1</span>;
+        <span class="kw">double</span> b = -<span class="num">3</span>;
+        <span class="kw">double</span> c = <span class="num">2</span>;
+
+        <span class="kw">if</span> (a == <span class="num">0</span>) {
+            <span class="cmt">// No és de segon grau: bx + c = 0</span>
+            <span class="kw">if</span> (b != <span class="num">0</span>) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Equació de primer grau. x = "</span> + (-c / b));
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No és una equació vàlida."</span>);
+            }
+        } <span class="kw">else</span> {
+
+            <span class="kw">double</span> d = b * b - <span class="num">4</span> * a * c;
+
+            <span class="kw">if</span> (d &gt; <span class="num">0</span>) {
+                <span class="kw">double</span> x1 = (-b + <span class="cls">Math</span>.<span class="fn">sqrt</span>(d)) / (<span class="num">2</span> * a);
+                <span class="kw">double</span> x2 = (-b - <span class="cls">Math</span>.<span class="fn">sqrt</span>(d)) / (<span class="num">2</span> * a);
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dues solucions: x1 = "</span> + x1 + <span class="str">", x2 = "</span> + x2);
+            } <span class="kw">else</span> <span class="kw">if</span> (d == <span class="num">0</span>) {
+                <span class="kw">double</span> x = -b / (<span class="num">2</span> * a);
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Una solució: x = "</span> + x);
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No té solucions reals (d = "</span> + d + <span class="str">")"</span>);
+            }
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es controla el cas <code>a == 0</code> abans de dividir.</li><li>Els parèntesis de <code>(2 * a)</code> són correctes: sense ells es dividiria per 2 i es multiplicaria per a.</li><li>Proves suggerides: (1, 2, 1) → una solució; (1, 0, 4) → cap.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex13">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 13</span>
+    <span class="exercici-title">Validar una data</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Comprova si una data (dia, mes, any) és correcta. Si ho és, mostra-la en format <code>dd/mm/aaaa</code> i digues si és l'últim dia del mes.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int dia = 29, mes = 2, any = 2027;</code></li>
+      <li>Una data és vàlida si any &gt; 0, mes entre 1 i 12 i dia entre 1 i els dies d'aquell mes (reaprofita l'exercici 5).</li>
+      <li>Per mostrar <code>05</code> en lloc de <code>5</code>, fes servir l'operador ternari: <code>(dia &lt; 10 ? "0" : "") + dia</code>.</li>
+      <li>Prova: 29/2/2027 (no vàlida), 29/2/2028 (vàlida i últim dia), 31/4/2026 (no vàlida), 5/1/2026.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>La data 29/2/2027 no és vàlida.</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ValidarData</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> dia = <span class="num">29</span>;
+        <span class="kw">int</span> mes = <span class="num">2</span>;
+        <span class="kw">int</span> any = <span class="num">2027</span>;
+
+        <span class="cmt">// 1. Calculem quants dies té el mes (0 si el mes no és vàlid)</span>
+        <span class="kw">int</span> diesMes = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">10</span>, <span class="num">12</span> -&gt; <span class="num">31</span>;
+            <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -&gt; <span class="num">30</span>;
+            <span class="kw">case</span> <span class="num">2</span> -&gt; ((any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>) ? <span class="num">29</span> : <span class="num">28</span>;
+            <span class="kw">default</span> -&gt; <span class="num">0</span>;
+        };
+
+        <span class="cmt">// 2. La data és vàlida si l'any és positiu, el mes existeix i el dia és dins del mes</span>
+        <span class="kw">boolean</span> valida = any &gt; <span class="num">0</span> &amp;&amp; diesMes &gt; <span class="num">0</span> &amp;&amp; dia &gt;= <span class="num">1</span> &amp;&amp; dia &lt;= diesMes;
+
+        <span class="kw">if</span> (valida) {
+            <span class="cls">String</span> dd = (dia &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + dia;
+            <span class="cls">String</span> mm = (mes &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + mes;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data correcta: "</span> + dd + <span class="str">"/"</span> + mm + <span class="str">"/"</span> + any);
+
+            <span class="kw">if</span> (dia == diesMes) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"És l'últim dia del mes."</span>);
+            }
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"La data "</span> + dia + <span class="str">"/"</span> + mes + <span class="str">"/"</span> + any + <span class="str">" no és vàlida."</span>);
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la lògica dels dies del mes i dels anys de traspàs.</li><li>La condició de validesa comprova tots els camps.</li><li>S'han provat els quatre casos de l'enunciat.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex14">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 14</span>
+    <span class="exercici-title">La data del dia següent</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>A partir d'una data correcta (dia, mes, any), mostra la data del dia següent en format <code>dd/mm/aaaa</code>.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int dia = 28, mes = 2, any = 2028;</code></li>
+      <li>Calcula els dies del mes amb un <code>switch</code> (tenint en compte els anys de traspàs).</li>
+      <li>Si el dia és l'últim del mes, passa al dia 1 del mes següent; si és el 31 de desembre, a l'1 de gener de l'any següent.</li>
+      <li>Prova: 28/2/2028 → 29/02/2028; 28/2/2027 → 01/03/2027; 31/12/2026 → 01/01/2027; 15/6/2026 → 16/06/2026.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia següent: 29/02/2028</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiaSeguent</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> dia = <span class="num">28</span>;
+        <span class="kw">int</span> mes = <span class="num">2</span>;
+        <span class="kw">int</span> any = <span class="num">2028</span>;
+
+        <span class="kw">int</span> diesMes = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -&gt; <span class="num">30</span>;
+            <span class="kw">case</span> <span class="num">2</span> -&gt; ((any % <span class="num">4</span> == <span class="num">0</span> &amp;&amp; any % <span class="num">100</span> != <span class="num">0</span>) || any % <span class="num">400</span> == <span class="num">0</span>) ? <span class="num">29</span> : <span class="num">28</span>;
+            <span class="kw">default</span> -&gt; <span class="num">31</span>;
+        };
+
+        <span class="kw">if</span> (dia &lt; diesMes) {
+            dia++;                     <span class="cmt">// cas normal</span>
+        } <span class="kw">else</span> {
+            dia = <span class="num">1</span>;                   <span class="cmt">// era l'últim dia del mes</span>
+            <span class="kw">if</span> (mes &lt; <span class="num">12</span>) {
+                mes++;
+            } <span class="kw">else</span> {
+                mes = <span class="num">1</span>;               <span class="cmt">// era el 31 de desembre</span>
+                any++;
+            }
+        }
+
+        <span class="cls">String</span> dd = (dia &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + dia;
+        <span class="cls">String</span> mm = (mes &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + mes;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dia següent: "</span> + dd + <span class="str">"/"</span> + mm + <span class="str">"/"</span> + any);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es tracten els tres casos: dins del mes, canvi de mes i canvi d'any.</li><li>Febrer té en compte els anys de traspàs.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex15">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 15</span>
+    <span class="exercici-title">Factura de la llum per trams</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Una companyia elèctrica cobra el consum per trams: els primers 100 kWh a 0,15 €/kWh, de 101 a 300 kWh a 0,20 €/kWh i a partir de 301 kWh a 0,28 €/kWh. A més, hi ha una quota fixa de 8 €. Si la factura supera els 60 €, s'aplica un recàrrec del 5 %.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int consum = 350;</code> (kWh). Els preus i la quota són constants.</li>
+      <li>Cada tram només s'aplica als kWh que hi cauen: 350 kWh = 100 × 0,15 + 200 × 0,20 + 50 × 0,28.</li>
+      <li>Mostra el cost de l'energia, la quota, el recàrrec (si n'hi ha) i el total arrodonit a 2 decimals.</li>
+      <li>Prova també amb 80, 100, 300 i 301 kWh.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Consum: 350 kWh
+Energia: 69.0 €
+Quota fixa: 8.0 €
+Recàrrec 5 %: 3.85 €
+TOTAL: 80.85 €</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">FacturaLlum</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">double</span> PREU_TRAM1 = <span class="num">0.15</span>;   <span class="cmt">// primers 100 kWh</span>
+        <span class="kw">final</span> <span class="kw">double</span> PREU_TRAM2 = <span class="num">0.20</span>;   <span class="cmt">// de 101 a 300 kWh</span>
+        <span class="kw">final</span> <span class="kw">double</span> PREU_TRAM3 = <span class="num">0.28</span>;   <span class="cmt">// a partir de 301 kWh</span>
+        <span class="kw">final</span> <span class="kw">double</span> QUOTA_FIXA = <span class="num">8.0</span>;
+        <span class="kw">final</span> <span class="kw">double</span> LIMIT_RECARREC = <span class="num">60.0</span>;
+        <span class="kw">final</span> <span class="kw">double</span> RECARREC = <span class="num">0.05</span>;
+
+        <span class="kw">int</span> consum = <span class="num">350</span>;
+        <span class="kw">double</span> energia;
+
+        <span class="cmt">// Cada tram només s'aplica als kWh que hi cauen</span>
+        <span class="kw">if</span> (consum &lt;= <span class="num">100</span>) {
+            energia = consum * PREU_TRAM1;
+        } <span class="kw">else</span> <span class="kw">if</span> (consum &lt;= <span class="num">300</span>) {
+            energia = <span class="num">100</span> * PREU_TRAM1 + (consum - <span class="num">100</span>) * PREU_TRAM2;
+        } <span class="kw">else</span> {
+            energia = <span class="num">100</span> * PREU_TRAM1 + <span class="num">200</span> * PREU_TRAM2 + (consum - <span class="num">300</span>) * PREU_TRAM3;
+        }
+        energia = <span class="cls">Math</span>.<span class="fn">round</span>(energia * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="kw">double</span> subtotal = energia + QUOTA_FIXA;
+        <span class="kw">double</span> recarrec = <span class="num">0</span>;
+
+        <span class="kw">if</span> (subtotal &gt; LIMIT_RECARREC) {
+            recarrec = <span class="cls">Math</span>.<span class="fn">round</span>(subtotal * RECARREC * <span class="num">100</span>) / <span class="num">100.0</span>;
+        }
+
+        <span class="kw">double</span> total = <span class="cls">Math</span>.<span class="fn">round</span>((subtotal + recarrec) * <span class="num">100</span>) / <span class="num">100.0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Consum: "</span> + consum + <span class="str">" kWh"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Energia: "</span> + energia + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quota fixa: "</span> + QUOTA_FIXA + <span class="str">" €"</span>);
+        <span class="kw">if</span> (recarrec &gt; <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Recàrrec 5 %: "</span> + recarrec + <span class="str">" €"</span>);
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL: "</span> + total + <span class="str">" €"</span>);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El càlcul per trams és correcte (no s'aplica el preu més car a tot el consum).</li><li>El recàrrec només apareix quan correspon.</li><li>Tots els valors fixos són constants documentades.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex16">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 16</span>
+    <span class="exercici-title">Classificador de notes amb conducta</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Un programa rep la nota d'un alumne (0–10), si té conducta negativa i si ha fet recuperació, i mostra el resultat final segons aquestes regles:</p>
+    <ul class="exercici-tasques">
+      <li>Nota inferior a 0 o superior a 10 → missatge d'error.</li>
+      <li>Nota inferior a 5 → Suspès; però si ha fet recuperació i la nota és ≥ 4 → "Aprovat per recuperació".</li>
+      <li>De 5 a 6,9 → Aprovat; de 7 a 8,9 → Notable; 9 o més → Excel·lent.</li>
+      <li>Si la conducta és negativa, el resultat baixa un nivell: Excel·lent → Notable, Notable → Aprovat, Aprovat → "Suspès (per conducta)". Si ja era Suspès, es manté.</li>
+      <li>Declara <code>double nota = 9.1;</code>, <code>boolean conductaNegativa = true;</code>, <code>boolean recuperacio = false;</code> i comprova les cinc files de la taula de sota.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nota 9.1 → Notable</pre></div><p class="nota-sortida">Taula de proves: 4.2 / false / false → Suspès · 4.2 / false / true → Aprovat per recuperació · 6.5 / true / false → Suspès (per conducta) · 9.1 / false / false → Excel·lent · 9.1 / true / false → Notable.</p>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ClassificadorNotes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">double</span> nota = <span class="num">9.1</span>;
+        <span class="kw">boolean</span> conductaNegativa = <span class="kw">true</span>;
+        <span class="kw">boolean</span> recuperacio = <span class="kw">false</span>;
+
+        <span class="kw">if</span> (nota &lt; <span class="num">0</span> || nota &gt; <span class="num">10</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: la nota ha de ser entre 0 i 10."</span>);
+        } <span class="kw">else</span> {
+
+            <span class="cmt">// 1. Nivell segons la nota: 0 = Suspès, 1 = Aprovat, 2 = Notable, 3 = Excel·lent</span>
+            <span class="kw">int</span> nivell;
+            <span class="kw">if</span> (nota &gt;= <span class="num">9</span>) {
+                nivell = <span class="num">3</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (nota &gt;= <span class="num">7</span>) {
+                nivell = <span class="num">2</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (nota &gt;= <span class="num">5</span>) {
+                nivell = <span class="num">1</span>;
+            } <span class="kw">else</span> {
+                nivell = <span class="num">0</span>;
+            }
+
+            <span class="cmt">// 2. La recuperació aprova les notes entre 4 i 5</span>
+            <span class="kw">boolean</span> perRecuperacio = nivell == <span class="num">0</span> &amp;&amp; recuperacio &amp;&amp; nota &gt;= <span class="num">4</span>;
+            <span class="kw">if</span> (perRecuperacio) {
+                nivell = <span class="num">1</span>;
+            }
+
+            <span class="cmt">// 3. La conducta negativa baixa un nivell (mínim Suspès)</span>
+            <span class="kw">boolean</span> baixaPerConducta = conductaNegativa &amp;&amp; nivell &gt; <span class="num">0</span>;
+            <span class="kw">if</span> (baixaPerConducta) {
+                nivell--;
+            }
+
+            <span class="cls">String</span> resultat = <span class="kw">switch</span> (nivell) {
+                <span class="kw">case</span> <span class="num">3</span> -&gt; <span class="str">"Excel·lent"</span>;
+                <span class="kw">case</span> <span class="num">2</span> -&gt; <span class="str">"Notable"</span>;
+                <span class="kw">case</span> <span class="num">1</span> -&gt; perRecuperacio ? <span class="str">"Aprovat per recuperació"</span> : <span class="str">"Aprovat"</span>;
+                <span class="kw">default</span> -&gt; baixaPerConducta ? <span class="str">"Suspès (per conducta)"</span> : <span class="str">"Suspès"</span>;
+            };
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nota "</span> + nota + <span class="str">" → "</span> + resultat);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Convertir la qualificació en un nivell numèric simplifica "baixar un nivell".</li><li>Les regles s'apliquen en l'ordre correcte: nota → recuperació → conducta.</li><li>Es comproven les cinc files de la taula.</li></ul></div>
+    </div>
+  </div>
+</div>
+<div class="exercici-card" id="ex17">
+  <div class="exercici-header">
+    <span class="exercici-num">Ex. 17</span>
+    <span class="exercici-title">Signe del zodíac i estació de l'any</span>
+    <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un dia i un mes, valida la data i mostra el signe del zodíac, l'estació de l'any (hemisferi nord) i si la data és cúspide, és a dir, si és a ±1 dia d'un canvi de signe.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>int dia = 20, mes = 4;</code>. Febrer admet fins al 29 (no hi ha any).</li>
+      <li>Signes (data d'inici): Aquari 20/1, Peixos 19/2, Àries 21/3, Taure 20/4, Bessons 21/5, Cranc 21/6, Lleó 23/7, Verge 23/8, Balança 23/9, Escorpí 23/10, Sagitari 22/11, Capricorn 22/12.</li>
+      <li>Estacions: Primavera des del 21/3, Estiu des del 21/6, Tardor des del 23/9, Hivern des del 21/12.</li>
+      <li>Pista: cada mes hi ha exactament un canvi de signe. Amb un <code>switch</code>, obtén el dia del canvi, el signe anterior i el signe nou d'aquell mes; després, compara el dia.</li>
+      <li>Prova: 20/4 (Taure, cúspide), 15/8 (Lleó), 31/4 (invàlida), 1/1 (Capricorn, Hivern).</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Data: 20/4
+Signe: Taure (cúspide)
+Estació: Primavera</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.5 · 3.6 · 3.7</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ZodiacEstacio</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> dia = <span class="num">20</span>;
+        <span class="kw">int</span> mes = <span class="num">4</span>;
+
+        <span class="cmt">// 1. Validació (febrer admet el 29 perquè no sabem l'any)</span>
+        <span class="kw">int</span> diesMes = <span class="kw">switch</span> (mes) {
+            <span class="kw">case</span> <span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">10</span>, <span class="num">12</span> -&gt; <span class="num">31</span>;
+            <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -&gt; <span class="num">30</span>;
+            <span class="kw">case</span> <span class="num">2</span> -&gt; <span class="num">29</span>;
+            <span class="kw">default</span> -&gt; <span class="num">0</span>;
+        };
+
+        <span class="kw">if</span> (diesMes == <span class="num">0</span> || dia &lt; <span class="num">1</span> || dia &gt; diesMes) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data no vàlida: "</span> + dia + <span class="str">"/"</span> + mes);
+        } <span class="kw">else</span> {
+
+            <span class="cmt">// 2. Cada mes té un canvi de signe: dia del canvi, signe abans i signe després</span>
+            <span class="kw">int</span> diaCanvi;
+            <span class="cls">String</span> signeAbans;
+            <span class="cls">String</span> signeDespres;
+            <span class="kw">switch</span> (mes) {
+                <span class="kw">case</span> <span class="num">1</span> -&gt; { diaCanvi = <span class="num">20</span>; signeAbans = <span class="str">"Capricorn"</span>; signeDespres = <span class="str">"Aquari"</span>; }
+                <span class="kw">case</span> <span class="num">2</span> -&gt; { diaCanvi = <span class="num">19</span>; signeAbans = <span class="str">"Aquari"</span>; signeDespres = <span class="str">"Peixos"</span>; }
+                <span class="kw">case</span> <span class="num">3</span> -&gt; { diaCanvi = <span class="num">21</span>; signeAbans = <span class="str">"Peixos"</span>; signeDespres = <span class="str">"Àries"</span>; }
+                <span class="kw">case</span> <span class="num">4</span> -&gt; { diaCanvi = <span class="num">20</span>; signeAbans = <span class="str">"Àries"</span>; signeDespres = <span class="str">"Taure"</span>; }
+                <span class="kw">case</span> <span class="num">5</span> -&gt; { diaCanvi = <span class="num">21</span>; signeAbans = <span class="str">"Taure"</span>; signeDespres = <span class="str">"Bessons"</span>; }
+                <span class="kw">case</span> <span class="num">6</span> -&gt; { diaCanvi = <span class="num">21</span>; signeAbans = <span class="str">"Bessons"</span>; signeDespres = <span class="str">"Cranc"</span>; }
+                <span class="kw">case</span> <span class="num">7</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Cranc"</span>; signeDespres = <span class="str">"Lleó"</span>; }
+                <span class="kw">case</span> <span class="num">8</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Lleó"</span>; signeDespres = <span class="str">"Verge"</span>; }
+                <span class="kw">case</span> <span class="num">9</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Verge"</span>; signeDespres = <span class="str">"Balança"</span>; }
+                <span class="kw">case</span> <span class="num">10</span> -&gt; { diaCanvi = <span class="num">23</span>; signeAbans = <span class="str">"Balança"</span>; signeDespres = <span class="str">"Escorpí"</span>; }
+                <span class="kw">case</span> <span class="num">11</span> -&gt; { diaCanvi = <span class="num">22</span>; signeAbans = <span class="str">"Escorpí"</span>; signeDespres = <span class="str">"Sagitari"</span>; }
+                <span class="kw">default</span> -&gt; { diaCanvi = <span class="num">22</span>; signeAbans = <span class="str">"Sagitari"</span>; signeDespres = <span class="str">"Capricorn"</span>; }
+            }
+
+            <span class="cls">String</span> signe = (dia &gt;= diaCanvi) ? signeDespres : signeAbans;
+            <span class="kw">boolean</span> cuspide = <span class="cls">Math</span>.<span class="fn">abs</span>(dia - diaCanvi) &lt;= <span class="num">1</span>;
+
+            <span class="cmt">// 3. Estació: comparem el mes i el dia amb l'inici de cada estació</span>
+            <span class="cls">String</span> estacio;
+            <span class="kw">if</span> ((mes == <span class="num">3</span> &amp;&amp; dia &gt;= <span class="num">21</span>) || mes == <span class="num">4</span> || mes == <span class="num">5</span> || (mes == <span class="num">6</span> &amp;&amp; dia &lt; <span class="num">21</span>)) {
+                estacio = <span class="str">"Primavera"</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> ((mes == <span class="num">6</span> &amp;&amp; dia &gt;= <span class="num">21</span>) || mes == <span class="num">7</span> || mes == <span class="num">8</span> || (mes == <span class="num">9</span> &amp;&amp; dia &lt; <span class="num">23</span>)) {
+                estacio = <span class="str">"Estiu"</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> ((mes == <span class="num">9</span> &amp;&amp; dia &gt;= <span class="num">23</span>) || mes == <span class="num">10</span> || mes == <span class="num">11</span> || (mes == <span class="num">12</span> &amp;&amp; dia &lt; <span class="num">21</span>)) {
+                estacio = <span class="str">"Tardor"</span>;
+            } <span class="kw">else</span> {
+                estacio = <span class="str">"Hivern"</span>;
+            }
+
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Data: "</span> + dia + <span class="str">"/"</span> + mes);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Signe: "</span> + signe + (cuspide ? <span class="str">" (cúspide)"</span> : <span class="str">""</span>));
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Estació: "</span> + estacio);
+
+        }
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans de qualsevol altre càlcul.</li><li>El <code>switch</code> evita escriure 12 intervals de dates amb <code>if</code>.</li><li>La cúspide es detecta amb el valor absolut de la diferència amb el dia del canvi.</li><li>S'han provat les quatre dates de l'enunciat.</li></ul></div>
+    </div>
+  </div>
+</div>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A2_4_provar_depurar.html">← A2.4 Provar, depurar i documentar</a><a href="A2_composicio_alternativa.html" class="nav-hub">A2 · Índex</a><span></span></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>
