@@ -479,29 +479,14 @@ TOTAL: 6 €</pre></div></div>
 </div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Comentaris</h2><p class="sec-sub">Explicar el codi a les persones</p></div></div>
-  <p class="lead">Els comentaris són text que el compilador <strong>ignora</strong>. Serveixen per explicar el codi a les persones: companys, professorat o tu mateix d'aquí a uns mesos. Un bon comentari explica el <strong>per què</strong>, no el que ja es veu llegint el codi.</p><div class="table-wrap"><table><thead><tr><th>Tipus</th><th>Sintaxi</th><th>Quan usar-lo</th></tr></thead><tbody><tr><td><strong>Una línia</strong></td><td><code>// text</code></td><td>Notes curtes sobre una instrucció.</td></tr><tr><td><strong>Diverses línies</strong></td><td><code>/* text */</code></td><td>Explicar un bloc de codi o desactivar codi temporalment.</td></tr></tbody></table></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Comentari de línia i de final de línia</span></div>
-  <div class="code-block" data-run="r4"><span class="cmt">// Programa que saluda l'usuari per pantalla</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Salutacio</span> {
+  <p class="lead">Els comentaris són text que el compilador <strong>ignora</strong>. Serveixen per explicar el codi a les persones: companys, professorat o tu mateix d'aquí a uns mesos. Un bon comentari explica el <strong>per què</strong>, no el que ja es veu llegint el codi. En Java n'hi ha de dos tipus:</p><ul><li><strong>Comentari d'una línia</strong> <code>//</code>: tot el que hi ha a la dreta de les dues barres fins al final de la línia s'ignora. Pot ocupar una línia sencera o anar <strong>al final d'una instrucció</strong>.</li><li><strong>Comentari de diverses línies</strong> <code>/* … */</code>: tot el que hi ha entre <code>/*</code> i <code>*/</code> s'ignora, encara que ocupi moltes línies.</li></ul><div class="table-wrap"><table><thead><tr><th>Tipus</th><th>Sintaxi</th><th>Quan usar-lo</th></tr></thead><tbody><tr><td><strong>Una línia</strong></td><td><code>// text</code></td><td>Notes curtes sobre una instrucció.</td></tr><tr><td><strong>Diverses línies</strong></td><td><code>/* text */</code></td><td>Explicar un bloc de codi o desactivar codi temporalment.</td></tr></tbody></table></div><div class="exemple">
+  <div class="exemple-header"><span>Els dos tipus de comentaris en un programa</span></div>
+  <div class="code-block" data-run="r4"><span class="cmt">// Programa que calcula el preu final d'un article</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">CalcularPreu</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hola, món!"</span>); <span class="cmt">// missatge de benvinguda</span>
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Hola, món!</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La primera línia és un comentari que diu què fa el programa. El segon comentari és al <strong>final d'una línia de codi</strong>: tot el que hi ha a la dreta de <code>//</code> s'ignora, però la instrucció de l'esquerra s'executa normalment.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Comentari de bloc per explicar un càlcul</span></div>
-  <div class="code-block" data-run="r5"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CalcularPreu</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cmt">/* Calculem el preu final d'un article:
-           primer apliquem un descompte del 10 %
+        <span class="cmt">/* Primer apliquem un descompte del 10 %
            i després hi afegim el 21 % d'IVA */</span>
         <span class="kw">double</span> preuBase = <span class="num">40.0</span>;
         <span class="kw">double</span> descompte = preuBase * <span class="num">0.10</span>;
@@ -512,9 +497,8 @@ TOTAL: 6 €</pre></div></div>
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">Preu final: 43.56 €</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El comentari <code>/* … */</code> pot ocupar diverses línies: aquí explica la fórmula abans de fer-la, de manera que qui llegeixi el codi entén per què es multiplica per <code>1.21</code>.</p></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Preu final: 43.56 €</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La primera línia és un <strong>comentari d'una línia</strong> <code>//</code> que diu què fa el programa. El comentari <code>/* … */</code> és <strong>de diverses línies</strong>: explica la fórmula abans de fer-la, de manera que qui llegeixi el codi entén per què es multiplica per <code>1.21</code>.</p><p>L'últim comentari és un <code>//</code> <strong>al final d'una línia de codi</strong>: la instrucció de l'esquerra s'executa normalment i el text de la dreta s'ignora. Cap dels comentaris apareix a la sortida.</p></div>
 </div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Bon comentari vs mal comentari:</strong> <code>// multipliquem per 1.8</code> no aporta res (ja es veu al codi). <code>// convertim de Celsius a Fahrenheit</code> sí que ajuda. Comença cada programa amb un comentari que digui què fa.</p><p>A NetBeans, <kbd>Ctrl</kbd>+<kbd>/</kbd> comenta o descomenta les línies seleccionades.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>// text</code></td><td><code>// text</code> (igual)</td></tr><tr><td>No hi ha comentaris de bloc (només <code>//</code>)</td><td><code>/* text en diverses línies */</code></td></tr></tbody></table></div></div>
 <div class="exercici-card practica" id="ex4">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">Celsius a Fahrenheit, ben comentat</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
