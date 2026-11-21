@@ -229,7 +229,7 @@
 </nav>
 <main>
 <a class="backlink" href="A3_algorismes_iteratius.html">← A3 · Disseny d'algorismes iteratius</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2, 3.3 i 3.5</div><div class="obj-text">Combinar bucles imbricats, reconèixer quan una sentència de salt fa el codi més clar (i quan no) i generar valors aleatoris per simular situacions.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2, 3.3 i 3.5</div><div class="obj-text">Combinar bucles imbricats, reconèixer quan una sentència de salt fa el codi més clar (i quan no) i generar valors aleatoris per simular situacions.</div><div class="obj-text" style="margin-top:.5rem">✍️ Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Bucles imbricats</h2><p class="sec-sub">Un bucle dins d'un altre</p></div></div>
   <p class="lead">Un bucle pot contenir un altre bucle. El bucle intern es fa <strong>complet</strong> a cada iteració de l'extern: si l'extern fa 5 voltes i l'intern 4, el cos intern s'executa 20 vegades.</p>
@@ -263,58 +263,18 @@
 *     * 
 * * * * * </pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El bucle extern recorre les files i l'intern les posicions de cada fila. Com que el límit de l'intern és <code>j &lt;= i</code>, la fila 1 té una posició, la fila 2 en té dues… i així es forma el triangle: el bucle intern depèn de la variable de l'extern.</p><p>Dins del bucle intern decidim què escrivim a cada posició. La variable <code>vora</code> és <code>true</code> a la primera columna (<code>j == 1</code>), a l'última de la fila (<code>j == i</code>) i a tota l'última fila (<code>i == files</code>); allà posem <code>"* "</code> i a la resta dos espais, de manera que l'interior queda buit.</p><p>El <code>println()</code> és fora del bucle intern però dins de l'extern: canvia de línia quan s'acaba cada fila. Si treus l'<code>if</code> i escrius sempre <code>"* "</code>, obtens el triangle ple.</p></div>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir Sin Saltar col, " "</code></td><td><code>System.out.print(col + " ");</code></td></tr><tr><td><code>Escribir ""</code></td><td><code>System.out.println();</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Triangle de números</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>El bucle extern recorre les files i l'intern escriu els números de cada fila. Classe <code>TriangleNumeros</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo TriangleNumeros
-    Definir fila, col, files Como Entero
-    files &lt;- 4
-    Para fila &lt;- 1 Hasta files Hacer
-        Para col &lt;- 1 Hasta fila Hacer
-            Escribir Sin Saltar col, " "
-        FinPara
-        Escribir ""
-    FinPara
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Dibuixa un triangle de números amb bucles imbricats</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">TriangleNumeros</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> files = <span class="num">4</span>;
-
-        <span class="kw">for</span> (<span class="kw">int</span> fila = <span class="num">1</span>; fila &lt;= files; fila++) {        <span class="cmt">// bucle extern: cada fila</span>
-            <span class="kw">for</span> (<span class="kw">int</span> col = <span class="num">1</span>; col &lt;= fila; col++) {        <span class="cmt">// bucle intern: números de la fila</span>
-                <span class="cls">System</span>.out.<span class="fn">print</span>(col + <span class="str">" "</span>);               <span class="cmt">// Escribir Sin Saltar → print</span>
-            }
-            <span class="cls">System</span>.out.<span class="fn">println</span>();                          <span class="cmt">// Escribir "" → salt de línia</span>
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El salt de línia és fora del bucle intern però dins de l'extern.</li><li>Amb 4 files el <code>print</code> s'executa 10 vegades (1+2+3+4); amb 10 files, 55.</li><li>L'ampliació escriu <code>fila</code> en comptes de <code>col</code>.</li></ul></div><ul class="exercici-tasques"><li>El límit del bucle intern depèn de la variable del bucle extern.</li><li>Quantes vegades s'executa el <code>print</code> amb <code>files = 4</code>? I amb <code>files = 10</code>?</li><li>Ampliació: fes que cada fila mostri el número de la fila repetit (1 / 2 2 / 3 3 3…).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">L'<code>Escribir ""</code> buit serveix només per canviar de línia: en Java és un <code>println()</code> sense res dins.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>1 
-1 2 
-1 2 3 
-1 2 3 4 </pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
-</div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir Sin Saltar col, " "</code></td><td><code>System.out.print(col + " ");</code></td></tr><tr><td><code>Escribir ""</code></td><td><code>System.out.println();</code></td></tr></tbody></table></div></div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Sentències de salt: break i continue</h2><p class="sec-sub">Sortir abans d'hora o saltar una volta</p></div></div>
   <p class="lead">Les sentències de salt trenquen el flux normal d'un bucle.</p>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Sentència</th><th>Efecte</th><th>Ús habitual</th></tr></thead>
+    <thead><tr><th>Sentència</th><th>Efecte</th><th>Ús habitual</th><th>PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>break</code></td><td>Surt immediatament del bucle (o del <code>switch</code>)</td><td>Aturar una cerca quan ja s'ha trobat el valor</td></tr>
-      <tr><td><code>continue</code></td><td>Salta la resta del cos i passa a la iteració següent</td><td>Ignorar alguns valors</td></tr>
-      <tr><td><code>return</code></td><td>Surt del mètode (al <code>main</code>, acaba el programa)</td><td>Aturar el programa davant d'un error greu</td></tr>
+      <tr><td><code>break</code></td><td>Surt immediatament del bucle (o del <code>switch</code>)</td><td>Aturar una cerca quan ja s'ha trobat el valor</td><td>— (no existeix: s'atura amb una variable lògica, <code>Mientras … Y NO trobat</code> + <code>trobat &lt;- Verdadero</code>)</td></tr>
+      <tr><td><code>continue</code></td><td>Salta la resta del cos i passa a la iteració següent</td><td>Ignorar alguns valors</td><td>— (no existeix)</td></tr>
+      <tr><td><code>return</code></td><td>Surt del mètode (al <code>main</code>, acaba el programa)</td><td>Aturar el programa davant d'un error greu</td><td>—</td></tr>
     </tbody>
   </table>
 </div>
@@ -353,68 +313,17 @@ FinAlgoritmo</div>
 Divisor més petit: 17</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa busca el divisor més petit de 391 provant els números a partir del 2. Si 391 no és divisible per 2, tampoc no ho serà per cap altre parell: per això, quan <code>d</code> és parell (i no és el 2), el <code>continue</code> salta la resta del cos i passa directament a la volta següent. Fixa't que a la línia <code>Provo:</code> no hi surt cap parell llevat del 2.</p><p>Quan trobem un divisor (el 17, perquè 391 = 17 × 23), el guardem i el <code>break</code> surt del bucle a l'instant: no cal provar els números que queden. Aquesta és la diferència entre totes dues sentències: <code>continue</code> només salta una volta, <code>break</code> acaba el bucle.</p><p>Com que la <code>d</code> del <code>for</code> no existeix fora del bucle, el resultat es guarda a <code>divisor</code>, que val <code>-1</code> mentre no s'ha trobat res. És la mateixa cerca que a l'A3.2 fèiem amb la variable <code>trobat</code> a la condició del <code>while</code>; aquí el <code>break</code> en fa la feina.</p></div>
 </div>
-<div class="box box-errors"><span class="box-label">⚠️ Fes-ne un ús moderat</span>Un bucle amb molts <code>break</code> i <code>continue</code> és difícil de seguir. Sovint una bona condició al <code>while</code> (com la variable <code>trobat</code> de l'A3.2) és més clara. Consulta amb el teu professorat quina opció es demana a les proves.</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Mientras … Y NO trobat</code> + <code>trobat &lt;- Verdadero</code></td><td><code>for (…) {</code> … <code>break;</code> … <code>}</code></td></tr><tr><td>(PSeInt no té <code>break</code> ni <code>continue</code>)</td><td><code>break</code> surt del bucle; <code>continue</code> salta a la volta següent</td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Primer múltiple de 13</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>PSeInt no té <code>break</code>: per aturar la cerca fa servir la variable <code>trobat</code>. Tu l'has d'escriure en Java amb un <code>for</code> i un <code>break</code>, <strong>sense</strong> la variable <code>trobat</code>. Classe <code>PrimerMultiple13</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo PrimerMultiple13
-    Definir n Como Entero
-    Definir trobat Como Logico
-    n &lt;- 100
-    trobat &lt;- Falso
-    Mientras n &lt;= 200 Y NO trobat Hacer
-        Si n MOD 13 = 0 Entonces
-            trobat &lt;- Verdadero
-        SiNo
-            n &lt;- n + 1
-        FinSi
-    FinMientras
-    Si trobat Entonces
-        Escribir "Primer múltiple de 13: ", n
-    SiNo
-        Escribir "No n'hi ha cap"
-    FinSi
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Primer múltiple de 13 entre 100 i 200, amb for i break</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">PrimerMultiple13</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> trobat = -<span class="num">1</span>;                    <span class="cmt">// -1 vol dir "encara no trobat"</span>
-
-        <span class="kw">for</span> (<span class="kw">int</span> n = <span class="num">100</span>; n &lt;= <span class="num">200</span>; n++) {
-            <span class="kw">if</span> (n % <span class="num">13</span> == <span class="num">0</span>) {
-                trobat = n;
-                <span class="kw">break</span>;                      <span class="cmt">// ja el tenim: sortim del for</span>
-            }
-        }
-
-        <span class="kw">if</span> (trobat != -<span class="num">1</span>) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Primer múltiple de 13: "</span> + trobat);
-        } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No n'hi ha cap"</span>);
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>break</code> està dins de l'<code>if</code> que detecta el múltiple.</li><li>El resultat es guarda abans del <code>break</code> en una variable declarada fora del <code>for</code>.</li><li>Es controla el cas que no n'hi hagi cap.</li></ul></div><ul class="exercici-tasques"><li>Fes un <code>for</code> de 100 a 200 i surt amb <code>break</code> quan el trobis.</li><li>Com que la <code>n</code> del <code>for</code> no existeix fora del bucle, guarda el resultat en una variable que valgui <code>-1</code> mentre no el trobis.</li><li>Compara les dues versions: quina et sembla més clara?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>La mateixa cerca amb break</em> d'aquest mateix apartat: té la mateixa estructura.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Primer múltiple de 13: 104</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.3</span></div>
-</div>
+<div class="box box-errors"><span class="box-label">⚠️ Fes-ne un ús moderat</span>Un bucle amb molts <code>break</code> i <code>continue</code> és difícil de seguir. Sovint una bona condició al <code>while</code> (com la variable <code>trobat</code> de l'A3.2) és més clara. Consulta amb el teu professorat quina opció es demana a les proves.</div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Generació de valors aleatoris</h2><p class="sec-sub">Math.random() i la classe Random</p></div></div>
   <div class="table-wrap">
   <table>
-    <thead><tr><th></th><th><code>Math.random()</code></th><th>Classe <code>Random</code></th></tr></thead>
+    <thead><tr><th></th><th><code>Math.random()</code></th><th>Classe <code>Random</code></th><th>PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><strong>Retorna</strong></td><td><code>double</code> entre 0.0 (inclòs) i 1.0 (exclòs)</td><td><code>nextInt(n)</code>: enter entre 0 i n−1</td></tr>
-      <tr><td><strong>Import</strong></td><td>No cal</td><td><code>import java.util.Random;</code></td></tr>
-      <tr><td><strong>Enter entre min i max</strong></td><td><code>(int) (Math.random() * (max - min + 1)) + min</code></td><td><code>r.nextInt(max - min + 1) + min</code></td></tr>
+      <tr><td><strong>Retorna</strong></td><td><code>double</code> entre 0.0 (inclòs) i 1.0 (exclòs)</td><td><code>nextInt(n)</code>: enter entre 0 i n−1</td><td><code>Aleatorio(min, max)</code>: enter entre min i max (tots dos inclosos)</td></tr>
+      <tr><td><strong>Import</strong></td><td>No cal</td><td><code>import java.util.Random;</code></td><td>No cal</td></tr>
+      <tr><td><strong>Enter entre min i max</strong></td><td><code>(int) (Math.random() * (max - min + 1)) + min</code></td><td><code>r.nextInt(max - min + 1) + min</code></td><td><code>Aleatorio(min, max)</code>, p. ex. <code>Aleatorio(1, 6)</code></td></tr>
     </tbody>
   </table>
 </div>
@@ -444,59 +353,11 @@ Amb Random, fins a treure un 6: 3 3 5 4 6
 Ha calgut 5 tirada/es.</pre></div>
   <p class="nota-sortida">Els valors canvien a cada execució.</p>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La primera tirada es fa amb <code>Math.random()</code>, que dona un <code>double</code> entre 0.0 i 1.0 (sense arribar-hi). Multiplicat per 6 queda entre 0.0 i 6.0; el <code>(int)</code> treu els decimals (0..5) i el <code>+ 1</code> el porta a l'interval 1..6.</p><p>Després fem servir la classe <code>Random</code>: es crea l'objecte <strong>una sola vegada</strong>, abans del bucle, i <code>nextInt(6) + 1</code> dona directament un enter de l'1 al 6. El <code>do-while</code> va tirant el dau i comptant les tirades fins que surt un 6; és un <code>do-while</code> perquè com a mínim cal tirar una vegada.</p><p>Com que els valors són aleatoris, cada execució dona una sortida diferent: de vegades el 6 surt a la primera i de vegades calen moltes tirades.</p></div>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Aleatorio(1, 6)</code></td><td><code>aleatori.nextInt(6) + 1</code> o <code>(int) (Math.random() * 6) + 1</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Comptar sisos</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Simula deu tirades d'un dau i compta quants sisos surten. Classe <code>ComptarSisos</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo ComptarSisos
-    Definir tirada, dau, sisos Como Entero
-    sisos &lt;- 0
-    Para tirada &lt;- 1 Hasta 10 Hacer
-        dau &lt;- Aleatorio(1, 6)
-        Escribir Sin Saltar dau, " "
-        Si dau = 6 Entonces
-            sisos &lt;- sisos + 1
-        FinSi
-    FinPara
-    Escribir ""
-    Escribir "Sisos: ", sisos
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
-
-<span class="cmt">// Tira un dau 10 vegades i compta quants sisos surten</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ComptarSisos</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">Random</span> aleatori = <span class="kw">new</span> <span class="cls">Random</span>();
-        <span class="kw">int</span> sisos = <span class="num">0</span>;
-
-        <span class="kw">for</span> (<span class="kw">int</span> tirada = <span class="num">1</span>; tirada &lt;= <span class="num">10</span>; tirada++) {
-            <span class="kw">int</span> dau = aleatori.<span class="fn">nextInt</span>(<span class="num">6</span>) + <span class="num">1</span>;   <span class="cmt">// Aleatorio(1, 6)</span>
-            <span class="cls">System</span>.out.<span class="fn">print</span>(dau + <span class="str">" "</span>);
-            <span class="kw">if</span> (dau == <span class="num">6</span>) {
-                sisos++;
-            }
-        }
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>();
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sisos: "</span> + sisos);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El dau dona valors de l'1 al 6.</li><li>El comptador només s'incrementa quan surt un 6.</li><li>En l'ampliació s'esborra el <code>print</code> de dins del bucle.</li></ul></div><ul class="exercici-tasques"><li>Fes servir la classe <code>Random</code> (recorda l'<code>import</code>).</li><li>Crea l'objecte <code>Random</code> <strong>abans</strong> del bucle, no a cada volta.</li><li>Ampliació: fes 6000 tirades sense mostrar-les. Surten aproximadament 1000 sisos?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>nextInt(6)</code> dona un número del 0 al 5. Per tenir-lo de l'1 al 6, suma-hi 1.</div></details><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>4 6 1 3 6 2 5 5 1 6 
-Sisos: 3</pre></div><p class="nota-sortida">Els valors canvien a cada execució.</p></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
-  <p class="lead">Ara que ja has fet els exercicis <strong>Ara tu</strong>, resol aquests exercicis de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
+  <p class="lead">Resol aquests exercicis de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
   <div class="exercici-header">
     <span class="exercici-num">Pràctica 1</span>
     <span class="exercici-title">Números que no són múltiples de 3</span>
@@ -669,6 +530,128 @@ Total: 25 primers</pre></div>
       <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es distingeixen els dos esquemes: recorregut (extern) i cerca (intern).</li><li>La variable <code>esPrimer</code> es reinicia a cada número.</li><li>S'entén per què n'hi ha prou d'arribar a √n.</li></ul></div>
     </div>
   </div>
+</div>
+</section>
+<section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir el que has vist en aquesta pàgina: bucles imbricats, la sentència <code>break</code> i la generació de valors aleatoris. Escriu-los en Java i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La sala de cinema</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Una sala petita té <strong>4 files</strong> de <strong>6 seients</strong>. Per simular l'ocupació, un seient està ocupat quan la suma del número de fila i del número de seient és múltiple de 3. Aquest algorisme dibuixa el plànol de la sala (<code>X</code> ocupat, <code>O</code> lliure) i compta els seients lliures. Tradueix-lo a Java a la classe <code>SalaCinema</code>.</p><div class="pseudo">Algoritmo SalaCinema
+    Definir fila, seient, lliures Como Entero
+    lliures &lt;- 0
+    Para fila &lt;- 1 Hasta 4 Hacer
+        Escribir Sin Saltar "Fila ", fila, ": "
+        Para seient &lt;- 1 Hasta 6 Hacer
+            Si (fila + seient) MOD 3 = 0 Entonces
+                Escribir Sin Saltar "X "
+            SiNo
+                Escribir Sin Saltar "O "
+                lliures &lt;- lliures + 1
+            FinSi
+        FinPara
+        Escribir ""
+    FinPara
+    Escribir "Seients lliures: ", lliures
+FinAlgoritmo</div><ul class="exercici-tasques"><li>El bucle extern recorre les files i l'intern els seients de cada fila: <code>Para</code> → <code>for</code>.</li><li><code>MOD</code> → <code>%</code>; <code>Escribir Sin Saltar</code> → <code>System.out.print</code>.</li><li>L'<code>Escribir ""</code> va dins del bucle extern però fora de l'intern: en Java és un <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Fila 1: O X O O X O 
+Fila 2: X O O X O O 
+Fila 3: O O X O O X 
+Fila 4: O X O O X O 
+Seients lliures: 16</pre></div><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Mostra l'ocupació d'una sala de cinema i compta els seients lliures</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SalaCinema</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> lliures = <span class="num">0</span>;
+
+        <span class="kw">for</span> (<span class="kw">int</span> fila = <span class="num">1</span>; fila &lt;= <span class="num">4</span>; fila++) {                  <span class="cmt">// bucle extern: cada fila</span>
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Fila "</span> + fila + <span class="str">": "</span>);
+            <span class="kw">for</span> (<span class="kw">int</span> seient = <span class="num">1</span>; seient &lt;= <span class="num">6</span>; seient++) {        <span class="cmt">// bucle intern: seients de la fila</span>
+                <span class="kw">if</span> ((fila + seient) % <span class="num">3</span> == <span class="num">0</span>) {
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"X "</span>);                       <span class="cmt">// ocupat</span>
+                } <span class="kw">else</span> {
+                    <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"O "</span>);                       <span class="cmt">// lliure</span>
+                    lliures++;
+                }
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>();                                 <span class="cmt">// Escribir "" → canvi de fila</span>
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Seients lliures: "</span> + lliures);
+
+    }
+
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El límit del bucle intern és fix (6) i el canvi de línia és fora del bucle intern però dins de l'extern.</li><li>La condició d'ocupat fa servir les variables dels dos bucles.</li><li>El comptador només s'incrementa als seients lliures i es mostra un cop, al final.</li><li>La sortida coincideix amb l'exemple, espais inclosos.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
+</div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">A la recerca de dobles</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>En un joc de taula, el jugador tira <strong>dos daus</strong> fins que treu dobles (els dos daus iguals), amb un màxim de <strong>10 tirades</strong>. PSeInt no té <code>break</code>: per aturar-se fa servir la variable <code>dobles</code>. Tu l'has d'escriure en Java amb un <code>for</code> i un <code>break</code>, <strong>sense</strong> la variable lògica. Classe <code>Dobles</code>.</p><div class="pseudo">Algoritmo Dobles
+    Definir intent, dau1, dau2 Como Entero
+    Definir dobles Como Logico
+    intent &lt;- 0
+    dobles &lt;- Falso
+    Mientras intent &lt; 10 Y NO dobles Hacer
+        intent &lt;- intent + 1
+        dau1 &lt;- Aleatorio(1, 6)
+        dau2 &lt;- Aleatorio(1, 6)
+        Escribir "Tirada ", intent, ": ", dau1, " i ", dau2
+        Si dau1 = dau2 Entonces
+            dobles &lt;- Verdadero
+        FinSi
+    FinMientras
+    Si dobles Entonces
+        Escribir "Dobles a la tirada ", intent, "!"
+    SiNo
+        Escribir "Cap doble en 10 tirades."
+    FinSi
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Aleatorio(1, 6)</code> → <code>aleatori.nextInt(6) + 1</code>, amb un únic objecte <code>Random</code> creat abans del bucle (recorda l'<code>import</code>).</li><li>Fes un <code>for</code> de l'1 al 10 i surt amb <code>break</code> quan els dos daus siguin iguals.</li><li>Com que la variable del <code>for</code> no existeix fora del bucle, guarda la tirada dels dobles en una variable que valgui <code>-1</code> mentre no n'hi hagi.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Tirada 1: 3 i 6
+Tirada 2: 6 i 1
+Tirada 3: 2 i 5
+Tirada 4: 4 i 4
+Dobles a la tirada 4!</pre></div><p class="nota-sortida">Els valors canvien a cada execució.</p><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Random</span>;
+
+<span class="cmt">// Tira dos daus fins a treure dobles, amb un màxim de 10 tirades</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Dobles</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Random</span> aleatori = <span class="kw">new</span> <span class="cls">Random</span>();
+        <span class="kw">int</span> tiradaDobles = -<span class="num">1</span>;                       <span class="cmt">// -1 vol dir "encara no hi ha dobles"</span>
+
+        <span class="kw">for</span> (<span class="kw">int</span> intent = <span class="num">1</span>; intent &lt;= <span class="num">10</span>; intent++) {
+            <span class="kw">int</span> dau1 = aleatori.<span class="fn">nextInt</span>(<span class="num">6</span>) + <span class="num">1</span>;      <span class="cmt">// Aleatorio(1, 6)</span>
+            <span class="kw">int</span> dau2 = aleatori.<span class="fn">nextInt</span>(<span class="num">6</span>) + <span class="num">1</span>;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Tirada "</span> + intent + <span class="str">": "</span> + dau1 + <span class="str">" i "</span> + dau2);
+            <span class="kw">if</span> (dau1 == dau2) {
+                tiradaDobles = intent;
+                <span class="kw">break</span>;                               <span class="cmt">// ja tenim dobles: sortim del for</span>
+            }
+        }
+
+        <span class="kw">if</span> (tiradaDobles != -<span class="num">1</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dobles a la tirada "</span> + tiradaDobles + <span class="str">"!"</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cap doble en 10 tirades."</span>);
+        }
+
+    }
+
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Cada dau dona valors de l'1 al 6 i l'objecte <code>Random</code> es crea una sola vegada.</li><li>El <code>break</code> està dins de l'<code>if</code> que detecta els dobles, i la tirada es guarda abans de sortir.</li><li>Es controla el cas que no surtin dobles en 10 tirades.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.3 · 3.5</span></div>
 </div>
 </section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A3_2_recorregut_cerca.html">← A3.2 Recorregut i cerca</a><a href="A3_algorismes_iteratius.html" class="nav-hub">A3 · Índex</a><a href="A3_4_excepcions.html">A3.4 Excepcions →</a></nav>

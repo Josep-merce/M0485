@@ -229,10 +229,10 @@
 </nav>
 <main>
 <a class="backlink" href="A1_estructura_programa.html">← A1 · Estructura del programa informàtic</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.4, 1.5 i 1.6</div><div class="obj-text">Triar el tipus de dada adequat per a cada informació, escriure-hi literals correctes i declarar, inicialitzar i modificar variables. Distingir quan un valor ha de ser una constant (<code>final</code>) i posar noms que facin el codi llegible.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.4, 1.5 i 1.6</div><div class="obj-text">Triar el tipus de dada adequat per a cada informació, escriure-hi literals correctes i declarar, inicialitzar i modificar variables. Distingir quan un valor ha de ser una constant (<code>final</code>) i posar noms que facin el codi llegible.</div><div class="obj-text" style="margin-top:.5rem">✍️ Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Tipus de dades</h2><p class="sec-sub">Quina mena de valor guarda cada variable</p></div></div>
-  <p class="lead">Java és un llenguatge <strong>fortament tipat</strong>: cada variable té un tipus que determina quins valors pot guardar i quines operacions s'hi poden fer. Hi ha dos grans grups: els tipus <strong>primitius</strong> (valors simples) i els tipus <strong>de referència</strong> (objectes, com <code>String</code>).</p><div class="table-wrap"><table><thead><tr><th>Tipus primitiu</th><th>Mida</th><th>Valors possibles</th><th>Exemple</th></tr></thead><tbody><tr><td><code>byte</code></td><td>8 bits</td><td>−128 a 127</td><td><code>byte b = 100;</code></td></tr><tr><td><code>short</code></td><td>16 bits</td><td>−32.768 a 32.767</td><td><code>short s = 30000;</code></td></tr><tr><td><code>int</code></td><td>32 bits</td><td>−2.147.483.648 a 2.147.483.647</td><td><code>int edat = 25;</code></td></tr><tr><td><code>long</code></td><td>64 bits</td><td>aprox. ±9,2 × 10<sup>18</sup></td><td><code>long poblacio = 8_000_000_000L;</code></td></tr><tr><td><code>float</code></td><td>32 bits</td><td>decimal, uns 7 dígits de precisió</td><td><code>float alcada = 1.75f;</code></td></tr><tr><td><code>double</code></td><td>64 bits</td><td>decimal, uns 15 dígits de precisió</td><td><code>double pi = 3.14159;</code></td></tr><tr><td><code>char</code></td><td>16 bits</td><td>un caràcter Unicode</td><td><code>char inicial = 'A';</code></td></tr><tr><td><code>boolean</code></td><td>—</td><td><code>true</code> o <code>false</code></td><td><code>boolean aprovat = true;</code></td></tr></tbody></table></div><div class="exemple">
+  <p class="lead">Java és un llenguatge <strong>fortament tipat</strong>: cada variable té un tipus que determina quins valors pot guardar i quines operacions s'hi poden fer. Hi ha dos grans grups: els tipus <strong>primitius</strong> (valors simples) i els tipus <strong>de referència</strong> (objectes, com <code>String</code>). PSeInt només té quatre tipus; Java en té més, perquè distingeix la mida dels números i un caràcter sol d'un text.</p><div class="table-wrap"><table><thead><tr><th>Tipus primitiu</th><th>Mida</th><th>Valors possibles</th><th>Exemple</th><th>PSeInt</th></tr></thead><tbody><tr><td><code>byte</code></td><td>8 bits</td><td>−128 a 127</td><td><code>byte b = 100;</code></td><td><code>Entero</code></td></tr><tr><td><code>short</code></td><td>16 bits</td><td>−32.768 a 32.767</td><td><code>short s = 30000;</code></td><td><code>Entero</code></td></tr><tr><td><code>int</code></td><td>32 bits</td><td>−2.147.483.648 a 2.147.483.647</td><td><code>int edat = 25;</code></td><td><code>Entero</code></td></tr><tr><td><code>long</code></td><td>64 bits</td><td>aprox. ±9,2 × 10<sup>18</sup></td><td><code>long poblacio = 8_000_000_000L;</code></td><td><code>Entero</code></td></tr><tr><td><code>float</code></td><td>32 bits</td><td>decimal, uns 7 dígits de precisió</td><td><code>float alcada = 1.75f;</code></td><td><code>Real</code></td></tr><tr><td><code>double</code></td><td>64 bits</td><td>decimal, uns 15 dígits de precisió</td><td><code>double pi = 3.14159;</code></td><td><code>Real</code></td></tr><tr><td><code>char</code></td><td>16 bits</td><td>un caràcter Unicode</td><td><code>char inicial = 'A';</code></td><td><code>Caracter</code> d'una lletra</td></tr><tr><td><code>boolean</code></td><td>—</td><td><code>true</code> o <code>false</code></td><td><code>boolean aprovat = true;</code></td><td><code>Logico</code></td></tr></tbody></table></div><div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Consultar els límits dels tipus numèrics</span></div>
   <div class="code-block" data-run="r1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">LimitsTipus</span> {
 
@@ -252,63 +252,10 @@ long màxim: 9223372036854775807
 byte màxim: 127</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada tipus primitiu té una classe associada (<code>Integer</code>, <code>Long</code>, <code>Byte</code>…) que guarda, entre altres coses, els seus límits: <code>MAX_VALUE</code> i <code>MIN_VALUE</code>. El programa només els mostra.</p><p>Fixa't en la diferència de mida: un <code>byte</code> arriba a 127, un <code>int</code> a uns 2.100 milions i un <code>long</code> a més de 9 trilions. Aquestes classes s'expliquen a <a href="A1_4_conversions_sequencial.html">A1.4</a>.</p></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Quin triar?</strong> Per a enters, usa <code>int</code> (i <code>long</code> si el número és molt gran). Per a decimals, usa <code>double</code>. Els altres tipus numèrics es fan servir en casos molt concrets.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>El tipus <code>String</code></strong> guarda text: <code>String nom = "Anna";</code>. S'escriu amb majúscula perquè no és un tipus primitiu sinó una <strong>classe</strong>. Treballarem les classes i els objectes a l'AEA2.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><p>A PSeInt hi ha quatre tipus; Java en té més, perquè distingeix la mida dels números i un caràcter sol d'un text.</p><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Entero</code></td><td><code>int</code> (o <code>byte</code>, <code>short</code>, <code>long</code> segons la mida)</td></tr><tr><td><code>Real</code></td><td><code>double</code> (o <code>float</code>)</td></tr><tr><td><code>Caracter</code> d'una lletra</td><td><code>char</code></td></tr><tr><td><code>Caracter</code> / <code>Cadena</code> (text)</td><td><code>String</code></td></tr><tr><td><code>Logico</code></td><td><code>boolean</code></td></tr></tbody></table></div></div>
-<div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Quin tipus li toca?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>A PSeInt només hi ha quatre tipus, però Java en té més. Tradueix l'algorisme triant per a cada dada el tipus Java adequat. Crea la classe <code>Producte</code> al projecte <code>AEA1_A1</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Producte
-    Definir nom, categoria Como Caracter
-    Definir unitats Como Entero
-    Definir preu Como Real
-    Definir disponible Como Logico
-
-    nom &lt;- "Auriculars"
-    categoria &lt;- "E"
-    unitats &lt;- 120
-    preu &lt;- 49.95
-    disponible &lt;- Verdadero
-
-    Escribir "Producte: ", nom
-    Escribir "Categoria: ", categoria
-    Escribir "Unitats: ", unitats
-    Escribir "Preu: ", preu, " €"
-    Escribir "Disponible: ", disponible
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="cmt">// Mostra la fitxa d'un producte de la botiga</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Producte</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">String</span> nom = <span class="str">"Auriculars"</span>;     <span class="cmt">// un text → String</span>
-        <span class="kw">char</span> categoria = <span class="str">'E'</span>;          <span class="cmt">// una sola lletra → char</span>
-        <span class="kw">int</span> unitats = <span class="num">120</span>;             <span class="cmt">// un nombre enter → int</span>
-        <span class="kw">double</span> preu = <span class="num">49.95</span>;           <span class="cmt">// un nombre amb decimals → double</span>
-        <span class="kw">boolean</span> disponible = <span class="kw">true</span>;     <span class="cmt">// sí o no → boolean</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Producte: "</span> + nom);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Categoria: "</span> + categoria);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Unitats: "</span> + unitats);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu: "</span> + preu + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Disponible: "</span> + disponible);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>nom</code> és <code>String</code> perquè és un text; <code>categoria</code> és <code>char</code> perquè és una sola lletra.</li><li><code>unitats</code> és <code>int</code> (no té decimals) i <code>preu</code> és <code>double</code>.</li><li><code>Verdadero</code> passa a ser <code>true</code>, en minúscula.</li><li>També és correcte declarar <code>categoria</code> com a <code>String</code>, però <code>char</code> descriu millor una dada d'una sola lletra.</li></ul></div><ul class="exercici-tasques"><li><code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code>.</li><li><code>Caracter</code> pot ser dues coses a Java: un text sencer (<code>String</code>) o una sola lletra (<code>char</code>). Mira quin valor guarda cada variable per decidir-ho.</li><li>Al costat de cada declaració, escriu un comentari curt que justifiqui el tipus que has triat.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Producte: Auriculars
-Categoria: E
-Unitats: 120
-Preu: 49.95 €
-Disponible: true</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.4</span></div>
-</div>
+</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Quin triar?</strong> Per a enters, usa <code>int</code> (i <code>long</code> si el número és molt gran). Per a decimals, usa <code>double</code>. Els altres tipus numèrics es fan servir en casos molt concrets.</p></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>El tipus <code>String</code></strong> guarda text: <code>String nom = "Anna";</code>. S'escriu amb majúscula perquè no és un tipus primitiu sinó una <strong>classe</strong>. És el tipus que fem servir per als textos que a PSeInt eren <code>Caracter</code> o <code>Cadena</code>. Treballarem les classes i els objectes a l'AEA2.</p></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Literals</h2><p class="sec-sub">Valors escrits directament al codi</p></div></div>
-  <p class="lead">Un <strong>literal</strong> és un valor escrit directament al codi: <code>42</code>, <code>3.14</code>, <code>'A'</code>, <code>true</code> o <code>"Hola"</code>. El tipus del literal depèn de com l'escrivim.</p><div class="table-wrap"><table><thead><tr><th>Literal</th><th>Tipus</th><th>Exemples</th><th>Observacions</th></tr></thead><tbody><tr><td>Enter</td><td><code>int</code></td><td><code>42</code> · <code>-7</code> · <code>1_000_000</code></td><td>El <code>_</code> només serveix per llegir millor.</td></tr><tr><td>Enter llarg</td><td><code>long</code></td><td><code>9_000_000_000L</code></td><td>Cal la <code>L</code> final si supera el rang d'<code>int</code>.</td></tr><tr><td>Decimal</td><td><code>double</code></td><td><code>3.14</code> · <code>1.5e3</code></td><td>Punt decimal, mai coma. <code>1.5e3</code> = 1500.0</td></tr><tr><td>Decimal curt</td><td><code>float</code></td><td><code>9.99f</code></td><td>Cal la <code>f</code> final.</td></tr><tr><td>Caràcter</td><td><code>char</code></td><td><code>'A'</code> · <code>'7'</code> · <code>'@'</code></td><td>Cometes <strong>simples</strong> i un sol caràcter.</td></tr><tr><td>Booleà</td><td><code>boolean</code></td><td><code>true</code> · <code>false</code></td><td>Sempre en minúscula.</td></tr><tr><td>Cadena</td><td><code>String</code></td><td><code>"Joan"</code> · <code>""</code></td><td>Cometes <strong>dobles</strong>. <code>"42"</code> és text, no un número.</td></tr><tr><td>Nul</td><td>referència</td><td><code>null</code></td><td>Indica "cap objecte". No es pot assignar a primitius.</td></tr></tbody></table></div><div class="exemple">
+  <p class="lead">Un <strong>literal</strong> és un valor escrit directament al codi: <code>42</code>, <code>3.14</code>, <code>'A'</code>, <code>true</code> o <code>"Hola"</code>. El tipus del literal depèn de com l'escrivim.</p><div class="table-wrap"><table><thead><tr><th>Literal</th><th>Tipus</th><th>Exemples</th><th>Observacions</th><th>PSeInt</th></tr></thead><tbody><tr><td>Enter</td><td><code>int</code></td><td><code>42</code> · <code>-7</code> · <code>1_000_000</code></td><td>El <code>_</code> només serveix per llegir millor.</td><td><code>42</code></td></tr><tr><td>Enter llarg</td><td><code>long</code></td><td><code>9_000_000_000L</code></td><td>Cal la <code>L</code> final si supera el rang d'<code>int</code>.</td><td><code>9000000000</code> (sense <code>L</code>)</td></tr><tr><td>Decimal</td><td><code>double</code></td><td><code>3.14</code> · <code>1.5e3</code></td><td>Punt decimal, mai coma. <code>1.5e3</code> = 1500.0</td><td><code>3.14</code></td></tr><tr><td>Decimal curt</td><td><code>float</code></td><td><code>9.99f</code></td><td>Cal la <code>f</code> final.</td><td>—</td></tr><tr><td>Caràcter</td><td><code>char</code></td><td><code>'A'</code> · <code>'7'</code> · <code>'@'</code></td><td>Cometes <strong>simples</strong> i un sol caràcter.</td><td><code>'A'</code> o <code>"A"</code></td></tr><tr><td>Booleà</td><td><code>boolean</code></td><td><code>true</code> · <code>false</code></td><td>Sempre en minúscula.</td><td><code>Verdadero</code> · <code>Falso</code></td></tr><tr><td>Cadena</td><td><code>String</code></td><td><code>"Joan"</code> · <code>""</code></td><td>Cometes <strong>dobles</strong>. <code>"42"</code> és text, no un número.</td><td><code>"Joan"</code> o <code>'Joan'</code>: totes dues valen</td></tr><tr><td>Nul</td><td>referència</td><td><code>null</code></td><td>Indica "cap objecte". No es pot assignar a primitius.</td><td>—</td></tr></tbody></table></div><div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Literals de tots els tipus</span></div>
   <div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Literals</span> {
 
@@ -339,62 +286,7 @@ true
 La Mercè Market</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada variable rep un literal del seu tipus. El <code>long</code> porta la <code>L</code> final perquè 8.000 milions no cap en un <code>int</code>, i els guions baixos <code>_</code> no es mostren: només fan el número més fàcil de llegir al codi.</p><p>En mostrar-los, les cometes desapareixen: <code>'J'</code> surt com a <code>J</code> i <code>"La Mercè Market"</code> sense cometes. Les cometes només indiquen al compilador on comença i acaba el valor.</p></div>
-</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Trampes freqüents:</strong> <code>float f = 3.14;</code> no compila (cal <code>3.14f</code>); <code>boolean b = True;</code> tampoc (és <code>true</code>); i <code>char c = "A";</code> és un error perquè les cometes dobles són per a <code>String</code>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Verdadero</code> · <code>Falso</code></td><td><code>true</code> · <code>false</code> (en minúscula)</td></tr><tr><td><code>"Joan"</code> o <code>'Joan'</code>: totes dues valen per a text</td><td><code>"Joan"</code> per a text; <code>'J'</code> només per a <strong>un</strong> caràcter</td></tr><tr><td><code>9000000000</code></td><td><code>9_000_000_000L</code> (cal la <code>L</code>)</td></tr><tr><td><code>3.14</code></td><td><code>3.14</code> (<code>double</code>) o <code>3.14f</code> (<code>float</code>)</td></tr></tbody></table></div></div>
-<div class="exercici-card practica" id="ex2">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Literals ben escrits</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Els valors d'aquest algorisme estan escrits com a PSeInt. Tradueix-lo escrivint cada <strong>literal</strong> amb la sintaxi correcta de Java. Crea la classe <code>Planeta</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Planeta
-    Definir nom, inicial Como Caracter
-    Definir habitants, llunes Como Entero
-    Definir distanciaSol Como Real
-    Definir teAigua Como Logico
-
-    nom &lt;- "Terra"
-    inicial &lt;- "T"
-    habitants &lt;- 8000000000
-    distanciaSol &lt;- 149600000
-    llunes &lt;- 1
-    teAigua &lt;- Verdadero
-
-    Escribir "Planeta: ", nom, " (", inicial, ")"
-    Escribir "Habitants: ", habitants
-    Escribir "Distància al Sol: ", distanciaSol, " km"
-    Escribir "Llunes: ", llunes
-    Escribir "Té aigua líquida: ", teAigua
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="cmt">// Mostra algunes dades del planeta Terra</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Planeta</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">String</span> nom = <span class="str">"Terra"</span>;             <span class="cmt">// text: cometes dobles</span>
-        <span class="kw">char</span> inicial = <span class="str">'T'</span>;               <span class="cmt">// un caràcter: cometes simples</span>
-        <span class="kw">long</span> habitants = <span class="num">8_000_000_000L</span>;  <span class="cmt">// no cap en un int: cal la L</span>
-        <span class="kw">double</span> distanciaSol = <span class="num">1.496e8</span>;    <span class="cmt">// 149.600.000 km en notació científica</span>
-        <span class="kw">int</span> llunes = <span class="num">1</span>;
-        <span class="kw">boolean</span> teAigua = <span class="kw">true</span>;           <span class="cmt">// en minúscula</span>
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Planeta: "</span> + nom + <span class="str">" ("</span> + inicial + <span class="str">")"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Habitants: "</span> + habitants);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Distància al Sol: "</span> + distanciaSol + <span class="str">" km"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Llunes: "</span> + llunes);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té aigua líquida: "</span> + teAigua);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>habitants</code> és <code>long</code> i el literal porta la <code>L</code> final: sense ella, el compilador diu <em>integer number too large</em>.</li><li><code>1.496e8</code> és un literal <code>double</code> correcte; fixa't que en mostrar-lo Java fa servir la notació científica (<code>1.496E8</code>).</li><li><code>'T'</code> amb cometes simples i <code>"Terra"</code> amb dobles; <code>true</code> en minúscula.</li><li>Els guions baixos de <code>8_000_000_000L</code> no surten a la sortida: només ajuden a llegir el codi.</li></ul></div><ul class="exercici-tasques"><li><code>habitants</code> no cap en un <code>int</code>: quin tipus i quina lletra final necessita? Fes servir <code>_</code> perquè el número es llegeixi bé.</li><li>Escriu <code>distanciaSol</code> com a <code>double</code> en notació científica: 149.600.000 = 1,496 · 10<sup>8</sup>.</li><li><code>inicial</code> és una sola lletra: cometes simples. <code>nom</code> és un text: cometes dobles.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Repassa la taula de literals d'aquí dalt: hi trobaràs la lletra que cal posar al final d'un enter massa gran i com s'escriu <code>1.5e3</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Planeta: Terra (T)
-Habitants: 8000000000
-Distància al Sol: 1.496E8 km
-Llunes: 1
-Té aigua líquida: true</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.4 · 1.6</span></div>
-</div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Trampes freqüents:</strong> <code>float f = 3.14;</code> no compila (cal <code>3.14f</code>); <code>boolean b = True;</code> tampoc (és <code>true</code>); i <code>char c = "A";</code> és un error perquè les cometes dobles són per a <code>String</code>.</p></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Variables</h2><p class="sec-sub">Espais de memòria amb nom</p></div></div>
   <p class="lead">Una <strong>variable</strong> és un espai de memòria amb un nom on guardem un valor que pot canviar durant l'execució. Té tres elements: <strong>tipus</strong>, <strong>nom</strong> i <strong>valor</strong>.</p><div class="sintaxi"><span class="box-label">Sintaxi</span><div><code>tipus nom;</code> <span>→ declaració</span></div><div><code>tipus nom = valor;</code> <span>→ declaració i inicialització</span></div><div><code>nom = nouValor;</code> <span>→ assignació d'un nou valor (sense repetir el tipus)</span></div></div><div class="exemple">
@@ -453,75 +345,9 @@ Té aigua líquida: true</pre></div></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El compilador mira el valor de la dreta: <code>"Laia"</code> és un <code>String</code>, <code>22</code> un <code>int</code> i <code>9.99</code> un <code>double</code>. Per això <code>var</code> necessita sempre un valor inicial. Al curs escriurem el tipus explícitament: és més clar mentre aprenem.</p></div>
 </div></div></details><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Definir edat Como Entero</code></td><td><code>int edat;</code></td></tr><tr><td><code>edat &lt;- 25</code></td><td><code>edat = 25;</code></td></tr><tr><td>Declaració i assignació en dues línies</td><td>Es poden fer en una: <code>int edat = 25;</code></td></tr></tbody></table></div></div>
-<div class="exercici-card practica" id="ex3">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">La fitxa personal</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Tradueix l'algorisme a Java. Fixa't que al final l'edat <strong>canvia de valor</strong>. Crea la classe <code>Presentacio</code> i, quan funcioni, posa-hi les teves dades.</p><div class="ex-grid"><div class="pseudo">Algoritmo Presentacio
-    Definir nom, grup Como Caracter
-    Definir edat Como Entero
-    Definir alcada Como Real
-    Definir teOrdinador Como Logico
-
-    nom &lt;- "Marc Soler"
-    edat &lt;- 19
-    alcada &lt;- 1.78
-    grup &lt;- "A"
-    teOrdinador &lt;- Verdadero
-
-    Escribir "Nom: ", nom
-    Escribir "Edat: ", edat, " anys"
-    Escribir "Alçada: ", alcada, " m"
-    Escribir "Grup: ", grup
-    Escribir "Té ordinador: ", teOrdinador
-
-    // Fa anys
-    edat &lt;- edat + 1
-    Escribir "L'any vinent tindrà: ", edat, " anys"
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e3"><span class="cmt">// Mostra la fitxa personal d'un alumne</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Presentacio</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cmt">// Declaració i inicialització</span>
-        <span class="cls">String</span> nom = <span class="str">"Marc Soler"</span>;
-        <span class="kw">int</span> edat = <span class="num">19</span>;
-        <span class="kw">double</span> alcada = <span class="num">1.78</span>;
-        <span class="kw">boolean</span> teOrdinador = <span class="kw">true</span>;
-
-        <span class="cmt">// Declaració i inicialització per separat</span>
-        <span class="kw">char</span> grup;
-        grup = <span class="str">'A'</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nom: "</span> + nom);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat + <span class="str">" anys"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Alçada: "</span> + alcada + <span class="str">" m"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Grup: "</span> + grup);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té ordinador: "</span> + teOrdinador);
-
-        <span class="cmt">// Fa anys: modifiquem la variable (sense tornar a escriure int)</span>
-        edat = edat + <span class="num">1</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"L'any vinent tindrà: "</span> + edat + <span class="str">" anys"</span>);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Cada dada té el tipus adequat (text, enter, decimal, caràcter i booleà).</li><li><code>grup</code> es declara i s'inicialitza en dos passos.</li><li>La modificació és <code>edat = edat + 1;</code>, sense <code>int</code> al davant. Si hi poses <code>int</code>, el compilador diu <em>variable edat is already defined</em>.</li><li>Hi ha un comentari inicial que explica què fa el programa.</li></ul></div><ul class="exercici-tasques"><li>Declara i inicialitza en una sola línia totes les variables menys <code>grup</code>: aquesta, declara-la primer i assigna-li el valor a la línia següent.</li><li>Per canviar <code>edat</code> no tornis a escriure el tipus: la variable ja existeix.</li><li>Afegeix a l'inici un comentari que expliqui què fa el programa.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e3">Nom: Marc Soler
-Edat: 19 anys
-Alçada: 1.78 m
-Grup: A
-Té ordinador: true
-L'any vinent tindrà: 20 anys</pre></div><p class="nota-sortida">Amb les teves dades, evidentment.</p></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.4 · 1.5</span></div>
-</div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Constants</h2><p class="sec-sub">Valors que no canvien</p></div></div>
-  <p class="lead">Una <strong>constant</strong> és un valor que no pot canviar un cop assignat. Es declara amb la paraula clau <code>final</code> i, per convenció, el nom s'escriu en <strong>MAJÚSCULES</strong> separant les paraules amb guió baix.</p><div class="table-wrap"><table><thead><tr><th>Característica</th><th>Variable</th><th>Constant</th></tr></thead><tbody><tr><td>Paraula clau</td><td>—</td><td><code>final</code></td></tr><tr><td>Pot canviar de valor</td><td>✔ Sí</td><td>✘ No (error de compilació)</td></tr><tr><td>Nomenclatura</td><td><code>preuFinal</code></td><td><code>IVA_GENERAL</code></td></tr><tr><td>Exemples</td><td>edat, comptador, total</td><td>IVA, dies de la setmana, nota mínima per aprovar</td></tr></tbody></table></div><div class="exemple">
+  <p class="lead">Una <strong>constant</strong> és un valor que no pot canviar un cop assignat. Es declara amb la paraula clau <code>final</code> i, per convenció, el nom s'escriu en <strong>MAJÚSCULES</strong> separant les paraules amb guió baix.</p><div class="table-wrap"><table><thead><tr><th>Característica</th><th>Variable</th><th>Constant</th><th>PSeInt</th></tr></thead><tbody><tr><td>Paraula clau</td><td>—</td><td><code>final</code></td><td>— (no hi ha constants: tot són variables)</td></tr><tr><td>Pot canviar de valor</td><td>✔ Sí</td><td>✘ No (error de compilació)</td><td>✔ Sempre: <code>iva &lt;- 0.21</code> es pot tornar a canviar</td></tr><tr><td>Nomenclatura</td><td><code>preuFinal</code></td><td><code>IVA_GENERAL</code></td><td><code>iva</code>, com qualsevol variable</td></tr><tr><td>Exemples</td><td>edat, comptador, total</td><td>IVA, dies de la setmana, nota mínima per aprovar</td><td>—</td></tr></tbody></table></div><div class="exemple">
   <div class="exemple-header"><span>Constants per a una botiga en línia</span></div>
   <div class="code-block" data-run="r6"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Botiga</span> {
 
@@ -553,157 +379,125 @@ L'any vinent tindrà: 20 anys</pre></div><p class="nota-sortida">Amb les teves d
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r6">Preu final: 87.12 €
 Dies per retornar-lo: 18 de 30</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Les constants agrupen les regles del negoci (IVA, descompte de soci, dies de devolució) a l'inici del programa; les variables guarden les dades d'aquesta compra concreta. El càlcul fa servir els noms, no els números.</p><p>Una constant també pot donar el valor <strong>inicial</strong> d'una variable: <code>diesRestants</code> comença valent <code>DIES_DEVOLUCIO</code> i després canvia, mentre que la constant continua valent 30.</p><p>La darrera línia està comentada perquè no compilaria: un cop una variable <code>final</code> té valor, no se'n pot assignar un altre.</p></div>
-</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Per què usar constants?</strong> Si l'IVA canvia, només cal modificar-lo en un lloc. A més, <code>preu * IVA</code> s'entén molt millor que <code>preu * 0.21</code> (un "número màgic" sense explicació).</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td>No hi ha constants: tot són variables</td><td><code>final double IVA = 0.21;</code></td></tr><tr><td><code>iva &lt;- 0.21</code> es pot tornar a canviar</td><td>Si fas <code>IVA = 0.18;</code> el programa no compila</td></tr></tbody></table></div></div>
-<div class="exercici-card practica" id="ex4">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">Les entrades del cinema</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
+</div><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Per què usar constants?</strong> Si l'IVA canvia, només cal modificar-lo en un lloc. A més, <code>preu * IVA</code> s'entén molt millor que <code>preu * 0.21</code> (un "número màgic" sense explicació).</p></div>
+</section><section class="section" id="demos">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar la subpàgina</p></div></div>
+  <p class="lead">Comprova que saps <strong>triar el tipus</strong> adequat i escriure literals correctes. Tots dos són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Quin tipus de dada?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Per a cada literal, tria el tipus de la variable que el guardaria.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>3.75</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="1">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Té decimals i no porta <code>f</code>: és un <code>double</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>"K"</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="1">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cometes dobles: és un text (<code>String</code>), encara que només tingui una lletra.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>8_000_000_000L</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="1">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>La <code>L</code> final indica <code>long</code>: 8.000 milions no cap en un <code>int</code>.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Literals trampa</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Decideix si cada línia compila o no. Fixa't bé en les cometes, les majúscules i les lletres finals.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>float alcada = 3.14f;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Compila</button><button type="button" class="qi-btn" data-ok="0">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>La <code>f</code> indica que el literal és <code>float</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>char c = "A";</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>"A"</code> és un <code>String</code>; un <code>char</code> va entre cometes simples.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>long l = 3000000000;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El literal no porta <code>L</code>, així que és <code>int</code>, i 3.000 milions supera el màxim d'un <code>int</code>. Cal <code>3000000000L</code>.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div></section><section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir tot el que has vist: els tipus de dades, els literals, les variables i les constants. Escriu-los al projecte <code>AEA1_A1</code> i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La fitxa de la pel·lícula</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>PSeInt no distingeix entre variables i constants, però Java sí. Tradueix l'algorisme i decideix quines dades han de ser <strong>constants</strong>. Crea la classe <code>Cinema</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Cinema
-    Definir preuEntrada, descompteJove Como Real
-    Definir entrades Como Entero
-    Definir importBase, descompte, total Como Real
+    <p>Una videoteca guarda unes quantes dades de cada pel·lícula: el títol, l'any, la durada, la valoració, la versió (<strong>O</strong> original o <strong>D</strong> doblada) i si té subtítols. Tradueix l'algorisme a Java a la classe <code>Pelicula</code> triant el tipus adequat per a cada dada.</p><div class="pseudo">Algoritmo Pelicula
+    Definir titol, versio Como Caracter
+    Definir any, durada Como Entero
+    Definir valoracio Como Real
+    Definir subtitulada Como Logico
 
-    preuEntrada &lt;- 8
-    descompteJove &lt;- 0.25
-    entrades &lt;- 3
+    titol &lt;- "La vida és bella"
+    versio &lt;- "O"
+    any &lt;- 1997
+    durada &lt;- 116
+    valoracio &lt;- 8.6
+    subtitulada &lt;- Verdadero
 
-    importBase &lt;- entrades * preuEntrada
-    descompte &lt;- importBase * descompteJove
-    total &lt;- importBase - descompte
-
-    Escribir "Entrades: ", entrades
-    Escribir "Import: ", importBase, " €"
-    Escribir "Descompte: ", descompte, " €"
-    Escribir "Total: ", total, " €"
-FinAlgoritmo</div>
-<div class="solucio-wrap">
+    Escribir "Títol: ", titol, " (", any, ")"
+    Escribir "Durada: ", durada, " min"
+    Escribir "Valoració: ", valoracio
+    Escribir "Versió: ", versio, " · Subtitulada: ", subtitulada
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code>.</li><li><code>Caracter</code> pot ser un text (<code>String</code>, cometes dobles) o una sola lletra (<code>char</code>, cometes simples). Mira quin valor guarda cada variable.</li><li><code>Verdadero</code> → <code>true</code>, en minúscula. Declara i inicialitza cada variable en una sola línia.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Títol: La vida és bella (1997)
+Durada: 116 min
+Valoració: 8.6
+Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e4"><span class="cmt">// Calcula l'import d'unes entrades de cinema amb el descompte del carnet jove</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cinema</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Mostra la fitxa d'una pel·lícula de la videoteca</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Pelicula</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Constants: regles del cinema, no canvien en tot el programa</span>
-        <span class="kw">final</span> <span class="kw">double</span> PREU_ENTRADA = <span class="num">8.0</span>;
-        <span class="kw">final</span> <span class="kw">double</span> DESCOMPTE_JOVE = <span class="num">0.25</span>;
+        <span class="cls">String</span> titol = <span class="str">"La vida és bella"</span>;   <span class="cmt">// text: cometes dobles</span>
+        <span class="kw">char</span> versio = <span class="str">'O'</span>;                   <span class="cmt">// una sola lletra (O = original, D = doblada)</span>
+        <span class="kw">int</span> any = <span class="num">1997</span>;                      <span class="cmt">// enter</span>
+        <span class="kw">int</span> durada = <span class="num">116</span>;                    <span class="cmt">// minuts</span>
+        <span class="kw">double</span> valoracio = <span class="num">8.6</span>;              <span class="cmt">// decimal: punt, no coma</span>
+        <span class="kw">boolean</span> subtitulada = <span class="kw">true</span>;          <span class="cmt">// en minúscula</span>
 
-        <span class="cmt">// Variables: dades d'aquesta compra</span>
-        <span class="kw">int</span> entrades = <span class="num">3</span>;
-
-        <span class="kw">double</span> importBase = entrades * PREU_ENTRADA;
-        <span class="kw">double</span> descompte = importBase * DESCOMPTE_JOVE;
-        <span class="kw">double</span> total = importBase - descompte;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Entrades: "</span> + entrades);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Import: "</span> + importBase + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Descompte: "</span> + descompte + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total + <span class="str">" €"</span>);
-
-        <span class="cmt">// PREU_ENTRADA = 9.0;   // error: cannot assign a value to final variable PREU_ENTRADA</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Títol: "</span> + titol + <span class="str">" ("</span> + any + <span class="str">")"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Durada: "</span> + durada + <span class="str">" min"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Valoració: "</span> + valoracio);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Versió: "</span> + versio + <span class="str">" · Subtitulada: "</span> + subtitulada);
 
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>PREU_ENTRADA</code> i <code>DESCOMPTE_JOVE</code> són <code>final</code> i segueixen la convenció de noms.</li><li><code>entrades</code> continua sent una variable: depèn de cada compra.</li><li>Els càlculs fan servir el nom de les constants, no els números <code>8</code> i <code>0.25</code>.</li><li><code>24.0</code>: el resultat és <code>double</code> perquè la constant és <code>double</code>, i un <code>double</code> sempre es mostra amb decimal.</li></ul></div><ul class="exercici-tasques"><li>El preu de l'entrada i el descompte del carnet jove són <strong>regles del cinema</strong>: no canvien d'una compra a l'altra. Declara'ls amb <code>final</code>.</li><li>Posa el nom de les constants en MAJÚSCULES, separant les paraules amb <code>_</code>.</li><li>Agrupa les constants al principi del <code>main</code>, amb un comentari, i separa-les de les variables de la compra.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e4">Entrades: 3
-Import: 24.0 €
-Descompte: 6.0 €
-Total: 18.0 €</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Descomenta la línia <code>PREU_ENTRADA = 9.0;</code> de la solució. Quin error dona el compilador? Escriu-lo en un comentari i explica per què passa.</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.5 · 1.6</span></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>titol</code> és <code>String</code> i <code>versio</code> és <code>char</code> amb cometes simples: <code>'O'</code>.</li><li><code>any</code> i <code>durada</code> són <code>int</code>; <code>valoracio</code> és <code>double</code> i s'escriu amb punt decimal.</li><li><code>subtitulada</code> és <code>boolean</code> i val <code>true</code>, en minúscula.</li><li>La sortida coincideix amb l'exemple, espais i parèntesis inclosos.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.4</span></div>
 </div>
-</section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Tres exercicis ràpids per repassar tota la subpàgina</p></div></div>
-  <p class="lead">Ja has escrit quatre programes. Ara comprova que saps triar el tipus, escriure literals i declarar variables i constants. Els dos primers són interactius.</p><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Quin tipus de dada?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body"><p>Per a cada literal, tria el tipus de la variable que el guardaria.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>42</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Nombre sencer dins del rang normal: <code>int</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>3.75</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="1">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Té decimals i no porta <code>f</code>: és un <code>double</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>'K'</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="1">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Un sol caràcter entre cometes simples: <code>char</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>"K"</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="1">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cometes dobles: és un text (<code>String</code>), encara que només tingui una lletra.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>false</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="1">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Els valors <code>true</code> i <code>false</code> són <code>boolean</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> <code>8_000_000_000L</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="1">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="0">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>La <code>L</code> final indica <code>long</code>: 8.000 milions no cap en un <code>int</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">7.</span> <code>"25"</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">int</button><button type="button" class="qi-btn" data-ok="0">long</button><button type="button" class="qi-btn" data-ok="0">double</button><button type="button" class="qi-btn" data-ok="0">char</button><button type="button" class="qi-btn" data-ok="0">boolean</button><button type="button" class="qi-btn" data-ok="1">String</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Les cometes el converteixen en text. No es pot fer servir per sumar.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
-</div><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">Literals trampa</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Decideix si cada línia compila o no. Fixa't bé en les cometes, les majúscules i les lletres finals.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>float alcada = 3.14f;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Compila</button><button type="button" class="qi-btn" data-ok="0">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>La <code>f</code> indica que el literal és <code>float</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>float alcada = 3.14;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>3.14</code> és <code>double</code> i no cap en un <code>float</code> sense la <code>f</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>char c = 'A';</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Compila</button><button type="button" class="qi-btn" data-ok="0">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Un caràcter entre cometes simples.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>char c = "A";</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>"A"</code> és un <code>String</code>; un <code>char</code> va entre cometes simples.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>boolean b = True;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>En Java és <code>true</code>, en minúscula. <code>True</code> no existeix.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">6.</span> <code>String s = "A";</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Compila</button><button type="button" class="qi-btn" data-ok="0">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Un text d'una sola lletra continua sent un <code>String</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">7.</span> <code>long l = 3000000000;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El literal no porta <code>L</code>, així que és <code>int</code>, i 3.000 milions supera el màxim d'un <code>int</code>. Cal <code>3000000000L</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">8.</span> <code>double d = 3,5;</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Compila</button><button type="button" class="qi-btn" data-ok="1">No compila</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Els decimals s'escriuen amb punt: <code>3.5</code>. La coma separa declaracions.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
-</div><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 3</span><span class="exercici-title">Detecta l'error</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Cada programa té un error de declaració o d'assignació. Busca'l abans d'obrir la solució.</p><div class="err-item"><div class="qi-text"><span class="qi-n">a)</span> Volem canviar l'edat de 18 a 19.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CanviEdat</span> {
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">El viatge en taxi</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un taxi cobra una <strong>baixada de bandera</strong> de 2,5 € i <strong>1,25 € per quilòmetre</strong>. Aquest algorisme calcula el preu d'un trajecte de 5 km i, quan el client demana anar 3 km més lluny, el torna a calcular. Tradueix-lo a Java a la classe <code>Taxi</code>. A PSeInt tot són variables: a Java, decideix quines dades han de ser <strong>constants</strong>.</p><div class="pseudo">Algoritmo Taxi
+    Definir baixadaBandera, preuKm, preuViatge Como Real
+    Definir matricula Como Caracter
+    Definir km Como Entero
 
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> edat = <span class="num">18</span>;
-        <span class="kw">int</span> edat = <span class="num">19</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(edat);
-    }
+    baixadaBandera &lt;- 2.5
+    preuKm &lt;- 1.25
+    matricula &lt;- "4821 KLM"
+    km &lt;- 5
 
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
+    preuViatge &lt;- baixadaBandera + km * preuKm
+    Escribir "Taxi ", matricula
+    Escribir "Trajecte: ", km, " km → ", preuViatge, " €"
+
+    // El client demana anar 3 km més lluny
+    km &lt;- km + 3
+    preuViatge &lt;- baixadaBandera + km * preuKm
+    Escribir "Trajecte: ", km, " km → ", preuViatge, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>La baixada de bandera i el preu per km són la <strong>tarifa</strong> del taxi: no canvien d'un viatge a l'altre. Declara-les amb <code>final</code> i en MAJÚSCULES (<code>BAIXADA_BANDERA</code>, <code>PREU_KM</code>).</li><li><code>km &lt;- km + 3</code> → <code>km = km + 3;</code>, sense tornar a escriure <code>int</code>: la variable ja existeix.</li><li><code>preuViatge</code> no s'actualitza sol quan canvia <code>km</code>: l'has de tornar a calcular.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Taxi 4821 KLM
+Trajecte: 5 km → 8.75 €
+Trajecte: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp">La segona línia torna a <strong>declarar</strong> <code>edat</code> (porta <code>int</code> al davant). Una variable només es declara una vegada; per canviar-ne el valor s'escriu sense el tipus.<p class="msg">Missatge del compilador:<br><code>CanviEdat.java:5: error: variable edat is already defined in method main(String[])</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r8"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CanviEdat</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Calcula el preu d'un viatge en taxi abans i després d'allargar el trajecte</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Taxi</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> edat = <span class="num">18</span>;
-        edat = <span class="num">19</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(edat);
+
+        <span class="cmt">// Constants: la tarifa del taxi no canvia d'un viatge a l'altre</span>
+        <span class="kw">final</span> <span class="kw">double</span> BAIXADA_BANDERA = <span class="num">2.5</span>;   <span class="cmt">// euros</span>
+        <span class="kw">final</span> <span class="kw">double</span> PREU_KM = <span class="num">1.25</span>;          <span class="cmt">// euros per km</span>
+
+        <span class="cmt">// Variables: dades d'aquest viatge</span>
+        <span class="cls">String</span> matricula = <span class="str">"4821 KLM"</span>;
+        <span class="kw">int</span> km = <span class="num">5</span>;
+        <span class="kw">double</span> preuViatge = BAIXADA_BANDERA + km * PREU_KM;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Taxi "</span> + matricula);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trajecte: "</span> + km + <span class="str">" km → "</span> + preuViatge + <span class="str">" €"</span>);
+
+        <span class="cmt">// El client demana anar 3 km més lluny</span>
+        km = km + <span class="num">3</span>;
+        preuViatge = BAIXADA_BANDERA + km * PREU_KM;   <span class="cmt">// cal tornar-lo a calcular</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trajecte: "</span> + km + <span class="str">" km → "</span> + preuViatge + <span class="str">" €"</span>);
+
     }
 
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r8">19</pre></div></div>
-  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">b)</span> Volem mostrar el total.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Total</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> total;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(total);
-    }
-
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp"><code>total</code> s'ha declarat però <strong>no té cap valor</strong>. Una variable local s'ha d'inicialitzar abans d'usar-la.<p class="msg">Missatge del compilador:<br><code>Total.java:5: error: variable total might not have been initialized</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r9"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Total</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> total = <span class="num">0</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(total);
-    }
-
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r9">0</pre></div></div>
-  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">c)</span> Volem aplicar un IVA reduït.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">IvaReduit</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">final</span> <span class="kw">double</span> IVA = <span class="num">0.21</span>;
-        IVA = <span class="num">0.10</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(IVA);
-    }
-
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp"><code>IVA</code> és una constant (<code>final</code>): no se li pot assignar un altre valor. Si necessitem dos tipus d'IVA, fem dues constants.<p class="msg">Missatge del compilador:<br><code>IvaReduit.java:5: error: cannot assign a value to final variable IVA</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r10"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">IvaReduit</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">final</span> <span class="kw">double</span> IVA_GENERAL = <span class="num">0.21</span>;
-        <span class="kw">final</span> <span class="kw">double</span> IVA_REDUIT = <span class="num">0.10</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(IVA_REDUIT);
-    }
-
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r10">0.1</pre></div></div>
-  </div></div><div class="err-item"><div class="qi-text"><span class="qi-n">d)</span> Volem guardar un preu.</div><div class="code-block" data-expect="compile" data-bad="1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Preu</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> preu = <span class="num">9.95</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(preu);
-    }
-
-}</div><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure l&#x27;error" data-open="Amagar l&#x27;error">
-      <span class="icon">▶</span><span class="label">Veure l'error</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">🔎 L'error</div><div class="err-exp"><code>9.95</code> té decimals, però <code>preu</code> és <code>int</code>. Java no deixa perdre els decimals sense avisar: el tipus correcte és <code>double</code>.<p class="msg">Missatge del compilador:<br><code>Preu.java:4: error: incompatible types: possible lossy conversion from double to int</code></p></div><div class="solucio-header">✅ Versió corregida</div><div class="code-block" data-run="r11"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Preu</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">double</span> preu = <span class="num">9.95</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(preu);
-    }
-
-}</div><div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r11">9.95</pre></div></div>
-  </div></div></div>
-</div></section>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>BAIXADA_BANDERA</code> i <code>PREU_KM</code> són <code>final double</code> i segueixen la convenció de noms.</li><li><code>km</code>, <code>matricula</code> i <code>preuViatge</code> són variables amb el tipus adequat (<code>int</code>, <code>String</code> i <code>double</code>).</li><li>La modificació és <code>km = km + 3;</code>, sense <code>int</code> al davant, i el preu es recalcula.</li><li>Els càlculs fan servir el nom de les constants, no els números <code>2.5</code> i <code>1.25</code>.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.5 · 1.6</span></div>
+</div>
+</section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A1_1_primer_programa.html">← A1.1 Del problema al programa</a><a href="A1_estructura_programa.html" class="nav-hub">A1 · Índex</a><a href="A1_3_operadors.html">A1.3 Operadors i expressions →</a></nav>
 </main>
 <footer>
