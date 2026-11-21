@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3.2 — Esquemes de recorregut i de cerca · A3 · AEA1 · M0485</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --hero-bg:#1a1114; --hero-line:#c0392b; --accent:#e74c3c; --accent-bg:#fdecea;
+      --text:#1a1a1a; --text-soft:#666; --text-hero:#f0ece8; --text-hero-sub:#a89f9a;
+      --border:#e8e8e8; --bg:#f9f9f9; --surface:#fff;
+      --radius:14px; --mono:'JetBrains Mono','Consolas',monospace;
+      --shadow:0 1px 4px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.06);
+      --shadow-h:0 4px 8px rgba(0,0,0,.08),0 8px 28px rgba(0,0,0,.10);
+    }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; display:flex; flex-direction:column; }
+    a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #3b82f6; outline-offset:2px; }
+    /* Capçalera */
+    .hero { background:var(--hero-bg); padding:3rem 3rem 2.5rem; border-bottom:3px solid var(--hero-line); }
+    .hero-eyebrow { font-size:.72rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--text-hero-sub); margin-bottom:.75rem; }
+    .hero h1 { font-family:'Playfair Display',Georgia,serif; font-size:clamp(1.7rem,4vw,2.5rem); font-weight:700; color:var(--text-hero); line-height:1.2; margin-bottom:.75rem; }
+    .hero p { color:var(--text-hero-sub); font-size:.97rem; max-width:640px; line-height:1.65; }
+    .hero code { background:rgba(255,255,255,.12); color:var(--text-hero); border:1px solid rgba(255,255,255,.15); }
+    .hero-pills { display:flex; gap:.65rem; margin-top:1.25rem; flex-wrap:wrap; }
+    .pill { background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.15); border-radius:20px; padding:.28rem .8rem; font-size:.75rem; color:var(--text-hero); font-weight:500; font-family:var(--mono); }
+    .breadcrumb { background:var(--surface); border-bottom:1px solid var(--border); padding:.6rem 2rem; font-size:.82rem; color:var(--text-soft); }
+    .breadcrumb a { color:var(--accent); text-decoration:none; font-weight:500; }
+    .breadcrumb a:hover { text-decoration:underline; }
+    .breadcrumb span { margin:0 .35rem; color:#ccc; }
+    main { flex:1; max-width:960px; width:100%; margin:0 auto; padding:2.25rem 2rem 3rem; }
+    .backlink { display:inline-block; margin-bottom:1.5rem; font-size:.86rem; font-weight:600; color:var(--accent); text-decoration:none; }
+    .backlink:hover { text-decoration:underline; }
+    /* Objectiu */
+    .obj-box { display:flex; gap:1rem; align-items:flex-start; background:var(--surface); border:1px solid var(--border); border-left:4px solid var(--hero-line); border-radius:0 var(--radius) var(--radius) 0; padding:1.1rem 1.3rem; box-shadow:var(--shadow); margin-bottom:1rem; }
+    .obj-icon { font-size:1.6rem; line-height:1.2; }
+    .obj-label { font-family:var(--mono); font-size:.74rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--hero-line); margin-bottom:.3rem; }
+    .obj-text { font-size:.92rem; }
+    /* Seccions */
+    .section { margin:3rem 0 0; }
+    .sec-head { display:flex; gap:.9rem; align-items:center; padding-bottom:.7rem; border-bottom:2px solid var(--border); margin-bottom:1.2rem; scroll-margin-top:1rem; }
+    .sec-num { flex-shrink:0; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background:var(--hero-line); color:#fff; font-family:var(--mono); font-weight:700; font-size:1rem; }
+    .sec-title { font-family:'Playfair Display',Georgia,serif; font-size:1.35rem; font-weight:700; line-height:1.25; }
+    .sec-sub { font-size:.86rem; color:var(--text-soft); }
+    .lead { font-size:.92rem; margin-bottom:1rem; max-width:760px; }
+    .sub-title { font-size:1rem; font-weight:700; color:var(--text); margin:1.75rem 0 .6rem; }
+    p.text { font-size:.9rem; margin-bottom:1rem; max-width:760px; }
+    /* Targetes de passos */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin:1rem 0 1.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.1rem 1.2rem; display:flex; flex-direction:column; gap:.35rem; box-shadow:var(--shadow); }
+    .card-num { display:inline-flex; align-items:center; justify-content:center; min-width:30px; height:30px; padding:0 .4rem; background:var(--accent-bg); color:var(--accent); border-radius:7px; font-size:.75rem; font-weight:700; align-self:flex-start; font-family:var(--mono); }
+    .card-title { font-size:.95rem; font-weight:700; }
+    .card-link { text-decoration:none; color:inherit; border-color:var(--accent); transition:transform .15s, box-shadow .15s; }
+    .card-link:hover { transform:translateY(-2px); box-shadow:var(--shadow-h); }
+    .card-desc { font-size:.84rem; color:var(--text-soft); line-height:1.55; }
+    /* Badges de nivell */
+    .badge { display:inline-block; border-radius:20px; padding:.18rem .65rem; font-size:.68rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-family:var(--mono); }
+    .badge-basic   { background:#d1fae5; color:#065f46; }
+    .badge-mitja   { background:#fef3c7; color:#92400e; }
+    .badge-avancat { background:#fee2e2; color:#991b1b; }
+    /* Codi */
+    .code-block { background:#1e1e2e; color:#cdd6f4; border-radius:var(--radius); padding:1.25rem 1.5rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.75; overflow-x:auto; margin:.6rem 0 1rem; white-space:pre; }
+    .code-block .kw  { color:#cba6f7; }
+    .code-block .cls { color:#89dceb; }
+    .code-block .str { color:#a6e3a1; }
+    .code-block .cmt { color:#6c7086; font-style:italic; }
+    .code-block .fn  { color:#89b4fa; }
+    .code-block .num { color:#fab387; }
+    .pseudo { background:#fbf7f2; border:1px dashed #d6c7b8; border-radius:var(--radius); padding:1rem 1.25rem; font-family:'Consolas','Courier New',monospace; font-size:.84rem; line-height:1.7; white-space:pre; overflow-x:auto; margin:1rem 0 1.25rem; color:#3b2f2a; }
+    .console { margin:.5rem 0 1rem; border:1px solid #d4d4d8; border-radius:10px; overflow:hidden; background:#fff; }
+    .console-header { background:#f4f4f5; padding:.35rem .9rem; font-size:.74rem; font-weight:600; color:#52525b; border-bottom:1px solid #d4d4d8; }
+    .console pre { background:#fff; padding:.75rem 1rem; font-family:'Consolas','Courier New',monospace; font-size:.8rem; line-height:1.6; overflow-x:auto; color:#27272a; tab-size:8; }
+    .nota-sortida { font-size:.8rem !important; font-style:italic; color:var(--text-soft); margin:-.5rem 0 1rem; }
+    code { background:#f0f0f0; border-radius:4px; padding:.1rem .35rem; font-size:.82rem; font-family:'Consolas','Courier New',monospace; color:#c0392b; overflow-wrap:anywhere; }
+    .code-block code { background:none; padding:0; color:inherit; }
+    kbd { background:#fff; border:1px solid #ccc; border-bottom-width:2px; border-radius:4px; padding:0 .3rem; font-size:.78rem; font-family:inherit; }
+    /* Exemple + Com funciona */
+    .exemple { margin:1.5rem 0 1.75rem; }
+    .exemple-header { display:flex; align-items:center; gap:.65rem; margin-bottom:.3rem; flex-wrap:wrap; }
+    .exemple-header span:not(.badge) { font-size:.85rem; font-weight:600; color:var(--text-soft); }
+    .com-funciona { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.15rem; font-size:.88rem; box-shadow:var(--shadow); }
+    .com-funciona p + p { margin-top:.5rem; }
+    .cf-label, .box-label { display:block; font-family:var(--mono); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:.35rem; }
+    .cf-label { color:var(--hero-line); }
+    /* Caixes */
+    .box { border-left:4px solid; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; margin:1rem 0 1.5rem; line-height:1.6; }
+    .box ul { padding-left:1.2rem; margin-top:.25rem; }
+    .box li + li { margin-top:.25rem; }
+    .box p + p { margin-top:.5rem; }
+    .box-fixat  { background:#eef6ff; border-color:#3b82f6; color:#1e3a5f; }
+    .box-fixat .box-label { color:#1d4ed8; }
+    .box-costum { background:#f0fdf4; border-color:#22c55e; color:#14532d; }
+    .box-costum .box-label { color:#15803d; }
+    .box-errors { background:#fff7ed; border-color:#ef4444; color:#7f1d1d; }
+    .box-errors .box-label { color:#b91c1c; }
+    .box-pseint { background:#fbf7f2; border-color:#8b5e3c; color:#3b2f2a; }
+    .box-pseint .box-label { color:#7c4a1e; }
+    .box-pseint .table-wrap { margin:.5rem 0 0; }
+    .ps-table { box-shadow:none; border:1px solid #e7dccf; }
+    .ps-table th { background:#5b4334; }
+    .ps-table td code:first-child { }
+    .nota-ra5 { background:#f0fdf4; border-left:4px solid #22c55e; border-radius:0 var(--radius) var(--radius) 0; padding:.9rem 1.1rem; font-size:.87rem; color:#14532d; margin:1rem 0 1.5rem; }
+    .sintaxi { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:.9rem 1.1rem; margin:1rem 0 1.25rem; font-size:.86rem; box-shadow:var(--shadow); }
+    .sintaxi .box-label { color:var(--text-soft); }
+    .sintaxi div + div { margin-top:.3rem; }
+    .sintaxi span { color:var(--text-soft); }
+    /* Flux de compilació */
+    .flux { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; margin:.6rem 0 1rem; }
+    .flux-pas { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:.55rem .8rem; font-size:.83rem; box-shadow:var(--shadow); text-align:center; }
+    .flux-pas strong { display:block; font-family:var(--mono); font-size:.82rem; color:var(--hero-line); }
+    .flux-fl { color:var(--hero-line); font-weight:700; }
+    /* Taules */
+    .table-wrap { overflow-x:auto; margin:1rem 0 1.5rem; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; background:var(--surface); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); }
+    th { background:var(--hero-bg); color:var(--text-hero); padding:.65rem 1rem; text-align:left; font-weight:600; font-size:.8rem; letter-spacing:.04em; }
+    td { padding:.6rem 1rem; border-bottom:1px solid var(--border); color:var(--text); vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    /* Per saber-ne més */
+    details.mes { background:#f8f4ff; border:1px solid #e9d5ff; border-radius:var(--radius); margin:1rem 0 1.5rem; }
+    details.mes > summary { cursor:pointer; padding:.8rem 1.1rem; font-size:.88rem; font-weight:600; color:#6b21a8; list-style:none; }
+    details.mes > summary::-webkit-details-marker { display:none; }
+    details.mes > summary::before { content:'▶'; display:inline-block; font-size:.7rem; margin-right:.55rem; transition:transform .2s; }
+    details.mes[open] > summary::before { transform:rotate(90deg); }
+    .mes-body { padding:0 1.1rem 1rem; font-size:.88rem; }
+    .mes-body .table-wrap { margin:.6rem 0 .8rem; }
+    .mes-body p { margin:.4rem 0; }
+    /* Exercicis i demos */
+    .exercici-card { border:2px solid var(--border); border-radius:var(--radius); overflow:hidden; margin-bottom:1.5rem; box-shadow:var(--shadow); background:var(--surface); }
+    .exercici-header { background:var(--hero-bg); color:var(--text-hero); padding:.8rem 1.25rem; display:flex; align-items:center; gap:.8rem 1rem; flex-wrap:wrap; }
+    .exercici-num { background:var(--accent); color:#fff; border-radius:8px; padding:.15rem .6rem; font-size:.75rem; font-weight:700; font-family:var(--mono); }
+    .exercici-title { font-weight:700; font-size:.95rem; }
+    .exercici-body { padding:1.25rem; background:var(--surface); }
+    .exercici-body > p { font-size:.88rem; color:var(--text-soft); margin-bottom:.75rem; }
+    .exercici-tasques { font-size:.86rem; padding-left:1.2rem; color:var(--text); margin-bottom:.75rem; }
+    .exercici-tasques li { margin-bottom:.35rem; }
+    .exercici-footer { background:#f9f9f9; border-top:1px solid var(--border); padding:.7rem 1.25rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap; }
+    .ex-ca { font-size:.82rem; color:var(--text-soft); }
+    .subex { border-top:1px dashed var(--border); margin-top:1rem; padding-top:1rem; }
+    .demo-part { font-family:var(--mono); font-size:.8rem; font-weight:700; color:var(--hero-line); margin:.25rem 0 .5rem; }
+    /* Exercicis intercalats (Ara tu) */
+    .practica { border-color:var(--hero-line); margin-top:2rem; }
+    .practica .exercici-header { background:var(--hero-line); }
+    .practica .exercici-num { background:var(--hero-bg); }
+    .passos-ex { display:flex; flex-wrap:wrap; align-items:center; gap:.4rem; margin-bottom:.9rem; }
+    .pas-ex { font-family:var(--mono); font-size:.72rem; font-weight:700; background:var(--accent-bg); color:var(--hero-line); border-radius:6px; padding:.2rem .55rem; }
+    details.pista { background:#fffbeb; border-color:#fde68a; }
+    details.pista > summary { color:#92400e; }
+    .repte { margin:.75rem 0 0; }
+    /* Solució desplegable */
+    .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
+    .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
+    .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
+    .btn-solucio:hover, .btn-reset:hover { background:#2d1f26; transform:translateY(-1px); }
+    .btn-reset { background:#f4f4f5; color:#3f3f46; border:1px solid #d4d4d8; margin-top:.5rem; }
+    .btn-reset:hover { background:#e4e4e7; }
+    .btn-solucio .icon { font-size:.75rem; transition:transform .2s; display:inline-block; }
+    .btn-solucio.obert .icon { transform:rotate(90deg); }
+    .solucio-body { display:none; margin-top:.75rem; border:2px solid #bbf7d0; border-radius:var(--radius); overflow:hidden; }
+    .solucio-body.visible { display:block; }
+    .solucio-header { background:#f0fdf4; border-bottom:1px solid #bbf7d0; padding:.55rem 1rem; font-size:.78rem; font-weight:600; color:#065f46; }
+    .solucio-body .code-block { margin:0; border-radius:0; }
+    .solucio-body .console { margin:0; border:none; border-top:1px solid #d4d4d8; border-radius:0; }
+    .claus { background:#f0fdf4; border-top:1px solid #bbf7d0; padding:.75rem 1rem; font-size:.82rem; color:#14532d; }
+    .claus ul { padding-left:1.2rem; margin-top:.3rem; }
+    .err-exp { padding:.8rem 1rem; font-size:.86rem; background:#fff; }
+    .err-exp .console { margin:.6rem 0 0; border:1px solid #d4d4d8; border-radius:10px; }
+    .err-exp .msg { margin-top:.5rem; font-size:.83rem; }
+    .err-exp .msg code { display:inline-block; margin-top:.2rem; }
+    .err-item { padding:.25rem 0 .75rem; }
+    .err-item + .err-item { border-top:1px dashed var(--border); padding-top:1rem; }
+    /* Preguntes de clic */
+    .qi { padding:.7rem 0; border-bottom:1px dashed var(--border); }
+    .qi:last-of-type { border-bottom:none; }
+    .qi-text { font-size:.9rem; margin-bottom:.45rem; }
+    .qi-n { font-family:var(--mono); font-weight:700; color:var(--hero-line); margin-right:.25rem; }
+    .qi-opts { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .qi-btn, .ord-btn { font-family:var(--mono); font-size:.8rem; padding:.42rem .85rem; border-radius:8px; border:1.5px solid #d4d4d8; background:#fff; color:var(--text); cursor:pointer; transition:border-color .15s, background .15s; text-align:left; }
+    .qi-btn:hover:not(:disabled), .ord-btn:hover { border-color:var(--accent); background:var(--accent-bg); }
+    .qi-btn:disabled { cursor:default; opacity:.65; }
+    .qi-btn.ok { border-color:#16a34a; background:#dcfce7; color:#14532d; opacity:1; }
+    .qi-btn.fail { border-color:#dc2626; background:#fee2e2; color:#7f1d1d; opacity:1; }
+    .qi-fb { margin-top:.5rem; font-size:.85rem; border-radius:8px; padding:.55rem .8rem; }
+    .qi-fb.ok { background:#f0fdf4; color:#14532d; border:1px solid #bbf7d0; }
+    .qi-fb.fail { background:#fef2f2; color:#7f1d1d; border:1px solid #fecaca; }
+    .ord-seq { list-style:none; counter-reset:pas; display:flex; flex-direction:column; gap:.35rem; margin-bottom:.75rem; min-height:2.4rem; border:2px dashed #d4d4d8; border-radius:10px; padding:.5rem; }
+    .ord-seq:empty::before { content:'Clica els passos en ordre…'; color:#a1a1aa; font-size:.83rem; padding:.2rem .3rem; }
+    .ord-seq li { counter-increment:pas; background:#dcfce7; border:1px solid #86efac; border-radius:8px; padding:.4rem .7rem; font-size:.84rem; }
+    .ord-seq li::before { content:counter(pas) '. '; font-family:var(--mono); font-weight:700; color:#15803d; }
+    .ord-pool { display:flex; flex-wrap:wrap; gap:.45rem; }
+    /* Navegació entre subpàgines */
+    .pagina-nav { display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; margin-top:3rem; padding-top:1.25rem; border-top:2px solid var(--border); font-size:.86rem; }
+    .pagina-nav a { color:var(--accent); font-weight:600; text-decoration:none; }
+    .pagina-nav a:hover { text-decoration:underline; }
+    footer { background:var(--hero-bg); color:var(--text-hero-sub); text-align:center; padding:1.4rem; font-size:.82rem; margin-top:auto; }
+    @media(max-width:640px){
+      .hero { padding:2.25rem 1rem 1.75rem; }
+      main  { padding:1.5rem 1rem 2.5rem; }
+      .breadcrumb { padding:.6rem 1rem; }
+      .code-block { padding:1rem; font-size:.78rem; }
+      .exercici-body, .solucio-wrap { padding-left:1rem; padding-right:1rem; }
+      .sec-title { font-size:1.2rem; }
+      th, td { padding:.5rem .65rem; }
+      .pagina-nav { flex-direction:column; align-items:center; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } .btn-solucio, .btn-solucio .icon, details.mes > summary::before { transition:none; } }
+  </style>
+</head>
+<body>
+<header class="hero">
+  <p class="hero-eyebrow">AEA1 · A3 · Disseny d'algorismes iteratius</p>
+  <h1>A3.2 — Esquemes de recorregut i de cerca</h1>
+  <p>Els dos esquemes que hi ha darrere de la majoria d'algorismes iteratius: recórrer-ho tot o aturar-se en trobar el que es busca. També les seqüències acabades en un sentinella.</p>
+  <div class="hero-pills"><span class="pill">RA3</span><span class="pill">CA 3.2 · 3.5 · 3.6</span></div>
+</header>
+<nav class="breadcrumb" aria-label="Ruta de navegació">
+  <a href="../index.html">M0485</a><span>›</span>
+  <a href="../aea1.html">AEA1</a><span>›</span>
+  <a href="A3_algorismes_iteratius.html">A3</a><span>›</span>
+  A3.2
+</nav>
+<main>
+<a class="backlink" href="A3_algorismes_iteratius.html">← A3 · Disseny d'algorismes iteratius</a>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2, 3.5 i 3.6</div><div class="obj-text">Reconèixer si un problema és un recorregut o una cerca abans de programar-lo, i aplicar l'esquema adequat amb comptadors, acumuladors, màxims i variables de control.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Esquema de recorregut</h2><p class="sec-sub">Tractar tots els elements</p></div></div>
+  <p class="lead">Molts algorismes iteratius segueixen un de dos esquemes. Reconèixer-los t'ajudarà a dissenyar la solució abans de programar.</p>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Esquema</th><th>Què fa</th><th>Quan s'atura</th><th>Exemples</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Recorregut</strong></td><td>Tracta <strong>tots</strong> els elements</td><td>Quan s'acaben els elements</td><td>sumar, comptar, trobar el màxim, calcular una mitjana</td></tr>
+      <tr><td><strong>Cerca</strong></td><td>Busca el <strong>primer</strong> element que compleix una condició</td><td>Quan el troba <em>o</em> s'acaben els elements</td><td>hi ha algun negatiu?, primer divisor, posició d'un valor</td></tr>
+    </tbody>
+  </table>
+</div>
+<div class="pseudo">acumulador ← 0            comptador ← 0            màxim ← primer element
+PER A cada element FER    PER A cada element FER   PER A cada element FER
+  acumulador ← acum + x     SI condició LLAVORS      SI x &gt; màxim LLAVORS
+FI PER A                      comptador ← comp + 1     màxim ← x
+                            FI PER A                 FI PER A</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Estadístiques dels números de l'1 al 50</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Recorregut</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> suma = <span class="num">0</span>;           <span class="cmt">// acumulador</span>
+        <span class="kw">int</span> multiples7 = <span class="num">0</span>;     <span class="cmt">// comptador</span>
+
+        <span class="kw">for</span> (<span class="kw">int</span> n = <span class="num">1</span>; n &lt;= <span class="num">50</span>; n++) {
+            suma += n;
+            <span class="kw">if</span> (n % <span class="num">7</span> == <span class="num">0</span>) {
+                multiples7++;
+            }
+        }
+
+        <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / <span class="num">50</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana: "</span> + mitjana);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Múltiples de 7: "</span> + multiples7);
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Suma: 1275
+Mitjana: 25.5
+Múltiples de 7: 7</pre></div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Xifra més gran d'un número (recorregut de les xifres)</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">XifraMaxima</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">528174</span>;
+        <span class="kw">int</span> n = numero;
+        <span class="kw">int</span> maxim = <span class="num">0</span>;
+
+        <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
+            <span class="kw">int</span> xifra = n % <span class="num">10</span>;     <span class="cmt">// última xifra</span>
+            <span class="kw">if</span> (xifra &gt; maxim) {
+                maxim = xifra;
+            }
+            n = n / <span class="num">10</span>;             <span class="cmt">// la traiem</span>
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"La xifra més gran de "</span> + numero + <span class="str">" és "</span> + maxim);
+
+    }
+
+}</div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>i MOD 2 = 0</code></td><td><code>i % 2 == 0</code> (fixa't en el doble <code>==</code>)</td></tr><tr><td><code>Si</code> … <code>Entonces</code> … <code>SiNo</code> … <code>FinSi</code></td><td><code>if (</code>…<code>) {</code> … <code>} else {</code> … <code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Parells i senars</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>És un recorregut: es tracten <strong>tots</strong> els números de l'1 al 20. Hi ha un comptador i un acumulador. Classe <code>ParellsISenars</code>.</p><div class="pseudo">Algoritmo ParellsISenars
+    Definir i, parells, sumaSenars Como Entero
+    parells &lt;- 0
+    sumaSenars &lt;- 0
+    Para i &lt;- 1 Hasta 20 Hacer
+        Si i MOD 2 = 0 Entonces
+            parells &lt;- parells + 1
+        SiNo
+            sumaSenars &lt;- sumaSenars + i
+        FinSi
+    FinPara
+    Escribir "Parells: ", parells
+    Escribir "Suma dels senars: ", sumaSenars
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Indica amb un comentari quina variable és el comptador i quina l'acumulador.</li><li>Fes servir <code>++</code> i <code>+=</code>.</li><li>Ampliació: afegeix-hi el número més gran que sigui múltiple de 3.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Els dos <code>Definir</code> de comptador i acumulador són declaracions <code>int</code> amb valor 0, abans del <code>for</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Parells: 10
+Suma dels senars: 100</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Recorregut dels números de l'1 al 20: compta els parells i suma els senars</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ParellsISenars</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> parells = <span class="num">0</span>;        <span class="cmt">// comptador</span>
+        <span class="kw">int</span> sumaSenars = <span class="num">0</span>;     <span class="cmt">// acumulador</span>
+
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">20</span>; i++) {
+            <span class="kw">if</span> (i % <span class="num">2</span> == <span class="num">0</span>) {
+                parells++;
+            } <span class="kw">else</span> {
+                sumaSenars += i;
+            }
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Parells: "</span> + parells);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma dels senars: "</span> + sumaSenars);
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>El comptador i l'acumulador s'inicialitzen a 0 fora del bucle.</li><li>La condició de parell es tradueix a <code>i % 2 == 0</code>.</li><li>El bucle arriba fins al final: és un recorregut.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Esquema de cerca</h2><p class="sec-sub">Aturar-se quan es troba</p></div></div>
+  <div class="pseudo">trobat ← fals
+MENTRE hi hagi elements I NO trobat FER
+    SI l'element compleix la condició LLAVORS trobat ← cert
+    SINÓ passar al següent element
+FI MENTRE
+SI trobat LLAVORS ... SINÓ ... FI SI</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>El divisor més petit d'un número</span></div>
+  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CercaDivisor</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">391</span>;
+
+        <span class="kw">int</span> divisor = <span class="num">2</span>;
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
+
+        <span class="cmt">// Busquem el primer divisor entre 2 i numero - 1</span>
+        <span class="kw">while</span> (divisor &lt; numero &amp;&amp; !trobat) {
+            <span class="kw">if</span> (numero % divisor == <span class="num">0</span>) {
+                trobat = <span class="kw">true</span>;       <span class="cmt">// l'hem trobat: el bucle s'aturarà</span>
+            } <span class="kw">else</span> {
+                divisor++;
+            }
+        }
+
+        <span class="kw">if</span> (trobat) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El divisor més petit de "</span> + numero + <span class="str">" és "</span> + divisor);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(numero + <span class="str">" no té divisors: és primer"</span>);
+        }
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>El divisor més petit de 391 és 17</pre></div>
+</div>
+<div class="box box-costum"><span class="box-label">💡 Recorda</span>La diferència clau: un <strong>recorregut</strong> sempre arriba al final; una <strong>cerca</strong> s'atura tan bon punt troba el que busca. La variable booleana <code>trobat</code> fa que la condició del bucle ho reflecteixi de manera clara.</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Definir trobat Como Logico</code></td><td><code>boolean trobat;</code></td></tr><tr><td><code>Verdadero</code> / <code>Falso</code></td><td><code>true</code> / <code>false</code></td></tr><tr><td><code>Y</code>, <code>O</code>, <code>NO</code></td><td><code>&amp;&amp;</code>, <code>||</code>, <code>!</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Múltiple de 5 i de 7</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>És una cerca: busquem el <strong>primer</strong> número més gran que 100 que és múltiple de 5 i de 7, i ens aturem quan el trobem. Classe <code>PrimerMultiple</code>.</p><div class="pseudo">Algoritmo PrimerMultiple
+    Definir n Como Entero
+    Definir trobat Como Logico
+    n &lt;- 101
+    trobat &lt;- Falso
+    Mientras n &lt;= 1000 Y NO trobat Hacer
+        Si n MOD 5 = 0 Y n MOD 7 = 0 Entonces
+            trobat &lt;- Verdadero
+        SiNo
+            n &lt;- n + 1
+        FinSi
+    FinMientras
+    Si trobat Entonces
+        Escribir "Primer múltiple de 5 i de 7 més gran que 100: ", n
+    SiNo
+        Escribir "No n'hi ha cap fins a 1000"
+    FinSi
+FinAlgoritmo</div><ul class="exercici-tasques"><li>La condició del <code>while</code> ha de tenir les dues maneres d'acabar: s'acaben els números <em>o</em> ja l'hem trobat.</li><li>Fes una traça de les primeres iteracions: per què <code>n</code> no s'incrementa quan el troba?</li><li>Canvia el 7 per un 11: quin número surt ara?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Y NO trobat</code> es tradueix a <code>&amp;&amp; !trobat</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Primer múltiple de 5 i de 7 més gran que 100: 105</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Cerca el primer número més gran que 100 que és múltiple de 5 i de 7</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">PrimerMultiple</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> n = <span class="num">101</span>;
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
+
+        <span class="cmt">// Ens aturem quan el trobem (o si arribem a 1000 sense trobar-lo)</span>
+        <span class="kw">while</span> (n &lt;= <span class="num">1000</span> &amp;&amp; !trobat) {
+            <span class="kw">if</span> (n % <span class="num">5</span> == <span class="num">0</span> &amp;&amp; n % <span class="num">7</span> == <span class="num">0</span>) {
+                trobat = <span class="kw">true</span>;
+            } <span class="kw">else</span> {
+                n++;
+            }
+        }
+
+        <span class="kw">if</span> (trobat) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Primer múltiple de 5 i de 7 més gran que 100: "</span> + n);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No n'hi ha cap fins a 1000"</span>);
+        }
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>La variable <code>trobat</code> és <code>boolean</code> i comença a <code>false</code>.</li><li>El bucle s'atura tan bon punt troba el número.</li><li>Amb l'11 el resultat és 110.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Seqüències amb valor sentinella</h2><p class="sec-sub">Dades que arriben una a una</p></div></div>
+  <p class="text">Sovint les dades arriben <strong>una a una</strong> i no sabem quantes n'hi haurà. Llavors es fa servir un <strong>valor sentinella</strong>: un valor especial (per exemple <code>-1</code>) que indica que la seqüència s'ha acabat i que <strong>no s'ha de tractar</strong> com una dada més. L'esquema fa una <strong>lectura avançada</strong>: es llegeix el primer valor abans del bucle i el següent al final de cada iteració.</p>
+<div class="pseudo">LLEGIR x                              ← lectura avançada
+MENTRE x ≠ -1 FER
+    tractar x                         ← sumar, comptar, comparar…
+    LLEGIR x                          ← llegim el següent al final
+FI MENTRE</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Recorregut d'una seqüència: quantitat, suma, màxim i mínim</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaRecorregut</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> maxim = <span class="cls">Integer</span>.MIN_VALUE;   <span class="cmt">// qualsevol valor serà més gran</span>
+        <span class="kw">int</span> minim = <span class="cls">Integer</span>.MAX_VALUE;   <span class="cmt">// qualsevol valor serà més petit</span>
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());          <span class="cmt">// lectura avançada</span>
+
+        <span class="kw">while</span> (x != SENTINELLA) {
+            quantitat++;
+            suma += x;
+            <span class="kw">if</span> (x &gt; maxim) {
+                maxim = x;
+            }
+            <span class="kw">if</span> (x &lt; minim) {
+                minim = x;
+            }
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+            x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());          <span class="cmt">// següent valor</span>
+        }
+
+        <span class="kw">if</span> (quantitat == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No s'ha introduït cap número."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quantitat: "</span> + quantitat + <span class="str">" · Suma: "</span> + suma
+                    + <span class="str">" · Màxim: "</span> + maxim + <span class="str">" · Mínim: "</span> + minim);
+        }
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (-1 per acabar): 7
+Número (-1 per acabar): 12
+Número (-1 per acabar): 3
+Número (-1 per acabar): -1
+Quantitat: 3 · Suma: 22 · Màxim: 12 · Mínim: 3</pre></div>
+</div>
+<div class="exemple">
+  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Cerca en una seqüència: hi ha algun múltiple de 5?</span></div>
+  <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SequenciaCerca</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+
+        <span class="cmt">// Ens aturem si arriba el sentinella O si ja l'hem trobat</span>
+        <span class="kw">while</span> (x != SENTINELLA &amp;&amp; !trobat) {
+            <span class="kw">if</span> (x % <span class="num">5</span> == <span class="num">0</span>) {
+                trobat = <span class="kw">true</span>;
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
+                x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            }
+        }
+
+        <span class="kw">if</span> (trobat) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Sí: el "</span> + x + <span class="str">" és múltiple de 5."</span>);
+        } <span class="kw">else</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha cap múltiple de 5."</span>);
+        }
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div>
+  <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (-1 per acabar): 8
+Número (-1 per acabar): 13
+Número (-1 per acabar): 25
+Sí: el 25 és múltiple de 5.</pre></div>
+</div>
+<div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = Integer.parseInt(sc.nextLine());</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Mitjana de notes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Les notes arriben una a una i no sabem quantes n'hi haurà. La seqüència acaba amb el sentinella <code>-1</code>. Fixa't en la <strong>lectura avançada</strong>. Classe <code>MitjanaNotes</code>.</p><div class="pseudo">Algoritmo MitjanaNotes
+    Definir nota, suma, quantitat Como Entero
+    Definir mitjana Como Real
+    suma &lt;- 0
+    quantitat &lt;- 0
+    Escribir Sin Saltar "Nota (-1 per acabar): "
+    Leer nota
+    Mientras nota &lt;&gt; -1 Hacer
+        suma &lt;- suma + nota
+        quantitat &lt;- quantitat + 1
+        Escribir Sin Saltar "Nota (-1 per acabar): "
+        Leer nota
+    FinMientras
+    Si quantitat = 0 Entonces
+        Escribir "No hi ha cap nota."
+    SiNo
+        mitjana &lt;- suma / quantitat
+        Escribir "Notes: ", quantitat, " · Mitjana: ", mitjana
+    FinSi
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir <code>Scanner</code> amb el patró de l'A3.1 i declara el sentinella com a constant <code>final</code>.</li><li>El <code>-1</code> no s'ha de sumar ni comptar.</li><li>Prova-ho escrivint directament <code>-1</code>: el programa no pot dividir per zero.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">PSeInt fa la divisió amb decimals, però en Java <code>suma / quantitat</code> entre dos <code>int</code> és divisió entera. Cal el càsting <code>(double)</code>.</div></details><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota (-1 per acabar): 7
+Nota (-1 per acabar): 8
+Nota (-1 per acabar): 6
+Nota (-1 per acabar): -1
+Notes: 3 · Mitjana: 7.0</pre></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.5 · 3.6</span></div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Calcula la mitjana d'una seqüència de notes acabada en -1</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaNotes</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
+        <span class="kw">int</span> nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());      <span class="cmt">// lectura avançada</span>
+
+        <span class="kw">while</span> (nota != SENTINELLA) {
+            suma += nota;
+            quantitat++;
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
+            nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());      <span class="cmt">// següent nota</span>
+        }
+
+        <span class="kw">if</span> (quantitat == <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha cap nota."</span>);
+        } <span class="kw">else</span> {
+            <span class="cmt">// (double): sense el càsting la divisió seria entera</span>
+            <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / quantitat;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Notes: "</span> + quantitat + <span class="str">" · Mitjana: "</span> + mitjana);
+        }
+
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una lectura abans del bucle i una altra al final del cos.</li><li>Es controla el cas sense notes abans de dividir.</li><li>La mitjana es calcula amb <code>(double)</code>.</li></ul></div></div>
+  </div>
+</div>
+</section>
+<section class="section">
+  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
+  <p class="lead">Ara que ja has fet els exercicis <strong>Ara tu</strong>, resol aquests exercicis de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
+  <div class="exercici-header">
+    <span class="exercici-num">Pràctica 1</span>
+    <span class="exercici-title">Anàlisi de les xifres d'un número</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un número enter positiu de qualsevol longitud, calcula quantes xifres té, la suma de les xifres, quantes són parells i el número invertit.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>long numero = 90417263L;</code></li>
+      <li>Fes un recorregut amb <code>while</code> extraient l'última xifra (<code>% 10</code>) i eliminant-la (<code>/ 10</code>).</li>
+      <li>Per invertir: <code>invertit = invertit * 10 + xifra</code>.</li>
+      <li>Fes la taula de traça de les tres primeres iteracions.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Número: 90417263
+Xifres: 8
+Suma: 32
+Xifres parells: 4
+Invertit: 36271409</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.2 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnalisiXifres</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">long</span> numero = <span class="num">90417263L</span>;
+        <span class="kw">long</span> n = numero;
+
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> parells = <span class="num">0</span>;
+        <span class="kw">long</span> invertit = <span class="num">0</span>;
+
+        <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
+            <span class="kw">int</span> xifra = (<span class="kw">int</span>) (n % <span class="num">10</span>);
+            quantitat++;
+            suma += xifra;
+            <span class="kw">if</span> (xifra % <span class="num">2</span> == <span class="num">0</span>) {
+                parells++;
+            }
+            invertit = invertit * <span class="num">10</span> + xifra;
+            n = n / <span class="num">10</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número: "</span> + numero);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres: "</span> + quantitat);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parells: "</span> + parells);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es treballa sobre una còpia (<code>n</code>) per no perdre el número original.</li><li>El casting <code>(int)</code> és necessari perquè <code>n % 10</code> és <code>long</code>.</li><li>Hi ha la taula de traça.</li></ul></div>
+    </div>
+  </div>
+</div>
+</section>
+<nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A3_1_bucles.html">← A3.1 Els tres bucles</a><a href="A3_algorismes_iteratius.html" class="nav-hub">A3 · Índex</a><a href="A3_3_imbricats_salts.html">A3.3 Imbricats, salts i aleatoris →</a></nav>
+</main>
+<footer>
+  Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
+</footer>
+<script>
+  function toggleSolucio(btn) {
+    const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
+    const obert = !body.classList.contains('visible');
+    body.classList.toggle('visible', obert);
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
+  // Preguntes de clic: es tria una opció i es revela la resposta
+  document.querySelectorAll('.qi').forEach(function (q) {
+    q.querySelectorAll('.qi-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const btns = q.querySelectorAll('.qi-btn');
+        btns.forEach(function (x) { x.disabled = true; });
+        const ok = b.dataset.ok === '1';
+        b.classList.add(ok ? 'ok' : 'fail');
+        if (!ok) btns.forEach(function (x) { if (x.dataset.ok === '1') x.classList.add('ok'); });
+        const fb = q.querySelector('.qi-fb');
+        fb.className = 'qi-fb ' + (ok ? 'ok' : 'fail');
+        fb.innerHTML = (ok ? '<strong>✓ Correcte!</strong> ' : '<strong>✗ No és correcte.</strong> ') + q.querySelector('.qi-exp').innerHTML;
+        fb.hidden = false;
+      });
+    });
+  });
+  // Ordenar passos: cal clicar-los en l'ordre correcte
+  document.querySelectorAll('.ord').forEach(function (o) {
+    const total = Number(o.dataset.total);
+    o.querySelectorAll('.ord-btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        const seq = o.querySelector('.ord-seq');
+        const fb = o.querySelector('.qi-fb');
+        const next = seq.children.length;
+        if (Number(b.dataset.pos) === next) {
+          const li = document.createElement('li');
+          li.textContent = b.textContent;
+          seq.appendChild(li);
+          b.hidden = true;
+          if (next + 1 === total) {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '<strong>✓ Ordre correcte!</strong> ' + o.querySelector('.qi-exp').innerHTML;
+          } else {
+            fb.className = 'qi-fb ok';
+            fb.innerHTML = '✓ Bé. Tria el pas ' + (next + 2) + '.';
+          }
+        } else {
+          fb.className = 'qi-fb fail';
+          fb.innerHTML = '<strong>✗ Encara no.</strong> ' + b.dataset.hint;
+        }
+        fb.hidden = false;
+      });
+    });
+  });
+  // Reinicia les preguntes d'una demo
+  function reiniciaDemo(btn) {
+    const card = btn.closest('.demo');
+    card.querySelectorAll('.qi-btn').forEach(function (x) { x.disabled = false; x.classList.remove('ok', 'fail'); });
+    card.querySelectorAll('.ord-btn').forEach(function (x) { x.hidden = false; });
+    card.querySelectorAll('.ord-seq').forEach(function (x) { x.innerHTML = ''; });
+    card.querySelectorAll('.qi-fb').forEach(function (x) { x.hidden = true; x.innerHTML = ''; });
+  }
+</script>
+</body>
+</html>
