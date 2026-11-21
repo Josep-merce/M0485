@@ -393,61 +393,39 @@ Té aigua líquida: true</pre></div></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Variables</h2><p class="sec-sub">Espais de memòria amb nom</p></div></div>
   <p class="lead">Una <strong>variable</strong> és un espai de memòria amb un nom on guardem un valor que pot canviar durant l'execució. Té tres elements: <strong>tipus</strong>, <strong>nom</strong> i <strong>valor</strong>.</p><div class="sintaxi"><span class="box-label">Sintaxi</span><div><code>tipus nom;</code> <span>→ declaració</span></div><div><code>tipus nom = valor;</code> <span>→ declaració i inicialització</span></div><div><code>nom = nouValor;</code> <span>→ assignació d'un nou valor (sense repetir el tipus)</span></div></div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Declarar, inicialitzar i modificar variables</span></div>
-  <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Variables</span> {
+  <div class="exemple-header"><span>Declarar, inicialitzar i modificar variables</span></div>
+  <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ReservaVol</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="cmt">// Declaració i inicialització alhora</span>
-        <span class="kw">int</span> edat = <span class="num">25</span>;
-        <span class="kw">double</span> salari = <span class="num">1500.50</span>;
-        <span class="kw">boolean</span> esActiu = <span class="kw">true</span>;
-        <span class="cls">String</span> nom = <span class="str">"Anna"</span>;
-
-        <span class="cmt">// Declaració i inicialització per separat</span>
-        <span class="kw">char</span> grup;
-        grup = <span class="str">'B'</span>;
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(nom + <span class="str">" té "</span> + edat + <span class="str">" anys"</span>);
-
-        <span class="cmt">// Modifiquem el valor (sense tornar a escriure el tipus)</span>
-        edat = <span class="num">26</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Any següent: "</span> + edat + <span class="str">" anys"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Grup "</span> + grup + <span class="str">", actiu: "</span> + esActiu + <span class="str">", salari: "</span> + salari);
-
-    }
-
-}</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">Anna té 25 anys
-Any següent: 26 anys
-Grup B, actiu: true, salari: 1500.5</pre></div>
-  <p class="nota-sortida">Fixa't que <code>1500.50</code> es mostra com a <code>1500.5</code>: els zeros de la dreta no es mostren.</p>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>La majoria de variables es declaren i s'inicialitzen en una sola línia. <code>grup</code> es fa en dos passos: primer es declara (es reserva l'espai) i després s'hi guarda <code>'B'</code>.</p><p>Quan canviem <code>edat</code> a 26 no tornem a escriure <code>int</code>: la variable ja existeix i només en modifiquem el valor. A partir d'aquí, cada vegada que fem servir <code>edat</code> val 26.</p></div>
-</div><div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Variables per a una reserva de vol</span></div>
-  <div class="code-block" data-run="r4"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ReservaVol</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
         <span class="cls">String</span> desti = <span class="str">"Barcelona - Tòquio"</span>;
         <span class="kw">int</span> numPassatgers = <span class="num">2</span>;
         <span class="kw">double</span> preuPerPersona = <span class="num">874.50</span>;
-        <span class="kw">char</span> classe = <span class="str">'E'</span>; <span class="cmt">// E = econòmica, B = business</span>
+        <span class="kw">boolean</span> esDirecte = <span class="kw">true</span>;
+
+        <span class="cmt">// Declaració i inicialització per separat</span>
+        <span class="kw">char</span> classe;
+        classe = <span class="str">'E'</span>; <span class="cmt">// E = econòmica, B = business</span>
 
         <span class="kw">double</span> totalReserva = numPassatgers * preuPerPersona;
 
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Destinació: "</span> + desti);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Classe: "</span> + classe);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + totalReserva + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Destinació: "</span> + desti + <span class="str">" (directe: "</span> + esDirecte + <span class="str">")"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(numPassatgers + <span class="str">" passatgers, classe "</span> + classe + <span class="str">": "</span> + totalReserva + <span class="str">" €"</span>);
+
+        <span class="cmt">// Modifiquem el valor (sense tornar a escriure el tipus)</span>
+        numPassatgers = <span class="num">3</span>;
+        totalReserva = numPassatgers * preuPerPersona;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(numPassatgers + <span class="str">" passatgers, classe "</span> + classe + <span class="str">": "</span> + totalReserva + <span class="str">" €"</span>);
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r4">Destinació: Barcelona - Tòquio
-Classe: E
-Total: 1749.0 €</pre></div>
-  
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada dada té el tipus que li correspon: text, enter, decimal i caràcter. <code>totalReserva</code> es calcula a partir d'altres variables: si canviem el nombre de passatgers, el total canvia sol.</p><p>El resultat surt com a <code>1749.0</code> perquè és un <code>double</code>: Java sempre mostra almenys un decimal en aquest tipus.</p></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r3">Destinació: Barcelona - Tòquio (directe: true)
+2 passatgers, classe E: 1749.0 €
+3 passatgers, classe E: 2623.5 €</pre></div>
+  <p class="nota-sortida">Fixa't que <code>1749.0</code> surt amb un decimal: en un <code>double</code> Java sempre en mostra almenys un.</p>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada dada té el tipus que li correspon: text, enter, decimal, booleà i caràcter. La majoria es declaren i s'inicialitzen en una sola línia. <code>classe</code> es fa en dos passos: primer es declara (es reserva l'espai) i després s'hi guarda <code>'E'</code>.</p><p>Quan canviem <code>numPassatgers</code> a 3 no tornem a escriure <code>int</code>: la variable ja existeix i només en modifiquem el valor. Fixa't que <code>totalReserva</code> <strong>no s'actualitza sola</strong>: l'hem de tornar a calcular perquè agafi el nou nombre de passatgers.</p></div>
 </div><h3 class="sub-title">Normes i bones pràctiques per als noms</h3><div class="table-wrap"><table><thead><tr><th>Regla</th><th>Correcte ✔</th><th>Incorrecte ✘</th></tr></thead><tbody><tr><td>No pot començar per un número ni contenir espais</td><td><code>nota1</code></td><td><code>1nota</code>, <code>nota final</code></td></tr><tr><td>No pot ser una paraula reservada</td><td><code>numero</code></td><td><code>int</code>, <code>class</code></td></tr><tr><td>Comença en minúscula i usa <em>camelCase</em></td><td><code>nomComplet</code></td><td><code>NomComplet</code>, <code>nom_complet</code></td></tr><tr><td>Nom descriptiu</td><td><code>preuFinal</code></td><td><code>x</code>, <code>aux2</code></td></tr><tr><td>Evita accents i caràcters especials</td><td><code>area</code>, <code>desti</code></td><td><code>àrea</code>, <code>destí</code></td></tr><tr><td>Booleans amb prefix <code>es</code>/<code>te</code>/<code>ha</code></td><td><code>esSoci</code>, <code>teStock</code></td><td><code>soci</code></td></tr></tbody></table></div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Una variable local s'ha d'inicialitzar abans d'usar-la.</strong> Si declares <code>int total;</code> i després fas <code>System.out.println(total);</code> sense haver-li donat cap valor, el compilador mostra l'error <em>variable total might not have been initialized</em>.</p></div><details class="mes"><summary>📚 Per saber-ne més · inferència de tipus amb <code>var</code></summary><div class="mes-body"><p>Des de Java 10 podem escriure <code>var</code> en lloc del tipus i el compilador el dedueix del valor inicial. El tipus queda fixat: no és una variable "sense tipus".</p><div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Ús de var</span></div>
   <div class="code-block" data-run="r5"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">TipusVar</span> {
