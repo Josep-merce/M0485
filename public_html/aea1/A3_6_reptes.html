@@ -151,6 +151,12 @@
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
     /* Solució desplegable */
+    .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
+    .ex-claus.visible { display:block; }
+    .ex-grid { margin:1rem 0 1.25rem; }
+    .ex-grid .pseudo { margin:0 0 .75rem; }
+    .ex-grid .solucio-wrap { padding:0; }
+    .ex-grid { margin-top:0; }
     .solucio-wrap { padding:.75rem 1.25rem 1rem; background:var(--surface); }
     .err-item .solucio-wrap, .demo .solucio-wrap { padding:0 0 .5rem; }
     .btn-solucio, .btn-reset { display:inline-flex; align-items:center; gap:.5rem; background:var(--hero-bg); color:var(--text-hero); border:none; border-radius:8px; padding:.5rem 1rem; font-size:.82rem; font-weight:600; cursor:pointer; transition:background .15s, transform .1s; font-family:'Inter',system-ui,sans-serif; }
@@ -240,24 +246,7 @@
       <li>Llegeix els intents amb <code>Scanner</code>. Si l'usuari escriu text, avisa'l i <strong>no</strong> comptis l'intent (fes servir <code>try-catch</code> i <code>continue</code>).</li>
       <li>Surt del bucle amb <code>break</code> quan encerti.</li>
       <li>Al final, indica en quants intents ho ha aconseguit o quin era el número.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>He pensat un número entre 1 i 50.
-Intent 1: 25
-Més gran!
-Intent 2: quaranta
-Això no és un número. No compta com a intent.
-Intent 2: 40
-Més petit!
-Intent 3: 33
-Més gran!
-Intent 4: 36
-Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canvia a cada execució (en aquest exemple era el 36).</p>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.2 · 3.3 · 3.4 · 3.5</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -316,8 +305,24 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Un text incorrecte no consumeix intent.</li><li><code>break</code> i <code>continue</code> s'utilitzen amb sentit.</li><li>Estratègia recomanada per provar-lo: mostra temporalment el secret per pantalla mentre depures.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Un text incorrecte no consumeix intent.</li><li><code>break</code> i <code>continue</code> s'utilitzen amb sentit.</li><li>Estratègia recomanada per provar-lo: mostra temporalment el secret per pantalla mentre depures.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>He pensat un número entre 1 i 50.
+Intent 1: 25
+Més gran!
+Intent 2: quaranta
+Això no és un número. No compta com a intent.
+Intent 2: 40
+Més petit!
+Intent 3: 33
+Més gran!
+Intent 4: 36
+Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canvia a cada execució (en aquest exemple era el 36).</p>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.2 · 3.3 · 3.4 · 3.5</span>
   </div>
 </div>
 </section>
@@ -336,27 +341,7 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
       <li>Fes servir un <code>switch</code> per a l'operació; si l'operador no existeix, llança una excepció pròpia <code>OperacioDesconegudaException</code>.</li>
       <li>Captura <code>NumberFormatException</code>, <code>ArithmeticException</code> (divisió per zero) i la teva excepció, amb un missatge diferent per a cadascuna.</li>
       <li>Un error no ha d'aturar la calculadora: s'informa i es torna a començar.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Primer número (o &#x27;fi&#x27;): 17
-Operació (+ - * / %): %
-Segon número: 5
-17 % 5 = 2
-Primer número (o &#x27;fi&#x27;): 8
-Operació (+ - * / %): /
-Segon número: 0
-Error: no es pot dividir per zero.
-Primer número (o &#x27;fi&#x27;): 8
-Operació (+ - * / %): ^
-Segon número: 2
-Error: Operació desconeguda: ^
-Primer número (o &#x27;fi&#x27;): fi
-Operacions correctes: 1</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-avancat">Avançat</span>
-    <span class="ex-ca">CA: 3.1 · 3.2 · 3.4 · 3.5 · 3.6 · 3.7 · 3.8</span>
-  </div>
-  <div class="solucio-wrap">
+    </ul><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
@@ -422,8 +407,27 @@ Operacions correctes: 1</pre></div>
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Cap entrada incorrecta atura el programa.</li><li>Hi ha un <code>catch</code> específic per a cada tipus d'error.</li><li>L'excepció pròpia es llança des del <code>default</code> del <code>switch</code>.</li><li>El codi està comentat i és llegible.</li></ul></div>
+      
     </div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Cap entrada incorrecta atura el programa.</li><li>Hi ha un <code>catch</code> específic per a cada tipus d'error.</li><li>L'excepció pròpia es llança des del <code>default</code> del <code>switch</code>.</li><li>El codi està comentat i és llegible.</li></ul></div>
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Primer número (o &#x27;fi&#x27;): 17
+Operació (+ - * / %): %
+Segon número: 5
+17 % 5 = 2
+Primer número (o &#x27;fi&#x27;): 8
+Operació (+ - * / %): /
+Segon número: 0
+Error: no es pot dividir per zero.
+Primer número (o &#x27;fi&#x27;): 8
+Operació (+ - * / %): ^
+Segon número: 2
+Error: Operació desconeguda: ^
+Primer número (o &#x27;fi&#x27;): fi
+Operacions correctes: 1</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-avancat">Avançat</span>
+    <span class="ex-ca">CA: 3.1 · 3.2 · 3.4 · 3.5 · 3.6 · 3.7 · 3.8</span>
   </div>
 </div>
 </section>
@@ -438,6 +442,10 @@ Operacions correctes: 1</pre></div>
     const obert = !body.classList.contains('visible');
     body.classList.toggle('visible', obert);
     btn.classList.toggle('obert', obert);
+    btn.closest('.solucio-wrap').classList.toggle('obert', obert);
+    const grid = btn.closest('.ex-grid');
+    const claus = grid && grid.nextElementSibling;
+    if (claus && claus.classList.contains('ex-claus')) claus.classList.toggle('visible', obert);
     btn.setAttribute('aria-expanded', String(obert));
     btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
   }
