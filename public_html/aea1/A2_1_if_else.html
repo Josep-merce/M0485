@@ -529,7 +529,7 @@ Preu de l'entrada: 3.5 €</pre></div><div class="ex-grid"><div class="solucio-w
     FinSi
 
     Escribir "Import: ", preu, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>SiNo</code> amb un <code>Si</code> a dins → <code>} else if (…) {</code>. Al final només cal una <code>}</code>, no tres <code>FinSi</code>.</li><li>Guarda la tarifa fixa (3 €) i el preu del minut extra (0.1 €) en constants <code>final</code>.</li><li>Llegeix els minuts amb <code>sc.nextInt()</code>.</li><li>Prova-ho també introduint <code>20</code>, <code>90</code> i <code>-5</code> i comprova que cada valor entra a la branca que toca.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Minuts d'estada? 135
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>SiNo</code> amb un <code>Si</code> a dins → <code>} else if (…) {</code>. Al final només cal una <code>}</code>, no tres <code>FinSi</code>.</li><li>Guarda la tarifa fixa (3 €) i el preu del minut extra (0.1 €) en constants <code>final</code>.</li><li>Llegeix els minuts amb <code>sc.nextInt()</code>.</li><li>Abans de mostrar l'import, arrodoneix-lo a cèntims amb <code>Math.round(preu * 100) / 100.0</code>, com a l'<a href="A1_4_conversions_sequencial.html">A1.4</a>: sense arrodonir, 143 minuts donen <code>5.300000000000001 €</code>.</li><li>Prova-ho també introduint <code>20</code>, <code>90</code> i <code>-5</code> i comprova que cada valor entra a la branca que toca.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Minuts d'estada? 135
 
 Temps d'estada: 135 min
 Tarifa llarga: 0.1 € per minut extra
@@ -571,6 +571,8 @@ Import: 4.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Tarifa llarga: 0.1 € per minut extra"</span>);
         }
 
+        <span class="cmt">// Arrodonim a cèntims: 0.1 no és exacte en double i 143 min donaria 5.300000000000001</span>
+        preu = <span class="cls">Math</span>.<span class="fn">round</span>(preu * <span class="num">100</span>) / <span class="num">100.0</span>;
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Import: "</span> + preu + <span class="str">" €"</span>);
 
         sc.<span class="fn">close</span>();
@@ -578,7 +580,7 @@ Import: 4.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els <code>Si</code> niats s'han aplanat en una sola cadena <code>if / else if / else</code>.</li><li>Els minuts es llegeixen del teclat amb <code>Scanner</code>, amb un missatge que diu què cal escriure.</li><li>Les condicions van en ordre: primer el valor impossible i després del tram més curt al més llarg, sense repetir el límit inferior (<code>minuts &gt; 30 &amp;&amp; minuts &lt;= 120</code> no cal).</li><li>Totes les branques donen valor a <code>preu</code>, i l'import es mostra un sol cop després de la cadena.</li><li>Només es paguen els minuts que passen de 120: <code>(minuts - 120) * 0.1</code>.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els <code>Si</code> niats s'han aplanat en una sola cadena <code>if / else if / else</code>.</li><li>Els minuts es llegeixen del teclat amb <code>Scanner</code>, amb un missatge que diu què cal escriure.</li><li>Les condicions van en ordre: primer el valor impossible i després del tram més curt al més llarg, sense repetir el límit inferior (<code>minuts &gt; 30 &amp;&amp; minuts &lt;= 120</code> no cal).</li><li>Totes les branques donen valor a <code>preu</code>, i l'import es mostra un sol cop després de la cadena.</li><li>Només es paguen els minuts que passen de 120: <code>(minuts - 120) * 0.1</code>.</li><li>L'import s'arrodoneix a cèntims abans de mostrar-lo.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section>
