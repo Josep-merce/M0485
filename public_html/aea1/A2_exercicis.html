@@ -231,7 +231,7 @@
 <main>
 <a class="backlink" href="A2_composicio_alternativa.html">← A2 · La composició alternativa</a>
 <div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.1, 3.5, 3.6 i 3.7</div><div class="obj-text">Resoldre problemes complets que necessiten prendre decisions, triant l'estructura alternativa més adequada en cada cas, i comprovar-ne el funcionament amb casos de prova que recorrin tots els camins.</div></div></div>
-<p class="lead">Exercicis per repassar tota l'A2 combinant el que has après a les subpàgines. Estan ordenats de menys a més dificultat. Escriu primer l'algorisme en pseudocodi, programa'l i <strong>prova tots els camins</strong> executant el programa diverses vegades i introduint valors diferents pel teclat. La sortida esperada correspon als valors indicats a l'enunciat. Crea cada exercici com una classe nova del projecte <code>AEA1_A2</code>.</p>
+<p class="lead">Exercicis per repassar tota l'A2 combinant el que has après a les subpàgines. Estan ordenats de menys a més dificultat. Escriu primer l'algorisme en pseudocodi, programa'l i <strong>prova tots els camins</strong> executant el programa diverses vegades i introduint valors diferents pel teclat. L'exemple d'execució fa servir els valors indicats a l'enunciat. Crea cada exercici com una classe nova del projecte <code>AEA1_A2</code>.</p>
 <div class="exercici-card" id="ex1">
   <div class="exercici-header">
     <span class="exercici-num">Ex. 1</span>
@@ -278,7 +278,7 @@
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La condició de parell és <code>numero % 2 == 0</code>.</li><li>S'ha provat amb un parell i amb un senar.</li><li>El número es llegeix del teclat amb <code>Scanner</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Número enter? 7
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número enter? 7
 7 és senar: 7 * 3 - 4 = 17</pre></div>
   </div>
   <div class="exercici-footer">
@@ -346,7 +346,7 @@
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els empats donen un resultat correcte (per això <code>&gt;=</code> en lloc de <code>&gt;</code>).</li><li>No hi ha comparacions innecessàries a l'<code>else if</code>.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Primer número? 14
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Primer número? 14
 Segon número? 27
 Tercer número? 9
 El major de 14, 27 i 9 és 27
@@ -413,7 +413,7 @@ Amb ternaris: 27</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els límits (6, 17, 65) estan ben tractats: s'han provat els valors frontera.</li><li>El preu general i el descompte són constants, i el resultat s'arrodoneix.</li><li>L'edat es llegeix del teclat amb <code>Scanner</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Edat del visitant? 70
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Edat del visitant? 70
 Edat: 70 anys → preu: 7.2 €</pre></div>
   </div>
   <div class="exercici-footer">
@@ -483,7 +483,7 @@ Edat: 70 anys → preu: 7.2 €</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans del càlcul.</li><li>Els parèntesis de <code>alcada * alcada</code> són necessaris.</li><li>Les condicions aprofiten l'ordre de l'<code>else if</code>.</li><li>El pes i l'alçada es llegeixen del teclat amb <code>nextDouble()</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Pes (kg)? 82
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Pes (kg)? 82
 Alçada (m)? 1,75
 IMC: 26.78 (Sobrepès)</pre></div>
   </div>
@@ -550,7 +550,7 @@ IMC: 26.78 (Sobrepès)</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els mesos s'agrupen en lloc de repetir 12 casos.</li><li>El febrer té en compte els anys de traspàs.</li><li>Els mesos no vàlids es detecten amb <code>default</code>.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Mes (1-12)? 2
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Mes (1-12)? 2
 Any? 2028
 El mes 2 de 2028 té 29 dies</pre></div>
   </div>
@@ -619,7 +619,7 @@ El mes 2 de 2028 té 29 dies</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els factors de conversió són constants.</li><li>El <code>switch</code> té un <code>default</code> per a opcions no vàlides.</li><li>L'opció es llegeix amb <code>next()</code> i la quantitat amb <code>nextDouble()</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Opció (km-milles, milles-km, kg-lliures)? milles-km
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Opció (km-milles, milles-km, kg-lliures)? milles-km
 Quantitat? 26,2
 26.2 milles = 42.16 km</pre></div>
   </div>
@@ -671,7 +671,7 @@ Quantitat? 26,2
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una taula de proves amb resultat esperat i obtingut.</li><li>S'explica la causa de l'error (ordre de les condicions) en un comentari.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Calorós</pre></div>
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Calorós</pre></div>
   </div>
   <div class="exercici-footer">
     <span class="badge badge-mitja">Mitjà</span>
@@ -750,7 +750,7 @@ Quantitat? 26,2
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les tarifes són constants i l'increment de diumenge depèn del torn.</li><li>Es controla un torn no vàlid.</li><li>Proves: 8 h diürn dilluns → 32 €; 8 h diürn diumenge → 48 €.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Hores treballades? 8
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Hores treballades? 8
 Torn (D/N)? N
 Dia de la setmana? diumenge
 8 h en torn N (diumenge) a 9 €/h
@@ -827,7 +827,7 @@ Salari del dia: 72 €</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les condicions aprofiten l'ordre de l'<code>else if</code> (no cal repetir el límit inferior).</li><li>S'han provat els valors frontera (sobretot 1–2, 31–32 i 63–64).</li><li>El número es llegeix del teclat amb <code>Scanner</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Número (0-64)? 45
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número (0-64)? 45
 Per escriure el 45 en binari calen 6 bits</pre></div>
   </div>
   <div class="exercici-footer">
@@ -885,7 +885,7 @@ Per escriure el 45 en binari calen 6 bits</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les expressions reprodueixen exactament les fórmules (atenció als parèntesis).</li><li>Els parèntesis de <code>(22 + d + e)</code> eviten que es concateni com a text.</li><li>L'any es llegeix del teclat amb <code>Scanner</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Any? 2026
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Any? 2026
 Pasqua 2026: 5 d&#x27;abril</pre></div>
   </div>
   <div class="exercici-footer">
@@ -957,7 +957,7 @@ Pasqua 2026: 5 d&#x27;abril</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es té en compte el mes i el dia, no només l'any.</li><li>El dia de l'aniversari ja compta com a any complert.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia de naixement? 15
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Dia de naixement? 15
 Mes de naixement? 10
 Any de naixement? 2008
 Dia actual? 29
@@ -1037,7 +1037,7 @@ Edat: 17 anys
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es controla el cas <code>a == 0</code> abans de dividir.</li><li>Els parèntesis de <code>(2 * a)</code> són correctes: sense ells es dividiria per 2 i es multiplicaria per a.</li><li>Proves suggerides: (1, 2, 1) → una solució; (1, 0, 4) → cap.</li><li>Els coeficients es llegeixen del teclat amb <code>nextDouble()</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Coeficient a? 1
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Coeficient a? 1
 Coeficient b? -3
 Coeficient c? 2
 Dues solucions: x1 = 2.0, x2 = 1.0</pre></div>
@@ -1112,7 +1112,7 @@ Dues solucions: x1 = 2.0, x2 = 1.0</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la lògica dels dies del mes i dels anys de traspàs.</li><li>La condició de validesa comprova tots els camps.</li><li>S'han provat els quatre casos de l'enunciat.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia? 29
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Dia? 29
 Mes? 2
 Any? 2027
 La data 29/2/2027 no és vàlida.</pre></div>
@@ -1186,7 +1186,7 @@ La data 29/2/2027 no és vàlida.</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es tracten els tres casos: dins del mes, canvi de mes i canvi d'any.</li><li>Febrer té en compte els anys de traspàs.</li><li>S'han provat les quatre dates de l'enunciat.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia? 28
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Dia? 28
 Mes? 2
 Any? 2028
 Dia següent: 29/02/2028</pre></div>
@@ -1269,7 +1269,7 @@ Dia següent: 29/02/2028</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El càlcul per trams és correcte (no s'aplica el preu més car a tot el consum).</li><li>El recàrrec només apareix quan correspon.</li><li>Tots els valors fixos són constants documentades.</li><li>El consum es llegeix del teclat amb <code>Scanner</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Consum (kWh)? 350
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Consum (kWh)? 350
 Consum: 350 kWh
 Energia: 69.0 €
 Quota fixa: 8.0 €
@@ -1363,7 +1363,7 @@ TOTAL: 80.85 €</pre></div>
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Convertir la qualificació en un nivell numèric simplifica "baixar un nivell".</li><li>Les regles s'apliquen en l'ordre correcte: nota → recuperació → conducta.</li><li>Es comproven les cinc files de la taula.</li><li>La nota es llegeix amb <code>nextDouble()</code> i les respostes sí/no amb <code>nextBoolean()</code>.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nota (0-10)? 9,1
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota (0-10)? 9,1
 Conducta negativa (true/false)? true
 Ha fet recuperació (true/false)? false
 Nota 9.1 → Notable</pre></div><p class="nota-sortida">Taula de proves (nota / conducta negativa / recuperació, tal com s'escriuen al teclat): 4,2 / false / false → Suspès · 4,2 / false / true → Aprovat per recuperació · 6,5 / true / false → Suspès (per conducta) · 9,1 / false / false → Excel·lent · 9,1 / true / false → Notable.</p>
@@ -1466,7 +1466,7 @@ Nota 9.1 → Notable</pre></div><p class="nota-sortida">Taula de proves (nota / 
       
     </div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La validació es fa abans de qualsevol altre càlcul.</li><li>El <code>switch</code> evita escriure 12 intervals de dates amb <code>if</code>.</li><li>La cúspide es detecta amb el valor absolut de la diferència amb el dia del canvi.</li><li>S'han provat les quatre dates de l'enunciat.</li><li>Les dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Dia? 20
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Dia? 20
 Mes? 4
 Data: 20/4
 Signe: Taure (cúspide)
