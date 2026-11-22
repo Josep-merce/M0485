@@ -454,11 +454,14 @@ true</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Les capses d'ous</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una granja ha recollit <strong>250 ous</strong> i els posa en capses de <strong>12</strong>. Aquest algorisme calcula quantes capses queden plenes, quants ous sobren i quants en faltarien per omplir una capsa més. Tradueix-lo a Java a la classe <code>Ous</code>.</p><div class="pseudo">Algoritmo Ous
+    <p>Una granja posa els ous que ha recollit en capses de <strong>12</strong>. Aquest algorisme <strong>demana per teclat</strong> quants ous s'han recollit (per exemple, 250) i calcula quantes capses queden plenes, quants ous sobren i quants en faltarien per omplir una capsa més. Tradueix-lo a Java a la classe <code>Ous</code>.</p><div class="pseudo">Algoritmo Ous
     Definir ous, ousPerCapsa, capses, sobrants Como Entero
 
-    ous &lt;- 250
     ousPerCapsa &lt;- 12
+
+    Escribir Sin Saltar "Quants ous s'han recollit? "
+    Leer ous
+    Escribir ""
 
     capses &lt;- trunc(ous / ousPerCapsa)
     sobrants &lt;- ous MOD ousPerCapsa
@@ -467,20 +470,29 @@ true</pre></div>
     Escribir "Capses plenes: ", capses
     Escribir "Ous que sobren: ", sobrants
     Escribir "Ous per a una capsa més: ", ousPerCapsa - sobrants
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>trunc(ous / ousPerCapsa)</code> → <code>ous / ousPerCapsa</code>: entre dos <code>int</code>, Java ja fa la divisió entera.</li><li><code>MOD</code> → <code>%</code>.</li><li>Les comes d'<code>Escribir</code> passen a ser <code>+</code>. Si dins del text hi ha un càlcul, posa'l entre parèntesis.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Ous recollits: 250
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>trunc(ous / ousPerCapsa)</code> → <code>ous / ousPerCapsa</code>: entre dos <code>int</code>, Java ja fa la divisió entera.</li><li><code>MOD</code> → <code>%</code>.</li><li>Les comes d'<code>Escribir</code> passen a ser <code>+</code>. Si dins del text hi ha un càlcul, posa'l entre parèntesis.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: només es demanen els ous; la mida de la capsa és sempre 12.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quants ous s'han recollit? 250
+
+Ous recollits: 250
 Capses plenes: 20
 Ous que sobren: 10
 Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Calcula quantes capses d'ous es poden omplir i quants ous sobren</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Calcula quantes capses d'ous es poden omplir i quants ous sobren</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Ous</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> ous = <span class="num">250</span>;
-        <span class="kw">int</span> ousPerCapsa = <span class="num">12</span>;
+        <span class="kw">int</span> ousPerCapsa = <span class="num">12</span>;   <span class="cmt">// les capses són sempre de 12</span>
+
+        <span class="cmt">// Dades d'entrada: els ous recollits es llegeixen del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quants ous s'han recollit? "</span>);
+        <span class="kw">int</span> ous = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="kw">int</span> capses = ous / ousPerCapsa;     <span class="cmt">// divisió entera: capses plenes</span>
         <span class="kw">int</span> sobrants = ous % ousPerCapsa;   <span class="cmt">// residu: ous que no omplen cap capsa</span>
@@ -490,25 +502,32 @@ Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ous que sobren: "</span> + sobrants);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ous per a una capsa més: "</span> + (ousPerCapsa - sobrants));
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>/</code> entre enters per obtenir les capses plenes, sense cap <code>trunc</code>.</li><li>Fa servir <code>%</code> per obtenir els ous que sobren.</li><li><code>(ousPerCapsa - sobrants)</code> va entre parèntesis: sense, el programa no compila, perquè <code>-</code> no es pot aplicar a un text.</li><li>La sortida coincideix amb l'exemple.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El nombre d'ous es llegeix del teclat amb <code>Scanner</code>, amb el seu missatge.</li><li>Fa servir <code>/</code> entre enters per obtenir les capses plenes, sense cap <code>trunc</code>.</li><li>Fa servir <code>%</code> per obtenir els ous que sobren.</li><li><code>(ousPerCapsa - sobrants)</code> va entre parèntesis: sense, el programa no compila, perquè <code>-</code> no es pot aplicar a un text.</li><li>La sortida coincideix amb l'exemple.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.7</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La mitjana i la beca</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un alumne té tres notes i ha assistit al <strong>75 %</strong> de les classes. Aquest algorisme calcula la mitjana, la mostra arrodonida i diu si aprova (mitjana ≥ 5) i si té beca (mitjana ≥ 7 <strong>i</strong> assistència ≥ 80 %). Tradueix-lo a Java a la classe <code>Beca</code>.</p><div class="pseudo">Algoritmo Beca
+    <p>Aquest algorisme <strong>demana per teclat</strong> les tres notes d'un alumne i el percentatge de classes a què ha assistit (a l'exemple, el <strong>75 %</strong>). Calcula la mitjana, la mostra arrodonida i diu si aprova (mitjana ≥ 5) i si té beca (mitjana ≥ 7 <strong>i</strong> assistència ≥ 80 %). Tradueix-lo a Java a la classe <code>Beca</code>.</p><div class="pseudo">Algoritmo Beca
     Definir nota1, nota2, nota3, mitjana Como Real
     Definir assistencia Como Entero
     Definir aprovat, teBeca Como Logico
 
-    nota1 &lt;- 6.5
-    nota2 &lt;- 8
-    nota3 &lt;- 7.25
-    assistencia &lt;- 75
+    Escribir Sin Saltar "Nota 1? "
+    Leer nota1
+    Escribir Sin Saltar "Nota 2? "
+    Leer nota2
+    Escribir Sin Saltar "Nota 3? "
+    Leer nota3
+    Escribir Sin Saltar "Assistència (%)? "
+    Leer assistencia
+    Escribir ""
 
     mitjana &lt;- (nota1 + nota2 + nota3) / 3
     aprovat &lt;- mitjana &gt;= 5
@@ -518,22 +537,36 @@ Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-
     Escribir "Nota arrodonida: ", redon(mitjana)
     Escribir "Aprovat: ", aprovat
     Escribir "Té beca: ", teBeca
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Y</code> → <code>&amp;&amp;</code>; <code>redon(x)</code> → <code>Math.round(x)</code>.</li><li>Guarda les comparacions en variables <code>boolean</code>: <code>aprovat</code> i <code>teBeca</code>.</li><li>Mantén els parèntesis de la mitjana: sense ells, només es dividiria <code>nota3</code> entre 3.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Mitjana: 7.25
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Y</code> → <code>&amp;&amp;</code>; <code>redon(x)</code> → <code>Math.round(x)</code>.</li><li>Guarda les comparacions en variables <code>boolean</code>: <code>aprovat</code> i <code>teBeca</code>.</li><li>Mantén els parèntesis de la mitjana: sense ells, només es dividiria <code>nota3</code> entre 3.</li><li><code>Leer</code> → <code>sc.nextDouble()</code> per a les notes i <code>sc.nextInt()</code> per a l'assistència. Al teclat, els decimals van amb coma: <code>6,5</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota 1? 6,5
+Nota 2? 8
+Nota 3? 7,25
+Assistència (%)? 75
+
+Mitjana: 7.25
 Nota arrodonida: 7
 Aprovat: true
 Té beca: false</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Calcula la mitjana d'un alumne i comprova si aprova i si té beca</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Calcula la mitjana d'un alumne i comprova si aprova i si té beca</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Beca</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">double</span> nota1 = <span class="num">6.5</span>;
-        <span class="kw">double</span> nota2 = <span class="num">8</span>;
-        <span class="kw">double</span> nota3 = <span class="num">7.25</span>;
-        <span class="kw">int</span> assistencia = <span class="num">75</span>;   <span class="cmt">// percentatge de classes</span>
+        <span class="cmt">// Dades d'entrada: es llegeixen del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota 1? "</span>);
+        <span class="kw">double</span> nota1 = sc.<span class="fn">nextDouble</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota 2? "</span>);
+        <span class="kw">double</span> nota2 = sc.<span class="fn">nextDouble</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota 3? "</span>);
+        <span class="kw">double</span> nota3 = sc.<span class="fn">nextDouble</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Assistència (%)? "</span>);
+        <span class="kw">int</span> assistencia = sc.<span class="fn">nextInt</span>(); <span class="cmt">// percentatge de classes</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="cmt">// Sense parèntesis només es dividiria nota3 entre 3</span>
         <span class="kw">double</span> mitjana = (nota1 + nota2 + nota3) / <span class="num">3</span>;
@@ -546,10 +579,12 @@ Té beca: false</pre></div><div class="ex-grid"><div class="solucio-wrap">
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Aprovat: "</span> + aprovat);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Té beca: "</span> + teBeca);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La mitjana fa servir parèntesis: <code>(nota1 + nota2 + nota3) / 3</code>.</li><li><code>teBeca</code> combina dues comparacions amb <code>&amp;&amp;</code>: com que l'assistència és 75, és <code>false</code> encara que la mitjana passi de 7.</li><li><code>Math.round(mitjana)</code> en lloc de <code>redon</code>.</li><li>Els resultats lògics es guarden en variables <code>boolean</code>, no s'escriuen a mà.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La mitjana fa servir parèntesis: <code>(nota1 + nota2 + nota3) / 3</code>.</li><li><code>teBeca</code> combina dues comparacions amb <code>&amp;&amp;</code>: amb les dades de l'exemple, com que l'assistència és 75, és <code>false</code> encara que la mitjana passi de 7.</li><li>Les notes i l'assistència es llegeixen del teclat amb <code>Scanner</code> (<code>nextDouble</code> i <code>nextInt</code>) i cada lectura té el seu missatge.</li><li><code>Math.round(mitjana)</code> en lloc de <code>redon</code>.</li><li>Els resultats lògics es guarden en variables <code>boolean</code>, no s'escriuen a mà.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.7</span></div>
 </div>
 </section>

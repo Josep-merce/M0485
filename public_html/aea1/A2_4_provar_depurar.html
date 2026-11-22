@@ -251,10 +251,12 @@
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El radar de la carretera</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>En una carretera limitada a 90 km/h, un radar classifica cada cotxe: fins a 90 km/h és correcte, fins a 110 km/h és multa lleu i per sobre, multa greu. Una velocitat negativa vol dir que el radar ha fallat. Tradueix l'algorisme a la classe <code>Radar</code> i, després, omple una <strong>taula de casos de prova</strong>.</p><div class="pseudo">Algoritmo Radar
+    <p>En una carretera limitada a 90 km/h, un radar classifica cada cotxe: fins a 90 km/h és correcte, fins a 110 km/h és multa lleu i per sobre, multa greu. Una velocitat negativa vol dir que el radar ha fallat. L'algorisme <strong>demana per teclat</strong> la velocitat del cotxe. Tradueix-lo a la classe <code>Radar</code> i, després, omple una <strong>taula de casos de prova</strong>: executa el programa un cop per cada cas i escriu-hi la velocitat.</p><div class="pseudo">Algoritmo Radar
     Definir velocitat Como Entero
     Definir resultat Como Cadena
-    velocitat &lt;- 105
+    Escribir Sin Saltar "Velocitat (km/h)? "
+    Leer velocitat
+    Escribir ""
     Si velocitat &lt; 0 Entonces
         resultat &lt;- "Velocitat no vàlida"
     SiNo
@@ -269,15 +271,23 @@
         FinSi
     FinSi
     Escribir "Velocitat ", velocitat, " km/h: ", resultat
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Els <code>Si</code> niats → <code>else if</code>. Converteix els límits 90 i 110 en constants.</li><li>Fes una taula amb les columnes <em>Velocitat</em>, <em>Per què la provem</em>, <em>Resultat esperat</em> i <em>Resultat obtingut</em>.</li><li>Prova totes les fronteres: -1, 0, 90, 91, 110 i 111.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Velocitat 105 km/h: Multa lleu</pre></div><div class="ex-grid"><div class="solucio-wrap">
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Els <code>Si</code> niats → <code>else if</code>. Converteix els límits 90 i 110 en constants.</li><li>Llegeix la velocitat amb <code>sc.nextInt()</code>: així pots provar cada cas sense tocar el codi.</li><li>Fes una taula amb les columnes <em>Velocitat</em>, <em>Per què la provem</em>, <em>Resultat esperat</em> i <em>Resultat obtingut</em>.</li><li>Prova totes les fronteres introduint -1, 0, 90, 91, 110 i 111.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Velocitat (km/h)? 105
+
+Velocitat 105 km/h: Multa lleu</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Radar</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Radar</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
         <span class="kw">final</span> <span class="kw">int</span> LIMIT_VELOCITAT = <span class="num">90</span>;    <span class="cmt">// km/h permesos</span>
         <span class="kw">final</span> <span class="kw">int</span> LIMIT_MULTA_LLEU = <span class="num">110</span>;  <span class="cmt">// fins aquí la multa és lleu</span>
-        <span class="kw">int</span> velocitat = <span class="num">105</span>;
+        <span class="cmt">// Dada d'entrada: la velocitat mesurada, llegida del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Velocitat (km/h)? "</span>);
+        <span class="kw">int</span> velocitat = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
         <span class="cls">String</span> resultat;
         <span class="cmt">// Primer descartem els valors impossibles</span>
         <span class="kw">if</span> (velocitat &lt; <span class="num">0</span>) {
@@ -290,20 +300,25 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Els <code>Si</code> niats →
             resultat = <span class="str">"Multa greu"</span>;
         }
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Velocitat "</span> + velocitat + <span class="str">" km/h: "</span> + resultat);
+
+        sc.<span class="fn">close</span>();
     }
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La traducció és correcta i fa servir <code>else if</code>.</li><li>La taula té les fronteres: -1 → no vàlida; 0 i 90 → Correcte; 91 i 110 → Multa lleu; 111 → Multa greu.</li><li>Cada fila té el resultat esperat i l'obtingut.</li><li>Els límits són constants amb nom.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La traducció és correcta i fa servir <code>else if</code>.</li><li>La taula té les fronteres: -1 → no vàlida; 0 i 90 → Correcte; 91 i 110 → Multa lleu; 111 → Multa greu.</li><li>Cada fila té el resultat esperat i l'obtingut.</li><li>Els límits són constants amb nom.</li><li>La velocitat es llegeix del teclat amb <code>Scanner</code> i cada cas de la taula s'ha provat executant el programa i escrivint-ne el valor.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.6</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'enviament gratuït (amb error)</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Depura i corregeix</span></div>
-    <p>La regla de la botiga és: <strong>els clients prèmium i les compres de 50 € o més no paguen enviament</strong>; la resta paga 5 €. Però l'algorisme té un error. Tradueix-lo a Java <strong>tal com està</strong> (classe <code>Enviament</code>), executa'l amb una compra de 50 € i, amb el depurador, troba per quina branca entra. Després corregeix-lo i <strong>documenta</strong> la regla.</p><div class="pseudo">Algoritmo Enviament
+    <p>La regla de la botiga és: <strong>els clients prèmium i les compres de 50 € o més no paguen enviament</strong>; la resta paga 5 €. Però l'algorisme té un error. L'algorisme <strong>demana per teclat</strong> l'import de la compra i si el client és prèmium. Tradueix-lo a Java <strong>tal com està</strong> (classe <code>Enviament</code>), executa'l introduint una compra de 50 € d'un client no prèmium i, amb el depurador, troba per quina branca entra. Després corregeix-lo i <strong>documenta</strong> la regla.</p><div class="pseudo">Algoritmo Enviament
     Definir importCompra, costEnviament, total Como Entero
     Definir esPremium Como Logico
-    importCompra &lt;- 50
-    esPremium &lt;- Falso
+    Escribir Sin Saltar "Import de la compra (€)? "
+    Leer importCompra
+    Escribir Sin Saltar "És client prèmium (true/false)? "
+    Leer esPremium
+    Escribir ""
     Si esPremium O importCompra &gt; 50 Entonces
         costEnviament &lt;- 0
     SiNo
@@ -312,17 +327,27 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Els <code>Si</code> niats →
     total &lt;- importCompra + costEnviament
     Escribir "Compra: ", importCompra, " € · enviament: ", costEnviament, " €"
     Escribir "Total: ", total, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Primer tradueix-lo sense canviar res (<code>O</code> → <code>||</code>): amb 50 € sortirà <code>enviament: 5 €</code> i <code>Total: 55 €</code>.</li><li>Posa un <em>breakpoint</em> a la línia de l'<code>if</code>, avança amb <code>F8</code> i mira els valors a la finestra <strong>Variables</strong>. Explica l'error en un comentari.</li><li>Corregeix-lo, converteix el 50 i el 5 en constants i prova amb 49, 50 i 51 € i amb un client prèmium.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Compra: 50 € · enviament: 0 €
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Llegeix l'import amb <code>sc.nextInt()</code> i si és prèmium amb <code>sc.nextBoolean()</code>.</li><li>Primer tradueix-lo sense canviar res (<code>O</code> → <code>||</code>): si introdueixes 50 i <code>false</code>, sortirà <code>enviament: 5 €</code> i <code>Total: 55 €</code>.</li><li>Posa un <em>breakpoint</em> a la línia de l'<code>if</code>, avança amb <code>F8</code> i mira els valors a la finestra <strong>Variables</strong>. Explica l'error en un comentari.</li><li>Corregeix-lo, converteix el 50 i el 5 en constants i torna'l a provar introduint 49, 50 i 51 € i un client prèmium (<code>true</code>).</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Import de la compra (€)? 50
+És client prèmium (true/false)? false
+
+Compra: 50 € · enviament: 0 €
 Total: 50 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Enviament</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Enviament</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
         <span class="kw">final</span> <span class="kw">int</span> IMPORT_ENVIAMENT_GRATUIT = <span class="num">50</span>;  <span class="cmt">// euros</span>
         <span class="kw">final</span> <span class="kw">int</span> COST_ENVIAMENT = <span class="num">5</span>;             <span class="cmt">// euros</span>
-        <span class="kw">int</span> importCompra = <span class="num">50</span>;
-        <span class="kw">boolean</span> esPremium = <span class="kw">false</span>;
+        <span class="cmt">// Dades d'entrada: l'import (euros) i si el client és prèmium, llegits del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Import de la compra (€)? "</span>);
+        <span class="kw">int</span> importCompra = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"És client prèmium (true/false)? "</span>);
+        <span class="kw">boolean</span> esPremium = sc.<span class="fn">nextBoolean</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
         <span class="kw">int</span> costEnviament;
         <span class="cmt">// Els clients prèmium i les compres de 50 € o més no paguen enviament.</span>
         <span class="cmt">// ERROR ORIGINAL: la condició era "importCompra &gt; 50" i una compra</span>
@@ -335,9 +360,11 @@ Total: 50 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
         <span class="kw">int</span> total = importCompra + costEnviament;
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Compra: "</span> + importCompra + <span class="str">" € · enviament: "</span> + costEnviament + <span class="str">" €"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Total: "</span> + total + <span class="str">" €"</span>);
+
+        sc.<span class="fn">close</span>();
     }
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>S'ha fet servir el depurador per veure la branca on entra.</li><li>Un comentari explica la regla i la causa de l'error (la frontera de 50 € no s'incloïa).</li><li>No hi ha números màgics: l'import mínim i el cost de l'enviament són constants.</li><li>S'han provat les fronteres 49, 50 i 51 i el client prèmium.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>S'ha fet servir el depurador per veure la branca on entra.</li><li>Un comentari explica la regla i la causa de l'error (la frontera de 50 € no s'incloïa).</li><li>No hi ha números màgics: l'import mínim i el cost de l'enviament són constants.</li><li>L'import i el tipus de client es llegeixen del teclat amb <code>Scanner</code>, i les proves es fan introduint valors diferents.</li><li>S'han provat les fronteres 49, 50 i 51 i el client prèmium.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.6 · 3.7</span></div>
 </div>
 </section>

@@ -344,7 +344,7 @@ La Mercè Market</pre></div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r5">Laia (22) ha pagat 9.99 €</pre></div>
   
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El compilador mira el valor de la dreta: <code>"Laia"</code> és un <code>String</code>, <code>22</code> un <code>int</code> i <code>9.99</code> un <code>double</code>. Per això <code>var</code> necessita sempre un valor inicial. Al curs escriurem el tipus explícitament: és més clar mentre aprenem.</p></div>
-</div></div></details><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Definir edat Como Entero</code></td><td><code>int edat;</code></td></tr><tr><td><code>edat &lt;- 25</code></td><td><code>edat = 25;</code></td></tr><tr><td>Declaració i assignació en dues línies</td><td>Es poden fer en una: <code>int edat = 25;</code></td></tr></tbody></table></div></div>
+</div></div></details><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Definir edat Como Entero</code></td><td><code>int edat;</code></td></tr><tr><td><code>edat &lt;- 25</code></td><td><code>edat = 25;</code></td></tr><tr><td>Declaració i assignació en dues línies</td><td>Es poden fer en una: <code>int edat = 25;</code></td></tr><tr><td><code>Leer edat</code></td><td><code>int edat = sc.nextInt();</code> (vegeu a sota)</td></tr></tbody></table></div></div><h3 class="sub-title" id="llegir-teclat">Llegir cada tipus des del teclat</h3><p class="text">A l'<a href="A1_1_primer_programa.html">A1.1</a> has llegit enters amb <code>sc.nextInt()</code>. L'<code>Scanner</code> té un mètode per a cada tipus de dada. La recepta és la mateixa: <code>import java.util.Scanner;</code> a dalt, <code>Scanner sc = new Scanner(System.in);</code> al principi del <code>main</code> i <code>sc.close();</code> al final.</p><div class="table-wrap"><table><thead><tr><th>Tipus</th><th>Java</th><th>Què llegeix</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>int edat = sc.nextInt();</code></td><td>Un número enter: <code>25</code></td></tr><tr><td><code>long</code></td><td><code>long poblacio = sc.nextLong();</code></td><td>Un número enter molt gran (més de 2.147.483.647): <code>8100000000</code></td></tr><tr><td><code>double</code></td><td><code>double preu = sc.nextDouble();</code></td><td>Un número decimal: <code>2,5</code> (amb coma, vegeu l'avís)</td></tr><tr><td><code>String</code> (una paraula)</td><td><code>String nom = sc.next();</code></td><td>Una sola paraula: <code>Anna</code></td></tr><tr><td><code>String</code> (una línia)</td><td><code>String frase = sc.nextLine();</code></td><td>Tota la línia, amb espais: <code>Anna Puig</code></td></tr><tr><td><code>char</code></td><td><code>char lletra = sc.next().charAt(0);</code></td><td>Una lletra: <code>O</code>. No hi ha <code>nextChar()</code>: es llegeix una paraula amb <code>next()</code> i <code>charAt(0)</code> n'agafa el primer caràcter (la posició 0).</td></tr><tr><td><code>boolean</code></td><td><code>boolean soci = sc.nextBoolean();</code></td><td><code>true</code> o <code>false</code></td></tr></tbody></table></div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><ul><li><strong>Decimals amb coma.</strong> Si l'ordinador està configurat en català o castellà, <code>nextDouble()</code> espera <code>2,5</code>. Si escrius <code>2.5</code>, el programa s'atura amb <em>InputMismatchException</em>. (Al codi Java, en canvi, els decimals sempre porten punt: <code>double preu = 2.5;</code>.)</li><li><strong>Un <code>nextLine()</code> després d'un <code>nextInt()</code></strong> torna un text buit: el <code>nextInt()</code> llegeix el número però deixa el salt de línia (la tecla <kbd>Intro</kbd>), i el <code>nextLine()</code> el recull. Solució: posa un <code>sc.nextLine();</code> de més just després del <code>nextInt()</code>, o llegeix primer els textos.</li><li><strong>Escriure un text quan s'espera un número</strong> (<code>hola</code> a un <code>nextInt()</code>) també dona <em>InputMismatchException</em>. De moment, introdueix sempre el tipus de dada que es demana.</li></ul></div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Constants</h2><p class="sec-sub">Valors que no canvien</p></div></div>
   <p class="lead">Una <strong>constant</strong> és un valor que no pot canviar un cop assignat. Es declara amb la paraula clau <code>final</code> i, per convenció, el nom s'escriu en <strong>MAJÚSCULES</strong> separant les paraules amb guió baix.</p><div class="table-wrap"><table><thead><tr><th>Característica</th><th>Variable</th><th>Constant</th><th>PSeInt</th></tr></thead><tbody><tr><td>Paraula clau</td><td>—</td><td><code>final</code></td><td>— (no hi ha constants: tot són variables)</td></tr><tr><td>Pot canviar de valor</td><td>✔ Sí</td><td>✘ No (error de compilació)</td><td>✔ Sempre: <code>iva &lt;- 0.21</code> es pot tornar a canviar</td></tr><tr><td>Nomenclatura</td><td><code>preuFinal</code></td><td><code>IVA_GENERAL</code></td><td><code>iva</code>, com qualsevol variable</td></tr><tr><td>Exemples</td><td>edat, comptador, total</td><td>IVA, dies de la setmana, nota mínima per aprovar</td><td>—</td></tr></tbody></table></div><div class="exemple">
@@ -394,66 +394,97 @@ Dies per retornar-lo: 18 de 30</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La fitxa de la pel·lícula</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una videoteca guarda unes quantes dades de cada pel·lícula: el títol, l'any, la durada, la valoració, la versió (<strong>O</strong> original o <strong>D</strong> doblada) i si té subtítols. Tradueix l'algorisme a Java a la classe <code>Pelicula</code> triant el tipus adequat per a cada dada.</p><div class="pseudo">Algoritmo Pelicula
+    <p>Una videoteca guarda unes quantes dades de cada pel·lícula: el títol, l'any, la durada, la valoració, la versió (<strong>O</strong> original o <strong>D</strong> doblada) i si té subtítols. Aquest algorisme <strong>demana per teclat</strong> les dades d'una pel·lícula i en mostra la fitxa. Tradueix-lo a Java a la classe <code>Pelicula</code> triant el tipus adequat per a cada dada.</p><div class="pseudo">Algoritmo Pelicula
     Definir titol, versio Como Caracter
     Definir any, durada Como Entero
     Definir valoracio Como Real
     Definir subtitulada Como Logico
 
-    titol &lt;- "La vida és bella"
-    versio &lt;- "O"
-    any &lt;- 1997
-    durada &lt;- 116
-    valoracio &lt;- 8.6
-    subtitulada &lt;- Verdadero
+    Escribir Sin Saltar "Títol? "
+    Leer titol
+    Escribir Sin Saltar "Versió (O/D)? "
+    Leer versio
+    Escribir Sin Saltar "Any? "
+    Leer any
+    Escribir Sin Saltar "Durada (min)? "
+    Leer durada
+    Escribir Sin Saltar "Valoració? "
+    Leer valoracio
+    Escribir Sin Saltar "Subtitulada (true/false)? "
+    Leer subtitulada
+    Escribir ""
 
     Escribir "Títol: ", titol, " (", any, ")"
     Escribir "Durada: ", durada, " min"
     Escribir "Valoració: ", valoracio
     Escribir "Versió: ", versio, " · Subtitulada: ", subtitulada
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code>.</li><li><code>Caracter</code> pot ser un text (<code>String</code>, cometes dobles) o una sola lletra (<code>char</code>, cometes simples). Mira quin valor guarda cada variable.</li><li><code>Verdadero</code> → <code>true</code>, en minúscula. Declara i inicialitza cada variable en una sola línia.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Títol: La vida és bella (1997)
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code>.</li><li><code>Caracter</code> pot ser un text (<code>String</code>, cometes dobles) o una sola lletra (<code>char</code>, cometes simples). Pensa quina dada guarda cada variable.</li><li><code>Verdadero</code> → <code>true</code>, en minúscula. Declara i inicialitza cada variable en una sola línia.</li><li><code>Leer</code> → el mètode de l'<code>Scanner</code> que toca a cada tipus: <code>sc.nextLine()</code> per al títol (té espais), <code>sc.nextInt()</code>, <code>sc.nextDouble()</code>, <code>sc.nextBoolean()</code> i, per a un <code>char</code>, <code>sc.next().charAt(0)</code> (la primera lletra de la paraula; vegeu la <a href="#llegir-teclat">taula de lectura</a>). Llegeix el títol primer.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Títol? La vida és bella
+Versió (O/D)? O
+Any? 1997
+Durada (min)? 116
+Valoració? 8,6
+Subtitulada (true/false)? true
+
+Títol: La vida és bella (1997)
 Durada: 116 min
 Valoració: 8.6
 Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Mostra la fitxa d'una pel·lícula de la videoteca</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Demana les dades d'una pel·lícula de la videoteca i en mostra la fitxa</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Pelicula</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cls">String</span> titol = <span class="str">"La vida és bella"</span>;   <span class="cmt">// text: cometes dobles</span>
-        <span class="kw">char</span> versio = <span class="str">'O'</span>;                   <span class="cmt">// una sola lletra (O = original, D = doblada)</span>
-        <span class="kw">int</span> any = <span class="num">1997</span>;                      <span class="cmt">// enter</span>
-        <span class="kw">int</span> durada = <span class="num">116</span>;                    <span class="cmt">// minuts</span>
-        <span class="kw">double</span> valoracio = <span class="num">8.6</span>;              <span class="cmt">// decimal: punt, no coma</span>
-        <span class="kw">boolean</span> subtitulada = <span class="kw">true</span>;          <span class="cmt">// en minúscula</span>
+        <span class="cmt">// Dades llegides del teclat: cada tipus té el seu mètode</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Títol? "</span>);
+        <span class="cls">String</span> titol = sc.<span class="fn">nextLine</span>();           <span class="cmt">// text amb espais: tota la línia</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Versió (O/D)? "</span>);
+        <span class="kw">char</span> versio = sc.<span class="fn">next</span>().<span class="fn">charAt</span>(<span class="num">0</span>);      <span class="cmt">// una sola lletra (O = original, D = doblada)</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Any? "</span>);
+        <span class="kw">int</span> any = sc.<span class="fn">nextInt</span>();                 <span class="cmt">// enter</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Durada (min)? "</span>);
+        <span class="kw">int</span> durada = sc.<span class="fn">nextInt</span>();              <span class="cmt">// minuts</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Valoració? "</span>);
+        <span class="kw">double</span> valoracio = sc.<span class="fn">nextDouble</span>();     <span class="cmt">// decimal: al teclat, amb coma</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Subtitulada (true/false)? "</span>);
+        <span class="kw">boolean</span> subtitulada = sc.<span class="fn">nextBoolean</span>(); <span class="cmt">// true o false, en minúscula</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Títol: "</span> + titol + <span class="str">" ("</span> + any + <span class="str">")"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Durada: "</span> + durada + <span class="str">" min"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Valoració: "</span> + valoracio);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Versió: "</span> + versio + <span class="str">" · Subtitulada: "</span> + subtitulada);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>titol</code> és <code>String</code> i <code>versio</code> és <code>char</code> amb cometes simples: <code>'O'</code>.</li><li><code>any</code> i <code>durada</code> són <code>int</code>; <code>valoracio</code> és <code>double</code> i s'escriu amb punt decimal.</li><li><code>subtitulada</code> és <code>boolean</code> i val <code>true</code>, en minúscula.</li><li>La sortida coincideix amb l'exemple, espais i parèntesis inclosos.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>titol</code> és <code>String</code> i <code>versio</code> és <code>char</code>.</li><li><code>any</code> i <code>durada</code> són <code>int</code>; <code>valoracio</code> és <code>double</code>.</li><li><code>subtitulada</code> és <code>boolean</code>.</li><li>Les sis dades es llegeixen del teclat amb el mètode de l'<code>Scanner</code> del seu tipus i cada lectura té el seu missatge.</li><li>La sortida coincideix amb l'exemple, espais i parèntesis inclosos.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.4</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">El viatge en taxi</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un taxi cobra una <strong>baixada de bandera</strong> de 2,5 € i <strong>1,25 € per quilòmetre</strong>. Aquest algorisme calcula el preu d'un trajecte de 5 km i, quan el client demana anar 3 km més lluny, el torna a calcular. Tradueix-lo a Java a la classe <code>Taxi</code>. A PSeInt tot són variables: a Java, decideix quines dades han de ser <strong>constants</strong>.</p><div class="pseudo">Algoritmo Taxi
+    <p>Un taxi cobra una <strong>baixada de bandera</strong> de 2,5 € i <strong>1,25 € per quilòmetre</strong>. Aquest algorisme <strong>demana per teclat</strong> la matrícula del taxi i els quilòmetres d'un trajecte, en calcula el preu i, quan el client demana anar 3 km més lluny, el torna a calcular. Tradueix-lo a Java a la classe <code>Taxi</code>. A PSeInt tot són variables: a Java, decideix quines dades han de ser <strong>constants</strong>.</p><div class="pseudo">Algoritmo Taxi
     Definir baixadaBandera, preuKm, preuViatge Como Real
     Definir matricula Como Caracter
     Definir km Como Entero
 
     baixadaBandera &lt;- 2.5
     preuKm &lt;- 1.25
-    matricula &lt;- "4821 KLM"
-    km &lt;- 5
+
+    Escribir Sin Saltar "Matrícula del taxi? "
+    Leer matricula
+    Escribir Sin Saltar "Quilòmetres? "
+    Leer km
+    Escribir ""
 
     preuViatge &lt;- baixadaBandera + km * preuKm
     Escribir "Taxi ", matricula
@@ -463,13 +494,18 @@ Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solu
     km &lt;- km + 3
     preuViatge &lt;- baixadaBandera + km * preuKm
     Escribir "Trajecte: ", km, " km → ", preuViatge, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>La baixada de bandera i el preu per km són la <strong>tarifa</strong> del taxi: no canvien d'un viatge a l'altre. Declara-les amb <code>final</code> i en MAJÚSCULES (<code>BAIXADA_BANDERA</code>, <code>PREU_KM</code>).</li><li><code>km &lt;- km + 3</code> → <code>km = km + 3;</code>, sense tornar a escriure <code>int</code>: la variable ja existeix.</li><li><code>preuViatge</code> no s'actualitza sol quan canvia <code>km</code>: l'has de tornar a calcular.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Taxi 4821 KLM
+FinAlgoritmo</div><ul class="exercici-tasques"><li>La baixada de bandera i el preu per km són la <strong>tarifa</strong> del taxi: no canvien d'un viatge a l'altre. Declara-les amb <code>final</code> i en MAJÚSCULES (<code>BAIXADA_BANDERA</code>, <code>PREU_KM</code>).</li><li><code>km &lt;- km + 3</code> → <code>km = km + 3;</code>, sense tornar a escriure <code>int</code>: la variable ja existeix.</li><li><code>preuViatge</code> no s'actualitza sol quan canvia <code>km</code>: l'has de tornar a calcular.</li><li><code>Leer</code> → <code>sc.nextLine()</code> per a la matrícula (té un espai) i <code>sc.nextInt()</code> per als quilòmetres. Llegeix primer la matrícula.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Matrícula del taxi? 4821 KLM
+Quilòmetres? 5
+
+Taxi 4821 KLM
 Trajecte: 5 km → 8.75 €
 Trajecte: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Calcula el preu d'un viatge en taxi abans i després d'allargar el trajecte</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Calcula el preu d'un viatge en taxi abans i després d'allargar el trajecte</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Taxi</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -478,9 +514,14 @@ Trajecte: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-
         <span class="kw">final</span> <span class="kw">double</span> BAIXADA_BANDERA = <span class="num">2.5</span>;   <span class="cmt">// euros</span>
         <span class="kw">final</span> <span class="kw">double</span> PREU_KM = <span class="num">1.25</span>;          <span class="cmt">// euros per km</span>
 
-        <span class="cmt">// Variables: dades d'aquest viatge</span>
-        <span class="cls">String</span> matricula = <span class="str">"4821 KLM"</span>;
-        <span class="kw">int</span> km = <span class="num">5</span>;
+        <span class="cmt">// Variables: dades d'aquest viatge, llegides del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Matrícula del taxi? "</span>);
+        <span class="cls">String</span> matricula = sc.<span class="fn">nextLine</span>();   <span class="cmt">// primer el text (té un espai)</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quilòmetres? "</span>);
+        <span class="kw">int</span> km = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
         <span class="kw">double</span> preuViatge = BAIXADA_BANDERA + km * PREU_KM;
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Taxi "</span> + matricula);
@@ -491,10 +532,12 @@ Trajecte: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-
         preuViatge = BAIXADA_BANDERA + km * PREU_KM;   <span class="cmt">// cal tornar-lo a calcular</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trajecte: "</span> + km + <span class="str">" km → "</span> + preuViatge + <span class="str">" €"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>BAIXADA_BANDERA</code> i <code>PREU_KM</code> són <code>final double</code> i segueixen la convenció de noms.</li><li><code>km</code>, <code>matricula</code> i <code>preuViatge</code> són variables amb el tipus adequat (<code>int</code>, <code>String</code> i <code>double</code>).</li><li>La modificació és <code>km = km + 3;</code>, sense <code>int</code> al davant, i el preu es recalcula.</li><li>Els càlculs fan servir el nom de les constants, no els números <code>2.5</code> i <code>1.25</code>.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>BAIXADA_BANDERA</code> i <code>PREU_KM</code> són <code>final double</code> i segueixen la convenció de noms.</li><li><code>km</code>, <code>matricula</code> i <code>preuViatge</code> són variables amb el tipus adequat (<code>int</code>, <code>String</code> i <code>double</code>).</li><li>La modificació és <code>km = km + 3;</code>, sense <code>int</code> al davant, i el preu es recalcula.</li><li>Els càlculs fan servir el nom de les constants, no els números <code>2.5</code> i <code>1.25</code>.</li><li>La matrícula i els quilòmetres es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge; la tarifa no es demana.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.5 · 1.6</span></div>
 </div>
 </section>

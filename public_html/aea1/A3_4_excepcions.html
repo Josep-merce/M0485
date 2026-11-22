@@ -332,6 +332,7 @@ Escriu un número enter: 4.5
 Escriu un número enter: 21
 Has escrit el 21. El doble és 42</pre></div>
 </div>
+<div class="box box-costum"><span class="box-label">💡 Per què <code>nextLine()</code> + <code>parseInt()</code> i no <code>nextInt()</code>?</span>Fins ara has llegit els enters amb <code>sc.nextInt()</code>, com a l'<a href="A1_1_primer_programa.html">A1.1</a>. Per validar, però, és més còmode llegir <strong>tota la línia com a text</strong> i convertir-la nosaltres: si el text no és un enter, <code>parseInt</code> llança una <code>NumberFormatException</code> que capturem, i la línia incorrecta ja s'ha consumit. Amb <code>nextInt()</code> l'error seria una <code>InputMismatchException</code> i el text erroni es quedaria a l'entrada: caldria buidar-lo amb un <code>sc.nextLine();</code> dins del <code>catch</code> o el bucle no acabaria mai.</div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Llançar excepcions i crear-ne de pròpies</h2><p class="sec-sub">Quan la dada és incorrecta per a nosaltres</p></div></div>
