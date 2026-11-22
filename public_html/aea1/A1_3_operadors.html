@@ -470,7 +470,7 @@ true</pre></div>
     Escribir "Capses plenes: ", capses
     Escribir "Ous que sobren: ", sobrants
     Escribir "Ous per a una capsa més: ", ousPerCapsa - sobrants
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>trunc(ous / ousPerCapsa)</code> → <code>ous / ousPerCapsa</code>: entre dos <code>int</code>, Java ja fa la divisió entera.</li><li><code>MOD</code> → <code>%</code>.</li><li>Les comes d'<code>Escribir</code> passen a ser <code>+</code>. Si dins del text hi ha un càlcul, posa'l entre parèntesis.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: només es demanen els ous; la mida de la capsa és sempre 12.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quants ous s'han recollit? 250
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>ousPerCapsa</code> no canvia mai: a Java declara-la com a constant, <code>final int OUS_PER_CAPSA = 12;</code> (com a l'<a href="A1_2_dades.html">A1.2</a>).</li><li><code>trunc(ous / ousPerCapsa)</code> → <code>ous / OUS_PER_CAPSA</code>: entre dos <code>int</code>, Java ja fa la divisió entera.</li><li><code>MOD</code> → <code>%</code>.</li><li>Les comes d'<code>Escribir</code> passen a ser <code>+</code>. Si dins del text hi ha un càlcul, posa'l entre parèntesis.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: només es demanen els ous; la mida de la capsa és sempre 12.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quants ous s'han recollit? 250
 
 Ous recollits: 250
 Capses plenes: 20
@@ -486,7 +486,7 @@ Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> ousPerCapsa = <span class="num">12</span>;   <span class="cmt">// les capses són sempre de 12</span>
+        <span class="kw">final</span> <span class="kw">int</span> OUS_PER_CAPSA = <span class="num">12</span>;   <span class="cmt">// constant: les capses són sempre de 12</span>
 
         <span class="cmt">// Dades d'entrada: els ous recollits es llegeixen del teclat</span>
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
@@ -494,20 +494,20 @@ Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-
         <span class="kw">int</span> ous = sc.<span class="fn">nextInt</span>();
         <span class="cls">System</span>.out.<span class="fn">println</span>();
 
-        <span class="kw">int</span> capses = ous / ousPerCapsa;     <span class="cmt">// divisió entera: capses plenes</span>
-        <span class="kw">int</span> sobrants = ous % ousPerCapsa;   <span class="cmt">// residu: ous que no omplen cap capsa</span>
+        <span class="kw">int</span> capses = ous / OUS_PER_CAPSA;     <span class="cmt">// divisió entera: capses plenes</span>
+        <span class="kw">int</span> sobrants = ous % OUS_PER_CAPSA;   <span class="cmt">// residu: ous que no omplen cap capsa</span>
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ous recollits: "</span> + ous);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Capses plenes: "</span> + capses);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ous que sobren: "</span> + sobrants);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ous per a una capsa més: "</span> + (ousPerCapsa - sobrants));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ous per a una capsa més: "</span> + (OUS_PER_CAPSA - sobrants));
 
         sc.<span class="fn">close</span>();
 
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El nombre d'ous es llegeix del teclat amb <code>Scanner</code>, amb el seu missatge.</li><li>Fa servir <code>/</code> entre enters per obtenir les capses plenes, sense cap <code>trunc</code>.</li><li>Fa servir <code>%</code> per obtenir els ous que sobren.</li><li><code>(ousPerCapsa - sobrants)</code> va entre parèntesis: sense, el programa no compila, perquè <code>-</code> no es pot aplicar a un text.</li><li>La sortida coincideix amb l'exemple.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El nombre d'ous es llegeix del teclat amb <code>Scanner</code>, amb el seu missatge.</li><li>Fa servir <code>/</code> entre enters per obtenir les capses plenes, sense cap <code>trunc</code>.</li><li>Fa servir <code>%</code> per obtenir els ous que sobren.</li><li>La mida de la capsa és una constant <code>final</code> amb el nom en majúscules.</li><li><code>(OUS_PER_CAPSA - sobrants)</code> va entre parèntesis: sense, el programa no compila, perquè <code>-</code> no es pot aplicar a un text.</li><li>La sortida coincideix amb l'exemple.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.7</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
