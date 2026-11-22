@@ -317,7 +317,8 @@ Calen 8 anys per doblar-los.</pre></div>
         <span class="cmt">// Bucle extern: es repeteix fins que l'usuari no diu "s"</span>
         <span class="kw">do</span> {
             <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número: "</span>);
-            <span class="kw">int</span> numero = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            <span class="kw">int</span> numero = sc.<span class="fn">nextInt</span>();
+            sc.<span class="fn">nextLine</span>();                 <span class="cmt">// recull el salt de línia que deixa nextInt()</span>
             <span class="kw">int</span> n = numero;
             <span class="kw">int</span> xifres = <span class="num">0</span>;
 
@@ -345,7 +346,7 @@ Número: 0
 Té 1 xifra/es
 Un altre? (s/n): n
 Fins aviat.</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El <code>do-while</code> extern fa la típica estructura de menú: primer demana un número i el tracta, i <strong>després</strong> pregunta si se'n vol un altre. Com que la pregunta es fa al final, el programa sempre s'executa com a mínim una vegada.</p><p>El <code>do-while</code> intern compta les xifres: a cada volta en suma una i treu l'última amb <code>n / 10</code>, fins que <code>n</code> val 0. Amb un <code>while</code> normal, el número 0 no entraria mai al bucle i diria que té 0 xifres; amb el <code>do-while</code> en surt 1, que és correcte.</p><p>La condició <code>resposta.equals("s")</code> compara textos: amb <code>String</code> no es fa servir <code>==</code>. Qualsevol resposta diferent de <code>s</code> fa sortir del bucle.</p></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El <code>do-while</code> extern fa la típica estructura de menú: primer demana un número i el tracta, i <strong>després</strong> pregunta si se'n vol un altre. Com que la pregunta es fa al final, el programa sempre s'executa com a mínim una vegada.</p><p>El <code>do-while</code> intern compta les xifres: a cada volta en suma una i treu l'última amb <code>n / 10</code>, fins que <code>n</code> val 0. Amb un <code>while</code> normal, el número 0 no entraria mai al bucle i diria que té 0 xifres; amb el <code>do-while</code> en surt 1, que és correcte.</p><p>Després del <code>sc.nextInt()</code> hi ha un <code>sc.nextLine();</code> de més: el <code>nextInt()</code> deixa el salt de línia sense llegir i, si no el recollíssim, la resposta <code>s/n</code> seria un text buit (és un dels errors típics de l'<a href="A1_2_dades.html">A1.2</a>).</p><p>La condició <code>resposta.equals("s")</code> compara textos: amb <code>String</code> no es fa servir <code>==</code>. Qualsevol resposta diferent de <code>s</code> fa sortir del bucle.</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Repetir</code> … <code>Hasta Que condició</code></td><td><code>do {</code> … <code>} while (!condició);</code></td></tr><tr><td><code>Hasta Que n = 0</code> (repeteix <em>fins que</em> és cert)</td><td><code>while (n != 0);</code> (repeteix <em>mentre</em> és cert)</td></tr><tr><td><code>trunc(n / 2)</code></td><td><code>n / 2</code> (entre enters, la divisió ja és entera)</td></tr></tbody></table></div></div>
 </section>
 <section class="section">
@@ -471,7 +472,7 @@ Mode estalvi activat després de 6 hores.</pre></div><div class="ex-grid"><div c
         FinSi
     Hasta Que intent = secret
     Escribir "Encertat en ", intents, " intents!"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Llegeix els números amb <code>Scanner</code> seguint el patró de la nota de dalt, i declara el secret com a constant <code>final</code>.</li><li><code>Repetir</code> … <code>Hasta Que intent = secret</code> → <code>do { … } while (intent != secret);</code>: cal negar la condició.</li><li>El <code>SiNo</code> amb un <code>Si</code> a dins es pot escriure en Java com a <code>else if</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Digues un número (1-100): 50
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Llegeix els números amb <code>Scanner</code> seguint el patró de la nota de dalt (<code>Leer intent</code> → <code>intent = sc.nextInt();</code>), i declara el secret com a constant <code>final</code>.</li><li><code>Repetir</code> … <code>Hasta Que intent = secret</code> → <code>do { … } while (intent != secret);</code>: cal negar la condició.</li><li>El <code>SiNo</code> amb un <code>Si</code> a dins es pot escriure en Java com a <code>else if</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Digues un número (1-100): 50
 Més avall!
 Digues un número (1-100): 25
 Més amunt!
@@ -497,7 +498,7 @@ Encertat en 4 intents!</pre></div><div class="ex-grid"><div class="solucio-wrap"
         <span class="cmt">// Sempre cal demanar almenys un número: per això és un do-while</span>
         <span class="kw">do</span> {
             <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Digues un número (1-100): "</span>);
-            intent = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            intent = sc.<span class="fn">nextInt</span>();
             intents++;
             <span class="kw">if</span> (intent &lt; SECRET) {
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Més amunt!"</span>);
@@ -524,13 +525,14 @@ Encertat en 4 intents!</pre></div><div class="ex-grid"><div class="solucio-wrap"
     <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
   </div>
   <div class="exercici-body">
-    <p>Mostra la taula de multiplicar d'un número de l'1 al 10 amb una capçalera i, al final, la suma de tots els resultats.</p>
+    <p>Demana per teclat un número i mostra la seva taula de multiplicar de l'1 al 10 amb una capçalera i, al final, la suma de tots els resultats.</p>
     <ul class="exercici-tasques">
-      <li>Declara <code>int taula = 6;</code></li>
+      <li>Llegeix el número amb <code>Scanner</code> i <code>sc.nextInt()</code>.</li>
       <li>Fes servir un <code>for</code> i una variable acumuladora.</li>
       <li>Format de cada línia: <code>6 x 3 = 18</code>.</li>
     </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>--- Taula del 6 ---
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número de la taula: 6
+--- Taula del 6 ---
 6 x 1 = 6
 6 x 2 = 12
 6 x 3 = 18
@@ -553,11 +555,15 @@ Suma de resultats: 330</pre></div>
     </button>
     <div class="solucio-body">
       <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">TaulaAmbSuma</span> {
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">TaulaAmbSuma</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> taula = <span class="num">6</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número de la taula: "</span>);
+        <span class="kw">int</span> taula = sc.<span class="fn">nextInt</span>();
         <span class="kw">int</span> suma = <span class="num">0</span>;
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"--- Taula del "</span> + taula + <span class="str">" ---"</span>);
@@ -569,11 +575,12 @@ Suma de resultats: 330</pre></div>
         }
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma de resultats: "</span> + suma);
+        sc.<span class="fn">close</span>();
 
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El <code>for</code> té la inicialització, condició i actualització correctes.</li><li>L'acumulador s'inicialitza a 0 <strong>fora</strong> del bucle.</li></ul></div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>El <code>for</code> té la inicialització, condició i actualització correctes.</li><li>L'acumulador s'inicialitza a 0 <strong>fora</strong> del bucle.</li><li>El número es demana per teclat amb <code>sc.nextInt()</code> i l'<code>Scanner</code> es tanca al final.</li></ul></div>
     </div>
   </div>
 </div>
@@ -584,13 +591,14 @@ Suma de resultats: 330</pre></div>
     <span class="badge badge-basic" style="margin-left:auto">Bàsic</span>
   </div>
   <div class="exercici-body">
-    <p>Calcula la suma dels números de l'1 fins a n i el factorial de n (n! = 1 × 2 × … × n).</p>
+    <p>Demana per teclat un enter n i calcula la suma dels números de l'1 fins a n i el factorial de n (n! = 1 × 2 × … × n).</p>
     <ul class="exercici-tasques">
-      <li>Declara <code>int n = 10;</code></li>
+      <li>Llegeix <code>n</code> amb <code>Scanner</code> i <code>sc.nextInt()</code>.</li>
       <li>Fes-ho en un sol bucle <code>for</code>.</li>
       <li>El factorial creix molt de pressa: fes servir <code>long</code>. Prova amb <code>n = 20</code> i <code>n = 21</code>: què passa amb el 21?</li>
     </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Suma de 1 a 10: 55
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Valor de n: 10
+Suma de 1 a 10: 55
 10! = 3628800</pre></div>
   </div>
   <div class="exercici-footer">
@@ -603,11 +611,15 @@ Suma de resultats: 330</pre></div>
     </button>
     <div class="solucio-body">
       <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">SumaFactorial</span> {
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SumaFactorial</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> n = <span class="num">10</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Valor de n: "</span>);
+        <span class="kw">int</span> n = sc.<span class="fn">nextInt</span>();
 
         <span class="kw">int</span> suma = <span class="num">0</span>;          <span class="cmt">// acumulador de la suma: comença a 0</span>
         <span class="kw">long</span> factorial = <span class="num">1</span>;    <span class="cmt">// acumulador del producte: comença a 1!</span>
@@ -623,10 +635,12 @@ Suma de resultats: 330</pre></div>
         <span class="cmt">// Amb n = 21 el resultat surt negatiu: desbordament del long</span>
         <span class="cmt">// (21! és més gran que Long.MAX_VALUE)</span>
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>L'acumulador del producte s'inicialitza a 1 (si fos 0, el resultat sempre seria 0).</li><li>Detecta i explica el desbordament amb n = 21.</li></ul></div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>L'acumulador del producte s'inicialitza a 1 (si fos 0, el resultat sempre seria 0).</li><li>Detecta i explica el desbordament amb n = 21.</li><li>El valor de <code>n</code> es demana per teclat amb <code>sc.nextInt()</code> i l'<code>Scanner</code> es tanca al final.</li></ul></div>
     </div>
   </div>
 </div>

@@ -351,7 +351,7 @@ FI MENTRE</div>
         <span class="kw">boolean</span> multiple5 = <span class="kw">false</span>;      <span class="cmt">// encara no n'hem vist cap</span>
 
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
-        <span class="kw">int</span> x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>()); <span class="cmt">// lectura avançada</span>
+        <span class="kw">int</span> x = sc.<span class="fn">nextInt</span>(); <span class="cmt">// lectura avançada</span>
 
         <span class="kw">while</span> (x != SENTINELLA) {
             quantitat++;
@@ -363,7 +363,7 @@ FI MENTRE</div>
                 multiple5 = <span class="kw">true</span>;
             }
             <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número (-1 per acabar): "</span>);
-            x = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>()); <span class="cmt">// següent valor</span>
+            x = sc.<span class="fn">nextInt</span>(); <span class="cmt">// següent valor</span>
         }
 
         <span class="kw">if</span> (quantitat == <span class="num">0</span>) {
@@ -386,7 +386,7 @@ Quantitat: 3 · Suma: 44 · Màxim: 25
 Algun múltiple de 5? true</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa segueix l'esquema de la <strong>lectura avançada</strong>: llegeix el primer número abans del bucle i el següent al final de cada volta. Així, quan arriba el <code>-1</code>, la condició del <code>while</code> és falsa i el sentinella no es tracta mai com una dada.</p><p>Dins del bucle es comptabilitza cada número (<code>quantitat</code>), s'acumula (<code>suma</code>) i es compara amb el màxim, que comença a <code>Integer.MIN_VALUE</code> perquè el primer número ja el superi. La variable booleana <code>multiple5</code> comença a <code>false</code> i passa a <code>true</code> quan apareix un múltiple de 5; un cop és <code>true</code>, ja no torna a canviar.</p><p>Com que calen la suma i el màxim, s'han de llegir tots els números. Si només volguéssim saber si hi ha algun múltiple de 5, seria una <strong>cerca</strong>: afegiríem <code>&amp;&amp; !multiple5</code> a la condició per parar tan aviat com el trobem. Si el primer valor ja és el <code>-1</code>, el bucle no fa cap volta i el programa avisa que no s'ha introduït cap número.</p></div>
 </div>
-<div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = Integer.parseInt(sc.nextLine());</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div>
+<div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = sc.nextInt();</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div>
 </section>
 
 <section class="section" id="exercicis">
@@ -395,9 +395,10 @@ Algun múltiple de 5? true</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Els divisors d'un número</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Volem conèixer tots els divisors del número <strong>36</strong>: quins són, quants n'hi ha i quant sumen. Cal provar <strong>tots</strong> els números de l'1 al 36, així que és un recorregut amb un comptador i un acumulador. Tradueix l'algorisme a Java a la classe <code>Divisors</code>.</p><div class="pseudo">Algoritmo Divisors
+    <p>Volem conèixer tots els divisors d'un número que l'usuari <strong>introdueix per teclat</strong>: quins són, quants n'hi ha i quant sumen. Cal provar <strong>tots</strong> els números de l'1 fins al número, així que és un recorregut amb un comptador i un acumulador. Tradueix l'algorisme a Java a la classe <code>Divisors</code>.</p><div class="pseudo">Algoritmo Divisors
     Definir numero, i, quantitat, suma Como Entero
-    numero &lt;- 36
+    Escribir Sin Saltar "Número: "
+    Leer numero
     quantitat &lt;- 0
     suma &lt;- 0
     Escribir Sin Saltar "Divisors de ", numero, ":"
@@ -411,18 +412,23 @@ Algun múltiple de 5? true</pre></div>
     Escribir ""
     Escribir "Quantitat: ", quantitat
     Escribir "Suma: ", suma
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Indica amb un comentari quina variable és el comptador i quina l'acumulador.</li><li><code>numero MOD i = 0</code> → <code>numero % i == 0</code>; <code>Escribir Sin Saltar</code> → <code>System.out.print</code>.</li><li><code>Escribir ""</code> només acaba la línia dels divisors: en Java és <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Divisors de 36: 1 2 3 4 6 9 12 18 36
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Leer numero</code> → <code>int numero = sc.nextInt();</code>: recorda l'<code>import</code>, crear l'<code>Scanner</code> al principi del <code>main</code> i tancar-lo al final.</li><li>Indica amb un comentari quina variable és el comptador i quina l'acumulador.</li><li><code>numero MOD i = 0</code> → <code>numero % i == 0</code>; <code>Escribir Sin Saltar</code> → <code>System.out.print</code>.</li><li><code>Escribir ""</code> només acaba la línia dels divisors: en Java és <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número: 36
+Divisors de 36: 1 2 3 4 6 9 12 18 36
 Quantitat: 9
 Suma: 91</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Recorregut de l'1 al número: mostra, compta i suma tots els divisors</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Recorregut de l'1 al número: mostra, compta i suma tots els divisors</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Divisors</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> numero = <span class="num">36</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número: "</span>);
+        <span class="kw">int</span> numero = sc.<span class="fn">nextInt</span>();
         <span class="kw">int</span> quantitat = <span class="num">0</span>;      <span class="cmt">// comptador</span>
         <span class="kw">int</span> suma = <span class="num">0</span>;           <span class="cmt">// acumulador</span>
 
@@ -438,11 +444,12 @@ Suma: 91</pre></div><div class="ex-grid"><div class="solucio-wrap">
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quantitat: "</span> + quantitat);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
+        sc.<span class="fn">close</span>();
 
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El comptador i l'acumulador s'inicialitzen a 0 fora del bucle.</li><li>La condició de divisor es tradueix a <code>numero % i == 0</code>, amb el doble <code>==</code>.</li><li>El bucle arriba fins al final: és un recorregut.</li><li>Els divisors surten a la mateixa línia i la sortida coincideix amb l'exemple.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El número es demana per teclat amb <code>sc.nextInt()</code> i l'<code>Scanner</code> es tanca al final.</li><li>El comptador i l'acumulador s'inicialitzen a 0 fora del bucle.</li><li>La condició de divisor es tradueix a <code>numero % i == 0</code>, amb el doble <code>==</code>.</li><li>El bucle arriba fins al final: és un recorregut.</li><li>Els divisors surten a la mateixa línia i la sortida coincideix amb l'exemple.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
@@ -491,7 +498,7 @@ Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div clas
         <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
 
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
-        <span class="kw">int</span> nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());     <span class="cmt">// lectura avançada</span>
+        <span class="kw">int</span> nota = sc.<span class="fn">nextInt</span>();     <span class="cmt">// lectura avançada</span>
 
         <span class="cmt">// Dues maneres d'acabar: arriba el sentinella o trobem un suspens</span>
         <span class="kw">while</span> (nota != SENTINELLA &amp;&amp; !trobat) {
@@ -500,7 +507,7 @@ Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div clas
                 trobat = <span class="kw">true</span>;                          <span class="cmt">// no llegim més notes</span>
             } <span class="kw">else</span> {
                 <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
-                nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>()); <span class="cmt">// següent nota</span>
+                nota = sc.<span class="fn">nextInt</span>(); <span class="cmt">// següent nota</span>
             }
         }
 
@@ -527,14 +534,14 @@ Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div clas
     <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
   </div>
   <div class="exercici-body">
-    <p>Donat un número enter positiu de qualsevol longitud, calcula quantes xifres té, la suma de les xifres, quantes són parells i el número invertit.</p>
+    <p>Demana per teclat un número enter positiu (de fins a 18 xifres) i calcula quantes xifres té, la suma de les xifres, quantes són parells i el número invertit.</p>
     <ul class="exercici-tasques">
-      <li>Declara <code>long numero = 90417263L;</code></li>
+      <li>Llegeix el número com a <code>long</code> amb <code>sc.nextLong()</code> (funciona com <code>nextInt()</code>, però admet números més llargs).</li>
       <li>Fes un recorregut amb <code>while</code> extraient l'última xifra (<code>% 10</code>) i eliminant-la (<code>/ 10</code>).</li>
       <li>Per invertir: <code>invertit = invertit * 10 + xifra</code>.</li>
       <li>Fes la taula de traça de les tres primeres iteracions.</li>
     </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Número: 90417263
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número: 90417263
 Xifres: 8
 Suma: 32
 Xifres parells: 4
@@ -550,11 +557,15 @@ Invertit: 36271409</pre></div>
     </button>
     <div class="solucio-body">
       <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnalisiXifres</span> {
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnalisiXifres</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">long</span> numero = <span class="num">90417263L</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número: "</span>);
+        <span class="kw">long</span> numero = sc.<span class="fn">nextLong</span>();
         <span class="kw">long</span> n = numero;
 
         <span class="kw">int</span> quantitat = <span class="num">0</span>;
@@ -573,16 +584,16 @@ Invertit: 36271409</pre></div>
             n = n / <span class="num">10</span>;
         }
 
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número: "</span> + numero);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres: "</span> + quantitat);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parells: "</span> + parells);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
+        sc.<span class="fn">close</span>();
 
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es treballa sobre una còpia (<code>n</code>) per no perdre el número original.</li><li>El casting <code>(int)</code> és necessari perquè <code>n % 10</code> és <code>long</code>.</li><li>Hi ha la taula de traça.</li></ul></div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es treballa sobre una còpia (<code>n</code>) per no perdre el número original.</li><li>El casting <code>(int)</code> és necessari perquè <code>n % 10</code> és <code>long</code>.</li><li>El número es llegeix amb <code>sc.nextLong()</code> i l'<code>Scanner</code> es tanca al final.</li><li>Hi ha la taula de traça.</li></ul></div>
     </div>
   </div>
 </div>

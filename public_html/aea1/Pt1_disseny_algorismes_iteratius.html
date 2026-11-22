@@ -151,7 +151,7 @@
   Pt1 — Disseny d'algorismes iteratius
 </nav>
 <main>
-<div class="ra5-box">📌 <strong>Nota sobre Scanner:</strong> aquesta pràctica demana les dades a l'usuari amb <code>Scanner</code>, tal com a l'A3. L'entrada i sortida de dades s'estudiarà a fons a l'<strong>RA5</strong>.</div>
+<div class="ra5-box">📌 <strong>Recorda: lectura amb Scanner.</strong> Aquesta pràctica demana les dades a l'usuari amb <code>Scanner</code>, com a l'<a href="A1_1_primer_programa.html">A1.1</a> i a l'A3: <code>import java.util.Scanner;</code>, <code>Scanner sc = new Scanner(System.in);</code> al principi del <code>main</code>, <code>sc.nextInt()</code> per a cada enter i <code>sc.close();</code> al final. L'entrada i sortida de dades s'estudiarà a fons a l'<strong>RA5</strong>.</div>
 <p class="intro">Pràctica guiada per posar en joc bucles imbricats, comptadors i variables que controlen altres bucles. Abans de programar, dibuixa les figures en paper quadriculat i busca la relació entre el número de fila i les posicions dels asteriscos.</p>
 <div class="info-box">📌 <strong>Projecte Maven:</strong> crea a NetBeans un projecte <em>Java with Maven</em> anomenat <code>AEA1_Pt1</code> amb <em>Group Id</em> <code>daw</code>. Cada exemple o exercici és una classe nova dins del paquet <code>daw.aea1_pt1</code> (clic dret al paquet → New → Java Class) i s'executa amb <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). Els exemples ometen la línia <code>package</code> per fer-los més curts: deixa la que ja escriu NetBeans i enganxa el codi a sota. Fes una classe per al pas previ (<code>Diamant</code>) i una altra per a la pràctica (<code>DiamantsNivells</code>).</div>
 <h2 class="block-title" id="pas-previ">1. Pas previ: el diamant</h2>
@@ -196,7 +196,7 @@
 
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la mida del diamant: "</span>);
-        <span class="kw">int</span> n = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+        <span class="kw">int</span> n = sc.<span class="fn">nextInt</span>();
 
         <span class="cmt">// El diamant té 2n - 1 files</span>
         <span class="kw">for</span> (<span class="kw">int</span> fila = <span class="num">0</span>; fila &lt; <span class="num">2</span> * n - <span class="num">1</span>; fila++) {
@@ -283,9 +283,9 @@ Introdueix el nombre de nivells: 2
 
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix la mida del diamant: "</span>);
-        <span class="kw">int</span> n = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+        <span class="kw">int</span> n = sc.<span class="fn">nextInt</span>();
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Introdueix el nombre de nivells: "</span>);
-        <span class="kw">int</span> nivells = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+        <span class="kw">int</span> nivells = sc.<span class="fn">nextInt</span>();
 
         <span class="kw">int</span> diamants = <span class="num">1</span>;                               <span class="cmt">// diamants del nivell actual</span>
 

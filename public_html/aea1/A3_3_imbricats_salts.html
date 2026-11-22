@@ -538,13 +538,14 @@ Total: 20 números</pre></div>
     <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
   </div>
   <div class="exercici-body">
-    <p>Dibuixa una piràmide centrada de n files fent servir bucles imbricats.</p>
+    <p>Demana per teclat el nombre de files i dibuixa una piràmide centrada d'aquesta alçada fent servir bucles imbricats.</p>
     <ul class="exercici-tasques">
-      <li>Declara <code>int files = 5;</code></li>
+      <li>Llegeix el nombre de files amb <code>Scanner</code> i <code>sc.nextInt()</code>.</li>
       <li>A la fila <code>i</code> (començant per 1) hi ha <code>files - i</code> espais i <code>2 * i - 1</code> asteriscos.</li>
       <li>Fes servir dos bucles interns: un per als espais i un per als asteriscos.</li>
     </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>    *
+    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nombre de files: 5
+    *
    ***
   *****
  *******
@@ -560,11 +561,15 @@ Total: 20 números</pre></div>
     </button>
     <div class="solucio-body">
       <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Piramide</span> {
+      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Piramide</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> files = <span class="num">5</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nombre de files: "</span>);
+        <span class="kw">int</span> files = sc.<span class="fn">nextInt</span>();
 
         <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= files; i++) {
 
@@ -580,10 +585,12 @@ Total: 20 números</pre></div>
 
         }
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els límits dels bucles interns depenen de la variable del bucle extern.</li><li>Funciona per a qualsevol valor de <code>files</code>.</li></ul></div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Els límits dels bucles interns depenen de la variable del bucle extern.</li><li>Funciona per a qualsevol valor de <code>files</code> que escrigui l'usuari (prova-ho amb 1, 3 i 8).</li><li>El nombre de files es demana amb <code>sc.nextInt()</code> i l'<code>Scanner</code> es tanca al final.</li></ul></div>
     </div>
   </div>
 </div>
