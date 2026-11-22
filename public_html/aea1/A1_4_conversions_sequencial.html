@@ -402,13 +402,17 @@ a</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La marató de pel·lícules</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un grup d'amics fa una marató de tres pel·lícules que duren <strong>135</strong>, <strong>142</strong> i <strong>97 minuts</strong>. Aquest algorisme calcula quant dura en total, en hores i minuts, en hores amb decimals i quina és la durada mitjana. Tradueix-lo a Java a la classe <code>Marato</code>.</p><div class="pseudo">Algoritmo Marato
+    <p>Un grup d'amics fa una marató de tres pel·lícules. Aquest algorisme <strong>demana per teclat</strong> quants minuts dura cada pel·lícula (per exemple, <strong>135</strong>, <strong>142</strong> i <strong>97</strong>) i calcula quant dura en total, en hores i minuts, en hores amb decimals i quina és la durada mitjana. Tradueix-lo a Java a la classe <code>Marato</code>.</p><div class="pseudo">Algoritmo Marato
     Definir peli1, peli2, peli3, total, hores, minuts, mitjana Como Entero
     Definir horesDecimals Como Real
 
-    peli1 &lt;- 135
-    peli2 &lt;- 142
-    peli3 &lt;- 97
+    Escribir Sin Saltar "Durada de la pel·lícula 1 (min)? "
+    Leer peli1
+    Escribir Sin Saltar "Durada de la pel·lícula 2 (min)? "
+    Leer peli2
+    Escribir Sin Saltar "Durada de la pel·lícula 3 (min)? "
+    Leer peli3
+    Escribir ""
 
     total &lt;- peli1 + peli2 + peli3
     hores &lt;- TRUNC(total / 60)
@@ -420,25 +424,36 @@ a</pre></div>
     Escribir "Temps: ", hores, " h ", minuts, " min"
     Escribir "En hores: ", horesDecimals, " h"
     Escribir "Mitjana per pel·lícula: ", mitjana, " min"
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>TRUNC(total / 60)</code> → com que <code>total</code> i <code>60</code> són <code>int</code>, <code>total / 60</code> ja és una divisió entera; <code>MOD</code> → <code>%</code>.</li><li>A PSeInt <code>/</code> sempre dona decimals; a Java converteix <code>total</code> a <code>double</code> <strong>abans</strong> de dividir.</li><li><code>REDON</code> → <code>Math.round</code>, que retorna un <code>long</code>. Per a dos decimals: <code>Math.round(x * 100) / 100.0</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Total: 374 min
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>TRUNC(total / 60)</code> → com que <code>total</code> i <code>60</code> són <code>int</code>, <code>total / 60</code> ja és una divisió entera; <code>MOD</code> → <code>%</code>.</li><li>A PSeInt <code>/</code> sempre dona decimals; a Java converteix <code>total</code> a <code>double</code> <strong>abans</strong> de dividir.</li><li><code>REDON</code> → <code>Math.round</code>, que retorna un <code>long</code>. Per a dos decimals: <code>Math.round(x * 100) / 100.0</code>.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: les durades són minuts sencers.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Durada de la pel·lícula 1 (min)? 135
+Durada de la pel·lícula 2 (min)? 142
+Durada de la pel·lícula 3 (min)? 97
+
+Total: 374 min
 Temps: 6 h 14 min
 En hores: 6.23 h
 Mitjana per pel·lícula: 125 min</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">/*</span>
- <span class="cmt">* Calcula quant dura una marató de tres pel·lícules</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">/*</span>
+ <span class="cmt">* Demana la durada de tres pel·lícules i calcula quant dura la marató</span>
  <span class="cmt">* en minuts, en hores i minuts i en hores decimals.</span>
  <span class="cmt">*/</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Marato</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Dades d'entrada: durada de cada pel·lícula en minuts</span>
-        <span class="kw">int</span> peli1 = <span class="num">135</span>;
-        <span class="kw">int</span> peli2 = <span class="num">142</span>;
-        <span class="kw">int</span> peli3 = <span class="num">97</span>;
+        <span class="cmt">// Dades d'entrada: durada de cada pel·lícula en minuts, llegida del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Durada de la pel·lícula 1 (min)? "</span>);
+        <span class="kw">int</span> peli1 = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Durada de la pel·lícula 2 (min)? "</span>);
+        <span class="kw">int</span> peli2 = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Durada de la pel·lícula 3 (min)? "</span>);
+        <span class="kw">int</span> peli3 = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="cmt">// Procés</span>
         <span class="kw">int</span> total = peli1 + peli2 + peli3;
@@ -454,24 +469,30 @@ Mitjana per pel·lícula: 125 min</pre></div><div class="ex-grid"><div class="so
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"En hores: "</span> + horesDecimals + <span class="str">" h"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mitjana per pel·lícula: "</span> + mitjana + <span class="str">" min"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les hores i els minuts surten de la divisió entera i del residu, sense <em>casting</em>.</li><li>El <em>casting</em> a <code>double</code> es fa abans de dividir: <code>(double) (total / 60)</code> donaria <code>6.0</code>.</li><li>L'arrodoniment a dos decimals divideix per <code>100.0</code>, no per <code>100</code>.</li><li><code>mitjana</code> és <code>long</code> (o es converteix amb <code>(int)</code>), perquè <code>Math.round</code> retorna un <code>long</code>.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les tres durades es llegeixen del teclat amb <code>sc.nextInt()</code> i cada lectura té el seu missatge.</li><li>Les hores i els minuts surten de la divisió entera i del residu, sense <em>casting</em>.</li><li>El <em>casting</em> a <code>double</code> es fa abans de dividir: <code>(double) (total / 60)</code> donaria <code>6.0</code>.</li><li>L'arrodoniment a dos decimals divideix per <code>100.0</code>, no per <code>100</code>.</li><li><code>mitjana</code> és <code>long</code> (o es converteix amb <code>(int)</code>), perquè <code>Math.round</code> retorna un <code>long</code>.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.8</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La comanda del formulari</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una botiga en línia rep les comandes des d'un formulari web, i totes les dades arriben com a <strong>text</strong>. Aquest algorisme converteix les dades, calcula el subtotal, l'IVA del 21 % i el total arrodonits a cèntims, i els punts de fidelitat (un per cada euro sencer). Tradueix-lo a Java a la classe <code>Comanda</code>.</p><div class="pseudo">Algoritmo Comanda
+    <p>Una botiga en línia rep les comandes des d'un formulari web, i totes les dades arriben com a <strong>text</strong>. Per simular-ho, aquest algorisme <strong>demana per teclat</strong> el producte, la quantitat i el preu i els llegeix com a text. Després converteix les dades, calcula el subtotal, l'IVA del 21 % i el total arrodonits a cèntims, i els punts de fidelitat (un per cada euro sencer). Tradueix-lo a Java a la classe <code>Comanda</code>.</p><div class="pseudo">Algoritmo Comanda
     Definir producte, textQuantitat, textPreu Como Caracter
     Definir quantitat, punts Como Entero
     Definir preu, subtotal, iva, total Como Real
 
-    producte &lt;- "Samarreta"
-    textQuantitat &lt;- "3"
-    textPreu &lt;- "12.95"
+    Escribir Sin Saltar "Producte? "
+    Leer producte
+    Escribir Sin Saltar "Quantitat? "
+    Leer textQuantitat
+    Escribir Sin Saltar "Preu (€)? "
+    Leer textPreu
+    Escribir ""
 
     quantitat &lt;- ConvertirANumero(textQuantitat)
     preu &lt;- ConvertirANumero(textPreu)
@@ -487,7 +508,11 @@ Mitjana per pel·lícula: 125 min</pre></div><div class="ex-grid"><div class="so
     Escribir ""
     Escribir "Total: ", total, " €"
     Escribir "Punts de fidelitat: ", punts
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>ConvertirANumero</code> → <code>Integer.parseInt</code> per a la quantitat i <code>Double.parseDouble</code> per al preu.</li><li><code>TRUNC(total)</code> → <code>(int) total</code>.</li><li>A Java el text va sempre entre cometes dobles: posa les cometes de <em>Samarreta</em> amb <code>\"</code>, i fes la línia en blanc i el total amb un sol <code>println</code> que comenci amb <code>\n</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Comanda: "Samarreta" x 3
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>ConvertirANumero</code> → <code>Integer.parseInt</code> per a la quantitat i <code>Double.parseDouble</code> per al preu.</li><li><code>TRUNC(total)</code> → <code>(int) total</code>.</li><li><code>Leer</code> → <code>sc.nextLine()</code> per a les tres dades: així arriben com a text, igual que des del formulari. <code>Double.parseDouble</code> espera el punt decimal: escriu el preu com <code>12.95</code>.</li><li>A Java el text va sempre entre cometes dobles: posa les cometes de <em>Samarreta</em> amb <code>\"</code>, i fes la línia en blanc i el total amb un sol <code>println</code> que comenci amb <code>\n</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Producte? Samarreta
+Quantitat? 3
+Preu (€)? 12.95
+
+Comanda: "Samarreta" x 3
 Subtotal: 38.85 €
 IVA (21 %): 8.16 €
 
@@ -496,7 +521,9 @@ Punts de fidelitat: 47</pre></div><div class="ex-grid"><div class="solucio-wrap"
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">/*</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">/*</span>
  <span class="cmt">* Calcula l'import d'una comanda feta amb un formulari web.</span>
  <span class="cmt">* Les dades arriben com a text i cal convertir-les abans d'operar.</span>
  <span class="cmt">*/</span>
@@ -504,10 +531,15 @@ Punts de fidelitat: 47</pre></div><div class="ex-grid"><div class="solucio-wrap"
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Dades d'entrada: tot arriba com a text</span>
-        <span class="cls">String</span> producte = <span class="str">"Samarreta"</span>;
-        <span class="cls">String</span> textQuantitat = <span class="str">"3"</span>;
-        <span class="cls">String</span> textPreu = <span class="str">"12.95"</span>;
+        <span class="cmt">// Dades d'entrada: es llegeixen del teclat com a text, com si vinguessin del formulari</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Producte? "</span>);
+        <span class="cls">String</span> producte = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quantitat? "</span>);
+        <span class="cls">String</span> textQuantitat = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu (€)? "</span>);
+        <span class="cls">String</span> textPreu = sc.<span class="fn">nextLine</span>();      <span class="cmt">// amb punt decimal: 12.95</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="cmt">// Conversió de text a número</span>
         <span class="kw">int</span> quantitat = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textQuantitat);
@@ -526,10 +558,12 @@ Punts de fidelitat: 47</pre></div><div class="ex-grid"><div class="solucio-wrap"
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"\nTotal: "</span> + total + <span class="str">" €"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts de fidelitat: "</span> + punts);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els càlculs es fan amb les variables convertides, no amb els textos.</li><li>Els imports s'arrodoneixen a cèntims amb <code>Math.round(x * 100) / 100.0</code>: sense arrodonir, <code>3 * 12.95</code> dona <code>38.849999999999994</code>.</li><li>Els punts surten d'un <em>casting</em> a <code>int</code>, que trunca els decimals.</li><li>Les cometes interiors s'escriuen amb <code>\"</code> i la línia en blanc amb <code>\n</code>.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les tres dades es llegeixen del teclat com a text amb <code>sc.nextLine()</code>, cada una amb el seu missatge, i després es converteixen.</li><li>Els càlculs es fan amb les variables convertides, no amb els textos.</li><li>Els imports s'arrodoneixen a cèntims amb <code>Math.round(x * 100) / 100.0</code>: sense arrodonir, <code>3 * 12.95</code> dona <code>38.849999999999994</code>.</li><li>Els punts surten d'un <em>casting</em> a <code>int</code>, que trunca els decimals.</li><li>Les cometes interiors s'escriuen amb <code>\"</code> i la línia en blanc amb <code>\n</code>.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.7 · 1.8</span></div>
 </div>
 </section>
