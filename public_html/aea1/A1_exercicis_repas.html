@@ -218,7 +218,8 @@
 <div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 1.1 a 1.9</div><div class="obj-text">Resoldre problemes complets amb programes seqüencials en Java que combinin tipus de dades, constants, operadors i conversions, i detectar i corregir errors de compilació i de lògica en un programa donat.</div></div></div>
 <p class="lead">Exercicis per repassar tota l'A1 combinant el que has après a les subpàgines. Estan ordenats de menys a més dificultat. Abans de programar, escriu l'algorisme en paper (dades, càlculs, sortida). Quan acabis, compara la sortida del teu programa amb la <strong>sortida esperada</strong> i, finalment, consulta la solució. Crea cada exercici com una classe nova del projecte <code>AEA1_A1</code>.</p><div class="exercici-card">
   <div class="exercici-header"><span class="exercici-num">Ex. 1</span><span class="exercici-title">Cercle: àrea i circumferència</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body"><p>Calcula l'àrea i la longitud de la circumferència d'un cercle de radi 5.</p><ul class="exercici-tasques"><li>Declara <code>double radi = 5;</code></li><li>Usa la constant <code>Math.PI</code>. Àrea = π · r²; circumferència = 2 · π · r.</li><li>Mostra els dos resultats arrodonits a 2 decimals (mira l'exemple <em>Obtenir una mitjana decimal a partir d'enters</em> d'<a href="A1_4_conversions_sequencial.html">A1.4</a>, secció 2).</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r1">Radi: 5.0
+  <div class="exercici-body"><p>Fes un programa que <strong>demani per teclat</strong> el radi d'un cercle i en calculi l'àrea i la longitud de la circumferència. Prova-ho amb un radi de 5.</p><ul class="exercici-tasques"><li>Llegeix el radi amb <code>Scanner</code> i guarda'l en una variable <code>double</code> (<code>sc.nextDouble()</code>).</li><li>Usa la constant <code>Math.PI</code>. Àrea = π · r²; circumferència = 2 · π · r.</li><li>Mostra els dos resultats arrodonits a 2 decimals (mira l'exemple <em>Obtenir una mitjana decimal a partir d'enters</em> d'<a href="A1_4_conversions_sequencial.html">A1.4</a>, secció 2).</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r1">Radi del cercle? 5
+Radi: 5.0
 Àrea: 78.54
 Circumferència: 31.42</pre></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.5 · 1.7 · 1.8</span></div>
@@ -226,11 +227,16 @@ Circumferència: 31.42</pre></div></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cercle</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r1"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cercle</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">double</span> radi = <span class="num">5</span>;
+        <span class="cmt">// Dada d'entrada: el radi, llegit del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Radi del cercle? "</span>);
+        <span class="kw">double</span> radi = sc.<span class="fn">nextDouble</span>();
 
         <span class="kw">double</span> area = <span class="cls">Math</span>.PI * radi * radi;
         <span class="kw">double</span> circumferencia = <span class="num">2</span> * <span class="cls">Math</span>.PI * radi;
@@ -243,13 +249,16 @@ Circumferència: 31.42</pre></div></div>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àrea: "</span> + area);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Circumferència: "</span> + circumferencia);
 
+        sc.<span class="fn">close</span>();
+
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>Math.PI</code> en lloc de 3.14.</li><li>L'arrodoniment divideix per <code>100.0</code> (decimal) i no per <code>100</code>.</li></ul></div></div>
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Fa servir <code>Math.PI</code> en lloc de 3.14.</li><li>L'arrodoniment divideix per <code>100.0</code> (decimal) i no per <code>100</code>.</li><li>El radi es llegeix del teclat amb <code>Scanner</code> i el missatge diu quina dada s'ha d'escriure.</li></ul></div></div>
   </div>
 </div><div class="exercici-card">
   <div class="exercici-header"><span class="exercici-num">Ex. 2</span><span class="exercici-title">Les edats de la família</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Una família té 6 membres: dos germans (Joan i Marta), els dos pares i els dos avis materns. Sabem que:</p><ul class="exercici-tasques"><li>L'avi té sis vegades l'edat de la Marta.</li><li>L'àvia té la suma de les edats dels pares menys l'edat de la Marta.</li><li>L'edat del Joan és el residu (mòdul) de dividir l'edat del pare entre la de la Marta.</li><li>L'edat de la mare és el triple de l'edat de la Marta més l'edat del Joan.</li><li>L'edat del pare és el resultat de multiplicar per 6 la divisió entera entre l'edat de l'avi i la de la Marta.</li><li>La Marta té 10 anys.</li><li>Calcula i mostra totes les edats. <strong>Pensa en quin ordre</strong> has de fer els càlculs: no és el mateix ordre de l'enunciat.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r2">Marta: 10 anys
+  <div class="exercici-body"><p>Una família té 6 membres: dos germans (Joan i Marta), els dos pares i els dos avis materns. Sabem que:</p><ul class="exercici-tasques"><li>L'avi té sis vegades l'edat de la Marta.</li><li>L'àvia té la suma de les edats dels pares menys l'edat de la Marta.</li><li>L'edat del Joan és el residu (mòdul) de dividir l'edat del pare entre la de la Marta.</li><li>L'edat de la mare és el triple de l'edat de la Marta més l'edat del Joan.</li><li>L'edat del pare és el resultat de multiplicar per 6 la divisió entera entre l'edat de l'avi i la de la Marta.</li><li>L'edat de la Marta es <strong>demana per teclat</strong>: llegeix-la amb <code>Scanner</code> (<code>sc.nextInt()</code>) i prova-ho amb 10 anys.</li><li>Calcula i mostra totes les edats. <strong>Pensa en quin ordre</strong> has de fer els càlculs: no és el mateix ordre de l'enunciat.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r2">Edat de la Marta? 10
+Marta: 10 anys
 Joan: 6 anys
 Pare: 36 anys
 Mare: 36 anys
@@ -260,13 +269,19 @@ Avi: 60 anys
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">EdatsFamilia</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r2"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">EdatsFamilia</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Només coneixem l'edat de la Marta: la resta depèn d'altres edats,</span>
-        <span class="cmt">// així que cal calcular-les en l'ordre en què es necessiten</span>
-        <span class="kw">int</span> marta = <span class="num">10</span>;
+        <span class="cmt">// Dada d'entrada: l'edat de la Marta, llegida del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Edat de la Marta? "</span>);
+        <span class="kw">int</span> marta = sc.<span class="fn">nextInt</span>();
+
+        <span class="cmt">// La resta d'edats depèn d'altres edats, així que cal calcular-les</span>
+        <span class="cmt">// en l'ordre en què es necessiten (els valors són per a una Marta de 10 anys)</span>
         <span class="kw">int</span> avi = <span class="num">6</span> * marta;               <span class="cmt">// 60</span>
         <span class="kw">int</span> pare = <span class="num">6</span> * (avi / marta);      <span class="cmt">// 36 (necessita l'avi)</span>
         <span class="kw">int</span> joan = pare % marta;           <span class="cmt">// 6  (necessita el pare)</span>
@@ -280,13 +295,16 @@ Avi: 60 anys
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Avi: "</span> + avi + <span class="str">" anys"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Àvia: "</span> + avia + <span class="str">" anys"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Els càlculs segueixen l'ordre de dependències (avi → pare → Joan → mare → àvia).</li><li>Es fan servir la divisió entera <code>/</code> i el residu <code>%</code> com demana l'enunciat.</li></ul></div></div>
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Els càlculs segueixen l'ordre de dependències (avi → pare → Joan → mare → àvia).</li><li>Es fan servir la divisió entera <code>/</code> i el residu <code>%</code> com demana l'enunciat.</li><li>L'edat de la Marta es llegeix del teclat amb <code>Scanner</code>.</li></ul></div></div>
   </div>
 </div><div class="exercici-card">
   <div class="exercici-header"><span class="exercici-num">Ex. 3</span><span class="exercici-title">Les xifres d'un número</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Donat un número de 4 xifres, mostra cadascuna de les xifres per separat, la seva suma i el número escrit al revés.</p><ul class="exercici-tasques"><li>Declara <code>int numero = 2745;</code></li><li>Obtén les unitats, desenes, centenes i milers combinant <code>/</code> i <code>%</code> amb 10, 100 i 1000.</li><li>Calcula la suma de les xifres i el número invertit (5472) <strong>com a enter</strong>, no com a text.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r3">Milers: 2, centenes: 7, desenes: 4, unitats: 5
+  <div class="exercici-body"><p>Fes un programa que <strong>demani per teclat</strong> un número de 4 xifres i mostri cadascuna de les xifres per separat, la seva suma i el número escrit al revés.</p><ul class="exercici-tasques"><li>Llegeix el número amb <code>Scanner</code> (<code>sc.nextInt()</code>). Prova-ho amb el 2745.</li><li>Obtén les unitats, desenes, centenes i milers combinant <code>/</code> i <code>%</code> amb 10, 100 i 1000.</li><li>Calcula la suma de les xifres i el número invertit (5472) <strong>com a enter</strong>, no com a text.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r3">Número de 4 xifres? 2745
+Milers: 2, centenes: 7, desenes: 4, unitats: 5
 Suma de xifres: 18
 Invertit: 5472</pre></div></div>
   <div class="exercici-footer"><span class="badge badge-avancat">Avançat</span><span class="ex-ca">CA: 1.5 · 1.7</span></div>
@@ -294,13 +312,18 @@ Invertit: 5472</pre></div></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">XifresNumero</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r3"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">XifresNumero</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> numero = <span class="num">2745</span>;
+        <span class="cmt">// Dada d'entrada: un número de 4 xifres, llegit del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número de 4 xifres? "</span>);
+        <span class="kw">int</span> numero = sc.<span class="fn">nextInt</span>();
 
-        <span class="kw">int</span> unitats = numero % <span class="num">10</span>;           <span class="cmt">// 5</span>
+        <span class="kw">int</span> unitats = numero % <span class="num">10</span>;           <span class="cmt">// 5 (amb el 2745)</span>
         <span class="kw">int</span> desenes = numero / <span class="num">10</span> % <span class="num">10</span>;      <span class="cmt">// 4</span>
         <span class="kw">int</span> centenes = numero / <span class="num">100</span> % <span class="num">10</span>;    <span class="cmt">// 7</span>
         <span class="kw">int</span> milers = numero / <span class="num">1000</span>;          <span class="cmt">// 2</span>
@@ -313,13 +336,16 @@ Invertit: 5472</pre></div></div>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma de xifres: "</span> + suma);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
 
+        sc.<span class="fn">close</span>();
+
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Entén que <code>numero / 10 % 10</code> s'avalua d'esquerra a dreta: primer <code>/</code> i després <code>%</code>.</li><li>El número invertit es construeix amb operacions aritmètiques.</li></ul></div></div>
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Entén que <code>numero / 10 % 10</code> s'avalua d'esquerra a dreta: primer <code>/</code> i després <code>%</code>.</li><li>El número invertit es construeix amb operacions aritmètiques.</li><li>El número es llegeix del teclat amb <code>Scanner</code>.</li></ul></div></div>
   </div>
 </div><div class="exercici-card">
   <div class="exercici-header"><span class="exercici-num">Ex. 4</span><span class="exercici-title">Caixer automàtic: bitllets i monedes</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
-  <div class="exercici-body"><p>Un caixer ha de lliurar 187 €. Calcula quants bitllets de 50, 20, 10 i 5 € i quantes monedes de 2 i 1 € cal donar, fent servir el mínim nombre de peces.</p><ul class="exercici-tasques"><li>Declara <code>int import = 187;</code> (pista: <code>import</code> és paraula reservada, tria un altre nom!).</li><li>Per a cada valor: quantes peces = restant / valor; restant = restant % valor.</li><li>Mostra només el resultat final de cada tipus de peça.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r4">Import: 187 €
+  <div class="exercici-body"><p>Un caixer <strong>demana per teclat</strong> l'import que ha de lliurar (prova-ho amb 187 €). Calcula quants bitllets de 50, 20, 10 i 5 € i quantes monedes de 2 i 1 € cal donar, fent servir el mínim nombre de peces.</p><ul class="exercici-tasques"><li>Llegeix l'import amb <code>Scanner</code> (<code>sc.nextInt()</code>) i guarda'l en una variable <code>int</code> (pista: <code>import</code> és paraula reservada, tria un altre nom!).</li><li>Per a cada valor: quantes peces = restant / valor; restant = restant % valor.</li><li>Mostra només el resultat final de cada tipus de peça.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="r4">Import a lliurar (€)? 187
+Import: 187 €
 Bitllets de 50: 3
 Bitllets de 20: 1
 Bitllets de 10: 1
@@ -331,11 +357,16 @@ Monedes d'1: 0</pre></div></div>
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r4"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Caixer</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="r4"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Caixer</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> quantitat = <span class="num">187</span>;        <span class="cmt">// "import" és una paraula reservada de Java</span>
+        <span class="cmt">// Dada d'entrada: l'import en euros, llegit del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Import a lliurar (€)? "</span>);
+        <span class="kw">int</span> quantitat = sc.<span class="fn">nextInt</span>();  <span class="cmt">// "import" és una paraula reservada de Java</span>
         <span class="kw">int</span> restant = quantitat;
 
         <span class="kw">int</span> b50 = restant / <span class="num">50</span>;   restant = restant % <span class="num">50</span>;
@@ -353,9 +384,11 @@ Monedes d'1: 0</pre></div></div>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Monedes de 2: "</span> + m2);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Monedes d'1: "</span> + m1);
 
+        sc.<span class="fn">close</span>();
+
     }
 
-}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la variable <code>restant</code> en cada pas.</li><li>Detecta que <code>import</code> no es pot usar com a nom de variable.</li></ul></div></div>
+}</div><div class="claus"><strong>✔ Què es valora</strong><ul><li>Reutilitza la variable <code>restant</code> en cada pas.</li><li>Detecta que <code>import</code> no es pot usar com a nom de variable.</li><li>L'import es llegeix del teclat amb <code>Scanner</code>.</li></ul></div></div>
   </div>
 </div><div class="exercici-card">
   <div class="exercici-header"><span class="exercici-num">Ex. 5</span><span class="exercici-title">Troba i corregeix els errors</span><span class="badge badge-avancat" style="margin-left:auto">Avançat</span></div>
