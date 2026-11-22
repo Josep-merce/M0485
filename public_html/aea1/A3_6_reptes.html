@@ -243,7 +243,7 @@
     <p>El programa genera un número secret entre 1 i 50. El jugador té 6 intents per endevinar-lo. Després de cada intent, el programa diu si el secret és més gran o més petit.</p>
     <ul class="exercici-tasques">
       <li>Genera el secret amb <code>Random</code>.</li>
-      <li>Llegeix els intents amb <code>Scanner</code>. Si l'usuari escriu text, avisa'l i <strong>no</strong> comptis l'intent (fes servir <code>try-catch</code> i <code>continue</code>).</li>
+      <li>Llegeix cada intent com a text amb <code>sc.nextLine()</code> i converteix-lo amb <code>Integer.parseInt()</code>, com a l'<a href="A3_4_excepcions.html">A3.4</a>. Si l'usuari escriu text, salta una <code>NumberFormatException</code>: avisa'l i <strong>no</strong> comptis l'intent (fes servir <code>try-catch</code> i <code>continue</code>).</li>
       <li>Surt del bucle amb <code>break</code> quan encerti.</li>
       <li>Al final, indica en quants intents ho ha aconseguit o quin era el número.</li>
     </ul><div class="ex-grid"><div class="solucio-wrap">
@@ -335,7 +335,7 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
     <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
   </div>
   <div class="exercici-body">
-    <p>Crea una calculadora d'enters que funcioni en bucle: demana dos números i una operació (+, −, *, /, %) i mostra el resultat. Quan l'usuari escriu <code>fi</code> com a primer número, el programa acaba i mostra quantes operacions s'han fet correctament.</p>
+    <p>Crea una calculadora d'enters que funcioni en bucle: demana dos números i una operació (+, -, *, /, %) i mostra el resultat. Quan l'usuari escriu <code>fi</code> com a primer número, el programa acaba i mostra quantes operacions s'han fet correctament.</p>
     <ul class="exercici-tasques">
       <li>Llegeix totes les dades com a text amb <code>sc.nextLine()</code>.</li>
       <li>Fes servir un <code>switch</code> per a l'operació; si l'operador no existeix, llança una excepció pròpia <code>OperacioDesconegudaException</code>.</li>
@@ -422,6 +422,8 @@ Primer número (o &#x27;fi&#x27;): 8
 Operació (+ - * / %): ^
 Segon número: 2
 Error: Operació desconeguda: ^
+Primer número (o &#x27;fi&#x27;): dotze
+Error: cal escriure números enters.
 Primer número (o &#x27;fi&#x27;): fi
 Operacions correctes: 1</pre></div>
   </div>
