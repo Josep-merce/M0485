@@ -229,7 +229,7 @@
 </nav>
 <main>
 <a class="backlink" href="A3_algorismes_iteratius.html">← A3 · Disseny d'algorismes iteratius</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2, 3.5 i 3.6</div><div class="obj-text">Reconèixer si un problema és un recorregut o una cerca abans de programar-lo, i aplicar l'esquema adequat amb comptadors, acumuladors, màxims i variables de control.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2, 3.5 i 3.6</div><div class="obj-text">Reconèixer si un problema és un recorregut o una cerca abans de programar-lo, i aplicar l'esquema adequat amb comptadors, acumuladors, màxims i variables de control.</div><div class="obj-text" style="margin-top:.5rem">✍️ Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong>: algorismes en PSeInt que has de passar a Java.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Esquema de recorregut</h2><p class="sec-sub">Tractar tots els elements</p></div></div>
   <p class="lead">Molts algorismes iteratius segueixen un de dos esquemes. Reconèixer-los t'ajudarà a dissenyar la solució abans de programar.</p>
@@ -285,54 +285,7 @@ Suma de les xifres: 27
 Xifres parelles: 3
 Xifra més gran: 8</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>És un recorregut: es tracten <strong>totes</strong> les xifres de <code>528174</code>, de dreta a esquerra. <code>n % 10</code> dona l'última xifra i <code>n / 10</code> la treu; quan <code>n</code> arriba a 0, ja no en queden.</p><p>Dins del bucle hi ha els tres esquemes de la taula: un <strong>acumulador</strong> (<code>suma</code>), un <strong>comptador</strong> que només augmenta si es compleix una condició (<code>parelles</code>, per a les xifres 2, 4 i 8) i un <strong>màxim</strong> que s'actualitza quan apareix una xifra més gran.</p><p>Totes tres variables s'inicialitzen <strong>abans</strong> del bucle. El màxim pot començar a 0 perquè cap xifra és més petita que 0.</p></div>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>i MOD 2 = 0</code></td><td><code>i % 2 == 0</code> (fixa't en el doble <code>==</code>)</td></tr><tr><td><code>Si</code> … <code>Entonces</code> … <code>SiNo</code> … <code>FinSi</code></td><td><code>if (</code>…<code>) {</code> … <code>} else {</code> … <code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Parells i senars</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>És un recorregut: es tracten <strong>tots</strong> els números de l'1 al 20. Hi ha un comptador i un acumulador. Classe <code>ParellsISenars</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo ParellsISenars
-    Definir i, parells, sumaSenars Como Entero
-    parells &lt;- 0
-    sumaSenars &lt;- 0
-    Para i &lt;- 1 Hasta 20 Hacer
-        Si i MOD 2 = 0 Entonces
-            parells &lt;- parells + 1
-        SiNo
-            sumaSenars &lt;- sumaSenars + i
-        FinSi
-    FinPara
-    Escribir "Parells: ", parells
-    Escribir "Suma dels senars: ", sumaSenars
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Recorregut dels números de l'1 al 20: compta els parells i suma els senars</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ParellsISenars</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> parells = <span class="num">0</span>;        <span class="cmt">// comptador</span>
-        <span class="kw">int</span> sumaSenars = <span class="num">0</span>;     <span class="cmt">// acumulador</span>
-
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= <span class="num">20</span>; i++) {
-            <span class="kw">if</span> (i % <span class="num">2</span> == <span class="num">0</span>) {
-                parells++;
-            } <span class="kw">else</span> {
-                sumaSenars += i;
-            }
-        }
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Parells: "</span> + parells);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma dels senars: "</span> + sumaSenars);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El comptador i l'acumulador s'inicialitzen a 0 fora del bucle.</li><li>La condició de parell es tradueix a <code>i % 2 == 0</code>.</li><li>El bucle arriba fins al final: és un recorregut.</li></ul></div><ul class="exercici-tasques"><li>Indica amb un comentari quina variable és el comptador i quina l'acumulador.</li><li>Fes servir <code>++</code> i <code>+=</code>.</li><li>Ampliació: afegeix-hi el número més gran que sigui múltiple de 3.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Els dos <code>Definir</code> de comptador i acumulador són declaracions <code>int</code> amb valor 0, abans del <code>for</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Parells: 10
-Suma dels senars: 100</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
-</div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>i MOD 2 = 0</code></td><td><code>i % 2 == 0</code> (fixa't en el doble <code>==</code>)</td></tr><tr><td><code>Si</code> … <code>Entonces</code> … <code>SiNo</code> … <code>FinSi</code></td><td><code>if (</code>…<code>) {</code> … <code>} else {</code> … <code>}</code></td></tr></tbody></table></div></div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Esquema de cerca</h2><p class="sec-sub">Aturar-se quan es troba</p></div></div>
@@ -343,7 +296,7 @@ MENTRE hi hagi elements I NO trobat FER
 FI MENTRE
 SI trobat LLAVORS ... SINÓ ... FI SI</div>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>El divisor més petit d'un número</span></div>
+  <div class="exemple-header"><span>El divisor més petit d'un número</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CercaDivisor</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -373,61 +326,7 @@ SI trobat LLAVORS ... SINÓ ... FI SI</div>
 }</div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>El divisor més petit de 391 és 17</pre></div>
 </div>
-<div class="box box-costum"><span class="box-label">💡 Recorda</span>La diferència clau: un <strong>recorregut</strong> sempre arriba al final; una <strong>cerca</strong> s'atura tan bon punt troba el que busca. La variable booleana <code>trobat</code> fa que la condició del bucle ho reflecteixi de manera clara.</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Definir trobat Como Logico</code></td><td><code>boolean trobat;</code></td></tr><tr><td><code>Verdadero</code> / <code>Falso</code></td><td><code>true</code> / <code>false</code></td></tr><tr><td><code>Y</code>, <code>O</code>, <code>NO</code></td><td><code>&amp;&amp;</code>, <code>||</code>, <code>!</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Múltiple de 5 i de 7</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>És una cerca: busquem el <strong>primer</strong> número més gran que 100 que és múltiple de 5 i de 7, i ens aturem quan el trobem. Classe <code>PrimerMultiple</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo PrimerMultiple
-    Definir n Como Entero
-    Definir trobat Como Logico
-    n &lt;- 101
-    trobat &lt;- Falso
-    Mientras n &lt;= 1000 Y NO trobat Hacer
-        Si n MOD 5 = 0 Y n MOD 7 = 0 Entonces
-            trobat &lt;- Verdadero
-        SiNo
-            n &lt;- n + 1
-        FinSi
-    FinMientras
-    Si trobat Entonces
-        Escribir "Primer múltiple de 5 i de 7 més gran que 100: ", n
-    SiNo
-        Escribir "No n'hi ha cap fins a 1000"
-    FinSi
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Cerca el primer número més gran que 100 que és múltiple de 5 i de 7</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">PrimerMultiple</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> n = <span class="num">101</span>;
-        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
-
-        <span class="cmt">// Ens aturem quan el trobem (o si arribem a 1000 sense trobar-lo)</span>
-        <span class="kw">while</span> (n &lt;= <span class="num">1000</span> &amp;&amp; !trobat) {
-            <span class="kw">if</span> (n % <span class="num">5</span> == <span class="num">0</span> &amp;&amp; n % <span class="num">7</span> == <span class="num">0</span>) {
-                trobat = <span class="kw">true</span>;
-            } <span class="kw">else</span> {
-                n++;
-            }
-        }
-
-        <span class="kw">if</span> (trobat) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Primer múltiple de 5 i de 7 més gran que 100: "</span> + n);
-        } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No n'hi ha cap fins a 1000"</span>);
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La variable <code>trobat</code> és <code>boolean</code> i comença a <code>false</code>.</li><li>El bucle s'atura tan bon punt troba el número.</li><li>Amb l'11 el resultat és 110.</li></ul></div><ul class="exercici-tasques"><li>La condició del <code>while</code> ha de tenir les dues maneres d'acabar: s'acaben els números <em>o</em> ja l'hem trobat.</li><li>Fes una traça de les primeres iteracions: per què <code>n</code> no s'incrementa quan el troba?</li><li>Canvia el 7 per un 11: quin número surt ara?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Y NO trobat</code> es tradueix a <code>&amp;&amp; !trobat</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Primer múltiple de 5 i de 7 més gran que 100: 105</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
-</div>
+<div class="box box-costum"><span class="box-label">💡 Recorda</span>La diferència clau: un <strong>recorregut</strong> sempre arriba al final; una <strong>cerca</strong> s'atura tan bon punt troba el que busca. La variable booleana <code>trobat</code> fa que la condició del bucle ho reflecteixi de manera clara.</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Definir trobat Como Logico</code></td><td><code>boolean trobat;</code></td></tr><tr><td><code>Verdadero</code> / <code>Falso</code></td><td><code>true</code> / <code>false</code></td></tr><tr><td><code>Y</code>, <code>O</code>, <code>NO</code></td><td><code>&amp;&amp;</code>, <code>||</code>, <code>!</code></td></tr></tbody></table></div></div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Seqüències amb valor sentinella</h2><p class="sec-sub">Dades que arriben una a una</p></div></div>
@@ -489,63 +388,128 @@ Quantitat: 3 · Suma: 44 · Màxim: 25
 Algun múltiple de 5? true</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa segueix l'esquema de la <strong>lectura avançada</strong>: llegeix el primer número abans del bucle i el següent al final de cada volta. Així, quan arriba el <code>-1</code>, la condició del <code>while</code> és falsa i el sentinella no es tracta mai com una dada.</p><p>Dins del bucle es comptabilitza cada número (<code>quantitat</code>), s'acumula (<code>suma</code>) i es compara amb el màxim, que comença a <code>Integer.MIN_VALUE</code> perquè el primer número ja el superi. La variable booleana <code>multiple5</code> comença a <code>false</code> i passa a <code>true</code> quan apareix un múltiple de 5; un cop és <code>true</code>, ja no torna a canviar.</p><p>Com que calen la suma i el màxim, s'han de llegir tots els números. Si només volguéssim saber si hi ha algun múltiple de 5, seria una <strong>cerca</strong>: afegiríem <code>&amp;&amp; !multiple5</code> a la condició per parar tan aviat com el trobem. Si el primer valor ja és el <code>-1</code>, el bucle no fa cap volta i el programa avisa que no s'ha introduït cap número.</p></div>
 </div>
-<div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = Integer.parseInt(sc.nextLine());</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Mitjana de notes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+<div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = Integer.parseInt(sc.nextLine());</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div>
+</section>
+
+<section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir el que has vist: l'esquema de recorregut amb comptadors i acumuladors, l'esquema de cerca amb una variable <code>trobat</code> i les seqüències acabades en un sentinella. Escriu-los al projecte <code>AEA1_A3</code> i compara la sortida amb l'exemple d'execució. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Els divisors d'un número</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Les notes arriben una a una i no sabem quantes n'hi haurà. La seqüència acaba amb el sentinella <code>-1</code>. Fixa't en la <strong>lectura avançada</strong>. Classe <code>MitjanaNotes</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo MitjanaNotes
-    Definir nota, suma, quantitat Como Entero
-    Definir mitjana Como Real
-    suma &lt;- 0
+    <p>Volem conèixer tots els divisors del número <strong>36</strong>: quins són, quants n'hi ha i quant sumen. Cal provar <strong>tots</strong> els números de l'1 al 36, així que és un recorregut amb un comptador i un acumulador. Tradueix l'algorisme a Java a la classe <code>Divisors</code>.</p><div class="pseudo">Algoritmo Divisors
+    Definir numero, i, quantitat, suma Como Entero
+    numero &lt;- 36
     quantitat &lt;- 0
+    suma &lt;- 0
+    Escribir Sin Saltar "Divisors de ", numero, ":"
+    Para i &lt;- 1 Hasta numero Hacer
+        Si numero MOD i = 0 Entonces
+            Escribir Sin Saltar " ", i
+            quantitat &lt;- quantitat + 1
+            suma &lt;- suma + i
+        FinSi
+    FinPara
+    Escribir ""
+    Escribir "Quantitat: ", quantitat
+    Escribir "Suma: ", suma
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Indica amb un comentari quina variable és el comptador i quina l'acumulador.</li><li><code>numero MOD i = 0</code> → <code>numero % i == 0</code>; <code>Escribir Sin Saltar</code> → <code>System.out.print</code>.</li><li><code>Escribir ""</code> només acaba la línia dels divisors: en Java és <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Divisors de 36: 1 2 3 4 6 9 12 18 36
+Quantitat: 9
+Suma: 91</pre></div><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Recorregut de l'1 al número: mostra, compta i suma tots els divisors</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Divisors</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">int</span> numero = <span class="num">36</span>;
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;      <span class="cmt">// comptador</span>
+        <span class="kw">int</span> suma = <span class="num">0</span>;           <span class="cmt">// acumulador</span>
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Divisors de "</span> + numero + <span class="str">":"</span>);
+        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= numero; i++) {
+            <span class="kw">if</span> (numero % i == <span class="num">0</span>) {
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">" "</span> + i);
+                quantitat++;
+                suma += i;
+            }
+        }
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Quantitat: "</span> + quantitat);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
+
+    }
+
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El comptador i l'acumulador s'inicialitzen a 0 fora del bucle.</li><li>La condició de divisor es tradueix a <code>numero % i == 0</code>, amb el doble <code>==</code>.</li><li>El bucle arriba fins al final: és un recorregut.</li><li>Els divisors surten a la mateixa línia i la sortida coincideix amb l'exemple.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
+</div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La primera nota suspesa</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un professor va introduint les notes d'un examen una a una i acaba amb el sentinella <code>-1</code>. Només vol saber quina és la <strong>primera</strong> nota suspesa (menys de 5) i en quina posició és: quan la troba, ja no cal llegir-ne més. És una <strong>cerca</strong> sobre una seqüència amb sentinella. Tradueix l'algorisme a Java a la classe <code>PrimerSuspens</code>.</p><div class="pseudo">Algoritmo PrimerSuspens
+    Definir nota, posicio Como Entero
+    Definir trobat Como Logico
+    posicio &lt;- 0
+    trobat &lt;- Falso
     Escribir Sin Saltar "Nota (-1 per acabar): "
     Leer nota
-    Mientras nota &lt;&gt; -1 Hacer
-        suma &lt;- suma + nota
-        quantitat &lt;- quantitat + 1
-        Escribir Sin Saltar "Nota (-1 per acabar): "
-        Leer nota
+    Mientras nota &lt;&gt; -1 Y NO trobat Hacer
+        posicio &lt;- posicio + 1
+        Si nota &lt; 5 Entonces
+            trobat &lt;- Verdadero
+        SiNo
+            Escribir Sin Saltar "Nota (-1 per acabar): "
+            Leer nota
+        FinSi
     FinMientras
-    Si quantitat = 0 Entonces
-        Escribir "No hi ha cap nota."
+    Si trobat Entonces
+        Escribir "Primer suspens: nota ", nota, " a la posició ", posicio
     SiNo
-        mitjana &lt;- suma / quantitat
-        Escribir "Notes: ", quantitat, " · Mitjana: ", mitjana
+        Escribir "Cap suspens en ", posicio, " notes."
     FinSi
-FinAlgoritmo</div>
-<div class="solucio-wrap">
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Fes servir <code>Scanner</code> amb la lectura avançada i declara el sentinella com a constant <code>final</code>.</li><li><code>nota &lt;&gt; -1 Y NO trobat</code> → <code>nota != SENTINELLA &amp;&amp; !trobat</code>; <code>Logico</code> → <code>boolean</code>.</li><li>Prova-ho també sense cap suspens (per exemple 7, 6 i -1): ha de dir <code>Cap suspens en 2 notes.</code></li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota (-1 per acabar): 7
+Nota (-1 per acabar): 8
+Nota (-1 per acabar): 4
+Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
     <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
-<span class="cmt">// Calcula la mitjana d'una seqüència de notes acabada en -1</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">MitjanaNotes</span> {
+<span class="cmt">// Cerca la primera nota suspesa d'una seqüència acabada en -1</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">PrimerSuspens</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">final</span> <span class="kw">int</span> SENTINELLA = -<span class="num">1</span>;
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
 
-        <span class="kw">int</span> suma = <span class="num">0</span>;
-        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+        <span class="kw">int</span> posicio = <span class="num">0</span>;
+        <span class="kw">boolean</span> trobat = <span class="kw">false</span>;
 
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
-        <span class="kw">int</span> nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());      <span class="cmt">// lectura avançada</span>
+        <span class="kw">int</span> nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());     <span class="cmt">// lectura avançada</span>
 
-        <span class="kw">while</span> (nota != SENTINELLA) {
-            suma += nota;
-            quantitat++;
-            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
-            nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());      <span class="cmt">// següent nota</span>
+        <span class="cmt">// Dues maneres d'acabar: arriba el sentinella o trobem un suspens</span>
+        <span class="kw">while</span> (nota != SENTINELLA &amp;&amp; !trobat) {
+            posicio++;
+            <span class="kw">if</span> (nota &lt; <span class="num">5</span>) {
+                trobat = <span class="kw">true</span>;                          <span class="cmt">// no llegim més notes</span>
+            } <span class="kw">else</span> {
+                <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nota (-1 per acabar): "</span>);
+                nota = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>()); <span class="cmt">// següent nota</span>
+            }
         }
 
-        <span class="kw">if</span> (quantitat == <span class="num">0</span>) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha cap nota."</span>);
+        <span class="kw">if</span> (trobat) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Primer suspens: nota "</span> + nota + <span class="str">" a la posició "</span> + posicio);
         } <span class="kw">else</span> {
-            <span class="cmt">// (double): sense el càsting la divisió seria entera</span>
-            <span class="kw">double</span> mitjana = (<span class="kw">double</span>) suma / quantitat;
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Notes: "</span> + quantitat + <span class="str">" · Mitjana: "</span> + mitjana);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cap suspens en "</span> + posicio + <span class="str">" notes."</span>);
         }
 
         sc.<span class="fn">close</span>();
@@ -553,17 +517,12 @@ FinAlgoritmo</div>
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una lectura abans del bucle i una altra al final del cos.</li><li>Es controla el cas sense notes abans de dividir.</li><li>La mitjana es calcula amb <code>(double)</code>.</li></ul></div><ul class="exercici-tasques"><li>Fes servir <code>Scanner</code> amb el patró de l'A3.1 i declara el sentinella com a constant <code>final</code>.</li><li>El <code>-1</code> no s'ha de sumar ni comptar.</li><li>Prova-ho escrivint directament <code>-1</code>: el programa no pot dividir per zero.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">PSeInt fa la divisió amb decimals, però en Java <code>suma / quantitat</code> entre dos <code>int</code> és divisió entera. Cal el càsting <code>(double)</code>.</div></details><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota (-1 per acabar): 7
-Nota (-1 per acabar): 8
-Nota (-1 per acabar): 6
-Nota (-1 per acabar): -1
-Notes: 3 · Mitjana: 7.0</pre></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una lectura abans del bucle i una altra quan la nota no és un suspens.</li><li>La condició del <code>while</code> té les dues maneres d'acabar: arriba el sentinella <em>o</em> s'ha trobat el suspens.</li><li>La variable <code>trobat</code> és <code>boolean</code> i comença a <code>false</code>.</li><li>El <code>-1</code> no es compta com una nota.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.5 · 3.6</span></div>
 </div>
-</section>
-<section class="section">
-  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
-  <p class="lead">Ara que ja has fet els exercicis <strong>Ara tu</strong>, resol aquests exercicis de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">★</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
+  <p class="lead">Resol aquest exercici de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
   <div class="exercici-header">
     <span class="exercici-num">Pràctica 1</span>
     <span class="exercici-title">Anàlisi de les xifres d'un número</span>

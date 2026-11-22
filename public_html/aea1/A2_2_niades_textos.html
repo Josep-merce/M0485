@@ -229,7 +229,7 @@
 </nav>
 <main>
 <a class="backlink" href="A2_composicio_alternativa.html">← A2 · La composició alternativa</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.1 i 3.5</div><div class="obj-text">Escriure programes amb alternatives niades, decidir quan convé niar i quan combinar condicions amb operadors lògics, i comparar correctament textos (<code>String</code>) amb <code>equals</code> i <code>equalsIgnoreCase</code>.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.1 i 3.5</div><div class="obj-text">Escriure programes amb alternatives niades, decidir quan convé niar i quan combinar condicions amb operadors lògics, i comparar correctament textos (<code>String</code>) amb <code>equals</code> i <code>equalsIgnoreCase</code>.</div><div class="obj-text" style="margin-top:.5rem">✍️ Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java.</div></div></div>
 <section class="section" id="niades">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Alternatives niades</h2><p class="sec-sub">Una decisió dins d'una altra</p></div></div>
   <p class="lead">Una alternativa pot contenir-ne una altra a dins. Ho fem quan una decisió <strong>depèn d'una decisió anterior</strong>: per exemple, primer validem les dades i, només si són correctes, fem el càlcul.</p><div class="pseudo">Algoritmo ReservaHotel
@@ -292,59 +292,9 @@ FinAlgoritmo</div><div class="exemple">
 Total: 952.5 €
 Regal: esmorzar a la terrassa!</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>L'<code>if</code> exterior <strong>valida</strong> les dades. L'<code>if</code> interior només s'arriba a avaluar quan les nits són correctes, i tria la tarifa. Aquí cal niar perquè cada cas té una resposta diferent: un missatge d'error o el càlcul del preu.</p><p>L'últim <code>if</code> combina dues condicions amb <code>&amp;&amp;</code>: el regal només depèn que es compleixin <strong>totes dues</strong> alhora i, si no es compleixen, no cal dir res. Es podria escriure amb dos <code>if</code> niats, però seria més llarg sense aportar res.</p><p>Fixa't que <code>vistesAlMar</code> ja és un <code>boolean</code>: no cal escriure <code>vistesAlMar == true</code>.</p></div>
-</div><h3 class="sub-title">Niar o combinar condicions?</h3><p class="text">Moltes vegades dues condicions niades es poden ajuntar amb <code>&amp;&amp;</code>. Quina triar depèn de si cada cas necessita una resposta diferent:</p><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Si cada cas necessita un <strong>missatge diferent</strong>, fes servir <code>if</code> niats. Si només t'interessa saber si es compleixen <strong>totes</strong> les condicions alhora, una condició amb <code>&amp;&amp;</code> és més curta i clara. Evita niar més de 2 o 3 nivells: el codi es fa difícil de llegir.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Si a Entonces</code> + <code>Si b Entonces</code> (niats)</td><td><code>if (a) { if (b) { … } }</code></td></tr><tr><td><code>Si a Y b Entonces</code></td><td><code>if (a &amp;&amp; b) {</code></td></tr><tr><td><code>Verdadero</code></td><td><code>true</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El préstec de la biblioteca</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Per endur-se un llibre cal ser soci i no tenir ja el màxim de llibres en préstec. Cada cas dona un missatge diferent, per això l'algorisme fa servir <code>Si</code> niats. Classe <code>Prestec</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Prestec
-    Definir esSoci Como Logico
-    Definir llibresPrestats Como Entero
-
-    esSoci &lt;- Verdadero
-    llibresPrestats &lt;- 3
-
-    Si esSoci Entonces
-        Si llibresPrestats &lt; 3 Entonces
-            Escribir "Pots endur-te el llibre."
-        SiNo
-            Escribir "Ja tens 3 llibres: retorna'n un abans."
-        FinSi
-    SiNo
-        Escribir "Cal fer-se soci per endur-se llibres."
-    FinSi
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e1"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Prestec</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">final</span> <span class="kw">int</span> MAX_LLIBRES = <span class="num">3</span>;
-
-        <span class="kw">boolean</span> esSoci = <span class="kw">true</span>;
-        <span class="kw">int</span> llibresPrestats = <span class="num">3</span>;
-
-        <span class="kw">if</span> (esSoci) {
-            <span class="kw">if</span> (llibresPrestats &lt; MAX_LLIBRES) {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Pots endur-te el llibre."</span>);
-            } <span class="kw">else</span> {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Ja tens "</span> + MAX_LLIBRES + <span class="str">" llibres: retorna'n un abans."</span>);
-            }
-        } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cal fer-se soci per endur-se llibres."</span>);
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'estructura niada és la mateixa que al pseudocodi.</li><li>El límit és una constant i també s'usa al missatge.</li><li>S'han provat els tres camins.</li></ul></div><ul class="exercici-tasques"><li>Converteix el màxim de llibres en una constant <code>MAX_LLIBRES</code>.</li><li>Respecta la sagnia: l'<code>if</code> interior va un nivell més a dins.</li><li>Prova els tres camins: soci amb 1 llibre, soci amb 3 llibres i no soci.</li></ul><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e1">Ja tens 3 llibres: retorna'n un abans.</pre></div><div class="box box-costum repte"><span class="box-label">🚀 Repte extra</span><p>Hi ha un camí que es pot escriure amb una sola condició <code>esSoci &amp;&amp; llibresPrestats &lt; MAX_LLIBRES</code>. Per què, tot i així, no podem eliminar l'<code>if</code> niat sense perdre informació?</p></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
-</div>
-</section><section class="section" id="textos">
+</div><h3 class="sub-title">Niar o combinar condicions?</h3><p class="text">Moltes vegades dues condicions niades es poden ajuntar amb <code>&amp;&amp;</code>. Quina triar depèn de si cada cas necessita una resposta diferent:</p><div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p>Si cada cas necessita un <strong>missatge diferent</strong>, fes servir <code>if</code> niats. Si només t'interessa saber si es compleixen <strong>totes</strong> les condicions alhora, una condició amb <code>&amp;&amp;</code> és més curta i clara. Evita niar més de 2 o 3 nivells: el codi es fa difícil de llegir.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Si a Entonces</code> + <code>Si b Entonces</code> (niats)</td><td><code>if (a) { if (b) { … } }</code></td></tr><tr><td><code>Si a Y b Entonces</code></td><td><code>if (a &amp;&amp; b) {</code></td></tr><tr><td><code>Verdadero</code></td><td><code>true</code></td></tr></tbody></table></div></div></section><section class="section" id="textos">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Comparar textos</h2><p class="sec-sub">equals, no ==</p></div></div>
-  <p class="lead">A PSeInt els textos es comparen amb <code>=</code>. A Java, els valors de tipus <code>String</code> <strong>no es comparen amb <code>==</code></strong>: cal fer servir els mètodes <code>equals()</code> o <code>equalsIgnoreCase()</code>.</p><div class="table-wrap"><table><thead><tr><th>Expressió</th><th>Retorna <code>true</code> quan…</th></tr></thead><tbody><tr><td><code>text.equals("sí")</code></td><td>el text és exactament "sí" (distingeix majúscules)</td></tr><tr><td><code>text.equalsIgnoreCase("sí")</code></td><td>el text és "sí", "SÍ", "Sí"… (no distingeix majúscules)</td></tr><tr><td><code>text.isEmpty()</code></td><td>el text és buit (<code>""</code>)</td></tr></tbody></table></div><div class="exemple">
+  <p class="lead">A PSeInt els textos es comparen amb <code>=</code>. A Java, els valors de tipus <code>String</code> (el <code>Cadena</code> de PSeInt) <strong>no es comparen amb <code>==</code></strong>: cal fer servir els mètodes <code>equals()</code> o <code>equalsIgnoreCase()</code>.</p><div class="table-wrap"><table><thead><tr><th>Expressió</th><th>Retorna <code>true</code> quan…</th><th>PSeInt</th></tr></thead><tbody><tr><td><code>text.equals("sí")</code></td><td>el text és exactament "sí" (distingeix majúscules)</td><td><code>text = "sí"</code></td></tr><tr><td><code>!text.equals("sí")</code></td><td>el text no és "sí"</td><td><code>text &lt;&gt; "sí"</code></td></tr><tr><td><code>text.equalsIgnoreCase("sí")</code></td><td>el text és "sí", "SÍ", "Sí"… (no distingeix majúscules)</td><td><code>Minusculas(text) = "sí"</code></td></tr><tr><td><code>text.isEmpty()</code></td><td>el text és buit (<code>""</code>)</td><td><code>text = ""</code></td></tr></tbody></table></div><div class="exemple">
   <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Validar una resposta de l'usuari</span></div>
   <div class="code-block" data-run="r9"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Resposta</span> {
 
@@ -365,60 +315,112 @@ FinAlgoritmo</div>
 }</div>
   <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre data-out="r9">Has acceptat les condicions.</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Amb <code>equalsIgnoreCase</code>, "SI", "si" i "Si" són la mateixa resposta. Si la resposta no és cap de les dues, l'<code>else</code> final la marca com a no vàlida.</p></div>
-</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Per què no <code>==</code>?</strong> Amb textos, <code>==</code> comprova si les dues variables apunten al <em>mateix objecte</em> a la memòria, no si el contingut és igual. De vegades sembla que funciona i d'altres no. Entendràs el motiu quan estudiem els objectes a l'AEA2; de moment, recorda: <strong>textos → <code>equals</code></strong>.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>nom = "Anna"</code> (comparar)</td><td><code>nom.equals("Anna")</code></td></tr><tr><td><code>Minusculas(nom) = "anna"</code></td><td><code>nom.equalsIgnoreCase("anna")</code></td></tr><tr><td><code>nom = ""</code></td><td><code>nom.isEmpty()</code></td></tr><tr><td><code>nom &lt;&gt; "Anna"</code></td><td><code>!nom.equals("Anna")</code></td></tr><tr><td><code>Cadena</code></td><td><code>String</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex2">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'inici de sessió</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+</div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><p><strong>Per què no <code>==</code>?</strong> Amb textos, <code>==</code> comprova si les dues variables apunten al <em>mateix objecte</em> a la memòria, no si el contingut és igual. De vegades sembla que funciona i d'altres no. Entendràs el motiu quan estudiem els objectes a l'AEA2; de moment, recorda: <strong>textos → <code>equals</code></strong>.</p></div></section><section class="section" id="demos">
+  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
+  <p class="lead">Comprova que saps decidir quan cal niar i que comprens com es comparen els textos. Tots dos són interactius: tria una opció i veuràs la resposta.</p><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Niar o combinar?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body"><p>Per a cada situació, tria si cal <code>if</code> niats o n'hi ha prou amb una condició amb <code>&amp;&amp;</code>.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Si és major d'edat i té carnet, mostrar "Pot conduir". Si no, no cal dir res.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">if niats</button><button type="button" class="qi-btn" data-ok="1">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Només hi ha un missatge: n'hi ha prou amb <code>if (edat &gt;= 18 &amp;&amp; teCarnet)</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Missatges diferents si és menor d'edat i si és major però no té carnet.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">if niats</button><button type="button" class="qi-btn" data-ok="0">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cada motiu té el seu missatge: cal saber quina condició ha fallat.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> Validar que les dades són correctes i, només llavors, fer el càlcul; si no, mostrar un error.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">if niats</button><button type="button" class="qi-btn" data-ok="0">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El càlcul va dins de la branca de dades correctes, que pot tenir les seves pròpies decisions.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div><div class="exercici-card demo">
+  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">true o false?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+  <div class="exercici-body"><p>Tenim <code>String a = "Hola";</code>. Tria què val cada expressió.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>a.equals("hola")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">true</button><button type="button" class="qi-btn" data-ok="1">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>equals</code> distingeix majúscules: "Hola" i "hola" no són iguals.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>a.equalsIgnoreCase("HOLA")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>No mira majúscules ni minúscules.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>!a.equals("Adeu")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>a.equals("Adeu")</code> és false i <code>!</code> l'inverteix.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+</div>
+</section><section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir tot el que has vist: alternatives niades, condicions combinades i comparació de textos amb <code>equals</code>, <code>equalsIgnoreCase</code> i <code>isEmpty</code>. Escriu-los i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El codi de descompte</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un programa comprova l'usuari i la contrasenya. L'usuari no distingeix majúscules, però la contrasenya sí. Tradueix-lo a la classe <code>Login</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo Login
-    Definir usuari, contrasenya Como Cadena
-
-    usuari &lt;- "Admin"
-    contrasenya &lt;- "daw2026"
-
-    Si contrasenya = "" Entonces
-        Escribir "Has d'escriure la contrasenya."
+    <p>Una botiga en línia accepta dos codis: <code>estiu</code>, que es pot escriure amb majúscules o minúscules, i <code>DAW</code>, que s'ha d'escriure exactament així. Tradueix l'algorisme a Java a la classe <code>CodiDescompte</code>.</p><div class="pseudo">Algoritmo CodiDescompte
+    Definir codi Como Cadena
+    codi &lt;- "Estiu"
+    Si codi = "" Entonces
+        Escribir "No has escrit cap codi."
     SiNo
-        Si Minusculas(usuari) = "admin" Y contrasenya = "daw2026" Entonces
-            Escribir "Benvingut, ", usuari
+        Si Minusculas(codi) = "estiu" Entonces
+            Escribir "Codi ", codi, ": 10 % de descompte."
         SiNo
-            Escribir "Usuari o contrasenya incorrectes."
+            Si codi = "DAW" Entonces
+                Escribir "Codi DAW: enviament gratuït."
+            SiNo
+                Escribir "Codi no vàlid: ", codi
+            FinSi
         FinSi
     FinSi
-FinAlgoritmo</div>
-<div class="solucio-wrap">
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>codi = ""</code> → <code>codi.isEmpty()</code>; <code>Minusculas(codi) = "estiu"</code> → <code>codi.equalsIgnoreCase("estiu")</code>; <code>codi = "DAW"</code> → <code>codi.equals("DAW")</code>.</li><li>Cada <code>Si</code> dins d'un <code>SiNo</code> es pot escriure com un <code>else if</code>.</li><li>Prova <code>"ESTIU"</code>, <code>"DAW"</code>, <code>"daw"</code> i el text buit.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Codi Estiu: 10 % de descompte.</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block" data-run="e2"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Login</span> {
-
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">CodiDescompte</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">String</span> usuari = <span class="str">"Admin"</span>;
-        <span class="cls">String</span> contrasenya = <span class="str">"daw2026"</span>;
-
-        <span class="kw">if</span> (contrasenya.<span class="fn">isEmpty</span>()) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Has d'escriure la contrasenya."</span>);
-        } <span class="kw">else</span> <span class="kw">if</span> (usuari.<span class="fn">equalsIgnoreCase</span>(<span class="str">"admin"</span>) &amp;&amp; contrasenya.<span class="fn">equals</span>(<span class="str">"daw2026"</span>)) {
-            <span class="cmt">// L'usuari no distingeix majúscules; la contrasenya sí</span>
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Benvingut, "</span> + usuari);
+        <span class="cls">String</span> codi = <span class="str">"Estiu"</span>;
+        <span class="kw">if</span> (codi.<span class="fn">isEmpty</span>()) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No has escrit cap codi."</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (codi.<span class="fn">equalsIgnoreCase</span>(<span class="str">"estiu"</span>)) {
+            <span class="cmt">// Aquest codi es pot escriure amb majúscules o minúscules</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Codi "</span> + codi + <span class="str">": 10 % de descompte."</span>);
+        } <span class="kw">else</span> <span class="kw">if</span> (codi.<span class="fn">equals</span>(<span class="str">"DAW"</span>)) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Codi DAW: enviament gratuït."</span>);
         } <span class="kw">else</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Usuari o contrasenya incorrectes."</span>);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Codi no vàlid: "</span> + codi);
         }
-
     }
-
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>No hi ha cap <code>==</code> entre textos.</li><li>S'ha triat bé entre <code>equals</code> i <code>equalsIgnoreCase</code>.</li><li>La contrasenya buida es comprova primer.</li></ul></div><ul class="exercici-tasques"><li>Cada <code>=</code> entre textos es converteix en <code>equals</code> o <code>equalsIgnoreCase</code>, segons si importen les majúscules.</li><li>El <code>Si</code> dins del <code>SiNo</code> es pot escriure com un <code>else if</code>.</li><li>Prova: <code>"ADMIN"</code> / <code>"daw2026"</code> (entra), <code>"admin"</code> / <code>"DAW2026"</code> (no entra) i contrasenya buida.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Minusculas(usuari) = "admin"</code> vol dir "l'usuari és admin sense mirar majúscules". A Java és exactament <code>usuari.equalsIgnoreCase("admin")</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre data-out="e2">Benvingut, Admin</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>No hi ha cap <code>==</code> entre textos.</li><li>S'ha triat bé entre <code>equals</code> i <code>equalsIgnoreCase</code>.</li><li>El text buit es comprova primer.</li><li><code>"daw"</code> en minúscules dona «Codi no vàlid».</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
-</section><section class="section" id="demos">
-  <div class="sec-head"><span class="sec-num">✎</span><div><h2 class="sec-title">Comprova-ho</h2><p class="sec-sub">Dos exercicis ràpids per repassar tota la subpàgina</p></div></div>
-  <p class="lead">Comprova que saps decidir quan cal niar i que comprens com es comparen els textos.</p><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 1</span><span class="exercici-title">Niar o combinar?</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
-  <div class="exercici-body"><p>Per a cada situació, tria si cal <code>if</code> niats o n'hi ha prou amb una condició amb <code>&amp;&amp;</code>.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> Si és major d'edat i té carnet, mostrar "Pot conduir". Si no, no cal dir res.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">if niats</button><button type="button" class="qi-btn" data-ok="1">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Només hi ha un missatge: n'hi ha prou amb <code>if (edat &gt;= 18 &amp;&amp; teCarnet)</code>.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> Missatges diferents si és menor d'edat i si és major però no té carnet.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">if niats</button><button type="button" class="qi-btn" data-ok="0">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Cada motiu té el seu missatge: cal saber quina condició ha fallat.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> Validar que les dades són correctes i, només llavors, fer el càlcul; si no, mostrar un error.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">if niats</button><button type="button" class="qi-btn" data-ok="0">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El càlcul va dins de la branca de dades correctes, que pot tenir les seves pròpies decisions.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> Descompte si és soci i la compra supera 50 €.</div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">if niats</button><button type="button" class="qi-btn" data-ok="1">Condició amb &amp;&amp;</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Una sola acció quan es compleixen les dues condicions.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
-</div><div class="exercici-card demo">
-  <div class="exercici-header"><span class="exercici-num">Demo 2</span><span class="exercici-title">true o false?</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body"><p>Tenim <code>String a = "Hola";</code>. Tria què val cada expressió.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>a.equals("hola")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">true</button><button type="button" class="qi-btn" data-ok="1">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>equals</code> distingeix majúscules: "Hola" i "hola" no són iguals.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>a.equalsIgnoreCase("HOLA")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>No mira majúscules ni minúscules.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>a.isEmpty()</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">true</button><button type="button" class="qi-btn" data-ok="1">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>"Hola" té 4 caràcters.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">4.</span> <code>"".isEmpty()</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>El text buit no té cap caràcter.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">5.</span> <code>!a.equals("Adeu")</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">true</button><button type="button" class="qi-btn" data-ok="0">false</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden><code>a.equals("Adeu")</code> és false i <code>!</code> l'inverteix.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'entrada del museu</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un museu tanca els dilluns. Els altres dies, l'entrada és gratuïta per als menors de 12 anys, costa 5 € a partir de 65 anys i 9 € a la resta. Primer es mira el dia i, només si el museu és obert, es calcula el preu: per això l'algorisme fa servir <code>Si</code> niats. Classe <code>Museu</code>.</p><div class="pseudo">Algoritmo Museu
+    Definir edat, preu Como Entero
+    Definir dia Como Cadena
+    edat &lt;- 70
+    dia &lt;- "Dimecres"
+    Si Minusculas(dia) = "dilluns" Entonces
+        Escribir "Els dilluns el museu és tancat."
+    SiNo
+        Si edat &lt; 12 Entonces
+            preu &lt;- 0
+        SiNo
+            Si edat &gt;= 65 Entonces
+                preu &lt;- 5
+            SiNo
+                preu &lt;- 9
+            FinSi
+        FinSi
+        Escribir "Dia: ", dia
+        Escribir "Entrada: ", preu, " €"
+    FinSi
+FinAlgoritmo</div><ul class="exercici-tasques"><li>El dia es compara amb <code>equalsIgnoreCase</code>: <code>"Dilluns"</code> i <code>"dilluns"</code> han de donar el mateix.</li><li>Mantén l'<code>if</code> exterior del dia i, a dins, escriu la tria del preu amb <code>else if</code>. Els preus de 5 i 9 € poden ser constants.</li><li>Prova: <code>"DILLUNS"</code>, 11 i 12 anys, 64 i 65 anys.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Dia: Dimecres
+Entrada: 5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Museu</span> {
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">final</span> <span class="kw">int</span> PREU_GENERAL = <span class="num">9</span>;
+        <span class="kw">final</span> <span class="kw">int</span> PREU_JUBILATS = <span class="num">5</span>;
+        <span class="kw">int</span> edat = <span class="num">70</span>;
+        <span class="cls">String</span> dia = <span class="str">"Dimecres"</span>;
+        <span class="kw">if</span> (dia.<span class="fn">equalsIgnoreCase</span>(<span class="str">"dilluns"</span>)) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Els dilluns el museu és tancat."</span>);
+        } <span class="kw">else</span> {
+            <span class="kw">int</span> preu;
+            <span class="kw">if</span> (edat &lt; <span class="num">12</span>) {
+                preu = <span class="num">0</span>;
+            } <span class="kw">else</span> <span class="kw">if</span> (edat &gt;= <span class="num">65</span>) {
+                preu = PREU_JUBILATS;
+            } <span class="kw">else</span> {
+                preu = PREU_GENERAL;
+            }
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Dia: "</span> + dia);
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Entrada: "</span> + preu + <span class="str">" €"</span>);
+        }
+    }
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El preu només es calcula quan el museu és obert (l'<code>if</code> del preu va niat dins de l'<code>else</code>).</li><li>El dia es compara amb <code>equalsIgnoreCase</code>, no amb <code>==</code>.</li><li>Les fronteres d'edat (12 i 65) donen el preu correcte.</li><li>Els preus són constants amb nom.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A2_1_if_else.html">← A2.1 Decidir amb if</a><a href="A2_composicio_alternativa.html" class="nav-hub">A2 · Índex</a><a href="A2_3_ternari_switch.html">A2.3 Ternari i switch →</a></nav>

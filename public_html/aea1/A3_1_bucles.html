@@ -229,11 +229,11 @@
 </nav>
 <main>
 <a class="backlink" href="A3_algorismes_iteratius.html">← A3 · Disseny d'algorismes iteratius</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2 i 3.5</div><div class="obj-text">Entendre les quatre parts d'un bucle i escriure programes amb <code>while</code>, <code>do-while</code> i <code>for</code>, triant en cada cas el bucle més adequat.</div><div class="obj-text" style="margin-top:.5rem">✍️ Després de cada explicació hi ha un exercici <strong>Ara tu</strong>: un algorisme en PSeInt que has de passar a Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.2 i 3.5</div><div class="obj-text">Entendre les quatre parts d'un bucle i escriure programes amb <code>while</code>, <code>do-while</code> i <code>for</code>, triant en cada cas el bucle més adequat.</div><div class="obj-text" style="margin-top:.5rem">✍️ Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong>: algorismes en PSeInt que has de passar a Java.</div></div></div>
 <div class="nota-ra5">📌 <strong>Nota sobre Scanner:</strong> alguns exemples i exercicis d'aquesta activitat llegeixen dades del teclat amb la classe <code>Scanner</code>. L'entrada i sortida de dades s'estudiarà a fons a l'<strong>RA5</strong>; per ara n'hi ha prou amb aquest patró:<br><code>import java.util.Scanner;</code> (a dalt de tot del fitxer) · <code>Scanner sc = new Scanner(System.in);</code> · <code>String text = sc.nextLine();</code> (llegeix una línia) · <code>sc.close();</code> (en acabar).</div>
 <div class="box box-fixat"><span class="box-label">📌 Projecte Maven</span>Crea a NetBeans un projecte <em>Java with Maven</em> anomenat <code>AEA1_A3</code> amb <em>Group Id</em> <code>daw</code>. Cada exemple o exercici és una classe nova dins del paquet <code>daw.aea1_a3</code> (clic dret al paquet → New → Java Class) i s'executa amb <strong>Run File</strong> (<kbd>Maj</kbd>+<kbd>F6</kbd>). Els exemples ometen la línia <code>package</code> per fer-los més curts: deixa la que ja escriu NetBeans i enganxa el codi a sota. <code>Scanner</code> forma part del JDK: no cal afegir cap dependència al <code>pom.xml</code>.</div>
 <section class="section">
-  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">La composició iterativa</h2><p class="sec-sub">Repetir sense escriure mil vegades el mateix</p></div></div>
+  <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">La composició iterativa i el bucle while</h2><p class="sec-sub">Repetir mentre es compleixi una condició</p></div></div>
   <p class="lead">La <strong>composició iterativa</strong> (o <em>bucle</em>) permet <strong>repetir</strong> un bloc d'instruccions mentre es compleixi una condició. Cada repetició s'anomena <strong>iteració</strong>. Sense bucles, per mostrar els números de l'1 al 1000 hauríem d'escriure mil instruccions.</p>
 <div class="pseudo">comptador ← 1
 MENTRE comptador &lt;= 5 FER
@@ -253,56 +253,15 @@ FI MENTRE</div>
 </div>
 <div class="table-wrap">
   <table>
-    <thead><tr><th>Bucle</th><th>Comprova la condició…</th><th>Quan usar-lo</th></tr></thead>
+    <thead><tr><th>Bucle</th><th>Comprova la condició…</th><th>Quan usar-lo</th><th>PSeInt</th></tr></thead>
     <tbody>
-      <tr><td><code>while</code></td><td>abans de cada iteració (pot no executar-se mai)</td><td>No sabem quantes voltes farà</td></tr>
-      <tr><td><code>do-while</code></td><td>després de cada iteració (s'executa com a mínim un cop)</td><td>Cal fer l'acció almenys una vegada (menús, validacions)</td></tr>
-      <tr><td><code>for</code></td><td>abans de cada iteració</td><td>Sabem quantes voltes farà (comptar, recórrer un rang)</td></tr>
+      <tr><td><code>while (condició) {</code> … <code>}</code></td><td>abans de cada iteració (pot no executar-se mai)</td><td>No sabem quantes voltes farà</td><td><code>Mientras condició Hacer</code> … <code>FinMientras</code></td></tr>
+      <tr><td><code>do {</code> … <code>} while (condició);</code></td><td>després de cada iteració (s'executa com a mínim un cop)</td><td>Cal fer l'acció almenys una vegada (menús, validacions)</td><td><code>Repetir</code> … <code>Hasta Que condició</code></td></tr>
+      <tr><td><code>for (…; …; …) {</code> … <code>}</code></td><td>abans de cada iteració</td><td>Sabem quantes voltes farà (comptar, recórrer un rang)</td><td><code>Para i &lt;- 1 Hasta 10 Hacer</code> … <code>FinPara</code></td></tr>
     </tbody>
   </table>
 </div>
-<div class="box box-errors"><span class="box-label">⚠️ Bucle infinit</span>Si oblides l'actualització, la condició no deixarà mai de ser certa i el programa no s'acabarà. A NetBeans, atura'l amb el botó quadrat vermell de la finestra <em>Output</em>.</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Mientras condició Hacer</code> … <code>FinMientras</code></td><td><code>while (condició) {</code> … <code>}</code></td></tr><tr><td><code>n &lt;- n + 10</code></td><td><code>n = n + 10;</code> (o <code>n += 10;</code>)</td></tr><tr><td><code>&lt;=</code>, <code>&gt;=</code>, <code>&lt;&gt;</code></td><td><code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">De deu en deu</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Identifica les quatre parts del bucle (inicialització, condició, cos i actualització) i escriu-ho en Java amb un <code>while</code>. Crea la classe <code>DeDeuEnDeu</code> al projecte <code>AEA1_A3</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo DeDeuEnDeu
-    Definir n Como Entero
-    n &lt;- 10
-    Mientras n &lt;= 50 Hacer
-        Escribir n
-        n &lt;- n + 10
-    FinMientras
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Mostra els números del 10 al 50 de 10 en 10</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">DeDeuEnDeu</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> n = <span class="num">10</span>;                 <span class="cmt">// 1. inicialització</span>
-
-        <span class="kw">while</span> (n &lt;= <span class="num">50</span>) {           <span class="cmt">// 2. condició</span>
-            <span class="cls">System</span>.out.<span class="fn">println</span>(n);  <span class="cmt">// 3. cos</span>
-            n = n + <span class="num">10</span>;             <span class="cmt">// 4. actualització</span>
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La condició del <code>while</code> és la mateixa que la del <code>Mientras</code>.</li><li>L'actualització és dins del cos: sense ella el bucle és infinit.</li></ul></div><ul class="exercici-tasques"><li>Marca amb un comentari cadascuna de les quatre parts del bucle.</li><li>Què passa si esborres la línia <code>n = n + 10;</code>? Prova-ho i atura el programa amb el quadrat vermell.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">La sintaxi és <code>while (n &lt;= 50) { … }</code>: la condició va entre parèntesis i el cos entre claus. Cada <code>Escribir</code> és un <code>System.out.println</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>10
-20
-30
-40
-50</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
-</div>
-</section>
-<section class="section">
-  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">El bucle while</h2><p class="sec-sub">Quan no sabem quantes voltes farà</p></div></div>
-  <p class="lead"><code>while (condició) { cos }</code>: mentre la condició sigui <code>true</code>, s'executa el cos. Si d'entrada és <code>false</code>, el cos no s'executa cap vegada.</p>
+<h3 class="sub-title">El bucle while</h3><p class="text"><code>while (condició) { cos }</code>: mentre la condició sigui <code>true</code>, s'executa el cos. Si d'entrada és <code>false</code>, el cos no s'executa cap vegada. És el bucle per als casos en què <strong>no sabem quantes voltes farà</strong>. En passar-lo de PSeInt a Java, l'actualització <code>n &lt;- n + 10</code> s'escriu <code>n = n + 10;</code> (o <code>n += 10;</code>), i dels operadors de comparació, <code>&lt;=</code> i <code>&gt;=</code> no canvien però <code>&lt;&gt;</code> passa a ser <code>!=</code>.</p>
 <div class="exemple">
   <div class="exemple-header"><span>Quants anys calen per doblar uns estalvis?</span></div>
   <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DoblarEstalvis</span> {
@@ -338,53 +297,11 @@ Any 7: 1948.72 €
 Any 8: 2143.59 €
 Calen 8 anys per doblar-los.</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els comentaris numerats marquen les parts de control de tot bucle <code>while</code>: la <strong>inicialització</strong> (<code>saldo</code> comença valent 1000), la <strong>condició</strong> que es comprova abans de cada volta i l'<strong>actualització</strong> dins del cos, que fa créixer el saldo un 10 %. Sense l'actualització, la condició no canviaria mai i el bucle seria infinit.</p><p>No sabem d'entrada quantes voltes farà: depèn de quan el saldo arribi al doble. Per això és un <code>while</code> i no un <code>for</code>. A cada volta <code>anys++</code> compta un any més i es mostra el saldo arrodonit a dos decimals.</p><p>Si la condició fos <code>false</code> des del principi (per exemple, amb un saldo inicial que ja fos el doble), el cos no s'executaria cap vegada i el programa diria que calen 0 anys.</p></div>
-</div><div class="exercici-card practica" id="ex2">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Sumar fins a passar de 100</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Aquí no sabem d'entrada quantes voltes farà el bucle: depèn de quan la suma passi de 100. Per això és un <code>Mientras</code>. Passa'l a Java a la classe <code>SumaFinsA100</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo SumaFinsA100
-    Definir suma, n Como Entero
-    suma &lt;- 0
-    n &lt;- 1
-    Mientras suma &lt;= 100 Hacer
-        suma &lt;- suma + n
-        n &lt;- n + 1
-    FinMientras
-    Escribir "Nombres sumats: ", n - 1
-    Escribir "Suma: ", suma
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Suma 1 + 2 + 3 + ... fins que la suma supera 100</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">SumaFinsA100</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> suma = <span class="num">0</span>;
-        <span class="kw">int</span> n = <span class="num">1</span>;
-
-        <span class="cmt">// No sabem quantes voltes farà: depèn de quan la suma passi de 100</span>
-        <span class="kw">while</span> (suma &lt;= <span class="num">100</span>) {
-            suma = suma + n;
-            n = n + <span class="num">1</span>;
-        }
-
-        <span class="cmt">// En sortir, n ja apunta al número següent: per això restem 1</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Nombres sumats: "</span> + (n - <span class="num">1</span>));
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'acumulador i el comptador s'inicialitzen fora del bucle.</li><li>Es fa servir <code>(n - 1)</code> entre parèntesis dins del <code>println</code>.</li><li>S'entén que en sortir del bucle <code>n</code> ja val un més que l'últim número sumat.</li></ul></div><ul class="exercici-tasques"><li><code>suma</code> és un acumulador: s'inicialitza a 0 <strong>abans</strong> del bucle.</li><li>Recorda que l'<code>Escribir</code> amb coma es converteix en un <code>println</code> amb <code>+</code>. Posa <code>n - 1</code> entre parèntesis.</li><li>Per què es mostra <code>n - 1</code> i no <code>n</code>? Explica-ho amb un comentari.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Si escrius <code>"Nombres sumats: " + n - 1</code> sense parèntesis, Java primer uneix el text amb <code>n</code> i després no pot restar 1 a un text: dona error de compilació.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Nombres sumats: 14
-Suma: 105</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
+<div class="box box-errors"><span class="box-label">⚠️ Bucle infinit</span>Si oblides l'actualització, la condició no deixarà mai de ser certa i el programa no s'acabarà. A NetBeans, atura'l amb el botó quadrat vermell de la finestra <em>Output</em>.</div>
 </section>
 <section class="section">
-  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">El bucle do-while</h2><p class="sec-sub">Primer fa, després pregunta</p></div></div>
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">El bucle do-while</h2><p class="sec-sub">Primer fa, després pregunta</p></div></div>
   <p class="lead"><code>do { cos } while (condició);</code>: primer executa el cos i després comprova la condició. Per tant, el cos s'executa <strong>com a mínim una vegada</strong>. Fixa't en el punt i coma final.</p>
 <div class="exemple">
   <div class="exemple-header"><span>Comptar xifres fins que l'usuari vulgui parar</span></div>
@@ -429,51 +346,10 @@ Té 1 xifra/es
 Un altre? (s/n): n
 Fins aviat.</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El <code>do-while</code> extern fa la típica estructura de menú: primer demana un número i el tracta, i <strong>després</strong> pregunta si se'n vol un altre. Com que la pregunta es fa al final, el programa sempre s'executa com a mínim una vegada.</p><p>El <code>do-while</code> intern compta les xifres: a cada volta en suma una i treu l'última amb <code>n / 10</code>, fins que <code>n</code> val 0. Amb un <code>while</code> normal, el número 0 no entraria mai al bucle i diria que té 0 xifres; amb el <code>do-while</code> en surt 1, que és correcte.</p><p>La condició <code>resposta.equals("s")</code> compara textos: amb <code>String</code> no es fa servir <code>==</code>. Qualsevol resposta diferent de <code>s</code> fa sortir del bucle.</p></div>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Repetir</code> … <code>Hasta Que condició</code></td><td><code>do {</code> … <code>} while (!condició);</code></td></tr><tr><td><code>Hasta Que n = 0</code> (repeteix <em>fins que</em> és cert)</td><td><code>while (n != 0);</code> (repeteix <em>mentre</em> és cert)</td></tr><tr><td><code>trunc(n / 2)</code></td><td><code>n / 2</code> (entre enters, la divisió ja és entera)</td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex3">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Dividir per 2 fins arribar a 0</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Compta quantes divisions per 2 calen perquè 1000 arribi a 0. Fixa't bé en la condició: PSeInt repeteix <em>fins que</em> és certa i Java repeteix <em>mentre</em> és certa. Classe <code>ComptarDivisions</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo ComptarDivisions
-    Definir n, vegades Como Entero
-    n &lt;- 1000
-    vegades &lt;- 0
-    Repetir
-        n &lt;- trunc(n / 2)
-        vegades &lt;- vegades + 1
-    Hasta Que n = 0
-    Escribir "Divisions: ", vegades
-FinAlgoritmo</div>
-<div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Compta quantes vegades es pot dividir un número per 2 fins arribar a 0</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ComptarDivisions</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">int</span> n = <span class="num">1000</span>;
-        <span class="kw">int</span> vegades = <span class="num">0</span>;
-
-        <span class="cmt">// Repetir ... Hasta Que n = 0  →  do { ... } while (n != 0);</span>
-        <span class="cmt">// Atenció: PSeInt repeteix FINS QUE la condició és certa;</span>
-        <span class="cmt">// Java repeteix MENTRE la condició és certa. Cal negar-la.</span>
-        <span class="kw">do</span> {
-            n = n / <span class="num">2</span>;          <span class="cmt">// divisió entera: fa el mateix que trunc(n / 2)</span>
-            vegades++;
-        } <span class="kw">while</span> (n != <span class="num">0</span>);
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Divisions: "</span> + vegades);
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La condició està negada correctament (<code>n != 0</code>).</li><li><code>trunc</code> no cal: <code>n / 2</code> amb dos enters ja és divisió entera.</li><li>S'explica per què amb <code>n = 0</code> el comptador val 1.</li></ul></div><ul class="exercici-tasques"><li>Fes servir un <code>do-while</code> i no t'oblidis del <code>;</code> final.</li><li>Nega la condició del <code>Hasta Que</code>.</li><li>Prova amb <code>n = 1</code>: quantes divisions surten? I amb <code>n = 0</code>? Per què el <code>do-while</code> en fa una?</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body"><code>Hasta Que n = 0</code> vol dir "para quan n sigui 0", és a dir, "continua mentre n no sigui 0": <code>while (n != 0);</code></div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Divisions: 10</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
-</div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Repetir</code> … <code>Hasta Que condició</code></td><td><code>do {</code> … <code>} while (!condició);</code></td></tr><tr><td><code>Hasta Que n = 0</code> (repeteix <em>fins que</em> és cert)</td><td><code>while (n != 0);</code> (repeteix <em>mentre</em> és cert)</td></tr><tr><td><code>trunc(n / 2)</code></td><td><code>n / 2</code> (entre enters, la divisió ja és entera)</td></tr></tbody></table></div></div>
 </section>
 <section class="section">
-  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">El bucle for</h2><p class="sec-sub">Quan sabem quantes voltes farà</p></div></div>
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">El bucle for</h2><p class="sec-sub">Quan sabem quantes voltes farà</p></div></div>
   <p class="lead">El <code>for</code> reuneix en una sola línia les tres parts de control del bucle. És la millor opció quan sabem <strong>quantes iteracions</strong> farem.</p>
 <div class="box box-fixat"><span class="box-label">📌 Sintaxi</span><code>for (inicialització; condició; actualització) { cos }</code><br>La inicialització s'executa un sol cop. La condició es comprova abans de cada volta. L'actualització s'executa al final de cada volta.</div>
 <div class="exemple">
@@ -522,49 +398,126 @@ Cap enrere: 70 56 42 28 14</pre></div>
       <tr><td>Fer l'acció almenys un cop i repetir-la si cal</td><td><code>do-while</code></td></tr>
     </tbody>
   </table>
-</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Para i &lt;- 1 Hasta 10 Hacer</code></td><td><code>for (int i = 1; i &lt;= 10; i++) {</code></td></tr><tr><td><code>Para i &lt;- 2 Hasta 20 Con Paso 2 Hacer</code></td><td><code>for (int i = 2; i &lt;= 20; i += 2) {</code></td></tr><tr><td><code>Para i &lt;- 10 Hasta 1 Con Paso -1 Hacer</code></td><td><code>for (int i = 10; i &gt;= 1; i--) {</code></td></tr><tr><td><code>FinPara</code></td><td><code>}</code></td></tr></tbody></table></div></div><div class="exercici-card practica" id="ex4">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 4</span><span class="exercici-title">Quadrats dels parells</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
+</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Para i &lt;- 1 Hasta 10 Hacer</code></td><td><code>for (int i = 1; i &lt;= 10; i++) {</code></td></tr><tr><td><code>Para i &lt;- 2 Hasta 20 Con Paso 2 Hacer</code></td><td><code>for (int i = 2; i &lt;= 20; i += 2) {</code></td></tr><tr><td><code>Para i &lt;- 10 Hasta 1 Con Paso -1 Hacer</code></td><td><code>for (int i = 10; i &gt;= 1; i--) {</code></td></tr><tr><td><code>FinPara</code></td><td><code>}</code></td></tr></tbody></table></div></div>
+</section>
+
+<section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir el que has vist: les parts d'un bucle, el <code>while</code> quan no sabem quantes voltes farà i el <code>do-while</code> quan l'acció s'ha de fer almenys un cop. Escriu-los al projecte <code>AEA1_A3</code> i compara la sortida amb l'exemple d'execució. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La bateria del mòbil</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Ara el nombre de voltes es coneix d'entrada: és un <code>Para</code> i, en Java, un <code>for</code>. Classe <code>QuadratsParells</code>.</p><div class="ex-grid"><div class="pseudo">Algoritmo QuadratsParells
-    Definir i Como Entero
-    Para i &lt;- 2 Hasta 20 Con Paso 2 Hacer
-        Escribir "El quadrat de ", i, " és ", i * i
-    FinPara
-FinAlgoritmo</div>
-<div class="solucio-wrap">
+    <p>Un mòbil comença amb la bateria al <strong>100 %</strong> i cada hora d'ús en gasta un <strong>15 %</strong>. Quan arriba al 20 % o menys, s'activa el mode estalvi. Aquest algorisme mostra la càrrega que queda cada hora i quantes hores han passat. Tradueix-lo a Java a la classe <code>Bateria</code>.</p><div class="pseudo">Algoritmo Bateria
+    Definir bateria, hores Como Entero
+    bateria &lt;- 100
+    hores &lt;- 0
+    Mientras bateria &gt; 20 Hacer
+        bateria &lt;- bateria - 15
+        hores &lt;- hores + 1
+        Escribir "Hora ", hores, ": ", bateria, " %"
+    FinMientras
+    Escribir "Mode estalvi activat després de ", hores, " hores."
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Marca amb un comentari la inicialització, la condició i l'actualització del bucle.</li><li><code>Mientras</code> → <code>while</code>; <code>bateria &lt;- bateria - 15</code> → <code>bateria -= 15;</code> i <code>hores &lt;- hores + 1</code> → <code>hores++;</code>.</li><li>Per què és un <code>while</code> i no un <code>for</code>? Pensa si sabem d'entrada quantes voltes farà.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Hora 1: 85 %
+Hora 2: 70 %
+Hora 3: 55 %
+Hora 4: 40 %
+Hora 5: 25 %
+Hora 6: 10 %
+Mode estalvi activat després de 6 hores.</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Mostra el quadrat dels números parells del 2 al 20</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">QuadratsParells</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Simula com es descarrega la bateria d'un mòbil hora a hora</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Bateria</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Para i &lt;- 2 Hasta 20 Con Paso 2  →  for (int i = 2; i &lt;= 20; i += 2)</span>
-        <span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= <span class="num">20</span>; i += <span class="num">2</span>) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El quadrat de "</span> + i + <span class="str">" és "</span> + i * i);
+        <span class="kw">int</span> bateria = <span class="num">100</span>;              <span class="cmt">// inicialització (percentatge)</span>
+        <span class="kw">int</span> hores = <span class="num">0</span>;
+
+        <span class="cmt">// No sabem quantes hores durarà: per això fem servir while</span>
+        <span class="kw">while</span> (bateria &gt; <span class="num">20</span>) {          <span class="cmt">// condició</span>
+            bateria -= <span class="num">15</span>;              <span class="cmt">// actualització: gasta un 15 % cada hora</span>
+            hores++;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Hora "</span> + hores + <span class="str">": "</span> + bateria + <span class="str">" %"</span>);
         }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Mode estalvi activat després de "</span> + hores + <span class="str">" hores."</span>);
 
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La capçalera del <code>for</code> té inicialització, condició i actualització correctes.</li><li><code>i * i</code> es calcula dins del <code>println</code> sense parèntesis: el <code>*</code> té més prioritat que el <code>+</code>.</li><li>L'ampliació fa servir <code>i -= 2</code> i la condició <code>i &gt;= 2</code>.</li></ul></div><ul class="exercici-tasques"><li>Tradueix el <code>Con Paso 2</code> a l'actualització del <code>for</code>.</li><li>Declara la variable <code>i</code> dins del <code>for</code>.</li><li>Ampliació: mostra'ls ara del 20 al 2 (cap enrere).</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Les tres parts del <code>for</code> surten directament de la capçalera del <code>Para</code>: valor inicial, valor final (amb <code>&lt;=</code>) i pas.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>El quadrat de 2 és 4
-El quadrat de 4 és 16
-El quadrat de 6 és 36
-El quadrat de 8 és 64
-El quadrat de 10 és 100
-El quadrat de 12 és 144
-El quadrat de 14 és 196
-El quadrat de 16 és 256
-El quadrat de 18 és 324
-El quadrat de 20 és 400</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2</span></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les variables <code>bateria</code> i <code>hores</code> s'inicialitzen abans del bucle.</li><li>La condició del <code>while</code> és la mateixa que la del <code>Mientras</code>.</li><li>L'actualització és dins del cos, i per això el bucle s'acaba.</li><li>La sortida coincideix amb l'exemple, espais inclosos.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
 </div>
-</section>
-<section class="section">
-  <div class="sec-head"><span class="sec-num">5</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
-  <p class="lead">Ara que ja has fet els exercicis <strong>Ara tu</strong>, resol aquests exercicis de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Endevina el número</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
+    <p>Un joc amaga el número secret <strong>37</strong>. L'usuari va dient números i el programa li respon si ha d'anar més amunt o més avall, fins que l'encerta. Al final diu quants intents ha necessitat. Com que sempre cal demanar almenys un número, l'algorisme fa servir un <code>Repetir</code>. Tradueix-lo a Java a la classe <code>Endevina</code>.</p><div class="pseudo">Algoritmo Endevina
+    Definir secret, intent, intents Como Entero
+    secret &lt;- 37
+    intents &lt;- 0
+    Repetir
+        Escribir Sin Saltar "Digues un número (1-100): "
+        Leer intent
+        intents &lt;- intents + 1
+        Si intent &lt; secret Entonces
+            Escribir "Més amunt!"
+        SiNo
+            Si intent &gt; secret Entonces
+                Escribir "Més avall!"
+            FinSi
+        FinSi
+    Hasta Que intent = secret
+    Escribir "Encertat en ", intents, " intents!"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Llegeix els números amb <code>Scanner</code> seguint el patró de la nota de dalt, i declara el secret com a constant <code>final</code>.</li><li><code>Repetir</code> … <code>Hasta Que intent = secret</code> → <code>do { … } while (intent != secret);</code>: cal negar la condició.</li><li>El <code>SiNo</code> amb un <code>Si</code> a dins es pot escriure en Java com a <code>else if</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Digues un número (1-100): 50
+Més avall!
+Digues un número (1-100): 25
+Més amunt!
+Digues un número (1-100): 40
+Més avall!
+Digues un número (1-100): 37
+Encertat en 4 intents!</pre></div><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Joc d'endevinar un número secret: es repeteix fins que l'usuari l'encerta</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Endevina</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">final</span> <span class="kw">int</span> SECRET = <span class="num">37</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">int</span> intent;
+        <span class="kw">int</span> intents = <span class="num">0</span>;
+
+        <span class="cmt">// Sempre cal demanar almenys un número: per això és un do-while</span>
+        <span class="kw">do</span> {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Digues un número (1-100): "</span>);
+            intent = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
+            intents++;
+            <span class="kw">if</span> (intent &lt; SECRET) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Més amunt!"</span>);
+            } <span class="kw">else</span> <span class="kw">if</span> (intent &gt; SECRET) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Més avall!"</span>);
+            }
+        } <span class="kw">while</span> (intent != SECRET);    <span class="cmt">// Hasta Que intent = secret, negat</span>
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Encertat en "</span> + intents + <span class="str">" intents!"</span>);
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Es fa servir un <code>do-while</code> amb el <code>;</code> final.</li><li>La condició està negada correctament (<code>intent != SECRET</code>).</li><li>El comptador d'intents s'inicialitza a 0 abans del bucle i augmenta a cada volta.</li><li>La variable <code>intent</code> es declara fora del bucle perquè la condició la pugui fer servir.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.5</span></div>
+</div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">★</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
+  <p class="lead">Resol aquests exercicis de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
   <div class="exercici-header">
     <span class="exercici-num">Pràctica 1</span>
     <span class="exercici-title">Taula de multiplicar amb capçalera</span>

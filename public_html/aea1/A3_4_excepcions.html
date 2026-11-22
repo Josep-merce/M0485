@@ -230,7 +230,7 @@
 </nav>
 <main>
 <a class="backlink" href="A3_algorismes_iteratius.html">← A3 · Disseny d'algorismes iteratius</a>
-<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.4 i 3.8</div><div class="obj-text">Escriure programes que no s'aturen davant d'un error: capturar excepcions amb <code>try-catch-finally</code>, llançar-les amb <code>throw</code> i crear excepcions pròpies.</div><div class="obj-text" style="margin-top:.5rem">Després de cada explicació hi ha un exercici <strong>Ara tu</strong> per fer en Java. Fes-lo abans de continuar.</div></div></div>
+<div class="obj-box"><div class="obj-icon">🎯</div><div><div class="obj-label">Objectiu · criteris 3.4 i 3.8</div><div class="obj-text">Escriure programes que no s'aturen davant d'un error: capturar excepcions amb <code>try-catch-finally</code>, llançar-les amb <code>throw</code> i crear excepcions pròpies.</div><div class="obj-text" style="margin-top:.5rem">Al final de la pàgina hi ha dos exercicis <strong>Ara tu</strong> per fer en Java.</div></div></div>
 <section class="section">
   <div class="sec-head"><span class="sec-num">1</span><div><h2 class="sec-title">Control d'excepcions</h2><p class="sec-sub">Capturar els errors amb try-catch</p></div></div>
   <p class="lead">Una <strong>excepció</strong> és un error que es produeix <strong>mentre el programa s'executa</strong>: dividir un enter per zero, convertir un text que no és un número… Si no la controlem, el programa s'atura i mostra un missatge d'error. Amb <code>try-catch</code> podem <strong>capturar-la</strong> i decidir què fer.</p>
@@ -291,54 +291,7 @@ El programa continua...</pre></div>
     </tbody>
   </table>
 </div>
-<div class="box box-fixat"><span class="box-label">📌 Fixa't-hi</span>Curiosament, <code>5.0 / 0</code> amb decimals <strong>no</strong> llança cap excepció: dona <code>Infinity</code>. Només la divisió entera per zero provoca <code>ArithmeticException</code>.</div><div class="exercici-card practica" id="ex1">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Protegeix el programa</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix el codi</span><span class="flux-fl">→</span><span class="pas-ex">2 · Modifica'l</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i prova</span></div>
-    <p>Aquest programa reparteix uns punts entre els jugadors, però té dos problemes: el text <code>"8,5"</code> no és un enter i hi ha 0 jugadors. Si l'executes, s'atura amb una excepció. Copia'l a la classe <code>PuntsPerJugador</code> i protegeix-lo.</p><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">PuntsPerJugador</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">String</span> textPunts = <span class="str">"8,5"</span>;
-        <span class="kw">int</span> jugadors = <span class="num">0</span>;
-
-        <span class="kw">int</span> punts = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textPunts);
-        <span class="kw">int</span> perJugador = punts / jugadors;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts per jugador: "</span> + perJugador);
-
-    }
-
-}</div><div class="ex-grid"><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Reparteix uns punts entre els jugadors, controlant els errors</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">PuntsPerJugador</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">String</span> textPunts = <span class="str">"8,5"</span>;
-        <span class="kw">int</span> jugadors = <span class="num">0</span>;
-
-        <span class="kw">try</span> {
-            <span class="kw">int</span> punts = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textPunts);   <span class="cmt">// NumberFormatException si no és un enter</span>
-            <span class="kw">int</span> perJugador = punts / jugadors;         <span class="cmt">// ArithmeticException si jugadors és 0</span>
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Punts per jugador: "</span> + perJugador);
-        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: '"</span> + textPunts + <span class="str">"' no és un número enter."</span>);
-        } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: no hi ha cap jugador."</span>);
-        } <span class="kw">finally</span> {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Càlcul acabat."</span>);
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Cada tipus d'error té el seu <code>catch</code> i el seu missatge.</li><li>El <code>finally</code> s'executa en els tres casos.</li><li>Amb <code>"85"</code> i 4 jugadors surt <code>Punts per jugador: 21</code> (divisió entera).</li></ul></div><ul class="exercici-tasques"><li>Posa el codi que pot fallar dins d'un <code>try</code>.</li><li>Afegeix un <code>catch</code> per a la <code>NumberFormatException</code> i un altre per a l'<code>ArithmeticException</code>, cadascun amb el seu missatge.</li><li>Afegeix un <code>finally</code> que mostri <code>Càlcul acabat.</code></li><li>Prova-ho tres vegades: amb <code>"8,5"</code>; amb <code>"85"</code> i 0 jugadors; i amb <code>"85"</code> i 4 jugadors.</li></ul><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Executa primer el programa sense canviar res i llegeix el missatge d'error de la consola: el nom de l'excepció és el que has de posar al <code>catch</code>.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Error: '8,5' no és un número enter.
-Càlcul acabat.</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
-</div>
+<div class="box box-fixat"><span class="box-label">📌 Fixa't-hi</span>Curiosament, <code>5.0 / 0</code> amb decimals <strong>no</strong> llança cap excepció: dona <code>Infinity</code>. Només la divisió entera per zero provoca <code>ArithmeticException</code>.</div>
 </section>
 <section class="section">
   <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Validar dades amb un bucle</h2><p class="sec-sub">Tornar a demanar fins que la dada és correcta</p></div></div>
@@ -378,83 +331,29 @@ Escriu un número enter: 4.5
 &#x27;4.5&#x27; no és un enter. Torna-ho a provar.
 Escriu un número enter: 21
 Has escrit el 21. El doble és 42</pre></div>
-</div><div class="exercici-card practica" id="ex2">
-  <div class="exercici-header">
-    <span class="exercici-num">✍️ Ara tu · Exercici 2</span>
-    <span class="exercici-title">Llegir una edat vàlida</span>
-    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
-  </div>
-  <div class="exercici-body">
-    <p>Demana l'edat a l'usuari fins que escrigui un número enter entre 0 i 120. Si escriu text, mostra un missatge d'error; si el número és fora de rang, un missatge diferent.</p>
-    <ul class="exercici-tasques">
-      <li>Fes servir un bucle amb <code>try-catch</code> i <code>Integer.parseInt()</code>.</li>
-      <li>Captura la <code>NumberFormatException</code>.</li>
-      <li>Per al rang, pots fer un simple <code>if</code> o llançar una <code>IllegalArgumentException</code> amb <code>throw</code>.</li>
-      <li>Al final, mostra l'edat i si és major d'edat.</li>
-    </ul><div class="ex-grid"><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body">
-      <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">LlegirEdat</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
-        <span class="kw">int</span> edat = -<span class="num">1</span>;
-        <span class="kw">boolean</span> correcta = <span class="kw">false</span>;
-
-        <span class="kw">while</span> (!correcta) {
-            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quina edat tens? "</span>);
-            <span class="cls">String</span> text = sc.<span class="fn">nextLine</span>();
-            <span class="kw">try</span> {
-                edat = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(text);
-                <span class="kw">if</span> (edat &lt; <span class="num">0</span> || edat &gt; <span class="num">120</span>) {
-                    <span class="kw">throw</span> <span class="kw">new</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"L'edat ha de ser entre 0 i 120."</span>);
-                }
-                correcta = <span class="kw">true</span>;
-            } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"'"</span> + text + <span class="str">"' no és un número enter."</span>);
-            } <span class="kw">catch</span> (<span class="cls">IllegalArgumentException</span> e) {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getMessage</span>());
-            }
-        }
-
-        <span class="cls">String</span> tipus = (edat &gt;= <span class="num">18</span>) ? <span class="str">"major"</span> : <span class="str">"menor"</span>;
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Tens "</span> + edat + <span class="str">" anys: ets "</span> + tipus + <span class="str">" d'edat."</span>);
-        sc.<span class="fn">close</span>();
-
-    }
-
-}</div>
-      
-    </div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El bucle només acaba quan la dada és correcta.</li><li>Cada tipus d'error té el seu missatge.</li><li>L'ordre dels <code>catch</code> és correcte: <code>NumberFormatException</code> hereta d'<code>IllegalArgumentException</code>, per això ha d'anar primer.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quina edat tens? divuit
-&#x27;divuit&#x27; no és un número enter.
-Quina edat tens? 150
-L&#x27;edat ha de ser entre 0 i 120.
-Quina edat tens? 18
-Tens 18 anys: ets major d&#x27;edat.</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.2 · 3.4 · 3.6</span>
-  </div>
 </div>
 </section>
 <section class="section">
-  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Llançar excepcions amb throw</h2><p class="sec-sub">Quan la dada és incorrecta per a nosaltres</p></div></div>
-  <p class="text">També podem <strong>llançar</strong> nosaltres una excepció quan detectem una dada incorrecta, amb <code>throw new TipusExcepcio("missatge")</code>.</p>
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Llançar excepcions i crear-ne de pròpies</h2><p class="sec-sub">Quan la dada és incorrecta per a nosaltres</p></div></div>
+  <p class="lead">També podem <strong>llançar</strong> nosaltres una excepció quan detectem una dada incorrecta, amb <code>throw new TipusExcepcio("missatge")</code>. Podem fer servir una de les moltes excepcions predefinides de Java, com <code>IllegalArgumentException</code>, però de vegades volem una excepció amb un nom que expliqui exactament el problema del nostre programa: <code>SaldoInsuficientException</code>, <code>NotaInvalidaException</code>… Per crear-la, definim una classe que <strong>hereta</strong> d'<code>Exception</code>.</p>
+<div class="box box-fixat"><span class="box-label">📌 No et preocupis per <code>extends</code>, <code>super</code> i els constructors</span>Són conceptes de programació orientada a objectes que estudiarem a l'AEA2 i l'AEA3. De moment, fes servir aquesta plantilla canviant només el nom de la classe: <code>class NomException extends Exception { public NomException(String missatge) { super(missatge); } }</code></div>
 <div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Llançar una excepció si una dada no és vàlida</span></div>
-  <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">ValidarEdat</span> {
+  <div class="exemple-header"><span>Llançar una excepció predefinida i una de pròpia</span></div>
+  <div class="code-block"><span class="cmt">// Excepció pròpia: es pot escriure al mateix fitxer, fora de la classe principal</span>
+<span class="kw">class</span> <span class="cls">NotaInvalidaException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
 
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+    <span class="kw">public</span> <span class="cls">NotaInvalidaException</span>(<span class="cls">String</span> missatge) {
+        <span class="kw">super</span>(missatge);
+    }
 
+}
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ValidarDades</span> {
+
+    <span class="cmt">// "throws" avisa que el main pot llançar aquesta excepció</span>
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) <span class="kw">throws</span> <span class="cls">NotaInvalidaException</span> {
+
+        <span class="cmt">// 1. Llançar una excepció predefinida de Java</span>
         <span class="kw">int</span> edat = -<span class="num">4</span>;
 
         <span class="kw">try</span> {
@@ -466,63 +365,7 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
         }
 
-    }
-
-}</div>
-</div><div class="exercici-card practica" id="ex3">
-  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 3</span><span class="exercici-title">Temperatura impossible</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
-  <div class="exercici-body">
-    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'enunciat</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i prova</span></div>
-    <p>Cap temperatura pot ser inferior al zero absolut (−273,15 °C). Escriu la classe <code>Temperatura</code>: si els graus són més baixos, ha de llançar una <code>IllegalArgumentException</code>; si són correctes, ha de mostrar-los convertits a Fahrenheit (°F = °C · 9 / 5 + 32).</p><ul class="exercici-tasques"><li>Declara <code>double graus = -300.0;</code> i el zero absolut com a constant <code>final</code>.</li><li>Llança l'excepció amb un missatge que inclogui el valor incorrecte, i captura-la per mostrar-lo.</li><li>Prova-ho també amb <code>25.0</code>: ha de sortir <code>25.0 °C = 77.0 °F</code>.</li></ul><div class="ex-grid"><div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Valida una temperatura: per sota del zero absolut no té sentit</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Temperatura</span> {
-
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">final</span> <span class="kw">double</span> ZERO_ABSOLUT = -<span class="num">273.15</span>;
-        <span class="kw">double</span> graus = -<span class="num">300.0</span>;
-
-        <span class="kw">try</span> {
-            <span class="kw">if</span> (graus &lt; ZERO_ABSOLUT) {
-                <span class="kw">throw</span> <span class="kw">new</span> <span class="cls">IllegalArgumentException</span>(
-                    <span class="str">"Temperatura impossible: "</span> + graus + <span class="str">" °C és per sota del zero absolut."</span>);
-            }
-            <span class="kw">double</span> fahrenheit = graus * <span class="num">9</span> / <span class="num">5</span> + <span class="num">32</span>;
-            <span class="cls">System</span>.out.<span class="fn">println</span>(graus + <span class="str">" °C = "</span> + fahrenheit + <span class="str">" °F"</span>);
-        } <span class="kw">catch</span> (<span class="cls">IllegalArgumentException</span> e) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
-        }
-
-    }
-
-}</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>throw</code> és dins del <code>try</code> i el missatge es recupera amb <code>getMessage()</code>.</li><li>Si es llança l'excepció, el càlcul de Fahrenheit no s'executa.</li><li>El zero absolut és una constant amb <code>final</code>.</li></ul></div><details class="mes pista"><summary>💡 Pista</summary><div class="mes-body">Fixa't en l'exemple <em>Llançar una excepció si una dada no és vàlida</em>: el <code>throw</code> va dins d'un <code>if</code> i el càlcul va després.</div></details><div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Error: Temperatura impossible: -300.0 °C és per sota del zero absolut.</pre></div></div>
-  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
-</div>
-</section>
-<section class="section">
-  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Crear excepcions pròpies</h2><p class="sec-sub">Una excepció amb el nom del nostre problema</p></div></div>
-  <p class="lead">Java té moltes excepcions predefinides, però de vegades volem una excepció amb un nom que expliqui exactament el problema del nostre programa: <code>SaldoInsuficientException</code>, <code>NotaInvalidaException</code>… Per crear-la, definim una classe que <strong>hereta</strong> d'<code>Exception</code>.</p>
-<div class="box box-fixat"><span class="box-label">📌 No et preocupis per <code>extends</code>, <code>super</code> i els constructors</span>Són conceptes de programació orientada a objectes que estudiarem a l'AEA2 i l'AEA3. De moment, fes servir aquesta plantilla canviant només el nom de la classe: <code>class NomException extends Exception { public NomException(String missatge) { super(missatge); } }</code></div>
-<div class="exemple">
-  <div class="exemple-header"><span class="badge badge-mitja">Mitjà</span><span>Excepció pròpia per a notes incorrectes</span></div>
-  <div class="code-block"><span class="cmt">// Excepció pròpia: es pot escriure al mateix fitxer, fora de la classe principal</span>
-<span class="kw">class</span> <span class="cls">NotaInvalidaException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
-
-    <span class="kw">public</span> <span class="cls">NotaInvalidaException</span>(<span class="cls">String</span> missatge) {
-        <span class="kw">super</span>(missatge);
-    }
-
-}
-
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ValidadorNota</span> {
-
-    <span class="cmt">// "throws" avisa que el main pot llançar aquesta excepció</span>
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) <span class="kw">throws</span> <span class="cls">NotaInvalidaException</span> {
-
+        <span class="cmt">// 2. Llançar la nostra excepció</span>
         <span class="kw">double</span> nota = <span class="num">11.5</span>;
 
         <span class="kw">try</span> {
@@ -537,7 +380,9 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Error: La nota 11.5 no és entre 0 i 10</pre></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Error: Edat fora de rang: -4
+Error: La nota 11.5 no és entre 0 i 10</pre></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>En tots dos casos el <code>throw</code> va dins d'un <code>if</code> que detecta la dada incorrecta. Quan s'executa, Java salta directament al <code>catch</code>: el <code>println</code> que hi ha després del <code>if</code> no s'arriba a executar, i el missatge que hem passat en crear l'excepció es recupera amb <code>e.getMessage()</code>.</p><p>La primera excepció és predefinida (<code>IllegalArgumentException</code>) i la segona és nostra: <code>NotaInvalidaException</code> només és una classe que hereta d'<code>Exception</code> i passa el missatge amb <code>super</code>. Es captura igual que qualsevol altra.</p></div>
 </div>
 <div class="table-wrap">
   <table>
@@ -547,79 +392,143 @@ Tens 18 anys: ets major d&#x27;edat.</pre></div>
       <tr><td><strong>No comprovada</strong> (<em>unchecked</em>)</td><td><code>RuntimeException</code></td><td>No és obligatori capturar-la. Ex.: <code>ArithmeticException</code>, <code>NumberFormatException</code>.</td></tr>
     </tbody>
   </table>
-</div><div class="exercici-card practica" id="ex4">
-  <div class="exercici-header">
-    <span class="exercici-num">✍️ Ara tu · Exercici 4</span>
-    <span class="exercici-title">Caixer amb excepció pròpia</span>
-    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
-  </div>
+</div>
+</section>
+<section class="section" id="exercicis">
+  <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
+  <p class="lead">Aquests dos exercicis fan servir el que has vist en aquesta pàgina: capturar excepcions amb <code>try-catch-finally</code>, tornar a demanar una dada incorrecta, llançar excepcions amb <code>throw</code> i crear-ne de pròpies. Escriu-los en Java i prova'ls també amb dades incorrectes.</p><div class="exercici-card practica" id="ex1">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Repartir caramels</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
-    <p>Simula un compte bancari amb 200 € de saldo al qual es fan tres reintegraments: 50 €, 180 € i 30 €. Si un reintegrament supera el saldo, s'ha de llançar una excepció pròpia <code>SaldoInsuficientException</code> i el saldo no canvia.</p>
-    <ul class="exercici-tasques">
-      <li>Crea la classe <code>SaldoInsuficientException</code> seguint la plantilla de l'apartat 4.</li>
-      <li>Fes un <code>for</code> de 3 iteracions; l'import de cada reintegrament es pot calcular amb un <code>switch</code> sobre el número d'iteració.</li>
-      <li>Dins del bucle, un <code>try-catch</code> per a cada reintegrament; al <code>finally</code>, mostra el saldo actual.</li>
-    </ul><div class="ex-grid"><div class="solucio-wrap">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix el codi</span><span class="flux-fl">→</span><span class="pas-ex">2 · Protegeix-lo</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i prova</span></div>
+    <p>Aquest programa reparteix caramels entre uns nens a parts iguals i diu quants en sobren. Funciona si l'usuari escriu bé les dades, però s'atura amb una excepció si escriu un text que no és un número o si diu que hi ha 0 nens. Copia'l a la classe <code>RepartirCaramels</code> i protegeix-lo.</p><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">RepartirCaramels</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Caramels: "</span>);
+        <span class="cls">String</span> textCaramels = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nens: "</span>);
+        <span class="cls">String</span> textNens = sc.<span class="fn">nextLine</span>();
+
+        <span class="kw">int</span> caramels = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textCaramels);
+        <span class="kw">int</span> nens = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textNens);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cada nen en rep "</span> + caramels / nens + <span class="str">" i en sobren "</span> + caramels % nens + <span class="str">"."</span>);
+
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div><ul class="exercici-tasques"><li>Posa les conversions i els càlculs dins d'un <code>try</code>.</li><li>Afegeix un <code>catch</code> per a la <code>NumberFormatException</code> i un altre per a l'<code>ArithmeticException</code>, cadascun amb el seu missatge.</li><li>Afegeix un <code>finally</code> que mostri <code>Repartiment acabat.</code> i prova-ho amb <code>vint</code>, amb 0 nens i amb 25 caramels i 4 nens.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Caramels: 25
+Nens: 0
+Error: no hi ha cap nen.
+Repartiment acabat.</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body">
-      <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">class</span> <span class="cls">SaldoInsuficientException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
-    <span class="kw">public</span> <span class="cls">SaldoInsuficientException</span>(<span class="cls">String</span> missatge) {
+<span class="cmt">// Reparteix caramels entre uns nens, controlant els errors</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">RepartirCaramels</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Caramels: "</span>);
+        <span class="cls">String</span> textCaramels = sc.<span class="fn">nextLine</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Nens: "</span>);
+        <span class="cls">String</span> textNens = sc.<span class="fn">nextLine</span>();
+
+        <span class="kw">try</span> {
+            <span class="kw">int</span> caramels = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textCaramels);   <span class="cmt">// NumberFormatException si no és un enter</span>
+            <span class="kw">int</span> nens = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(textNens);
+            <span class="kw">int</span> perNen = caramels / nens;                     <span class="cmt">// ArithmeticException si nens és 0</span>
+            <span class="kw">int</span> sobren = caramels % nens;
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cada nen en rep "</span> + perNen + <span class="str">" i en sobren "</span> + sobren + <span class="str">"."</span>);
+        } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: has d'escriure números enters."</span>);
+        } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: no hi ha cap nen."</span>);
+        } <span class="kw">finally</span> {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Repartiment acabat."</span>);
+        }
+
+        sc.<span class="fn">close</span>();
+
+    }
+
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Només el codi que pot fallar és dins del <code>try</code>.</li><li>Cada tipus d'error té el seu <code>catch</code> i un missatge que l'usuari entén.</li><li>El <code>finally</code> s'executa en els tres casos.</li><li>Amb 25 caramels i 4 nens surt <code>Cada nen en rep 6 i en sobren 1.</code></li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.4</span></div>
+</div>
+<div class="exercici-card practica" id="ex2">
+  <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Reserva d'entrades</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
+  <div class="exercici-body">
+    <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'enunciat</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i prova</span></div>
+    <p>Per a l'obra de teatre de l'institut només queden <strong>4 entrades</strong>. Escriu la classe <code>ReservaEntrades</code>, que demana quantes entrades es volen i torna a preguntar fins que la quantitat és vàlida. Si l'usuari escriu un text, si demana 0 entrades o menys, o si en demana més de les que queden, ha de veure un missatge diferent per a cada cas. Quan la quantitat és correcta, mostra la reserva i les entrades que queden.</p><ul class="exercici-tasques"><li>Fes un bucle amb <code>try-catch</code> i <code>Integer.parseInt()</code>, com a l'apartat 2, i guarda les entrades que queden en una constant <code>final</code>.</li><li>Si la quantitat és 0 o menys, llança una <code>IllegalArgumentException</code> amb <code>throw</code>.</li><li>Si en demana més de les que queden, llança una excepció pròpia <code>LimitEntradesException</code> creada amb la plantilla de l'apartat 3. Vigila l'ordre dels <code>catch</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quantes entrades vols? tres
+'tres' no és un número enter.
+Quantes entrades vols? 0
+Has de demanar almenys una entrada.
+Quantes entrades vols? 6
+No hi ha prou entrades. Només en queden 4.
+Quantes entrades vols? 3
+Reserva feta: 3 entrades. En queden 1.</pre></div><div class="ex-grid"><div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Excepció pròpia: es demanen més entrades de les que queden</span>
+<span class="kw">class</span> <span class="cls">LimitEntradesException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
+
+    <span class="kw">public</span> <span class="cls">LimitEntradesException</span>(<span class="cls">String</span> missatge) {
         <span class="kw">super</span>(missatge);
     }
 
 }
 
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Caixer</span> {
+<span class="cmt">// Demana quantes entrades es volen fins que la quantitat és vàlida</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">ReservaEntrades</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">double</span> saldo = <span class="num">200.0</span>;
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="kw">final</span> <span class="kw">int</span> DISPONIBLES = <span class="num">4</span>;
+        <span class="kw">int</span> entrades = <span class="num">0</span>;
+        <span class="kw">boolean</span> valida = <span class="kw">false</span>;
 
-        <span class="kw">for</span> (<span class="kw">int</span> operacio = <span class="num">1</span>; operacio &lt;= <span class="num">3</span>; operacio++) {
-
-            <span class="cmt">// Import de cada reintegrament</span>
-            <span class="kw">double</span> quantitat = <span class="kw">switch</span> (operacio) {
-                <span class="kw">case</span> <span class="num">1</span> -&gt; <span class="num">50.0</span>;
-                <span class="kw">case</span> <span class="num">2</span> -&gt; <span class="num">180.0</span>;
-                <span class="kw">default</span> -&gt; <span class="num">30.0</span>;
-            };
-
+        <span class="kw">while</span> (!valida) {
+            <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quantes entrades vols? "</span>);
+            <span class="cls">String</span> text = sc.<span class="fn">nextLine</span>();
             <span class="kw">try</span> {
-                <span class="kw">if</span> (quantitat &gt; saldo) {
-                    <span class="kw">throw</span> <span class="kw">new</span> <span class="cls">SaldoInsuficientException</span>(
-                            <span class="str">"No es poden retirar "</span> + quantitat + <span class="str">" €: saldo insuficient."</span>);
+                entrades = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(text);
+                <span class="kw">if</span> (entrades &lt;= <span class="num">0</span>) {
+                    <span class="kw">throw</span> <span class="kw">new</span> <span class="cls">IllegalArgumentException</span>(<span class="str">"Has de demanar almenys una entrada."</span>);
                 }
-                saldo -= quantitat;
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Retirats "</span> + quantitat + <span class="str">" €."</span>);
-            } <span class="kw">catch</span> (<span class="cls">SaldoInsuficientException</span> e) {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
-            } <span class="kw">finally</span> {
-                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"  Saldo actual: "</span> + saldo + <span class="str">" €"</span>);
+                <span class="kw">if</span> (entrades &gt; DISPONIBLES) {
+                    <span class="kw">throw</span> <span class="kw">new</span> <span class="cls">LimitEntradesException</span>(<span class="str">"Només en queden "</span> + DISPONIBLES + <span class="str">"."</span>);
+                }
+                valida = <span class="kw">true</span>;                       <span class="cmt">// només arribem aquí si no hi ha cap error</span>
+            } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {      <span class="cmt">// primer: hereta d'IllegalArgumentException</span>
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"'"</span> + text + <span class="str">"' no és un número enter."</span>);
+            } <span class="kw">catch</span> (<span class="cls">IllegalArgumentException</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(e.<span class="fn">getMessage</span>());
+            } <span class="kw">catch</span> (<span class="cls">LimitEntradesException</span> e) {
+                <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"No hi ha prou entrades. "</span> + e.<span class="fn">getMessage</span>());
             }
-
         }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Reserva feta: "</span> + entrades + <span class="str">" entrades. En queden "</span> + (DISPONIBLES - entrades) + <span class="str">"."</span>);
+        sc.<span class="fn">close</span>();
 
     }
 
-}</div>
-      
-    </div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>L'excepció pròpia hereta d'<code>Exception</code> i passa el missatge amb <code>super</code>.</li><li>Quan hi ha error el saldo no es modifica (el <code>saldo -= quantitat</code> va després del <code>throw</code>).</li><li>El <code>finally</code> s'executa en tots els casos.</li></ul></div>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Retirats 50.0 €.
-  Saldo actual: 150.0 €
-Error: No es poden retirar 180.0 €: saldo insuficient.
-  Saldo actual: 150.0 €
-Retirats 30.0 €.
-  Saldo actual: 120.0 €</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.2 · 3.4 · 3.7 · 3.8</span>
-  </div>
+}</div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El bucle només acaba quan la quantitat és correcta.</li><li>Es fa servir <code>throw</code> tant per a l'excepció predefinida com per a la pròpia, que hereta d'<code>Exception</code>.</li><li>L'ordre dels <code>catch</code> és correcte: <code>NumberFormatException</code> va abans d'<code>IllegalArgumentException</code>, perquè n'hereta.</li><li>Cada error mostra el seu missatge i la sortida coincideix amb l'exemple.</li></ul></div></div>
+  <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.4 · 3.8</span></div>
 </div>
 </section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A3_3_imbricats_salts.html">← A3.3 Imbricats, salts i aleatoris</a><a href="A3_algorismes_iteratius.html" class="nav-hub">A3 · Índex</a><a href="A3_5_assercions_depuracio.html">A3.5 Assercions i depuració →</a></nav>
