@@ -333,9 +333,11 @@ Torn de tarda: de 16 a 20 h</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">L'ascensor de l'oficina</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>La pantalla d'un ascensor mostra què hi ha a cada planta. Les plantes 1 i 2 són totes dues d'oficines. Tradueix el <code>Segun</code> a un <code>switch</code> clàssic (amb <code>case</code> i <code>break</code>). Classe <code>Ascensor</code>.</p><div class="pseudo">Algoritmo Ascensor
+    <p>La pantalla d'un ascensor mostra què hi ha a cada planta. Les plantes 1 i 2 són totes dues d'oficines. L'algorisme <strong>demana per teclat</strong> a quina planta vas i mostra què hi ha. Tradueix el <code>Segun</code> a un <code>switch</code> clàssic (amb <code>case</code> i <code>break</code>). Classe <code>Ascensor</code>.</p><div class="pseudo">Algoritmo Ascensor
     Definir planta Como Entero
-    planta &lt;- 2
+    Escribir Sin Saltar "A quina planta vas? "
+    Leer planta
+    Escribir ""
     Escribir Sin Saltar "Planta ", planta, ": "
     Segun planta Hacer
         -1:
@@ -349,13 +351,21 @@ Torn de tarda: de 16 a 20 h</pre></div>
         De Otro Modo:
             Escribir "aquesta planta no existeix"
     FinSegun
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>. Cada opció és un <code>case</code> acabat en <code>break;</code>.</li><li><code>1, 2:</code> → dos <code>case</code> apilats sense <code>break</code> entre ells. <code>De Otro Modo</code> → <code>default</code>.</li><li>Prova les plantes -1, 1 i 5.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Planta 2: Oficines</pre></div><div class="ex-grid"><div class="solucio-wrap">
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>. Cada opció és un <code>case</code> acabat en <code>break;</code>.</li><li><code>1, 2:</code> → dos <code>case</code> apilats sense <code>break</code> entre ells. <code>De Otro Modo</code> → <code>default</code>.</li><li>Llegeix la planta amb <code>sc.nextInt()</code>.</li><li>Prova amb les plantes -1, 1 i 5.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>A quina planta vas? 2
+
+Planta 2: Oficines</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">Ascensor</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">Ascensor</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> planta = <span class="num">2</span>;
+        <span class="cmt">// Dada d'entrada: la planta, llegida del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"A quina planta vas? "</span>);
+        <span class="kw">int</span> planta = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Planta "</span> + planta + <span class="str">": "</span>);
         <span class="kw">switch</span> (planta) {
             <span class="kw">case</span> -<span class="num">1</span>:
@@ -374,20 +384,25 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Escribir Sin Saltar</co
             <span class="kw">default</span>:
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"aquesta planta no existeix"</span>);
         }
+
+        sc.<span class="fn">close</span>();
     }
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un <code>break</code> a cada <code>case</code> que no s'agrupa amb el següent.</li><li>Les plantes 1 i 2 comparteixen el mateix codi.</li><li>El <code>default</code> recull les plantes que no existeixen.</li><li>La sortida coincideix amb l'exemple: <code>print</code> per a la primera part de la línia.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un <code>break</code> a cada <code>case</code> que no s'agrupa amb el següent.</li><li>Les plantes 1 i 2 comparteixen el mateix codi.</li><li>El <code>default</code> recull les plantes que no existeixen.</li><li>La planta es llegeix del teclat amb <code>Scanner</code>, amb un missatge que la demana.</li><li>La sortida coincideix amb l'exemple: <code>print</code> per a la primera part de la línia.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">Els dies del mes</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Volem saber quants dies té un mes. El febrer en té 29 si l'any és de traspàs i 28 si no ho és. Cada branca del <code>Segun</code> només assigna un valor a <code>dies</code>: a Java, escriu-ho amb un <strong>switch amb fletxa que retorna el valor</strong> i fes servir un <strong>operador ternari</strong> per al febrer. Classe <code>DiesMes</code>.</p><div class="pseudo">Algoritmo DiesMes
+    <p>Volem saber quants dies té un mes. El febrer en té 29 si l'any és de traspàs i 28 si no ho és. L'algorisme <strong>demana per teclat</strong> el número del mes i si l'any és de traspàs. Cada branca del <code>Segun</code> només assigna un valor a <code>dies</code>: a Java, escriu-ho amb un <strong>switch amb fletxa que retorna el valor</strong> i fes servir un <strong>operador ternari</strong> per al febrer. Classe <code>DiesMes</code>.</p><div class="pseudo">Algoritmo DiesMes
     Definir mes, dies Como Entero
     Definir esTraspas Como Logico
-    mes &lt;- 2
-    esTraspas &lt;- Verdadero
+    Escribir Sin Saltar "Mes (1-12)? "
+    Leer mes
+    Escribir Sin Saltar "És any de traspàs (true/false)? "
+    Leer esTraspas
+    Escribir ""
     Segun mes Hacer
         1, 3, 5, 7, 8, 10, 12:
             dies &lt;- 31
@@ -407,14 +422,24 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Escribir Sin Saltar</co
     SiNo
         Escribir "El mes ", mes, " té ", dies, " dies."
     FinSi
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Declara i assigna alhora: <code>int dies = switch (mes) { … };</code> No cal cap <code>break</code>.</li><li>El <code>Si … SiNo</code> del cas 2 només tria un valor: escriu-lo com <code>esTraspas ? 29 : 28</code>.</li><li>Prova els mesos 2 (amb i sense traspàs), 4, 12 i 13.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>El mes 2 té 29 dies.</pre></div><div class="ex-grid"><div class="solucio-wrap">
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Declara i assigna alhora: <code>int dies = switch (mes) { … };</code> No cal cap <code>break</code>.</li><li>El <code>Si … SiNo</code> del cas 2 només tria un valor: escriu-lo com <code>esTraspas ? 29 : 28</code>.</li><li>Llegeix el mes amb <code>sc.nextInt()</code> i el traspàs amb <code>sc.nextBoolean()</code>.</li><li>Prova amb els mesos 2 (amb <code>true</code> i amb <code>false</code>), 4, 12 i 13.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Mes (1-12)? 2
+És any de traspàs (true/false)? true
+
+El mes 2 té 29 dies.</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiesMes</span> {
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">DiesMes</span> {
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-        <span class="kw">int</span> mes = <span class="num">2</span>;
-        <span class="kw">boolean</span> esTraspas = <span class="kw">true</span>;
+        <span class="cmt">// Dades d'entrada: el mes i si l'any és de traspàs, llegits del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Mes (1-12)? "</span>);
+        <span class="kw">int</span> mes = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"És any de traspàs (true/false)? "</span>);
+        <span class="kw">boolean</span> esTraspas = sc.<span class="fn">nextBoolean</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
         <span class="cmt">// El switch retorna directament els dies (0 si el mes no existeix)</span>
         <span class="kw">int</span> dies = <span class="kw">switch</span> (mes) {
             <span class="kw">case</span> <span class="num">1</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">10</span>, <span class="num">12</span> -&gt; <span class="num">31</span>;
@@ -427,9 +452,11 @@ FinAlgoritmo</div><ul class="exercici-tasques"><li>Declara i assigna alhora: <co
         } <span class="kw">else</span> {
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El mes "</span> + mes + <span class="str">" té "</span> + dies + <span class="str">" dies."</span>);
         }
+
+        sc.<span class="fn">close</span>();
     }
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>switch</code> és una expressió que retorna el valor, acabada en <code>;</code>.</li><li>Els mesos s'agrupen amb comes en lloc de repetir un cas per mes.</li><li>El febrer es resol amb un ternari, no amb un <code>if</code> de diverses línies.</li><li>Hi ha <code>default</code> i es comprova el mes no vàlid.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>El <code>switch</code> és una expressió que retorna el valor, acabada en <code>;</code>.</li><li>Els mesos s'agrupen amb comes en lloc de repetir un cas per mes.</li><li>El febrer es resol amb un ternari, no amb un <code>if</code> de diverses línies.</li><li>Hi ha <code>default</code> i es comprova el mes no vàlid.</li><li>El mes i el traspàs es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section>

@@ -414,13 +414,16 @@ Nota 7.4: Notable</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">L'entrada del cinema</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Al cinema del barri, l'entrada costa <strong>5.5 €</strong> per als menors de 14 anys i <strong>8 €</strong> per a la resta. El <strong>dia de l'espectador</strong> totes les entrades tenen <strong>2 € de descompte</strong>. Aquest algorisme calcula el preu d'una entrada. Tradueix-lo a Java a la classe <code>Cinema</code> i prova'l també amb <code>edat = 30</code> i <code>diaEspectador = false</code>.</p><div class="pseudo">Algoritmo Cinema
+    <p>Al cinema del barri, l'entrada costa <strong>5.5 €</strong> per als menors de 14 anys i <strong>8 €</strong> per a la resta. El <strong>dia de l'espectador</strong> totes les entrades tenen <strong>2 € de descompte</strong>. Aquest algorisme <strong>demana per teclat</strong> l'edat i si és el dia de l'espectador, i calcula el preu d'una entrada. Tradueix-lo a Java a la classe <code>Cinema</code> i prova'l també amb una edat de <code>30</code> i <code>false</code>.</p><div class="pseudo">Algoritmo Cinema
     Definir edat Como Entero
     Definir diaEspectador Como Logico
     Definir preu Como Real
 
-    edat &lt;- 12
-    diaEspectador &lt;- Verdadero
+    Escribir Sin Saltar "Edat? "
+    Leer edat
+    Escribir Sin Saltar "És el dia de l'espectador (true/false)? "
+    Leer diaEspectador
+    Escribir ""
 
     Escribir "Edat: ", edat, " anys"
 
@@ -438,22 +441,32 @@ Nota 7.4: Notable</pre></div>
     FinSi
 
     Escribir "Preu de l'entrada: ", preu, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Logico</code> → <code>boolean</code> i <code>Verdadero</code> → <code>true</code>. Una variable <code>boolean</code> ja és una condició: <code>if (diaEspectador)</code>.</li><li><code>Si … SiNo … FinSi</code> → <code>if (…) { … } else { … }</code>; el segon <code>Si</code> no té <code>SiNo</code>: és un <code>if</code> simple.</li><li>Guarda el descompte en una constant <code>final</code> per evitar números màgics.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Edat: 12 anys
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Logico</code> → <code>boolean</code> i <code>Verdadero</code> → <code>true</code>. Una variable <code>boolean</code> ja és una condició: <code>if (diaEspectador)</code>.</li><li><code>Si … SiNo … FinSi</code> → <code>if (…) { … } else { … }</code>; el segon <code>Si</code> no té <code>SiNo</code>: és un <code>if</code> simple.</li><li>Llegeix l'edat amb <code>sc.nextInt()</code> i el dia de l'espectador amb <code>sc.nextBoolean()</code> (s'escriu <code>true</code> o <code>false</code>).</li><li>Guarda el descompte en una constant <code>final</code> per evitar números màgics.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Edat? 12
+És el dia de l'espectador (true/false)? true
+
+Edat: 12 anys
 Tarifa infantil
 Dia de l'espectador: 2 € de descompte
 Preu de l'entrada: 3.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Calcula el preu d'una entrada de cinema segons l'edat i el dia</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Calcula el preu d'una entrada de cinema segons l'edat i el dia</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Cinema</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">final</span> <span class="kw">double</span> DESCOMPTE_ESPECTADOR = <span class="num">2.0</span>;
 
-        <span class="kw">int</span> edat = <span class="num">12</span>;
-        <span class="kw">boolean</span> diaEspectador = <span class="kw">true</span>;
+        <span class="cmt">// Dades d'entrada: l'edat i si és el dia de l'espectador, llegits del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Edat? "</span>);
+        <span class="kw">int</span> edat = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"És el dia de l'espectador (true/false)? "</span>);
+        <span class="kw">boolean</span> diaEspectador = sc.<span class="fn">nextBoolean</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
         <span class="kw">double</span> preu;
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Edat: "</span> + edat + <span class="str">" anys"</span>);
@@ -475,21 +488,25 @@ Preu de l'entrada: 3.5 €</pre></div><div class="ex-grid"><div class="solucio-w
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Preu de l'entrada: "</span> + preu + <span class="str">" €"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La tarifa es tria amb un <code>if / else</code>: sempre s'aplica una de les dues, i només una.</li><li>El descompte és un <code>if</code> simple, independent del primer, que s'aplica sobre el preu ja calculat.</li><li>Totes les condicions van entre parèntesis i tots els blocs porten claus.</li><li>El programa funciona bé si canvies l'edat i el dia (prova-ho amb 30 anys i sense descompte: 8.0 €).</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>La tarifa es tria amb un <code>if / else</code>: sempre s'aplica una de les dues, i només una.</li><li>El descompte és un <code>if</code> simple, independent del primer, que s'aplica sobre el preu ja calculat.</li><li>Totes les condicions van entre parèntesis i tots els blocs porten claus.</li><li>L'edat i el dia de l'espectador es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li><li>El programa funciona bé amb qualsevol edat i dia (prova-ho introduint 30 i <code>false</code>: 8.0 €).</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 3.1</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">L'aparcament</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un aparcament cobra segons els minuts d'estada: la <strong>primera mitja hora és gratuïta</strong>, fins a <strong>2 hores</strong> es paga una tarifa fixa de <strong>3 €</strong> i, a partir de les 2 hores, cada minut extra costa <strong>0.1 €</strong>. Si el temps és negatiu, és un error. Aquest algorisme fa servir <code>Si</code> niats dins de <code>SiNo</code>: tradueix-lo a Java a la classe <code>Aparcament</code> amb una cadena <code>else if</code>.</p><div class="pseudo">Algoritmo Aparcament
+    <p>Un aparcament cobra segons els minuts d'estada: la <strong>primera mitja hora és gratuïta</strong>, fins a <strong>2 hores</strong> es paga una tarifa fixa de <strong>3 €</strong> i, a partir de les 2 hores, cada minut extra costa <strong>0.1 €</strong>. Si el temps és negatiu, és un error. Aquest algorisme <strong>demana per teclat</strong> els minuts d'estada i fa servir <code>Si</code> niats dins de <code>SiNo</code>: tradueix-lo a Java a la classe <code>Aparcament</code> amb una cadena <code>else if</code>.</p><div class="pseudo">Algoritmo Aparcament
     Definir minuts Como Entero
     Definir preu Como Real
 
-    minuts &lt;- 135
+    Escribir Sin Saltar "Minuts d'estada? "
+    Leer minuts
+    Escribir ""
 
     Escribir "Temps d'estada: ", minuts, " min"
 
@@ -512,13 +529,17 @@ Preu de l'entrada: 3.5 €</pre></div><div class="ex-grid"><div class="solucio-w
     FinSi
 
     Escribir "Import: ", preu, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>SiNo</code> amb un <code>Si</code> a dins → <code>} else if (…) {</code>. Al final només cal una <code>}</code>, no tres <code>FinSi</code>.</li><li>Guarda la tarifa fixa (3 €) i el preu del minut extra (0.1 €) en constants <code>final</code>.</li><li>Prova-ho també amb <code>minuts = 20</code>, <code>90</code> i <code>-5</code> i comprova que cada valor entra a la branca que toca.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Temps d'estada: 135 min
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Cada <code>SiNo</code> amb un <code>Si</code> a dins → <code>} else if (…) {</code>. Al final només cal una <code>}</code>, no tres <code>FinSi</code>.</li><li>Guarda la tarifa fixa (3 €) i el preu del minut extra (0.1 €) en constants <code>final</code>.</li><li>Llegeix els minuts amb <code>sc.nextInt()</code>.</li><li>Prova-ho també introduint <code>20</code>, <code>90</code> i <code>-5</code> i comprova que cada valor entra a la branca que toca.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Minuts d'estada? 135
+
+Temps d'estada: 135 min
 Tarifa llarga: 0.1 € per minut extra
 Import: 4.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">// Calcula el preu d'un aparcament segons els minuts d'estada</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// Calcula el preu d'un aparcament segons els minuts d'estada</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Aparcament</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -526,7 +547,11 @@ Import: 4.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
         <span class="kw">final</span> <span class="kw">double</span> TARIFA_CURTA = <span class="num">3.0</span>;
         <span class="kw">final</span> <span class="kw">double</span> PREU_MINUT_EXTRA = <span class="num">0.1</span>;
 
-        <span class="kw">int</span> minuts = <span class="num">135</span>;
+        <span class="cmt">// Dada d'entrada: els minuts d'estada, llegits del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Minuts d'estada? "</span>);
+        <span class="kw">int</span> minuts = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
         <span class="kw">double</span> preu;
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Temps d'estada: "</span> + minuts + <span class="str">" min"</span>);
@@ -548,10 +573,12 @@ Import: 4.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Import: "</span> + preu + <span class="str">" €"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els <code>Si</code> niats s'han aplanat en una sola cadena <code>if / else if / else</code>.</li><li>Les condicions van en ordre: primer el valor impossible i després del tram més curt al més llarg, sense repetir el límit inferior (<code>minuts &gt; 30 &amp;&amp; minuts &lt;= 120</code> no cal).</li><li>Totes les branques donen valor a <code>preu</code>, i l'import es mostra un sol cop després de la cadena.</li><li>Només es paguen els minuts que passen de 120: <code>(minuts - 120) * 0.1</code>.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Els <code>Si</code> niats s'han aplanat en una sola cadena <code>if / else if / else</code>.</li><li>Els minuts es llegeixen del teclat amb <code>Scanner</code>, amb un missatge que diu què cal escriure.</li><li>Les condicions van en ordre: primer el valor impossible i després del tram més curt al més llarg, sense repetir el límit inferior (<code>minuts &gt; 30 &amp;&amp; minuts &lt;= 120</code> no cal).</li><li>Totes les branques donen valor a <code>preu</code>, i l'import es mostra un sol cop després de la cadena.</li><li>Només es paguen els minuts que passen de 120: <code>(minuts - 120) * 0.1</code>.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.1 · 3.5</span></div>
 </div>
 </section>
