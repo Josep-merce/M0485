@@ -276,7 +276,8 @@ FI MENTRE</div>
 
         <span class="cmt">// No sabem quantes voltes farà: per això fem servir while</span>
         <span class="kw">while</span> (saldo &lt; <span class="num">2</span> * inicial) {        <span class="cmt">// 2. condició</span>
-            saldo = saldo * (<span class="num">1</span> + INTERES_ANUAL);  <span class="cmt">// 3. actualització</span>
+            saldo = saldo * (<span class="num">1</span> + INTERES_ANUAL);  <span class="cmt">// 4. actualització</span>
+            <span class="cmt">// 3. cos: comptem l'any i mostrem el saldo</span>
             anys++;
             <span class="kw">double</span> euros = <span class="cls">Math</span>.<span class="fn">round</span>(saldo * <span class="num">100</span>) / <span class="num">100.0</span>;
             <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Any "</span> + anys + <span class="str">": "</span> + euros + <span class="str">" €"</span>);
@@ -296,7 +297,7 @@ Any 6: 1771.56 €
 Any 7: 1948.72 €
 Any 8: 2143.59 €
 Calen 8 anys per doblar-los.</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els comentaris numerats marquen les parts de control de tot bucle <code>while</code>: la <strong>inicialització</strong> (<code>saldo</code> comença valent 1000), la <strong>condició</strong> que es comprova abans de cada volta i l'<strong>actualització</strong> dins del cos, que fa créixer el saldo un 10 %. Sense l'actualització, la condició no canviaria mai i el bucle seria infinit.</p><p>No sabem d'entrada quantes voltes farà: depèn de quan el saldo arribi al doble. Per això és un <code>while</code> i no un <code>for</code>. A cada volta <code>anys++</code> compta un any més i es mostra el saldo arrodonit a dos decimals.</p><p>Si la condició fos <code>false</code> des del principi (per exemple, amb un saldo inicial que ja fos el doble), el cos no s'executaria cap vegada i el programa diria que calen 0 anys.</p></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Els comentaris numerats marquen les quatre parts del bucle, amb la mateixa numeració que la taula de dalt: la <strong>inicialització</strong> (<code>saldo</code> comença valent 1000), la <strong>condició</strong> que es comprova abans de cada volta, el <strong>cos</strong> (comptar l'any i mostrar el saldo) i l'<strong>actualització</strong>, que fa créixer el saldo un 10 %. Aquí l'actualització és la primera instrucció del cos perquè volem mostrar el saldo ja actualitzat. Sense l'actualització, la condició no canviaria mai i el bucle seria infinit.</p><p>No sabem d'entrada quantes voltes farà: depèn de quan el saldo arribi al doble. Per això és un <code>while</code> i no un <code>for</code>. A cada volta <code>anys++</code> compta un any més i es mostra el saldo arrodonit a dos decimals.</p><p>Si la condició fos <code>false</code> des del principi (per exemple, amb un saldo inicial que ja fos el doble), el cos no s'executaria cap vegada i el programa diria que calen 0 anys.</p></div>
 </div>
 <div class="box box-errors"><span class="box-label">⚠️ Bucle infinit</span>Si oblides l'actualització, la condició no deixarà mai de ser certa i el programa no s'acabarà. A NetBeans, atura'l amb el botó quadrat vermell de la finestra <em>Output</em>.</div>
 </section>
@@ -314,7 +315,7 @@ Calen 8 anys per doblar-los.</pre></div>
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
         <span class="cls">String</span> resposta;
 
-        <span class="cmt">// Bucle extern: es repeteix fins que l'usuari no diu "s"</span>
+        <span class="cmt">// Bucle extern: es repeteix mentre l'usuari respongui "s"</span>
         <span class="kw">do</span> {
             <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Número: "</span>);
             <span class="kw">int</span> numero = sc.<span class="fn">nextInt</span>();
@@ -653,7 +654,7 @@ Suma de 1 a 10: 55
   <div class="exercici-body">
     <p>Un caixer demana el PIN (el correcte és 1234). L'usuari té com a màxim 3 intents. Si l'encerta, mostra "Accés concedit"; si esgota els intents, "Targeta bloquejada".</p>
     <ul class="exercici-tasques">
-      <li>Fes servir <code>Scanner</code> i <code>sc.nextLine()</code> per llegir el PIN com a text.</li>
+      <li>Fes servir <code>Scanner</code> i <code>sc.nextLine()</code> per llegir el PIN com a text: un PIN com <code>0123</code> perdria el <code>0</code> si el guardéssim en un <code>int</code>, i no fem càlculs amb ell.</li>
       <li>Usa un <code>do-while</code>: el PIN sempre es demana almenys un cop.</li>
       <li>Després de cada error, indica quants intents queden.</li>
       <li>Les constants <code>PIN_CORRECTE</code> i <code>MAX_INTENTS</code> han de ser <code>final</code>.</li>
