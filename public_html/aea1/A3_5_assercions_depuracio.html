@@ -303,45 +303,64 @@
   <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Documentar el codi</h2><p class="sec-sub">Comentaris que expliquen el perquè</p></div></div>
   <div class="exemple">
   <div class="exemple-header"><span class="badge badge-avancat">Avançat</span><span>Un programa ben documentat</span></div>
-  <div class="code-block"><span class="cmt">/**
- * Calcula el màxim comú divisor (MCD) de dos números positius
- * amb l'algorisme d'Euclides.
- *
- * @author Departament d'Informàtica
- * @version 1.0
- */</span>
-<span class="kw">public</span> <span class="kw">class</span> <span class="cls">MCDEuclides</span> {
+  <div class="code-block"><span class="cmt">/**</span>
+<span class="cmt"> * Calcula els temps de pas d'un corredor de marató que manté un ritme constant:</span>
+<span class="cmt"> * el temps acumulat a cada punt de control (cada 5 km) i el temps d'arribada.</span>
+<span class="cmt"> *</span>
+<span class="cmt"> * @author Departament d'Informàtica</span>
+<span class="cmt"> * @version 1.0</span>
+<span class="cmt"> */</span>
+<span class="kw">public</span> <span class="kw">class</span> <span class="cls">TempsMarato</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="kw">int</span> a = <span class="num">84</span>;
-        <span class="kw">int</span> b = <span class="num">36</span>;
+        <span class="cmt">// Distància en metres i ritme en segons per km: amb enters evitem els decimals</span>
+        <span class="kw">final</span> <span class="kw">int</span> DISTANCIA_METRES = <span class="num">42195</span>;
+        <span class="kw">int</span> ritme = <span class="num">300</span>;                       <span class="cmt">// 5 min/km</span>
 
-        <span class="cmt">// Les dades han de ser positives: si no, l'algorisme no acabaria</span>
-        <span class="kw">if</span> (a &lt;= <span class="num">0</span> || b &lt;= <span class="num">0</span>) {
-            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Els números han de ser positius."</span>);
+        <span class="cmt">// Amb un ritme de 0 o negatiu els temps no tindrien sentit</span>
+        <span class="kw">if</span> (ritme &lt;= <span class="num">0</span>) {
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"El ritme ha de ser positiu."</span>);
             <span class="kw">return</span>;
         }
 
-        <span class="kw">int</span> x = a;
-        <span class="kw">int</span> y = b;
-
-        <span class="cmt">// Euclides: mcd(x, y) = mcd(y, x % y). Acabem quan el residu és 0</span>
-        <span class="kw">while</span> (y != <span class="num">0</span>) {
-            <span class="kw">int</span> residu = x % y;
-            x = y;
-            y = residu;
+        <span class="cmt">// Punts de control cada 5 km; el darrer és el 40 perquè la meta no cau en un múltiple de 5</span>
+        <span class="kw">for</span> (<span class="kw">int</span> km = <span class="num">5</span>; km &lt;= <span class="num">40</span>; km += <span class="num">5</span>) {
+            <span class="kw">int</span> temps = km * ritme;            <span class="cmt">// segons des de la sortida</span>
+            <span class="kw">int</span> h = temps / <span class="num">3600</span>;
+            <span class="kw">int</span> min = temps % <span class="num">3600</span> / <span class="num">60</span>;
+            <span class="kw">int</span> s = temps % <span class="num">60</span>;
+            <span class="cmt">// Minuts i segons sempre amb dues xifres: 0:05:00 i no 0:5:0</span>
+            <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Km "</span> + km + <span class="str">": "</span> + h + <span class="str">":"</span> + (min &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + min
+                    + <span class="str">":"</span> + (s &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + s);
         }
 
-        <span class="cmt">// Postcondició: el MCD divideix els dos números</span>
-        <span class="kw">assert</span> a % x == <span class="num">0</span> &amp;&amp; b % x == <span class="num">0</span> : <span class="str">"Error en el càlcul del MCD"</span>;
+        <span class="cmt">// Temps d'arribada: la divisió entera descarta les fraccions de segon</span>
+        <span class="kw">int</span> tempsFinal = DISTANCIA_METRES * ritme / <span class="num">1000</span>;
 
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"MCD("</span> + a + <span class="str">", "</span> + b + <span class="str">") = "</span> + x);
+        <span class="cmt">// Postcondició: la marató fa entre 42 i 43 km, per tant el temps</span>
+        <span class="cmt">// d'arribada ha d'estar entre 42 i 43 vegades el ritme</span>
+        <span class="kw">assert</span> tempsFinal &gt;= <span class="num">42</span> * ritme &amp;&amp; tempsFinal &lt; <span class="num">43</span> * ritme
+                : <span class="str">"Temps final incorrecte: "</span> + tempsFinal;
+
+        <span class="kw">int</span> h = tempsFinal / <span class="num">3600</span>;
+        <span class="kw">int</span> min = tempsFinal % <span class="num">3600</span> / <span class="num">60</span>;
+        <span class="kw">int</span> s = tempsFinal % <span class="num">60</span>;
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Meta (42,195 km): "</span> + h + <span class="str">":"</span> + (min &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + min
+                + <span class="str">":"</span> + (s &lt; <span class="num">10</span> ? <span class="str">"0"</span> : <span class="str">""</span>) + s);
 
     }
 
 }</div>
-  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>MCD(84, 36) = 12</pre></div>
+  <div class="console"><div class="console-header">🖥️ Sortida per consola</div><pre>Km 5: 0:25:00
+Km 10: 0:50:00
+Km 15: 1:15:00
+Km 20: 1:40:00
+Km 25: 2:05:00
+Km 30: 2:30:00
+Km 35: 2:55:00
+Km 40: 3:20:00
+Meta (42,195 km): 3:30:58</pre></div>
 </div>
 </section>
 <section class="section" id="exercicis">
