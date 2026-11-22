@@ -222,7 +222,7 @@
 <header class="hero">
   <p class="hero-eyebrow">AEA1 · A1 · Estructura del programa informàtic</p>
   <h1>A1.1 — Del problema al programa</h1>
-  <p>Com es passa d'un problema a un algorisme i d'un algorisme a un programa Java: l'estructura del programa, la sortida per pantalla i els comentaris.</p>
+  <p>Com es passa d'un problema a un algorisme i d'un algorisme a un programa Java: l'estructura del programa, l'entrada de dades, la sortida per pantalla i els comentaris.</p>
   <div class="hero-pills"><span class="pill">RA1</span><span class="pill">CA 1.1 · 1.9</span></div>
 </header>
 <nav class="breadcrumb" aria-label="Ruta de navegació">
@@ -279,7 +279,16 @@ Perímetre: 26</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>El programa té els <strong>blocs</strong> de qualsevol programa Java. La classe ① conté tot el programa i es diu igual que el fitxer, <code>Rectangle.java</code>. Dins, el <code>main</code> ② és on comença l'execució; a la seva capçalera, <code>public</code> vol dir que Java el pot cridar des de fora, <code>static</code> que és de la classe, <code>void</code> que no retorna cap resultat i <code>String[] args</code> recull els arguments que es poden passar en executar-lo.</p><p>Dins del <code>main</code> hi ha les mateixes tres parts que al pseudocodi: <strong>dades d'entrada</strong> ③, <strong>càlculs</strong> ④ i <strong>sortida</strong> ⑤. Les instruccions s'executen de dalt a baix i totes acaben en <code>;</code>. Cada <code>{</code> obre un bloc que es tanca amb el seu <code>}</code>: el primer que es tanca és el del <code>main</code> i el darrer, el de la classe.</p></div>
 </div><h3 class="sub-title">Els blocs d'un programa Java</h3><div class="table-wrap"><table><thead><tr><th>Bloc</th><th>Obligatori?</th><th>Funció</th></tr></thead><tbody><tr><td><code>package nom.paquet;</code></td><td>Sí (a Maven)</td><td>Indica el paquet (carpeta) de la classe. Ha de ser la primera instrucció i coincidir amb les carpetes de <code>src/main/java</code> (ho has vist a <a href="A1_0_entorn.html">A1.0</a>).</td></tr><tr><td><code>import</code></td><td>No</td><td>Permet usar classes de llibreries de Java (<code>java.time</code>, <code>java.util</code>…).</td></tr><tr><td><code>public class Nom { }</code></td><td>Sí</td><td>Conté tot el programa. El fitxer s'ha de dir exactament <code>Nom.java</code> (majúscules incloses).</td></tr><tr><td><code>public static void main(String[] args)</code></td><td>Sí (per executar)</td><td>Punt d'inici. Java executa les instruccions del <code>main</code> de dalt a baix.</td></tr><tr><td>Claus <code>{ }</code></td><td>Sí</td><td>Delimiten blocs de codi. Cada <code>{</code> ha de tenir el seu <code>}</code>.</td></tr><tr><td>Instruccions</td><td>Sí</td><td>Ordres que fa el programa. Totes acaben en <code>;</code>.</td></tr></tbody></table></div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>No cal crear un projecte nou</strong> per provar l'exemple: crea la classe <code>Rectangle</code> al projecte <code>AEA1_A1</code>, deixa la línia <code>package</code> que escriu NetBeans i enganxa el codi a sota.</p></div><div class="box box-errors"><span class="box-label">⚠️ Errors típics</span><ul><li><strong>Majúscules i minúscules.</strong> Java les distingeix: <code>system.out.println</code>, <code>string</code> o <code>Main</code> no funcionen.</li><li><strong>Punt i coma oblidat</strong> al final d'una instrucció: <em>';' expected</em>.</li><li><strong>Claus desaparellades</strong>: si en falta una de tancament, <em>reached end of file while parsing</em>. Sagnar bé el codi (<kbd>Alt</kbd>+<kbd>Maj</kbd>+<kbd>F</kbd> a NetBeans) ajuda a veure-ho.</li></ul></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Algoritmo Rectangle</code></td><td><code>public class Rectangle {</code> + <code>public static void main(String[] args) {</code></td></tr><tr><td><code>FinAlgoritmo</code></td><td><code>}</code> <code>}</code> (tanca el <code>main</code> i la classe)</td></tr><tr><td><code>Definir base Como Entero</code></td><td><code>int base;</code></td></tr><tr><td><code>base &lt;- 8</code></td><td><code>base = 8;</code> (o tot junt: <code>int base = 8;</code>)</td></tr><tr><td><code>Escribir "Àrea: ", area</code></td><td><code>System.out.println("Àrea: " + area);</code></td></tr><tr><td>El <code>;</code> final és opcional</td><td>El <code>;</code> és <strong>obligatori</strong></td></tr><tr><td>No hi ha <code>package</code> ni <code>import</code></td><td><code>package</code> i <code>import</code> van a dalt de tot</td></tr></tbody></table></div></div>
 </section><section class="section">
-  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Mostrar resultats: print i println</h2><p class="sec-sub">La sortida per pantalla</p></div></div>
+  <div class="sec-head"><span class="sec-num">2</span><div><h2 class="sec-title">Entrada de dades</h2><p class="sec-sub">Donar valors al programa</p></div></div>
+  <p class="lead">Un programa necessita <strong>dades d'entrada</strong> per treballar. A PSeInt ja ho has fet amb <code>Leer</code>: el programa s'atura i espera que l'usuari escrigui un valor pel teclat.</p><p class="text">En Java també podem llegir valors del teclat. Es fa amb la classe <code>Scanner</code>:</p><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">// ...dins del main:</span>
+<span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+<span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Base? "</span>);
+<span class="kw">int</span> base = sc.<span class="fn">nextInt</span>();
+sc.<span class="fn">close</span>();</div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p><strong>La classe <code>Scanner</code> s'explicarà amb detall més endavant</strong> (a l'RA5). De moment fes-la servir com una <strong>recepta</strong>: l'<code>import</code> va a dalt de tot del fitxer, es crea l'<code>Scanner</code> una sola vegada al principi del <code>main</code>, cada <code>sc.nextInt()</code> llegeix un número enter i <code>sc.close()</code> es posa en acabar. Abans de cada lectura, un <code>print</code> diu a l'usuari què ha d'escriure.</p></div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Escribir Sin Saltar "Base? "</code></td><td><code>System.out.print("Base? ");</code></td></tr><tr><td><code>Leer base</code></td><td><code>int base = sc.nextInt();</code></td></tr></tbody></table></div></div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Mostrar resultats: print i println</h2><p class="sec-sub">La sortida per pantalla</p></div></div>
   <p class="lead">Per mostrar informació per la consola fem servir <code>System.out</code>. Hi ha dues variants: amb salt de línia i sense.</p><div class="table-wrap"><table><thead><tr><th>Java</th><th>Què fa</th><th>PSeInt</th></tr></thead><tbody><tr><td><code>System.out.println(x);</code></td><td>Mostra <code>x</code> i fa un salt de línia.</td><td><code>Escribir x</code></td></tr><tr><td><code>System.out.print(x);</code></td><td>Mostra <code>x</code> sense saltar de línia.</td><td><code>Escribir Sin Saltar x</code></td></tr><tr><td><code>System.out.println();</code></td><td>Només salta de línia (deixa una línia en blanc si ja n'estàvem a l'inici).</td><td><code>Escribir ""</code></td></tr><tr><td><code>System.out.println("Nota: " + n);</code></td><td>Uneix un text i un valor amb <code>+</code>.</td><td><code>Escribir "Nota: ", n</code> (amb coma)</td></tr><tr><td><code>"\n"</code> dins un text</td><td>Salt de línia dins d'una cadena.</td><td>—</td></tr><tr><td><code>"\t"</code> dins un text</td><td>Tabulació.</td><td>—</td></tr></tbody></table></div><div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>print i println</span></div>
   <div class="code-block" data-run="r3"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">PrintPrintln</span> {
@@ -305,7 +314,7 @@ Fitxers: 3</pre></div>
   <div class="com-funciona"><span class="cf-label">Com funciona</span><p>Cada <code>print</code> escriu just on s'ha quedat l'anterior, per això <code>Carregant</code> i els tres punts surten a la mateixa línia. El <code>println(".")</code> escriu el darrer punt i <strong>després</strong> salta de línia.</p><p>El <code>println()</code> buit no escriu res: només salta de línia. Com que ja érem a l'inici d'una línia, deixa una línia en blanc. Amb <code>+</code> podem unir un text i un número en una sola sortida.</p></div>
 </div><div class="box box-fixat"><span class="box-label">👀 Fixa't-hi</span><p>Les <strong>seqüències d'escapament</strong> com <code>\n</code> i <code>\t</code> les veurem amb detall a <a href="A1_4_conversions_sequencial.html">A1.4</a>.</p></div>
 </section><section class="section">
-  <div class="sec-head"><span class="sec-num">3</span><div><h2 class="sec-title">Comentaris</h2><p class="sec-sub">Explicar el codi a les persones</p></div></div>
+  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Comentaris</h2><p class="sec-sub">Explicar el codi a les persones</p></div></div>
   <p class="lead">Els comentaris són text que el compilador <strong>ignora</strong>. Serveixen per explicar el codi a les persones: companys, professorat o tu mateix d'aquí a uns mesos. Un bon comentari explica el <strong>per què</strong>, no el que ja es veu llegint el codi. En Java n'hi ha de dos tipus:</p><ul><li><strong>Comentari d'una línia</strong> <code>//</code>: tot el que hi ha a la dreta de les dues barres fins al final de la línia s'ignora. Pot ocupar una línia sencera o anar <strong>al final d'una instrucció</strong>.</li><li><strong>Comentari de diverses línies</strong> <code>/* … */</code>: tot el que hi ha entre <code>/*</code> i <code>*/</code> s'ignora, encara que ocupi moltes línies. Serveix per explicar un bloc de codi o per desactivar codi temporalment.</li></ul><div class="exemple">
   <div class="exemple-header"><span>Els dos tipus de comentaris en un programa</span></div>
   <div class="code-block" data-run="r4"><span class="cmt">// Programa que calcula el preu final d'un article</span>
@@ -337,18 +346,23 @@ Fitxers: 3</pre></div>
   <div class="exercici-body"><p>Decideix si cada comentari ajuda a entendre el codi o no hi aporta res.</p><div class="qi"><div class="qi-text"><span class="qi-n">1.</span> <code>total = total * 1.21;  // multipliquem per 1.21</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="0">Bon comentari</button><button type="button" class="qi-btn" data-ok="1">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Repeteix el que ja diu el codi. No explica <strong>per què</strong> es multiplica.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">2.</span> <code>total = total * 1.21;  // afegim el 21 % d'IVA</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Explica el sentit del càlcul: ara s'entén d'on surt l'1.21.</div></div><div class="qi"><div class="qi-text"><span class="qi-n">3.</span> <code>/* Fórmula d'Heró: àrea d'un triangle a partir dels tres costats */</code></div><div class="qi-opts" role="group"><button type="button" class="qi-btn" data-ok="1">Bon comentari</button><button type="button" class="qi-btn" data-ok="0">Mal comentari</button></div><div class="qi-fb" aria-live="polite" hidden></div><div class="qi-exp" hidden>Diu quina fórmula s'aplica i per a què: estalvia molta feina a qui llegeix.</div></div><button type="button" class="btn-reset" onclick="reiniciaDemo(this)">↺ Torna-ho a provar</button></div>
 </div></section><section class="section" id="exercicis">
   <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
-  <p class="lead">Aquests dos exercicis fan servir tot el que has vist: l'estructura d'un programa, la composició seqüencial, <code>print</code> i <code>println</code> i els comentaris. Escriu-los al projecte <code>AEA1_A1</code> i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
+  <p class="lead">Aquests dos exercicis fan servir tot el que has vist: l'estructura d'un programa, la composició seqüencial, l'entrada de dades amb <code>Scanner</code>, <code>print</code> i <code>println</code> i els comentaris. Escriu-los al projecte <code>AEA1_A1</code> i compara la sortida amb l'exemple d'execució.</p><div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El tiquet de la llibreria</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una alumna compra <strong>3 llibretes</strong> de 2 € i <strong>4 bolígrafs</strong> d'1 €. Aquest algorisme calcula el preu de cada producte i el total, i mostra un tiquet. Tradueix-lo a Java a la classe <code>Llibreria</code>.</p><div class="pseudo">Algoritmo Llibreria
+    <p>Una alumna compra llibretes i bolígrafs. Aquest algorisme <strong>demana per teclat</strong> quantes unitats compra de cada producte i quant val cadascuna, calcula el preu de cada producte i el total, i mostra un tiquet. Tradueix-lo a Java a la classe <code>Llibreria</code>.</p><div class="pseudo">Algoritmo Llibreria
     Definir llibretes, preuLlibreta, boligrafs, preuBoligraf Como Entero
     Definir totalLlibretes, totalBoligrafs, total Como Entero
 
-    llibretes &lt;- 3
-    preuLlibreta &lt;- 2
-    boligrafs &lt;- 4
-    preuBoligraf &lt;- 1
+    Escribir Sin Saltar "Quantes llibretes? "
+    Leer llibretes
+    Escribir Sin Saltar "Preu d'una llibreta (€)? "
+    Leer preuLlibreta
+    Escribir Sin Saltar "Quants bolígrafs? "
+    Leer boligrafs
+    Escribir Sin Saltar "Preu d'un bolígraf (€)? "
+    Leer preuBoligraf
+    Escribir ""
 
     totalLlibretes &lt;- llibretes * preuLlibreta
     totalBoligrafs &lt;- boligrafs * preuBoligraf
@@ -360,26 +374,39 @@ Fitxers: 3</pre></div>
     Escribir " x ", preuBoligraf, " € = ", totalBoligrafs, " €"
     Escribir ""
     Escribir "TOTAL: ", total, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Separa el programa en tres parts (dades, càlculs i sortida) amb un comentari a sobre de cadascuna.</li><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>; <code>Escribir</code> → <code>System.out.println</code>.</li><li><code>Escribir ""</code> només deixa una línia en blanc: en Java es fa amb <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Llibretes: 3 x 2 € = 6 €
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Separa el programa en tres parts (dades, càlculs i sortida) amb un comentari a sobre de cadascuna.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: recorda l'<code>import java.util.Scanner;</code> i crear l'<code>Scanner</code> al principi del <code>main</code>.</li><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>; <code>Escribir</code> → <code>System.out.println</code>.</li><li><code>Escribir ""</code> només deixa una línia en blanc: en Java es fa amb <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quantes llibretes? 3
+Preu d'una llibreta (€)? 2
+Quants bolígrafs? 4
+Preu d'un bolígraf (€)? 1
+
+Llibretes: 3 x 2 € = 6 €
 Bolígrafs: 4 x 1 € = 4 €
 
 TOTAL: 10 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">/*</span>
-<span class="cmt"> * Calcula el preu d'una compra de material escolar</span>
-<span class="cmt"> * i el mostra en forma de tiquet.</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">/*</span>
+<span class="cmt"> * Demana les quantitats i els preus d'una compra de material escolar,</span>
+<span class="cmt"> * calcula el preu i el mostra en forma de tiquet.</span>
 <span class="cmt"> */</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Llibreria</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Dades d'entrada: quantitats i preus en euros</span>
-        <span class="kw">int</span> llibretes = <span class="num">3</span>;
-        <span class="kw">int</span> preuLlibreta = <span class="num">2</span>;
-        <span class="kw">int</span> boligrafs = <span class="num">4</span>;
-        <span class="kw">int</span> preuBoligraf = <span class="num">1</span>;
+        <span class="cmt">// Dades d'entrada: quantitats i preus en euros, llegits del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quantes llibretes? "</span>);
+        <span class="kw">int</span> llibretes = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu d'una llibreta (€)? "</span>);
+        <span class="kw">int</span> preuLlibreta = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quants bolígrafs? "</span>);
+        <span class="kw">int</span> boligrafs = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu d'un bolígraf (€)? "</span>);
+        <span class="kw">int</span> preuBoligraf = sc.<span class="fn">nextInt</span>();
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="cmt">// Càlculs</span>
         <span class="kw">int</span> totalLlibretes = llibretes * preuLlibreta;
@@ -394,23 +421,29 @@ TOTAL: 10 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
         <span class="cls">System</span>.out.<span class="fn">println</span>();    <span class="cmt">// línia en blanc</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL: "</span> + total + <span class="str">" €"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les dades, els càlculs i la sortida estan separats i comentats.</li><li>Els totals es calculen amb variables, no s'escriuen a mà.</li><li><code>print</code> deixa el cursor a la mateixa línia i <code>println()</code> fa la línia en blanc.</li><li>La sortida coincideix amb l'exemple, espais inclosos.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les dades, els càlculs i la sortida estan separats i comentats.</li><li>Les quatre dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li><li>Els totals es calculen amb variables, no s'escriuen a mà.</li><li><code>print</code> deixa el cursor a la mateixa línia i <code>println()</code> fa la línia en blanc.</li><li>La sortida coincideix amb l'exemple, espais inclosos.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.1 · 1.9</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La tanca del jardí</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un jardí rectangular fa <strong>12 m de llarg</strong> i <strong>7 m d'ample</strong>. El volem envoltar amb una tanca que costa <strong>3 € el metre</strong>. Aquest algorisme calcula l'àrea del jardí, els metres de tanca i el que costa. Tradueix-lo a Java a la classe <code>Jardi</code> i <strong>documenta'l</strong>: el pseudocodi no porta cap comentari.</p><div class="pseudo">Algoritmo Jardi
+    <p>Volem envoltar un jardí rectangular amb una tanca. Aquest algorisme <strong>demana per teclat</strong> el llarg i l'ample del jardí (en metres) i el preu d'un metre de tanca, i calcula l'àrea del jardí, els metres de tanca i el que costa. Tradueix-lo a Java a la classe <code>Jardi</code> i <strong>documenta'l</strong>: el pseudocodi no porta cap comentari.</p><div class="pseudo">Algoritmo Jardi
     Definir llarg, ample, preuMetreTanca Como Entero
     Definir area, metresTanca, costTanca Como Entero
 
-    llarg &lt;- 12
-    ample &lt;- 7
-    preuMetreTanca &lt;- 3
+    Escribir Sin Saltar "Llarg del jardí (m)? "
+    Leer llarg
+    Escribir Sin Saltar "Ample del jardí (m)? "
+    Leer ample
+    Escribir Sin Saltar "Preu d'un metre de tanca (€)? "
+    Leer preuMetreTanca
+    Escribir ""
 
     area &lt;- llarg * ample
     metresTanca &lt;- 2 * (llarg + ample)
@@ -423,7 +456,11 @@ TOTAL: 10 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     Escribir ""
     Escribir "Tanca: ", metresTanca, " m"
     Escribir "Cost de la tanca: ", costTanca, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Comença amb un comentari de bloc <code>/* … */</code> que digui què fa el programa i quines fórmules fa servir.</li><li>Afegeix comentaris de línia que expliquin les unitats de cada dada.</li><li>Tria bé entre <code>print</code> i <code>println</code> segons si la línia continua o s'acaba.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>=== JARDÍ ===
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Comença amb un comentari de bloc <code>/* … */</code> que digui què fa el programa i quines fórmules fa servir.</li><li>Afegeix comentaris de línia que expliquin les unitats de cada dada.</li><li>Llegeix les tres dades amb <code>Scanner</code> (<code>Leer</code> → <code>sc.nextInt()</code>).</li><li>Tria bé entre <code>print</code> i <code>println</code> segons si la línia continua o s'acaba.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Llarg del jardí (m)? 12
+Ample del jardí (m)? 7
+Preu d'un metre de tanca (€)? 3
+
+=== JARDÍ ===
 Mides: 12 m x 7 m
 Àrea: 84 m²
 
@@ -432,8 +469,11 @@ Cost de la tanca: 114 €</pre></div><div class="ex-grid"><div class="solucio-wr
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
-    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="cmt">/*</span>
-<span class="cmt"> * Calcula l'àrea d'un jardí rectangular i quant costa</span>
+    <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
+
+<span class="cmt">/*</span>
+<span class="cmt"> * Llegeix les mides d'un jardí rectangular i el preu de la tanca,</span>
+<span class="cmt"> * i calcula l'àrea del jardí i quant costa</span>
 <span class="cmt"> * envoltar-lo amb una tanca.</span>
 <span class="cmt"> * Fórmules: àrea = llarg * ample; perímetre = 2 * (llarg + ample)</span>
 <span class="cmt"> */</span>
@@ -441,10 +481,15 @@ Cost de la tanca: 114 €</pre></div><div class="ex-grid"><div class="solucio-wr
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Dades d'entrada</span>
-        <span class="kw">int</span> llarg = <span class="num">12</span>;          <span class="cmt">// metres</span>
-        <span class="kw">int</span> ample = <span class="num">7</span>;           <span class="cmt">// metres</span>
-        <span class="kw">int</span> preuMetreTanca = <span class="num">3</span>;  <span class="cmt">// euros per metre</span>
+        <span class="cmt">// Dades d'entrada: es llegeixen del teclat</span>
+        <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Llarg del jardí (m)? "</span>);
+        <span class="kw">int</span> llarg = sc.<span class="fn">nextInt</span>();           <span class="cmt">// metres</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Ample del jardí (m)? "</span>);
+        <span class="kw">int</span> ample = sc.<span class="fn">nextInt</span>();           <span class="cmt">// metres</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu d'un metre de tanca (€)? "</span>);
+        <span class="kw">int</span> preuMetreTanca = sc.<span class="fn">nextInt</span>();  <span class="cmt">// euros per metre</span>
+        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
         <span class="cmt">// Càlculs: la tanca fa tot el perímetre del jardí</span>
         <span class="kw">int</span> area = llarg * ample;
@@ -460,10 +505,12 @@ Cost de la tanca: 114 €</pre></div><div class="ex-grid"><div class="solucio-wr
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Tanca: "</span> + metresTanca + <span class="str">" m"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Cost de la tanca: "</span> + costTanca + <span class="str">" €"</span>);
 
+        sc.<span class="fn">close</span>();
+
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un comentari de bloc inicial amb la finalitat i les fórmules.</li><li>Els metres de tanca són el perímetre: <code>2 * (llarg + ample)</code>.</li><li>El cost es calcula a partir dels metres de tanca, no amb un número escrit a mà.</li><li>La classe es diu igual que el fitxer i totes les instruccions acaben en <code>;</code>.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha un comentari de bloc inicial amb la finalitat i les fórmules.</li><li>Les mides i el preu es llegeixen del teclat; el programa funciona amb qualsevol jardí.</li><li>Els metres de tanca són el perímetre: <code>2 * (llarg + ample)</code>.</li><li>El cost es calcula a partir dels metres de tanca, no amb un número escrit a mà.</li><li>La classe es diu igual que el fitxer i totes les instruccions acaben en <code>;</code>.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.1 · 1.9</span></div>
 </div>
 </section>
