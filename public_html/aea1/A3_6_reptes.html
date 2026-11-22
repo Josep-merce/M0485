@@ -243,7 +243,7 @@
     <p>El programa genera un número secret entre 1 i 50. El jugador té 6 intents per endevinar-lo. Després de cada intent, el programa diu si el secret és més gran o més petit.</p>
     <ul class="exercici-tasques">
       <li>Genera el secret amb <code>Random</code>.</li>
-      <li>Llegeix els intents amb <code>Scanner</code>. Si l'usuari escriu text, avisa'l i <strong>no</strong> comptis l'intent (fes servir <code>try-catch</code> i <code>continue</code>).</li>
+      <li>Llegeix cada intent com a text amb <code>sc.nextLine()</code> i converteix-lo amb <code>Integer.parseInt()</code>, com a l'<a href="A3_4_excepcions.html">A3.4</a>. Si l'usuari escriu text, salta una <code>NumberFormatException</code>: avisa'l i <strong>no</strong> comptis l'intent (fes servir <code>try-catch</code> i <code>continue</code>).</li>
       <li>Surt del bucle amb <code>break</code> quan encerti.</li>
       <li>Al final, indica en quants intents ho ha aconseguit o quin era el número.</li>
     </ul><div class="ex-grid"><div class="solucio-wrap">
@@ -335,7 +335,7 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
     <span class="badge badge-avancat" style="margin-left:auto">Avançat</span>
   </div>
   <div class="exercici-body">
-    <p>Crea una calculadora d'enters que funcioni en bucle: demana dos números i una operació (+, −, *, /, %) i mostra el resultat. Quan l'usuari escriu <code>fi</code> com a primer número, el programa acaba i mostra quantes operacions s'han fet correctament.</p>
+    <p>Crea una calculadora d'enters que funcioni en bucle: demana dos números i una operació (+, -, *, /, %) i mostra el resultat. Quan l'usuari escriu <code>fi</code> com a primer número, el programa acaba i mostra quantes operacions s'han fet correctament.</p>
     <ul class="exercici-tasques">
       <li>Llegeix totes les dades com a text amb <code>sc.nextLine()</code>.</li>
       <li>Fes servir un <code>switch</code> per a l'operació; si l'operador no existeix, llança una excepció pròpia <code>OperacioDesconegudaException</code>.</li>
@@ -349,6 +349,12 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
       <div class="solucio-header">✅ Solució</div>
       <div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
+<span class="cmt">/*</span>
+<span class="cmt"> * Calculadora d'enters que funciona en bucle fins que l'usuari escriu "fi".</span>
+<span class="cmt"> * Cap error d'entrada atura el programa: es captura, s'informa i es torna a començar.</span>
+<span class="cmt"> */</span>
+
+<span class="cmt">// Excepció pròpia: es llança quan l'operació no és cap de les cinc admeses</span>
 <span class="kw">class</span> <span class="cls">OperacioDesconegudaException</span> <span class="kw">extends</span> <span class="cls">Exception</span> {
 
     <span class="kw">public</span> <span class="cls">OperacioDesconegudaException</span>(<span class="cls">String</span> missatge) {
@@ -362,10 +368,11 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
-        <span class="kw">int</span> correctes = <span class="num">0</span>;
+        <span class="kw">int</span> correctes = <span class="num">0</span>;                     <span class="cmt">// comptador d'operacions fetes sense error</span>
 
-        <span class="kw">while</span> (<span class="kw">true</span>) {
+        <span class="kw">while</span> (<span class="kw">true</span>) {                         <span class="cmt">// bucle infinit: només se'n surt amb el break de "fi"</span>
 
+            <span class="cmt">// Es llegeix com a text perquè pot ser un número o la paraula "fi"</span>
             <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Primer número (o 'fi'): "</span>);
             <span class="cls">String</span> text1 = sc.<span class="fn">nextLine</span>();
             <span class="kw">if</span> (text1.<span class="fn">equalsIgnoreCase</span>(<span class="str">"fi"</span>)) {
@@ -373,12 +380,14 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
             }
 
             <span class="kw">try</span> {
+                <span class="cmt">// parseInt llança NumberFormatException si el text no és un enter</span>
                 <span class="kw">int</span> a = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(text1);
                 <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Operació (+ - * / %): "</span>);
                 <span class="cls">String</span> op = sc.<span class="fn">nextLine</span>();
                 <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Segon número: "</span>);
                 <span class="kw">int</span> b = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(sc.<span class="fn">nextLine</span>());
 
+                <span class="cmt">// El switch calcula el resultat; si l'operació no existeix, llança l'excepció pròpia</span>
                 <span class="kw">int</span> resultat = <span class="kw">switch</span> (op) {
                     <span class="kw">case</span> <span class="str">"+"</span> -&gt; a + b;
                     <span class="kw">case</span> <span class="str">"-"</span> -&gt; a - b;
@@ -389,18 +398,19 @@ Encertat en 4 intents!</pre></div><p class="nota-sortida">El número secret canv
                 };
 
                 <span class="cls">System</span>.out.<span class="fn">println</span>(a + <span class="str">" "</span> + op + <span class="str">" "</span> + b + <span class="str">" = "</span> + resultat);
-                correctes++;
+                correctes++;                             <span class="cmt">// només s'arriba aquí si no hi ha hagut cap error</span>
 
-            } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {
+            } <span class="kw">catch</span> (<span class="cls">NumberFormatException</span> e) {      <span class="cmt">// algun número no era un enter</span>
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: cal escriure números enters."</span>);
-            } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {
+            } <span class="kw">catch</span> (<span class="cls">ArithmeticException</span> e) {        <span class="cmt">// divisió o mòdul per zero</span>
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: no es pot dividir per zero."</span>);
-            } <span class="kw">catch</span> (<span class="cls">OperacioDesconegudaException</span> e) {
+            } <span class="kw">catch</span> (<span class="cls">OperacioDesconegudaException</span> e) { <span class="cmt">// operació no admesa</span>
                 <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Error: "</span> + e.<span class="fn">getMessage</span>());
             }
 
         }
 
+        <span class="cmt">// Resum final, després d'escriure "fi"</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Operacions correctes: "</span> + correctes);
         sc.<span class="fn">close</span>();
 
@@ -422,6 +432,8 @@ Primer número (o &#x27;fi&#x27;): 8
 Operació (+ - * / %): ^
 Segon número: 2
 Error: Operació desconeguda: ^
+Primer número (o &#x27;fi&#x27;): dotze
+Error: cal escriure números enters.
 Primer número (o &#x27;fi&#x27;): fi
 Operacions correctes: 1</pre></div>
   </div>
