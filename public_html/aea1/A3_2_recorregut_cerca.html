@@ -391,7 +391,7 @@ Algun múltiple de 5? true</pre></div>
 
 <section class="section" id="exercicis">
   <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
-  <p class="lead">Aquests dos exercicis fan servir el que has vist: l'esquema de recorregut amb comptadors i acumuladors, l'esquema de cerca amb una variable <code>trobat</code> i les seqüències acabades en un sentinella. Escriu-los al projecte <code>AEA1_A3</code> i compara la sortida amb l'exemple d'execució. Als exemples d'execució, el que escriu l'usuari és la resposta que hi ha just després de cada pregunta del programa (per exemple, el <code>5</code> de <code>Nombre de files: 5</code>).</p><div class="exercici-card practica" id="ex1">
+  <p class="lead">Aquests dos exercicis fan servir el que has vist: l'esquema de recorregut amb comptadors i acumuladors, l'esquema de cerca amb una variable <code>trobat</code> i les seqüències acabades en un sentinella. Escriu-los al projecte <code>AEA1_A3</code> i compara la sortida amb l'exemple d'execució. Als exemples d'execució, el que escriu l'usuari és la resposta que hi ha just després de cada pregunta del programa (per exemple, el <code>36</code> de <code>Número: 36</code>).</p><div class="exercici-card practica" id="ex1">
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">Els divisors d'un número</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
@@ -527,14 +527,14 @@ Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div clas
 </div>
 </section><section class="section">
   <div class="sec-head"><span class="sec-num">★</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
-  <p class="lead">Resol aquest exercici de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el que escriu l'usuari és la resposta que hi ha just després de cada pregunta del programa (per exemple, el <code>5</code> de <code>Nombre de files: 5</code>).</p><div class="exercici-card" id="p1">
+  <p class="lead">Resol aquest exercici de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el que escriu l'usuari és la resposta que hi ha just després de cada pregunta del programa (per exemple, el <code>36</code> de <code>Número: 36</code>).</p><div class="exercici-card" id="p1">
   <div class="exercici-header">
     <span class="exercici-num">Pràctica 1</span>
     <span class="exercici-title">Anàlisi de les xifres d'un número</span>
     <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
   </div>
   <div class="exercici-body">
-    <p>Demana per teclat un número enter positiu (de fins a 18 xifres) i calcula quantes xifres té, la suma de les xifres, quantes són parells i el número invertit.</p>
+    <p>Demana per teclat un número enter positiu (de fins a 18 xifres) i calcula quantes xifres té, la suma de les xifres, quantes són parelles i el número invertit.</p>
     <ul class="exercici-tasques">
       <li>Llegeix el número com a <code>long</code> amb <code>sc.nextLong()</code> (funciona com <code>nextInt()</code>, però admet números més llargs; vegeu la <a href="A1_2_dades.html#llegir-teclat">taula de lectura de l'A1.2</a>).</li>
       <li>Fes un recorregut amb <code>while</code> extraient l'última xifra (<code>% 10</code>) i eliminant-la (<code>/ 10</code>).</li>
@@ -544,7 +544,7 @@ Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div clas
     <div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Número: 90417263
 Xifres: 8
 Suma: 32
-Xifres parells: 4
+Xifres parelles: 4
 Invertit: 36271409</pre></div>
   </div>
   <div class="exercici-footer">
@@ -570,7 +570,7 @@ Invertit: 36271409</pre></div>
 
         <span class="kw">int</span> quantitat = <span class="num">0</span>;
         <span class="kw">int</span> suma = <span class="num">0</span>;
-        <span class="kw">int</span> parells = <span class="num">0</span>;
+        <span class="kw">int</span> parelles = <span class="num">0</span>;
         <span class="kw">long</span> invertit = <span class="num">0</span>;
 
         <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
@@ -578,7 +578,7 @@ Invertit: 36271409</pre></div>
             quantitat++;
             suma += xifra;
             <span class="kw">if</span> (xifra % <span class="num">2</span> == <span class="num">0</span>) {
-                parells++;
+                parelles++;
             }
             invertit = invertit * <span class="num">10</span> + xifra;
             n = n / <span class="num">10</span>;
@@ -586,7 +586,7 @@ Invertit: 36271409</pre></div>
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres: "</span> + quantitat);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parells: "</span> + parells);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parelles: "</span> + parelles);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
         sc.<span class="fn">close</span>();
 
