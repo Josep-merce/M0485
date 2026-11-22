@@ -254,13 +254,12 @@ FI PER A                      comptador ← comp + 1     màxim ← x
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
         <span class="kw">int</span> numero = <span class="num">528174</span>;
-        <span class="kw">int</span> n = numero;
         <span class="kw">int</span> suma = <span class="num">0</span>;        <span class="cmt">// acumulador</span>
         <span class="kw">int</span> parelles = <span class="num">0</span>;    <span class="cmt">// comptador</span>
         <span class="kw">int</span> maxim = <span class="num">0</span>;       <span class="cmt">// màxim: cap xifra és menor que 0</span>
 
         <span class="cmt">// Recorregut de totes les xifres, de dreta a esquerra</span>
-        <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
+        <span class="kw">for</span> (<span class="kw">int</span> n = numero; n &gt; <span class="num">0</span>; n = n / <span class="num">10</span>) {
             <span class="kw">int</span> xifra = n % <span class="num">10</span>;      <span class="cmt">// última xifra</span>
             suma += xifra;
             <span class="kw">if</span> (xifra % <span class="num">2</span> == <span class="num">0</span>) {
@@ -269,7 +268,6 @@ FI PER A                      comptador ← comp + 1     màxim ← x
             <span class="kw">if</span> (xifra &gt; maxim) {
                 maxim = xifra;
             }
-            n = n / <span class="num">10</span>;              <span class="cmt">// la traiem</span>
         }
 
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número: "</span> + numero);
@@ -284,7 +282,7 @@ FI PER A                      comptador ← comp + 1     màxim ← x
 Suma de les xifres: 27
 Xifres parelles: 3
 Xifra més gran: 8</pre></div>
-  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>És un recorregut: es tracten <strong>totes</strong> les xifres de <code>528174</code>, de dreta a esquerra. <code>n % 10</code> dona l'última xifra i <code>n / 10</code> la treu; quan <code>n</code> arriba a 0, ja no en queden.</p><p>Dins del bucle hi ha els tres esquemes de la taula: un <strong>acumulador</strong> (<code>suma</code>), un <strong>comptador</strong> que només augmenta si es compleix una condició (<code>parelles</code>, per a les xifres 2, 4 i 8) i un <strong>màxim</strong> que s'actualitza quan apareix una xifra més gran.</p><p>Totes tres variables s'inicialitzen <strong>abans</strong> del bucle. El màxim pot començar a 0 perquè cap xifra és més petita que 0.</p></div>
+  <div class="com-funciona"><span class="cf-label">Com funciona</span><p>És un recorregut: es tracten <strong>totes</strong> les xifres de <code>528174</code>, de dreta a esquerra. Ho fem amb un <code>for</code>: la inicialització copia el número a <code>n</code>, la condició <code>n &gt; 0</code> diu si encara queden xifres i l'actualització <code>n = n / 10</code> treu l'última xifra a cada volta. Dins, <code>n % 10</code> dona la xifra que toca.</p><p>Dins del bucle hi ha els tres esquemes de la taula: un <strong>acumulador</strong> (<code>suma</code>), un <strong>comptador</strong> que només augmenta si es compleix una condició (<code>parelles</code>, per a les xifres 2, 4 i 8) i un <strong>màxim</strong> que s'actualitza quan apareix una xifra més gran.</p><p>Totes tres variables s'inicialitzen <strong>abans</strong> del bucle. El màxim pot començar a 0 perquè cap xifra és més petita que 0.</p></div>
 </div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>i MOD 2 = 0</code></td><td><code>i % 2 == 0</code> (fixa't en el doble <code>==</code>)</td></tr><tr><td><code>Si</code> … <code>Entonces</code> … <code>SiNo</code> … <code>FinSi</code></td><td><code>if (</code>…<code>) {</code> … <code>} else {</code> … <code>}</code></td></tr></tbody></table></div></div>
 </section>
 <section class="section">
