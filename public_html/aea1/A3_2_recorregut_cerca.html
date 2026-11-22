@@ -390,75 +390,7 @@ Algun múltiple de 5? true</pre></div>
 </div>
 <div class="box box-errors"><span class="box-label">⚠️ Errors típics amb sentinelles</span>Tractar el <code>-1</code> com si fos una dada (per exemple, sumar-lo), o oblidar la lectura del final del bucle (el programa es queda en un bucle infinit amb el primer valor).</div><div class="box box-pseint"><span class="box-label">🔁 De PSeInt a Java</span><div class="table-wrap"><table class="ps-table"><thead><tr><th>PSeInt</th><th>Java</th></tr></thead><tbody><tr><td><code>Leer nota</code></td><td><code>nota = Integer.parseInt(sc.nextLine());</code></td></tr><tr><td><code>Escribir Sin Saltar "Nota: "</code></td><td><code>System.out.print("Nota: ");</code></td></tr><tr><td><code>mitjana &lt;- suma / quantitat</code></td><td><code>double mitjana = (double) suma / quantitat;</code></td></tr></tbody></table></div></div>
 </section>
-<section class="section">
-  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
-  <p class="lead">Resol aquest exercici de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
-  <div class="exercici-header">
-    <span class="exercici-num">Pràctica 1</span>
-    <span class="exercici-title">Anàlisi de les xifres d'un número</span>
-    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
-  </div>
-  <div class="exercici-body">
-    <p>Donat un número enter positiu de qualsevol longitud, calcula quantes xifres té, la suma de les xifres, quantes són parells i el número invertit.</p>
-    <ul class="exercici-tasques">
-      <li>Declara <code>long numero = 90417263L;</code></li>
-      <li>Fes un recorregut amb <code>while</code> extraient l'última xifra (<code>% 10</code>) i eliminant-la (<code>/ 10</code>).</li>
-      <li>Per invertir: <code>invertit = invertit * 10 + xifra</code>.</li>
-      <li>Fes la taula de traça de les tres primeres iteracions.</li>
-    </ul>
-    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Número: 90417263
-Xifres: 8
-Suma: 32
-Xifres parells: 4
-Invertit: 36271409</pre></div>
-  </div>
-  <div class="exercici-footer">
-    <span class="badge badge-mitja">Mitjà</span>
-    <span class="ex-ca">CA: 3.2 · 3.5 · 3.6</span>
-  </div>
-  <div class="solucio-wrap">
-    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
-      <span class="icon">▶</span><span class="label">Veure solució</span>
-    </button>
-    <div class="solucio-body">
-      <div class="solucio-header">✅ Solució</div>
-      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnalisiXifres</span> {
 
-    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
-
-        <span class="kw">long</span> numero = <span class="num">90417263L</span>;
-        <span class="kw">long</span> n = numero;
-
-        <span class="kw">int</span> quantitat = <span class="num">0</span>;
-        <span class="kw">int</span> suma = <span class="num">0</span>;
-        <span class="kw">int</span> parells = <span class="num">0</span>;
-        <span class="kw">long</span> invertit = <span class="num">0</span>;
-
-        <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
-            <span class="kw">int</span> xifra = (<span class="kw">int</span>) (n % <span class="num">10</span>);
-            quantitat++;
-            suma += xifra;
-            <span class="kw">if</span> (xifra % <span class="num">2</span> == <span class="num">0</span>) {
-                parells++;
-            }
-            invertit = invertit * <span class="num">10</span> + xifra;
-            n = n / <span class="num">10</span>;
-        }
-
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número: "</span> + numero);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres: "</span> + quantitat);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parells: "</span> + parells);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
-
-    }
-
-}</div>
-      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es treballa sobre una còpia (<code>n</code>) per no perdre el número original.</li><li>El casting <code>(int)</code> és necessari perquè <code>n % 10</code> és <code>long</code>.</li><li>Hi ha la taula de traça.</li></ul></div>
-    </div>
-  </div>
-</div>
-</section>
 <section class="section" id="exercicis">
   <div class="sec-head"><span class="sec-num">✍</span><div><h2 class="sec-title">Exercicis</h2><p class="sec-sub">Posa-ho tot en pràctica</p></div></div>
   <p class="lead">Aquests dos exercicis fan servir el que has vist: l'esquema de recorregut amb comptadors i acumuladors, l'esquema de cerca amb una variable <code>trobat</code> i les seqüències acabades en un sentinella. Escriu-los al projecte <code>AEA1_A3</code> i compara la sortida amb l'exemple d'execució. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card practica" id="ex1">
@@ -587,6 +519,74 @@ Primer suspens: nota 4 a la posició 3</pre></div><div class="ex-grid"><div clas
 }</div></div>
   </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Hi ha una lectura abans del bucle i una altra quan la nota no és un suspens.</li><li>La condició del <code>while</code> té les dues maneres d'acabar: arriba el sentinella <em>o</em> s'ha trobat el suspens.</li><li>La variable <code>trobat</code> és <code>boolean</code> i comença a <code>false</code>.</li><li>El <code>-1</code> no es compta com una nota.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 3.2 · 3.5 · 3.6</span></div>
+</div>
+</section><section class="section">
+  <div class="sec-head"><span class="sec-num">★</span><div><h2 class="sec-title">Practica-ho</h2><p class="sec-sub">Exercicis per consolidar l'apartat</p></div></div>
+  <p class="lead">Resol aquest exercici de més d'un pas. Dissenya l'algorisme en paper i fes-ne una traça abans de programar. Als exemples d'execució, el text que hi ha després dels dos punts és el que escriu l'usuari.</p><div class="exercici-card" id="p1">
+  <div class="exercici-header">
+    <span class="exercici-num">Pràctica 1</span>
+    <span class="exercici-title">Anàlisi de les xifres d'un número</span>
+    <span class="badge badge-mitja" style="margin-left:auto">Mitjà</span>
+  </div>
+  <div class="exercici-body">
+    <p>Donat un número enter positiu de qualsevol longitud, calcula quantes xifres té, la suma de les xifres, quantes són parells i el número invertit.</p>
+    <ul class="exercici-tasques">
+      <li>Declara <code>long numero = 90417263L;</code></li>
+      <li>Fes un recorregut amb <code>while</code> extraient l'última xifra (<code>% 10</code>) i eliminant-la (<code>/ 10</code>).</li>
+      <li>Per invertir: <code>invertit = invertit * 10 + xifra</code>.</li>
+      <li>Fes la taula de traça de les tres primeres iteracions.</li>
+    </ul>
+    <div class="console"><div class="console-header">🖥️ Sortida esperada</div><pre>Número: 90417263
+Xifres: 8
+Suma: 32
+Xifres parells: 4
+Invertit: 36271409</pre></div>
+  </div>
+  <div class="exercici-footer">
+    <span class="badge badge-mitja">Mitjà</span>
+    <span class="ex-ca">CA: 3.2 · 3.5 · 3.6</span>
+  </div>
+  <div class="solucio-wrap">
+    <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
+      <span class="icon">▶</span><span class="label">Veure solució</span>
+    </button>
+    <div class="solucio-body">
+      <div class="solucio-header">✅ Solució</div>
+      <div class="code-block"><span class="kw">public</span> <span class="kw">class</span> <span class="cls">AnalisiXifres</span> {
+
+    <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+        <span class="kw">long</span> numero = <span class="num">90417263L</span>;
+        <span class="kw">long</span> n = numero;
+
+        <span class="kw">int</span> quantitat = <span class="num">0</span>;
+        <span class="kw">int</span> suma = <span class="num">0</span>;
+        <span class="kw">int</span> parells = <span class="num">0</span>;
+        <span class="kw">long</span> invertit = <span class="num">0</span>;
+
+        <span class="kw">while</span> (n &gt; <span class="num">0</span>) {
+            <span class="kw">int</span> xifra = (<span class="kw">int</span>) (n % <span class="num">10</span>);
+            quantitat++;
+            suma += xifra;
+            <span class="kw">if</span> (xifra % <span class="num">2</span> == <span class="num">0</span>) {
+                parells++;
+            }
+            invertit = invertit * <span class="num">10</span> + xifra;
+            n = n / <span class="num">10</span>;
+        }
+
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Número: "</span> + numero);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres: "</span> + quantitat);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Suma: "</span> + suma);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Xifres parells: "</span> + parells);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Invertit: "</span> + invertit);
+
+    }
+
+}</div>
+      <div class="claus"><strong>✔ Què es valora</strong><ul><li>Es treballa sobre una còpia (<code>n</code>) per no perdre el número original.</li><li>El casting <code>(int)</code> és necessari perquè <code>n % 10</code> és <code>long</code>.</li><li>Hi ha la taula de traça.</li></ul></div>
+    </div>
+  </div>
 </div>
 </section>
 <nav class="pagina-nav" aria-label="Navegació entre subpàgines"><a href="A3_1_bucles.html">← A3.1 Els tres bucles</a><a href="A3_algorismes_iteratius.html" class="nav-hub">A3 · Índex</a><a href="A3_3_imbricats_salts.html">A3.3 Imbricats, salts i aleatoris →</a></nav>
