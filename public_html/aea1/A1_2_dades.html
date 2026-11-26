@@ -394,9 +394,9 @@ Dies per retornar-lo: 18 de 30</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">La fitxa de la pel·lícula</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una videoteca guarda unes quantes dades de cada pel·lícula: el títol, l'any, la durada, la valoració, la versió (<strong>O</strong> original o <strong>D</strong> doblada) i si té subtítols. Aquest algorisme <strong>demana per teclat</strong> les dades d'una pel·lícula i en mostra la fitxa. Tradueix-lo a Java a la classe <code>Pelicula</code> triant el tipus adequat per a cada dada.</p><div class="pseudo">Algoritmo Pelicula
+    <p>Una videoteca guarda unes quantes dades de cada pel·lícula: el títol, l'any, la valoració, la versió (<strong>O</strong> original o <strong>D</strong> doblada) i si té subtítols. Aquest algorisme <strong>demana per teclat</strong> les dades d'una pel·lícula i en mostra la fitxa. Tradueix-lo a Java a la classe <code>Pelicula</code> triant el tipus adequat per a cada dada.</p><div class="pseudo">Algoritmo Pelicula
     Definir titol, versio Como Caracter
-    Definir any, durada Como Entero
+    Definir any Como Entero
     Definir valoracio Como Real
     Definir subtitulada Como Logico
 
@@ -406,28 +406,21 @@ Dies per retornar-lo: 18 de 30</pre></div>
     Leer versio
     Escribir Sin Saltar "Any? "
     Leer any
-    Escribir Sin Saltar "Durada (min)? "
-    Leer durada
     Escribir Sin Saltar "Valoració? "
     Leer valoracio
     Escribir Sin Saltar "Subtitulada (true/false)? "
     Leer subtitulada
     Escribir ""
 
-    Escribir "Títol: ", titol, " (", any, ")"
-    Escribir "Durada: ", durada, " min"
-    Escribir "Valoració: ", valoracio
+    Escribir titol, " (", any, ") · ", valoracio
     Escribir "Versió: ", versio, " · Subtitulada: ", subtitulada
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code>.</li><li><code>Caracter</code> pot ser un text (<code>String</code>, cometes dobles) o una sola lletra (<code>char</code>, cometes simples). Pensa quina dada guarda cada variable.</li><li>Els valors lògics de Java són <code>true</code> i <code>false</code>, en minúscula (els <code>Verdadero</code> i <code>Falso</code> de PSeInt). Declara i inicialitza cada variable en una sola línia, amb la seva lectura.</li><li><code>Leer</code> → el mètode de l'<code>Scanner</code> que toca a cada tipus: <code>sc.nextLine()</code> per al títol (té espais), <code>sc.nextInt()</code>, <code>sc.nextDouble()</code>, <code>sc.nextBoolean()</code> i, per a un <code>char</code>, <code>sc.next().charAt(0)</code> (la primera lletra de la paraula; vegeu la <a href="#llegir-teclat">taula de lectura</a>). Llegeix el títol primer.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Títol? La vida és bella
+FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Entero</code> → <code>int</code>, <code>Real</code> → <code>double</code>, <code>Logico</code> → <code>boolean</code>. <code>Caracter</code> pot ser un text (<code>String</code>) o una sola lletra (<code>char</code>): pensa quina dada guarda cada variable.</li><li><code>Leer</code> → el mètode de l'<code>Scanner</code> de cada tipus: <code>nextLine()</code> per al títol (té espais), <code>nextInt()</code>, <code>nextDouble()</code>, <code>nextBoolean()</code> i, per a un <code>char</code>, <code>next().charAt(0)</code> (vegeu la <a href="#llegir-teclat">taula de lectura</a>). Llegeix el títol primer.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Títol? La vida és bella
 Versió (O/D)? O
 Any? 1997
-Durada (min)? 116
 Valoració? 8,6
 Subtitulada (true/false)? true
 
-Títol: La vida és bella (1997)
-Durada: 116 min
-Valoració: 8.6
+La vida és bella (1997) · 8.6
 Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
@@ -447,17 +440,13 @@ Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solu
         <span class="kw">char</span> versio = sc.<span class="fn">next</span>().<span class="fn">charAt</span>(<span class="num">0</span>);      <span class="cmt">// una sola lletra (O = original, D = doblada)</span>
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Any? "</span>);
         <span class="kw">int</span> any = sc.<span class="fn">nextInt</span>();                 <span class="cmt">// enter</span>
-        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Durada (min)? "</span>);
-        <span class="kw">int</span> durada = sc.<span class="fn">nextInt</span>();              <span class="cmt">// minuts</span>
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Valoració? "</span>);
         <span class="kw">double</span> valoracio = sc.<span class="fn">nextDouble</span>();     <span class="cmt">// decimal: al teclat, amb coma</span>
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Subtitulada (true/false)? "</span>);
         <span class="kw">boolean</span> subtitulada = sc.<span class="fn">nextBoolean</span>(); <span class="cmt">// true o false, en minúscula</span>
         <span class="cls">System</span>.out.<span class="fn">println</span>();
 
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Títol: "</span> + titol + <span class="str">" ("</span> + any + <span class="str">")"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Durada: "</span> + durada + <span class="str">" min"</span>);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Valoració: "</span> + valoracio);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(titol + <span class="str">" ("</span> + any + <span class="str">") · "</span> + valoracio);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Versió: "</span> + versio + <span class="str">" · Subtitulada: "</span> + subtitulada);
 
         sc.<span class="fn">close</span>();
@@ -465,7 +454,7 @@ Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solu
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>titol</code> és <code>String</code> i <code>versio</code> és <code>char</code>.</li><li><code>any</code> i <code>durada</code> són <code>int</code>; <code>valoracio</code> és <code>double</code>.</li><li><code>subtitulada</code> és <code>boolean</code>.</li><li>Les sis dades es llegeixen del teclat amb el mètode de l'<code>Scanner</code> del seu tipus i cada lectura té el seu missatge.</li><li>La sortida coincideix amb l'exemple, espais i parèntesis inclosos.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>titol</code> és <code>String</code> i <code>versio</code> és <code>char</code>.</li><li><code>any</code> és <code>int</code>, <code>valoracio</code> és <code>double</code> i <code>subtitulada</code> és <code>boolean</code>.</li><li>Les cinc dades es llegeixen del teclat amb el mètode de l'<code>Scanner</code> del seu tipus i cada lectura té el seu missatge.</li><li>La sortida coincideix amb l'exemple, espais i parèntesis inclosos.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.4</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
