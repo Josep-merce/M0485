@@ -461,10 +461,10 @@ Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solu
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">El viatge en taxi</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Un taxi cobra una <strong>baixada de bandera</strong> de 2,5 € i <strong>1,25 € per quilòmetre</strong>. Aquest algorisme <strong>demana per teclat</strong> la matrícula del taxi i els quilòmetres d'un trajecte, en calcula el preu i, quan el client demana anar 3 km més lluny, el torna a calcular. Tradueix-lo a Java a la classe <code>Taxi</code>. A PSeInt tot són variables: a Java, decideix quines dades han de ser <strong>constants</strong>.</p><div class="pseudo">Algoritmo Taxi
+    <p>Un taxi cobra una <strong>baixada de bandera</strong> de 2,5 € i <strong>1,25 € per quilòmetre</strong>. Aquest algorisme <strong>demana per teclat</strong> la matrícula del taxi i els quilòmetres d'un trajecte, en calcula el preu i, després, el taxista pregunta al client si vol fer més quilòmetres i quants (<strong>0</strong> si no en vol fer cap) i torna a calcular el preu. Tradueix-lo a Java a la classe <code>Taxi</code>. A PSeInt tot són variables: a Java, decideix quines dades han de ser <strong>constants</strong>.</p><div class="pseudo">Algoritmo Taxi
     Definir baixadaBandera, preuKm, preuViatge Como Real
     Definir matricula Como Caracter
-    Definir km Como Entero
+    Definir km, kmMes Como Entero
 
     baixadaBandera &lt;- 2.5
     preuKm &lt;- 1.25
@@ -479,22 +479,25 @@ Versió: O · Subtitulada: true</pre></div><div class="ex-grid"><div class="solu
     Escribir "Taxi ", matricula
     Escribir "Trajecte: ", km, " km → ", preuViatge, " €"
 
-    // El client demana anar 3 km més lluny
-    km &lt;- km + 3
+    // El taxista pregunta si vol fer més quilòmetres
+    Escribir Sin Saltar "Quants km més vol fer (0 si cap)? "
+    Leer kmMes
+    km &lt;- km + kmMes
     preuViatge &lt;- baixadaBandera + km * preuKm
-    Escribir "Trajecte: ", km, " km → ", preuViatge, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>La baixada de bandera i el preu per km són la <strong>tarifa</strong> del taxi: no canvien d'un viatge a l'altre. Declara-les amb <code>final</code> i en MAJÚSCULES (<code>BAIXADA_BANDERA</code>, <code>PREU_KM</code>).</li><li><code>km &lt;- km + 3</code> → <code>km = km + 3;</code>, sense tornar a escriure <code>int</code>: la variable ja existeix.</li><li><code>preuViatge</code> no s'actualitza sol quan canvia <code>km</code>: l'has de tornar a calcular.</li><li><code>Leer</code> → <code>sc.nextLine()</code> per a la matrícula (té un espai) i <code>sc.nextInt()</code> per als quilòmetres. Llegeix primer la matrícula.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Matrícula del taxi? 4821 KLM
+    Escribir "Trajecte final: ", km, " km → ", preuViatge, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>La baixada de bandera i el preu per km són la <strong>tarifa</strong> del taxi: no canvien d'un viatge a l'altre. Declara-les amb <code>final</code> i en MAJÚSCULES (<code>BAIXADA_BANDERA</code>, <code>PREU_KM</code>).</li><li><code>km &lt;- km + kmMes</code> → <code>km = km + kmMes;</code>, sense tornar a escriure <code>int</code>: la variable ja existeix.</li><li><code>preuViatge</code> no s'actualitza sol quan canvia <code>km</code>: l'has de tornar a calcular.</li><li><code>Leer</code> → <code>sc.nextLine()</code> per a la matrícula (té un espai) i <code>sc.nextInt()</code> per als quilòmetres (els del trajecte i els de més). Llegeix primer la matrícula.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Matrícula del taxi? 4821 KLM
 Quilòmetres? 5
 
 Taxi 4821 KLM
 Trajecte: 5 km → 8.75 €
-Trajecte: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
+Quants km més vol fer (0 si cap)? 3
+Trajecte final: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
     <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
-<span class="cmt">// Calcula el preu d'un viatge en taxi abans i després d'allargar el trajecte</span>
+<span class="cmt">// Calcula el preu d'un viatge en taxi i el torna a calcular si el client vol fer més km</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Taxi</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
@@ -516,17 +519,19 @@ Trajecte: 8 km → 12.5 €</pre></div><div class="ex-grid"><div class="solucio-
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Taxi "</span> + matricula);
         <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trajecte: "</span> + km + <span class="str">" km → "</span> + preuViatge + <span class="str">" €"</span>);
 
-        <span class="cmt">// El client demana anar 3 km més lluny</span>
-        km = km + <span class="num">3</span>;
+        <span class="cmt">// El taxista pregunta si vol fer més quilòmetres (0 si cap)</span>
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quants km més vol fer (0 si cap)? "</span>);
+        <span class="kw">int</span> kmMes = sc.<span class="fn">nextInt</span>();
+        km = km + kmMes;                               <span class="cmt">// sense int: km ja existeix</span>
         preuViatge = BAIXADA_BANDERA + km * PREU_KM;   <span class="cmt">// cal tornar-lo a calcular</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trajecte: "</span> + km + <span class="str">" km → "</span> + preuViatge + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"Trajecte final: "</span> + km + <span class="str">" km → "</span> + preuViatge + <span class="str">" €"</span>);
 
         sc.<span class="fn">close</span>();
 
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>BAIXADA_BANDERA</code> i <code>PREU_KM</code> són <code>final double</code> i segueixen la convenció de noms.</li><li><code>km</code>, <code>matricula</code> i <code>preuViatge</code> són variables amb el tipus adequat (<code>int</code>, <code>String</code> i <code>double</code>).</li><li>La modificació és <code>km = km + 3;</code>, sense <code>int</code> al davant, i el preu es recalcula.</li><li>Els càlculs fan servir el nom de les constants, no els números <code>2.5</code> i <code>1.25</code>.</li><li>La matrícula i els quilòmetres es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge; la tarifa no es demana.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li><code>BAIXADA_BANDERA</code> i <code>PREU_KM</code> són <code>final double</code> i segueixen la convenció de noms.</li><li><code>km</code>, <code>kmMes</code>, <code>matricula</code> i <code>preuViatge</code> són variables amb el tipus adequat (<code>int</code>, <code>String</code> i <code>double</code>).</li><li>La modificació és <code>km = km + kmMes;</code>, sense <code>int</code> al davant, i el preu es recalcula.</li><li>Els càlculs fan servir el nom de les constants, no els números <code>2.5</code> i <code>1.25</code>.</li><li>La matrícula, els quilòmetres i els quilòmetres de més es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge; la tarifa no es demana.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-mitja">Mitjà</span><span class="ex-ca">CA: 1.5 · 1.6</span></div>
 </div>
 </section>
