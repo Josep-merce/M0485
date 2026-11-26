@@ -348,83 +348,54 @@ Fitxers: 3</pre></div>
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 1</span><span class="exercici-title">El tiquet de la llibreria</span><span class="badge badge-basic" style="margin-left:auto">Bàsic</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una alumna compra llibretes i bolígrafs. Aquest algorisme <strong>demana per teclat</strong> quantes unitats compra de cada producte i quant val cadascuna, calcula el preu de cada producte i el total, i mostra un tiquet. Tradueix-lo a Java a la classe <code>Llibreria</code>.</p><div class="pseudo">Algoritmo Llibreria
-    Definir llibretes, preuLlibreta, boligrafs, preuBoligraf Como Entero
-    Definir totalLlibretes, totalBoligrafs, total Como Entero
+    <p>Una alumna compra llibretes (3 € cadascuna) i bolígrafs (2 € cadascun). Aquest algorisme <strong>demana per teclat</strong> quantes unitats compra de cada producte i mostra quants articles són i el total. Tradueix-lo a Java a la classe <code>Llibreria</code>.</p><div class="pseudo">Algoritmo Llibreria
+    Definir llibretes, boligrafs, total Como Entero
 
     Escribir Sin Saltar "Quantes llibretes? "
     Leer llibretes
-    Escribir Sin Saltar "Preu d'una llibreta (€)? "
-    Leer preuLlibreta
     Escribir Sin Saltar "Quants bolígrafs? "
     Leer boligrafs
-    Escribir Sin Saltar "Preu d'un bolígraf (€)? "
-    Leer preuBoligraf
-    Escribir ""
 
-    totalLlibretes &lt;- llibretes * preuLlibreta
-    totalBoligrafs &lt;- boligrafs * preuBoligraf
-    total &lt;- totalLlibretes + totalBoligrafs
+    total &lt;- llibretes * 3 + boligrafs * 2
 
-    Escribir Sin Saltar "Llibretes: ", llibretes
-    Escribir " x ", preuLlibreta, " € = ", totalLlibretes, " €"
-    Escribir Sin Saltar "Bolígrafs: ", boligrafs
-    Escribir " x ", preuBoligraf, " € = ", totalBoligrafs, " €"
     Escribir ""
-    Escribir "TOTAL: ", total, " €"
-FinAlgoritmo</div><ul class="exercici-tasques"><li>Separa el programa en tres parts (dades, càlculs i sortida) amb un comentari a sobre de cadascuna.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: recorda l'<code>import java.util.Scanner;</code> i crear l'<code>Scanner</code> al principi del <code>main</code>.</li><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>; <code>Escribir</code> → <code>System.out.println</code>.</li><li><code>Escribir ""</code> només deixa una línia en blanc: en Java es fa amb <code>System.out.println();</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quantes llibretes? 3
-Preu d'una llibreta (€)? 2
+    Escribir Sin Saltar "Articles: ", llibretes + boligrafs
+    Escribir " · TOTAL: ", total, " €"
+FinAlgoritmo</div><ul class="exercici-tasques"><li>Separa el programa en tres parts (dades, càlculs i sortida) amb un comentari a sobre de cadascuna.</li><li><code>Leer</code> → <code>sc.nextInt()</code>: recorda l'<code>import java.util.Scanner;</code> i crear l'<code>Scanner</code> al principi del <code>main</code>.</li><li><code>Escribir Sin Saltar</code> → <code>System.out.print</code>; <code>Escribir</code> → <code>System.out.println</code>; <code>Escribir ""</code> → <code>System.out.println();</code></li><li>Posa la suma entre parèntesis: <code>"Articles: " + (llibretes + boligrafs)</code>. Sense parèntesis, Java enganxaria els números («34») en lloc de sumar-los.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Quantes llibretes? 3
 Quants bolígrafs? 4
-Preu d'un bolígraf (€)? 1
 
-Llibretes: 3 x 2 € = 6 €
-Bolígrafs: 4 x 1 € = 4 €
-
-TOTAL: 10 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
+Articles: 7 · TOTAL: 17 €</pre></div><div class="ex-grid"><div class="solucio-wrap">
     <button type="button" class="btn-solucio" onclick="toggleSolucio(this)" aria-expanded="false" data-closed="Veure solució" data-open="Amagar solució">
       <span class="icon">▶</span><span class="label">Veure solució</span>
     </button>
     <div class="solucio-body"><div class="solucio-header">✅ Solució</div><div class="code-block"><span class="kw">import</span> java.util.<span class="cls">Scanner</span>;
 
-<span class="cmt">/*</span>
-<span class="cmt"> * Demana les quantitats i els preus d'una compra de material escolar,</span>
-<span class="cmt"> * calcula el preu i el mostra en forma de tiquet.</span>
-<span class="cmt"> */</span>
+<span class="cmt">// Demana quantes llibretes i bolígrafs es compren i mostra el total.</span>
 <span class="kw">public</span> <span class="kw">class</span> <span class="cls">Llibreria</span> {
 
     <span class="kw">public</span> <span class="kw">static</span> <span class="kw">void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
 
-        <span class="cmt">// Dades d'entrada: quantitats i preus en euros, llegits del teclat</span>
+        <span class="cmt">// Dades d'entrada</span>
         <span class="cls">Scanner</span> sc = <span class="kw">new</span> <span class="cls">Scanner</span>(<span class="cls">System</span>.in);
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quantes llibretes? "</span>);
         <span class="kw">int</span> llibretes = sc.<span class="fn">nextInt</span>();
-        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu d'una llibreta (€)? "</span>);
-        <span class="kw">int</span> preuLlibreta = sc.<span class="fn">nextInt</span>();
         <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Quants bolígrafs? "</span>);
         <span class="kw">int</span> boligrafs = sc.<span class="fn">nextInt</span>();
-        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Preu d'un bolígraf (€)? "</span>);
-        <span class="kw">int</span> preuBoligraf = sc.<span class="fn">nextInt</span>();
-        <span class="cls">System</span>.out.<span class="fn">println</span>();
 
-        <span class="cmt">// Càlculs</span>
-        <span class="kw">int</span> totalLlibretes = llibretes * preuLlibreta;
-        <span class="kw">int</span> totalBoligrafs = boligrafs * preuBoligraf;
-        <span class="kw">int</span> total = totalLlibretes + totalBoligrafs;
+        <span class="cmt">// Càlculs: una llibreta val 3 € i un bolígraf, 2 €</span>
+        <span class="kw">int</span> total = llibretes * 3 + boligrafs * 2;
 
         <span class="cmt">// Sortida: print continua a la mateixa línia</span>
-        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Llibretes: "</span> + llibretes);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">" x "</span> + preuLlibreta + <span class="str">" € = "</span> + totalLlibretes + <span class="str">" €"</span>);
-        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Bolígrafs: "</span> + boligrafs);
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">" x "</span> + preuBoligraf + <span class="str">" € = "</span> + totalBoligrafs + <span class="str">" €"</span>);
         <span class="cls">System</span>.out.<span class="fn">println</span>();    <span class="cmt">// línia en blanc</span>
-        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">"TOTAL: "</span> + total + <span class="str">" €"</span>);
+        <span class="cls">System</span>.out.<span class="fn">print</span>(<span class="str">"Articles: "</span> + (llibretes + boligrafs));
+        <span class="cls">System</span>.out.<span class="fn">println</span>(<span class="str">" · TOTAL: "</span> + total + <span class="str">" €"</span>);
 
         sc.<span class="fn">close</span>();
 
     }
 
 }</div></div>
-  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les dades, els càlculs i la sortida estan separats i comentats.</li><li>Les quatre dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li><li>Els totals es calculen amb variables, no s'escriuen a mà.</li><li><code>print</code> deixa el cursor a la mateixa línia i <code>println()</code> fa la línia en blanc.</li><li>La sortida coincideix amb l'exemple, espais inclosos.</li></ul></div></div>
+  </div></div><div class="claus ex-claus"><strong>✔ Què es valora</strong><ul><li>Les dades, els càlculs i la sortida estan separats i comentats.</li><li>Les dues dades es llegeixen del teclat amb <code>Scanner</code> i cada lectura té el seu missatge.</li><li>El total es calcula amb una variable, no s'escriu a mà.</li><li><code>print</code> deixa el cursor a la mateixa línia i <code>println()</code> fa la línia en blanc.</li><li>La sortida coincideix amb l'exemple, espais inclosos.</li></ul></div></div>
   <div class="exercici-footer"><span class="badge badge-basic">Bàsic</span><span class="ex-ca">CA: 1.1 · 1.9</span></div>
 </div>
 <div class="exercici-card practica" id="ex2">
