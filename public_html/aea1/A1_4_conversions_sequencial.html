@@ -150,6 +150,8 @@
     details.pista { background:#fffbeb; border-color:#fde68a; }
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
+    .toggle-bar { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.75rem; }
+    .pseudo[hidden], .exercici-tasques[hidden] { display:none; }
     /* Solució desplegable */
     .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
     .ex-claus.visible { display:block; }
@@ -481,7 +483,7 @@ Mitjana per pel·lícula: 125 min</pre></div><div class="ex-grid"><div class="so
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La comanda del formulari</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Una botiga en línia rep les comandes des d'un formulari web, i totes les dades arriben com a <strong>text</strong>. Per simular-ho, aquest algorisme <strong>demana per teclat</strong> el producte, la quantitat i el preu i els llegeix com a text. Després converteix les dades, calcula el subtotal, l'IVA del 21 % i el total arrodonits a cèntims, i els punts de fidelitat (un per cada euro sencer). Tradueix-lo a Java a la classe <code>Comanda</code>.</p><div class="pseudo">Algoritmo Comanda
+    <p>Una botiga en línia rep les comandes des d'un formulari web, i totes les dades arriben com a <strong>text</strong>. Per simular-ho, aquest algorisme <strong>demana per teclat</strong> el producte, la quantitat i el preu i els llegeix com a text. Després converteix les dades, calcula el subtotal, l'IVA del 21 % i el total arrodonits a cèntims, i els punts de fidelitat (un per cada euro sencer). Tradueix-lo a Java a la classe <code>Comanda</code>.</p><div class="toggle-bar"><button type="button" class="btn-solucio btn-toggle" onclick="toggleBloc(this)" aria-controls="ex2-pseudo" aria-expanded="false" data-closed="Veure pseudocodi" data-open="Amagar pseudocodi"><span class="icon">▶</span><span class="label">Veure pseudocodi</span></button><button type="button" class="btn-solucio btn-toggle" onclick="toggleBloc(this)" aria-controls="ex2-ajuda" aria-expanded="false" data-closed="Veure ajuda" data-open="Amagar ajuda"><span class="icon">▶</span><span class="label">Veure ajuda</span></button></div><div class="pseudo" id="ex2-pseudo" hidden>Algoritmo Comanda
     Definir producte, textQuantitat, textPreu Como Caracter
     Definir quantitat, punts Como Entero
     Definir preu, subtotal, iva, total Como Real
@@ -508,7 +510,7 @@ Mitjana per pel·lícula: 125 min</pre></div><div class="ex-grid"><div class="so
     Escribir ""
     Escribir "Total: ", total, " €"
     Escribir "Punts de fidelitat: ", punts
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>ConvertirANumero</code> → <code>Integer.parseInt</code> per a la quantitat i <code>Double.parseDouble</code> per al preu.</li><li><code>TRUNC(total)</code> → <code>(int) total</code>.</li><li><code>Leer</code> → <code>sc.nextLine()</code> per a les tres dades: així arriben com a text, igual que des del formulari. <code>Double.parseDouble</code> espera el punt decimal: escriu el preu com <code>12.95</code>.</li><li>A Java el text va sempre entre cometes dobles: posa les cometes de <em>Samarreta</em> amb <code>\"</code>, i fes la línia en blanc i el total amb un sol <code>println</code> que comenci amb <code>\n</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Producte? Samarreta
+FinAlgoritmo</div><ul class="exercici-tasques" id="ex2-ajuda" hidden><li><code>ConvertirANumero</code> → <code>Integer.parseInt</code> per a la quantitat i <code>Double.parseDouble</code> per al preu.</li><li><code>TRUNC(total)</code> → <code>(int) total</code>.</li><li><code>Leer</code> → <code>sc.nextLine()</code> per a les tres dades: així arriben com a text, igual que des del formulari. <code>Double.parseDouble</code> espera el punt decimal: escriu el preu com <code>12.95</code>.</li><li>A Java el text va sempre entre cometes dobles: posa les cometes de <em>Samarreta</em> amb <code>\"</code>, i fes la línia en blanc i el total amb un sol <code>println</code> que comenci amb <code>\n</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Producte? Samarreta
 Quantitat? 3
 Preu (€)? 12.95
 
@@ -573,6 +575,15 @@ Punts de fidelitat: 47</pre></div><div class="ex-grid"><div class="solucio-wrap"
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Mostra/amaga un bloc (pseudocodi, ajuda) indicat per aria-controls
+  function toggleBloc(btn) {
+    const bloc = document.getElementById(btn.getAttribute('aria-controls'));
+    const obert = bloc.hidden;
+    bloc.hidden = !obert;
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');

@@ -150,6 +150,8 @@
     details.pista { background:#fffbeb; border-color:#fde68a; }
     details.pista > summary { color:#92400e; }
     .repte { margin:.75rem 0 0; }
+    .toggle-bar { display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.75rem; }
+    .pseudo[hidden], .exercici-tasques[hidden] { display:none; }
     /* Solució desplegable */
     .ex-claus { display:none; border:2px solid #bbf7d0; border-radius:var(--radius); margin:-.5rem 0 1.25rem; }
     .ex-claus.visible { display:block; }
@@ -506,7 +508,7 @@ Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-
   <div class="exercici-header"><span class="exercici-num">✍️ Ara tu · Exercici 2</span><span class="exercici-title">La mitjana i la beca</span><span class="badge badge-mitja" style="margin-left:auto">Mitjà</span></div>
   <div class="exercici-body">
     <div class="passos-ex"><span class="pas-ex">1 · Llegeix l'algorisme</span><span class="flux-fl">→</span><span class="pas-ex">2 · Escriu-lo en Java</span><span class="flux-fl">→</span><span class="pas-ex">3 · Executa i compara</span></div>
-    <p>Aquest algorisme <strong>demana per teclat</strong> les tres notes d'un alumne i el percentatge de classes a què ha assistit (a l'exemple, el <strong>75 %</strong>). Calcula la mitjana, la mostra arrodonida i diu si aprova (mitjana ≥ 5) i si té beca (mitjana ≥ 7 <strong>i</strong> assistència ≥ 80 %). Tradueix-lo a Java a la classe <code>Beca</code>.</p><div class="pseudo">Algoritmo Beca
+    <p>Aquest algorisme <strong>demana per teclat</strong> les tres notes d'un alumne i el percentatge de classes a què ha assistit (a l'exemple, el <strong>75 %</strong>). Calcula la mitjana, la mostra arrodonida i diu si aprova (mitjana ≥ 5) i si té beca (mitjana ≥ 7 <strong>i</strong> assistència ≥ 80 %). Tradueix-lo a Java a la classe <code>Beca</code>.</p><div class="toggle-bar"><button type="button" class="btn-solucio btn-toggle" onclick="toggleBloc(this)" aria-controls="ex2-pseudo" aria-expanded="false" data-closed="Veure pseudocodi" data-open="Amagar pseudocodi"><span class="icon">▶</span><span class="label">Veure pseudocodi</span></button><button type="button" class="btn-solucio btn-toggle" onclick="toggleBloc(this)" aria-controls="ex2-ajuda" aria-expanded="false" data-closed="Veure ajuda" data-open="Amagar ajuda"><span class="icon">▶</span><span class="label">Veure ajuda</span></button></div><div class="pseudo" id="ex2-pseudo" hidden>Algoritmo Beca
     Definir nota1, nota2, nota3, mitjana Como Real
     Definir assistencia Como Entero
     Definir aprovat, teBeca Como Logico
@@ -529,7 +531,7 @@ Ous per a una capsa més: 2</pre></div><div class="ex-grid"><div class="solucio-
     Escribir "Nota arrodonida: ", redon(mitjana)
     Escribir "Aprovat: ", aprovat
     Escribir "Té beca: ", teBeca
-FinAlgoritmo</div><ul class="exercici-tasques"><li><code>Y</code> → <code>&amp;&amp;</code>; <code>redon(x)</code> → <code>Math.round(x)</code>.</li><li>Guarda les comparacions en variables <code>boolean</code>: <code>aprovat</code> i <code>teBeca</code>.</li><li>Mantén els parèntesis de la mitjana: sense ells, només es dividiria <code>nota3</code> entre 3.</li><li><code>Leer</code> → <code>sc.nextDouble()</code> per a les notes i <code>sc.nextInt()</code> per a l'assistència. Al teclat, els decimals van amb coma: <code>6,5</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota 1? 6,5
+FinAlgoritmo</div><ul class="exercici-tasques" id="ex2-ajuda" hidden><li><code>Y</code> → <code>&amp;&amp;</code>; <code>redon(x)</code> → <code>Math.round(x)</code>.</li><li>Guarda les comparacions en variables <code>boolean</code>: <code>aprovat</code> i <code>teBeca</code>.</li><li>Mantén els parèntesis de la mitjana: sense ells, només es dividiria <code>nota3</code> entre 3.</li><li><code>Leer</code> → <code>sc.nextDouble()</code> per a les notes i <code>sc.nextInt()</code> per a l'assistència. Al teclat, els decimals van amb coma: <code>6,5</code>.</li></ul><div class="console"><div class="console-header">🖥️ Exemple d'execució</div><pre>Nota 1? 6,5
 Nota 2? 8
 Nota 3? 7,25
 Assistència (%)? 75
@@ -586,6 +588,15 @@ Té beca: false</pre></div><div class="ex-grid"><div class="solucio-wrap">
   Institut La Mercè · Formació Professional &nbsp;·&nbsp; Cicle DAW · Mòdul M0485 Programació
 </footer>
 <script>
+  // Mostra/amaga un bloc (pseudocodi, ajuda) indicat per aria-controls
+  function toggleBloc(btn) {
+    const bloc = document.getElementById(btn.getAttribute('aria-controls'));
+    const obert = bloc.hidden;
+    bloc.hidden = !obert;
+    btn.classList.toggle('obert', obert);
+    btn.setAttribute('aria-expanded', String(obert));
+    btn.querySelector('.label').textContent = obert ? btn.dataset.open : btn.dataset.closed;
+  }
   function toggleSolucio(btn) {
     const body = btn.closest('.solucio-wrap').querySelector('.solucio-body');
     const obert = !body.classList.contains('visible');
