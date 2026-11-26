@@ -307,8 +307,14 @@ Hola món!
 BUILD SUCCESS</pre></div>
 <div class="box box-costum"><span class="box-label">✅ Bones pràctiques</span><p><strong>Un projecte per activitat, una classe per exemple.</strong> No cal crear un projecte nou per a cada exemple: a <em>Source Packages</em>, clic dret al paquet → <strong>New → Java Class</strong>, posa-li el nom de l'exemple i enganxa el codi a sota de la línia <code>package</code>. Un projecte pot tenir tantes classes amb <code>main</code> com vulguis: <em>Run File</em> (<kbd>Maj</kbd>+<kbd>F6</kbd>) executa només la que tries.</p></div>
 </section><section class="section">
-  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">L'error «Incorrect package»</h2><p class="sec-sub">El primer error que et trobaràs (i com evitar-lo)</p></div></div>
-  <p class="lead">Quan copiem exemples d'una pàgina web a NetBeans és fàcil trepitjar la línia <code>package</code>. Aquest és el resultat:</p><div class="exemple">
+  <div class="sec-head"><span class="sec-num">4</span><div><h2 class="sec-title">L'error «Incorrect package»</h2><p class="sec-sub">Les bombetes de NetBeans i el primer error que et trobaràs</p></div></div>
+  <p class="lead">Mentre escrius, NetBeans revisa el codi i marca els problemes amb una <strong>bombeta</strong> al marge esquerre de l'editor, al costat del número de línia. No cal esperar a executar el programa: la bombeta t'avisa de seguida i, sovint, et proposa com solucionar-ho.</p>
+  <div class="table-wrap"><table><thead><tr><th>Bombeta</th><th>Què vol dir</th><th>Què has de fer</th></tr></thead><tbody>
+<tr><td>🔴 <strong>Vermella</strong></td><td><strong>Error.</strong> El codi no compila i el programa no es pot executar. La part afectada queda subratllada en vermell.</td><td>Corregir-lo sempre, abans d'executar.</td></tr>
+<tr><td>🟡 <strong>Groga</strong></td><td><strong>Avís o suggeriment.</strong> El codi compila, però es pot millorar: una variable que no es fa servir, un <code>import</code> que sobra…</td><td>Llegir-lo. No és obligatori fer-ne cas, però sol ser un bon consell.</td></tr>
+</tbody></table></div>
+  <div class="box box-fixat"><span class="box-label">👀 Com aprofitar la bombeta</span><p><strong>1. Passa el ratolí per sobre</strong> de la bombeta (o del subratllat): apareix el missatge que explica el problema.</p><p><strong>2. Clica-la</strong> o prem <kbd>Alt</kbd>+<kbd>Enter</kbd> amb el cursor a la línia: NetBeans mostra una llista de solucions possibles.</p><p><strong>3. Llegeix abans de triar.</strong> La primera opció no sempre és la bona: tria la que entenguis i que faci el que tu volies.</p></div>
+  <p class="text">Un exemple: quan copiem exemples d'una pàgina web a NetBeans és fàcil trepitjar la línia <code>package</code>. Aquest és el resultat:</p><div class="exemple">
   <div class="exemple-header"><span class="badge badge-basic">Bàsic</span><span>Fitxer <code>HolaMon.java</code> dins del paquet <code>daw.aea1_a1</code></span></div>
   <div class="code-block" data-expect="ide"><span class="kw">package</span> daw.introducciojava;   <span class="cmt">// ✘ no és el paquet on és el fitxer</span>
 
